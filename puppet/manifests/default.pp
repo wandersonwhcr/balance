@@ -1,7 +1,7 @@
 exec { 'apt-get : update':
     path        => ['/usr/bin', '/usr/sbin', '/bin'],
     command     => 'apt-get update',
-    refreshonly => false,
+    refreshonly => true,
 }
 
 # nginx
@@ -34,8 +34,53 @@ package { "nginx":
 
 service { "nginx":
     ensure  => "running",
+    enable  => true,
     require => [
         Package["nginx"],
+    ],
+}
+
+file { "nginx : conf":
+    path    => "/etc/nginx/nginx.conf",
+    source  => "puppet:///modules/archives/nginx_conf",
+    require => [
+        Package["nginx"],
+    ],
+    notify => [
+        Service["nginx"],
+    ],
+}
+
+file { "nginx : fastcgi":
+    path    => "/etc/nginx/fastcgi_params",
+    source  => "puppet:///modules/archives/nginx_fastcgi",
+    require => [
+        Package["nginx"],
+    ],
+    notify => [
+        Service["nginx"],
+    ],
+}
+
+file { "nginx : default":
+    ensure  => absent,
+    path    => "/etc/nginx/conf.d/default.conf",
+    require => [
+        Package["nginx"],
+    ],
+    notify => [
+        Service["nginx"],
+    ],
+}
+
+file { "nginx : virtualhost":
+    path    => "/etc/nginx/conf.d/10-balance.conf",
+    source  => "puppet:///modules/archives/nginx_virtualhost",
+    require => [
+        Package["nginx"],
+    ],
+    notify => [
+        Service["nginx"],
     ],
 }
 
@@ -76,10 +121,10 @@ package { "php : fpm":
     ],
 }
 
-service { "php : service":
+service { "php":
     name    => "php5-fpm",
     ensure  => "running",
     require => [
-         Package["php : fpm"],
+        Package["php : fpm"],
     ],
 }
