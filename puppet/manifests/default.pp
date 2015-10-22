@@ -84,6 +84,28 @@ file { "nginx : virtualhost":
     ],
 }
 
+# postgresql
+
+file { "postgresql : list":
+    path    => "/etc/apt/sources.list.d/pgsql.list",
+    content => "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main",
+}
+
+exec { "postgresql : key":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    unless  => "apt-key list | grep PostgreSQL",
+    command => "wget -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -",
+}
+
+package { "postgresql":
+    name    => "postgresql",
+    require => [
+        File["postgresql : list"],
+        Exec["postgresql : key"],
+        Exec["apt-get : update"],
+    ],
+}
+
 # php
 
 file { "php : list":
@@ -126,5 +148,17 @@ service { "php":
     ensure  => "running",
     require => [
         Package["php : fpm"],
+    ],
+}
+
+package { "php : postgresql":
+    name    => "php5-pgsql",
+    require => [
+        Package["php : cli"],
+        Package["php : fpm"],
+        Exec["apt-get : update"],
+    ],
+    notify  => [
+        Service["php"],
     ],
 }
