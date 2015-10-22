@@ -1,5 +1,15 @@
 {
     "name": "wandersonwhcr/balance",
     "description": "Balance Balancete Contábil",
-    "license": "MIT"
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework": "2.4.*",
+        "ext-pgsql": "*"
+    }
 }
