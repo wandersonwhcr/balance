@@ -38,3 +38,48 @@ service { "nginx":
         Package["nginx"],
     ],
 }
+
+# php
+
+file { "php : list":
+    path    => "/etc/apt/sources.list.d/php.list",
+    content => "deb http://packages.dotdeb.org wheezy-php56 all",
+    notify  => [
+        Exec["apt-get : update"],
+    ],
+}
+
+exec { "php : key":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    unless  => "apt-key list | grep dotdeb",
+    command => "wget -O - http://www.dotdeb.org/dotdeb.gpg | apt-key add -",
+    notify  => [
+        Exec["apt-get : update"],
+    ],
+}
+
+package { "php : cli":
+    name    => "php5-cli",
+    require => [
+        File["php : list"],
+        Exec["php : key"],
+        Exec["apt-get : update"],
+    ],
+}
+
+package { "php : fpm":
+    name    => "php5-fpm",
+    require => [
+        File["php : list"],
+        Exec["php : key"],
+        Exec["apt-get : update"],
+    ],
+}
+
+service { "php : service":
+    name    => "php5-fpm",
+    ensure  => "running",
+    require => [
+         Package["php : fpm"],
+    ],
+}
