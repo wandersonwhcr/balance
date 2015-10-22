@@ -206,3 +206,14 @@ exec { "balance : composer":
         Exec["composer"],
     ],
 }
+
+# balance user db
+
+exec { "balance":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    command => "psql -tAc \"CREATE ROLE balance LOGIN PASSWORD 'balance'\"",
+    user    => "postgres",
+    require => [
+        Package["postgresql"]
+    ]
+}
