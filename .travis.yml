@@ -7,3 +7,4 @@ install:
 
 script:
     - php vendor/bin/phpunit
+    - php vendor/bin/phploc module/Balance/src
