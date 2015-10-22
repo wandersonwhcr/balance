@@ -172,3 +172,37 @@ package { "php : postgresql":
         Exec["apt-get : update"],
     ],
 }
+
+# composer
+
+exec { "composer":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    creates => "/usr/bin/composer",
+    command => "wget -O /usr/bin/composer  https://getcomposer.org/composer.phar && chmod +x /usr/bin/composer"
+}
+
+exec { "composer : update":
+    path        => ["/usr/bin", "/usr/sbin", "/bin"],
+    command     => "composer self-update",
+    environment => [
+        ["COMPOSER_HOME=/home/vagrant/.composer"],
+    ],
+    require     => [
+        Exec["composer"],
+    ],
+}
+
+# balance
+
+exec { "balance : composer":
+    path        => ["/usr/bin", "/usr/sbin", "/bin"],
+    command     => "composer install",
+    timeout     => 0,
+    cwd         => "/vagrant",
+    environment => [
+        ["COMPOSER_HOME=/home/vagrant/.composer"],
+    ],
+    require => [
+        Exec["composer"],
+    ],
+}
