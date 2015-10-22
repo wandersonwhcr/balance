@@ -8,6 +8,11 @@
             "url": "https://packages.zendframework.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Balance\\": "module/Balance/src/Balance/"
+        }
+    },
     "require": {
         "zendframework/zendframework": "2.4.*",
         "ext-pgsql": "*"
