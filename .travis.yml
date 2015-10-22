@@ -4,3 +4,6 @@ php:
 
 install:
     - composer install
+
+script:
+    - php vendor/bin/phpunit
