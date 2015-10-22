@@ -28,6 +28,8 @@ package { "nginx":
     require => [
         File["nginx : list"],
         Exec["nginx : key"],
+    ],
+    subscribe => [
         Exec["apt-get : update"],
     ],
 }
@@ -102,6 +104,8 @@ package { "postgresql":
     require => [
         File["postgresql : list"],
         Exec["postgresql : key"],
+    ],
+    subscribe => [
         Exec["apt-get : update"],
     ],
 }
@@ -130,6 +134,8 @@ package { "php : cli":
     require => [
         File["php : list"],
         Exec["php : key"],
+    ],
+    subscribe => [
         Exec["apt-get : update"],
     ],
 }
@@ -139,6 +145,8 @@ package { "php : fpm":
     require => [
         File["php : list"],
         Exec["php : key"],
+    ],
+    subscribe => [
         Exec["apt-get : update"],
     ],
 }
@@ -156,9 +164,11 @@ package { "php : postgresql":
     require => [
         Package["php : cli"],
         Package["php : fpm"],
-        Exec["apt-get : update"],
     ],
     notify  => [
         Service["php"],
+    ],
+    subscribe => [
+        Exec["apt-get : update"],
     ],
 }
