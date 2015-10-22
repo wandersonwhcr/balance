@@ -1,5 +1,26 @@
 <?php
 return array(
+    'router' => array(
+        'routes' => array(
+            'home' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/',
+                    'defaults' => array(
+                        'controller' => 'Balance\Controller\Home',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+    'controllers' => array(
+        'invokables' => array(
+            'Balance\Controller\Home' => 'Balance\Controller\Home',
+        ),
+    ),
+
     'view_manager' => array(
         'doctype' => 'HTML5',
 
