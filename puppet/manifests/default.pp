@@ -191,3 +191,18 @@ exec { "composer : update":
         Exec["composer"],
     ],
 }
+
+# balance
+
+exec { "balance : composer":
+    path        => ["/usr/bin", "/usr/sbin", "/bin"],
+    command     => "composer install",
+    timeout     => 0,
+    cwd         => "/vagrant",
+    environment => [
+        ["COMPOSER_HOME=/home/vagrant/.composer"],
+    ],
+    require => [
+        Exec["composer"],
+    ],
+}
