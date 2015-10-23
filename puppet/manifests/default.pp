@@ -185,7 +185,7 @@ exec { "composer : update":
     path        => ["/usr/bin", "/usr/sbin", "/bin"],
     command     => "composer self-update",
     environment => [
-        ["COMPOSER_HOME=/home/vagrant/.composer"],
+        ["COMPOSER_HOME=/root/.composer"],
     ],
     require     => [
         Exec["composer"],
