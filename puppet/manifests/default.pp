@@ -226,6 +226,17 @@ package { "nodejs":
     ],
 }
 
+# bower
+
+exec { "bower":
+    path    => ["/usr/bin", "/usr/sbin"],
+    creates => "/usr/bin/bower",
+    command => "npm install -g bower",
+    require => [
+        Package["nodejs"],
+    ],
+}
+
 # balance
 
 exec { "balance : composer":
