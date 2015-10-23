@@ -12,3 +12,4 @@ script:
     - php vendor/bin/parallel-lint module/Balance/src
     - php vendor/bin/phpcs --standard=phpcs.xml --colors module/Balance/src
     - php vendor/bin/php-cs-fixer fix --config-file=phpcs.php --dry-run --diff
+    - php vendor/bin/phpmd module/Balance/src text phpmd.xml
