@@ -209,11 +209,24 @@ exec { "balance : composer":
 
 # balance user db
 
-exec { "balance":
+exec { "balance : dbuser":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     command => "psql -tAc \"CREATE ROLE balance LOGIN PASSWORD 'balance'\"",
+    unless  => "psql -tAc \"SELECT COUNT(1) FROM pg_roles WHERE rolname = 'balance'\" | grep '.'",
     user    => "postgres",
     require => [
         Package["postgresql"]
+    ]
+}
+
+# balance db
+
+exec { "balance : dbname":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    command => "psql -tAc \"CREATE DATABASE balance WITH OWNER balance ENCODING = 'UTF8' TEMPLATE = template0 \"",
+    unless  => "psql -tAc \"SELECT COUNT(1) FROM pg_database WHERE datname = 'balance'\" | grep '.'",
+    user    => "postgres",
+    require => [
+        Exec["balance : dbuser"]
     ]
 }
