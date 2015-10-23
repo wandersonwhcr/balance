@@ -22,6 +22,7 @@
         "phploc/phploc": "2.*",
         "sebastian/phpcpd": "2.*",
         "jakub-onderka/php-parallel-lint": "0.*",
-        "squizlabs/php_codesniffer": "2.*"
+        "squizlabs/php_codesniffer": "2.*",
+        "fabpot/php-cs-fixer": "1.*"
     }
 }
