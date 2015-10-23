@@ -197,6 +197,7 @@ exec { "composer : update":
 exec { "balance : composer":
     path        => ["/usr/bin", "/usr/sbin", "/bin"],
     command     => "composer install",
+    user        => "vagrant",
     timeout     => 0,
     cwd         => "/vagrant",
     environment => [
