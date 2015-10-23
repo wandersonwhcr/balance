@@ -5,7 +5,7 @@ environments:
     default_migration_table: phinxlog
     default_database: development
     production:
-        adapter: postgresql
+        adapter: pgsql
         host: localhost
         name: balance
         user: balance
@@ -14,7 +14,7 @@ environments:
         charset: utf8
 
     development:
-        adapter: postgresql
+        adapter: pgsql
         host: localhost
         name: balance
         user: balance
@@ -23,7 +23,7 @@ environments:
         charset: utf8
 
     testing:
-        adapter: postgresql
+        adapter: pgsql
         host: localhost
         name: balance
         user: balance
