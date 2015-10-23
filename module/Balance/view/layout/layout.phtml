@@ -1,2 +1,34 @@
-Layout
-<?php echo $this->content ?>
+<?php echo $this->doctype('HTML5') ?>
+<html lang="pt-br">
+    <head>
+        <?php
+            $this->headMeta()
+                ->setCharset('UTF-8')
+                ->appendName('viewport', 'width=device-width, initial-scale=1');
+            echo $this->headMeta();
+        ?>
+        <?php
+            $this->headTitle()
+                ->setSeparator(' - ')
+                ->append('Balance');
+            echo $this->headTitle();
+        ?>
+        <?php
+            $this->headLink()
+                ->appendStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap.min.css'))
+                ->appendStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap-theme.min.css'));
+            echo $this->headLink();
+        ?>
+        <?php
+            $this->headScript()
+                ->appendFile($this->basePath('/assets/jquery/dist/jquery.min.js'))
+                ->appendFile($this->basePath('/assets/bootstrap/dist/js/bootstrap.min.js'));
+            echo $this->headScript();
+        ?>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <?php echo $this->content ?>
+        </div>
+    </body>
+</html>
