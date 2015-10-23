@@ -1,8 +1,5 @@
 package { "apt-get : https":
-    name      => "apt-transport-https",
-    subscribe => [
-        Exec["apt-get : update"],
-    ],
+    name => "apt-transport-https",
 }
 
 exec { 'apt-get : update':
@@ -96,7 +93,7 @@ file { "nginx : virtualhost":
 # postgresql
 
 file { "postgresql : list":
-    path    => "/etc/apt/sources.list.d/pgsql.list",
+    path    => "/etc/apt/sources.list.d/postgresql.list",
     content => "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main",
 }
 
@@ -196,6 +193,36 @@ exec { "composer : update":
     ],
     require     => [
         Exec["composer"],
+        Package["php : cli"],
+    ],
+}
+
+# nodejs
+
+file { "nodejs : list":
+    path    => "/etc/apt/sources.list.d/nodejs.list",
+    content => "deb https://deb.nodesource.com/node wheezy main",
+    require => [
+        Package["apt-get : https"],
+    ],
+    notify  => [
+        Exec["apt-get : update"],
+    ],
+}
+
+exec { "nodejs : key":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    unless  => "apt-key list | grep nodesource",
+    command => "wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -",
+    notify  => [
+        Exec["apt-get : update"],
+    ]
+}
+
+package { "nodejs":
+    name      => "nodejs",
+    subscribe => [
+        Exec["apt-get : update"],
     ],
 }
 
@@ -211,7 +238,7 @@ exec { "balance : composer":
         ["COMPOSER_HOME=/home/vagrant/.composer"],
     ],
     require => [
-        Exec["composer"],
+        Exec["composer : update"],
     ],
 }
 
