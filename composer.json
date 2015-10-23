@@ -15,6 +15,7 @@
     },
     "require": {
         "zendframework/zendframework": "2.4.*",
+        "robmorgan/phinx": "0.4.*",
         "ext-pgsql": "*"
     },
     "require-dev": {
