@@ -14,7 +14,7 @@ class Checker
 
     /**
      * Diferença Encontrada
-     * @var float
+     * @type float
      */
     protected $difference = 0.0;
 
