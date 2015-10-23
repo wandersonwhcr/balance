@@ -262,6 +262,20 @@ exec { "balance : composer":
     ],
 }
 
+exec { "balance : bower":
+    path        => ["/usr/bin", "/usr/sbin", "/bin"],
+    command     => "bower install",
+    user        => "vagrant",
+    timeout     => 0,
+    cwd         => "/vagrant",
+    environment => [
+        ["HOME=/home/vagrant"],
+    ],
+    require     => [
+        Exec["bower"],
+    ],
+}
+
 # balance user db
 
 exec { "balance : dbuser":
