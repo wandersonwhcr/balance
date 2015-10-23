@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="Balance">
+    <rule ref="PSR2"/>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Commenting.Todo"/>
+</ruleset>
