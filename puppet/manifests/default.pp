@@ -1,3 +1,10 @@
+package { "apt-get : https":
+    name      => "apt-transport-https",
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
 exec { 'apt-get : update':
     path        => ['/usr/bin', '/usr/sbin', '/bin'],
     command     => 'apt-get update',
