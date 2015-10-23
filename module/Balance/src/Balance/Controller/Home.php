@@ -1,4 +1,5 @@
 <?php
+
 namespace Balance\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
