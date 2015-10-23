@@ -237,6 +237,15 @@ exec { "bower":
     ],
 }
 
+# git
+
+package { "git":
+    name      => "git",
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
 # balance
 
 exec { "balance : composer":
