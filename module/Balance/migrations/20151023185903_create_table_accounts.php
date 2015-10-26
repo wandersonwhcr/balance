@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class CreateTableFinancialOperations extends AbstractMigration
+class CreateTableAccounts extends AbstractMigration
 {
     /**
      * Change Method.
@@ -25,15 +25,14 @@ class CreateTableFinancialOperations extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function up()
+    public function change()
     {
-        $this->execute("
-            CREATE TYPE financial_operation ENUM (
-                'CREDIT',
-                'DEBIT',
-                'INPUT',
-                'OUTPUT'
-            )
-        ");
+        $this->table('accounts')
+            ->addColumn('name', 'text')
+            ->addColumn('type', 'text')
+            ->addColumn('description', 'text')
+            ->create();
+
+        $this->execute('ALTER TABLE accounts ALTER COLUMN type SET DATA TYPE operation USING type::operation');
     }
 }
