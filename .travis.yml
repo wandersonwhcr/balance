@@ -5,7 +5,7 @@ php:
 addons:
     postgresql: "9.4"
 
-before_script:
+before_install:
     - psql -c "CREATE ROLE balance LOGIN PASSWORD 'balance'" -U postgres
     - psql -c "CREATE DATABASE balance WITH OwNER balance ENCODING = 'UTF8' TEMPLATE = template0" -U postgres
 
@@ -13,7 +13,6 @@ install:
     - composer install
 
 script:
-    - php vendor/bin/phinx migrate
     - php vendor/bin/phpunit
     - php vendor/bin/phploc module/Balance/src
     - php vendor/bin/phpcpd module/Balance/src
