@@ -1,1 +1,10 @@
+<?php
+    $this->headTitle()->append('Contas');
+    if ($this->type == 'add') :
+        $this->headTitle()->append('Adicionar');
+    endif;
+    if ($this->type == 'edit') :
+        $this->headTitle()->append('Editar');
+    endif;
+?>
 Balance\Controller\Accounts::editAction();

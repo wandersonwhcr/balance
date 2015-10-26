@@ -27,7 +27,12 @@ class Accounts extends AbstractActionController
      */
     public function editAction()
     {
-        return new ViewModel();
+        // Chave Primária
+        $id = (int) $this->params()->fromRoute('id');
+        // Visualização
+        return new ViewModel(array(
+            'type' => ($id ? 'edit' : 'add'),
+        ));
     }
 
     /**
