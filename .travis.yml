@@ -13,6 +13,7 @@ install:
     - composer install
 
 script:
+    - php vendor/bin/phinx migrate
     - php vendor/bin/phpunit
     - php vendor/bin/phploc module/Balance/src
     - php vendor/bin/phpcpd module/Balance/src
@@ -20,3 +21,4 @@ script:
     - php vendor/bin/phpcs --standard=phpcs.xml --encoding=utf-8 --colors module/Balance/src
     - php vendor/bin/php-cs-fixer fix --config-file=phpcs.php --dry-run --diff
     - php vendor/bin/phpmd module/Balance/src text phpmd.xml
+    - php vendor/bin/phinx migrate -t0
