@@ -12,12 +12,108 @@ return array(
                     ),
                 ),
             ),
+            'accounts' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/accounts',
+                    'defaults' => array(
+                        'controller' => 'Balance\Controller\Accounts',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'add' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'action' => 'edit',
+                                'id'     => 0,
+                            ),
+                        ),
+                    ),
+                    'edit' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/edit/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                    'remove' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/remove/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'postings' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/postings',
+                    'defaults' => array(
+                        'controller' => 'Balance\Controller\Postings',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'add' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'action' => 'edit',
+                                'id'     => 0,
+                            ),
+                        ),
+                    ),
+                    'edit' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/edit/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                    'remove' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/remove/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
 
     'controllers' => array(
         'invokables' => array(
-            'Balance\Controller\Home' => 'Balance\Controller\Home',
+            'Balance\Controller\Home'     => 'Balance\Controller\Home',
+            'Balance\Controller\Accounts' => 'Balance\Controller\Accounts',
+            'Balance\Controller\Postings' => 'Balance\Controller\Postings',
         ),
     ),
 
