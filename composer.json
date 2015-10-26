@@ -26,5 +26,11 @@
         "squizlabs/php_codesniffer": "2.*",
         "fabpot/php-cs-fixer": "1.*",
         "phpmd/phpmd": "2.*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "./vendor/bin/phinx migrate",
+            "HOME=./ bower install"
+        ]
     }
 }
