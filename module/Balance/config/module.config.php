@@ -68,6 +68,43 @@ return array(
                         'action'     => 'index',
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'add' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'action' => 'edit',
+                                'id'     => 0,
+                            ),
+                        ),
+                    ),
+                    'edit' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/edit/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                    'remove' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/remove/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                            ),
+                            'constraints' => array(
+                                'id' => '[0-9]+',
+                            ),
+                        ),
+                    ),
+                ),
             ),
         ),
     ),
