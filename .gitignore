@@ -1,3 +1,4 @@
 .vagrant
-vendor
+config/autoload/*.local.php
 public/assets
+vendor
