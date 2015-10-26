@@ -155,11 +155,41 @@ package { "php : fpm":
     ],
 }
 
+file { "php : timezone":
+    path    => "/etc/php5/mods-available/timezone.ini",
+    content => "date.timezone = \"America/Sao_Paulo\"",
+    require => [
+        Package["php : cli"],
+        Package["php : fpm"],
+    ],
+}
+
 service { "php":
     name    => "php5-fpm",
     ensure  => "running",
     require => [
         Package["php : fpm"],
+    ],
+}
+
+file { "php : cli : timezone":
+    ensure  => link,
+    path    => "/etc/php5/cli/conf.d/99-timezone.ini",
+    target  => "/etc/php5/mods-available/timezone.ini",
+    require => [
+        File["php : timezone"],
+    ],
+}
+
+file { "php : fpm : timezone":
+    ensure  => link,
+    path    => "/etc/php5/fpm/conf.d/99-timezone.ini",
+    target  => "/etc/php5/mods-available/timezone.ini",
+    require => [
+        File["php : timezone"],
+    ],
+    notify  => [
+        Service["php"],
     ],
 }
 
