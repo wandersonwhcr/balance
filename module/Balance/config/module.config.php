@@ -22,6 +22,16 @@ return array(
                     ),
                 ),
             ),
+            'postings' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/postings',
+                    'defaults' => array(
+                        'controller' => 'Balance\Controller\Postings',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
         ),
     ),
 
@@ -29,6 +39,7 @@ return array(
         'invokables' => array(
             'Balance\Controller\Home'     => 'Balance\Controller\Home',
             'Balance\Controller\Accounts' => 'Balance\Controller\Accounts',
+            'Balance\Controller\Postings' => 'Balance\Controller\Postings',
         ),
     ),
 
