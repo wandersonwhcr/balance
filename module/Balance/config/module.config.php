@@ -12,12 +12,23 @@ return array(
                     ),
                 ),
             ),
+            'accounts' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/accounts',
+                    'defaults' => array(
+                        'controller' => 'Balance\Controller\Accounts',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
         ),
     ),
 
     'controllers' => array(
         'invokables' => array(
-            'Balance\Controller\Home' => 'Balance\Controller\Home',
+            'Balance\Controller\Home'     => 'Balance\Controller\Home',
+            'Balance\Controller\Accounts' => 'Balance\Controller\Accounts',
         ),
     ),
 
