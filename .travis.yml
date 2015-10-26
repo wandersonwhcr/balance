@@ -8,6 +8,7 @@ addons:
 before_install:
     - psql -c "CREATE ROLE balance LOGIN PASSWORD 'balance'" -U postgres
     - psql -c "CREATE DATABASE balance WITH OwNER balance ENCODING = 'UTF8' TEMPLATE = template0" -U postgres
+    - npm install -g bower
 
 install:
     - composer install
