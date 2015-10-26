@@ -19,4 +19,24 @@ class Accounts extends AbstractActionController
     {
         return new ViewModel();
     }
+
+    /**
+     * Editar Elemento
+     *
+     * @return ViewModel Modelo de Visualização
+     */
+    public function editAction()
+    {
+        return new ViewModel();
+    }
+
+    /**
+     * Remover Elemento
+     *
+     * @return ViewModel Modelo de Visualização
+     */
+    public function removeAction()
+    {
+        return new ViewModel();
+    }
 }
