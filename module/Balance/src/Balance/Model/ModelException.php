@@ -5,6 +5,6 @@ namespace Balance\Model;
 /**
  * Exceção de Camada de Modelo
  */
-class ModelException extends Exception
+class ModelException extends \Exception
 {
 }

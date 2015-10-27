@@ -2,6 +2,7 @@
 
 namespace Balance\Controller;
 
+use Balance\Model\ModelException;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -44,8 +45,13 @@ class Accounts extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             // Captura de Dados
             $data = $this->getRequest()->getPost();
-            // Salvar Dados
-            $model->save($data);
+            // Tratamento
+            try {
+                // Salvar Dados
+                $model->save($data);
+            } catch (ModelException $e) {
+                // Erro Encontrado
+            }
         } else {
         }
         // Visualização
