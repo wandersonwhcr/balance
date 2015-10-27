@@ -3,6 +3,7 @@
 namespace Balance\Model;
 
 use Zend\Form\Form;
+use Zend\Stdlib\Parameters;
 
 /**
  * Camada de Modelo
@@ -38,5 +39,51 @@ class Model
     public function getForm()
     {
         return $this->form;
+    }
+
+    /**
+     * Consulta de Elementos
+     *
+     * @param  Parameters $params Parâmetros de Execução
+     * @return array      Conjunto de Informações Encontradas
+     */
+    public function fetch(Parameters $params)
+    {
+        return array();
+    }
+
+    /**
+     * Salvar Elemento
+     *
+     * @param  Parameters     $data Dados para Salvamento
+     * @return Model          Próprio Objeto para Encadeamento
+     * @throws ModelException Dados Inválidos
+     */
+    public function save(Parameters $data)
+    {
+        // Formulário
+        $form = $this->getForm();
+        // Configurar Dados
+        $form->setData($data);
+        // Dados Válidos?
+        if (!$form->isValid()) {
+            throw new ModelException('Invalid Data');
+        }
+        // Capturar Valores
+        $values = $form->getData();
+        // Encadeamento
+        return $this;
+    }
+
+    /**
+     * Remover Elemento
+     *
+     * @param  Parameters $params Parâmetros de Execução
+     * @return Model      Próprio Objeto para Encadeamento
+     */
+    public function remove(Parameters $params)
+    {
+        // Encadeamento
+        return $this;
     }
 }
