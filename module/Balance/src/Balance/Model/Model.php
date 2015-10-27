@@ -20,6 +20,12 @@ class Model
     private $form;
 
     /**
+     * Persistência de Dados
+     * @type PersistenceInterface
+     */
+    private $persistence;
+
+    /**
      * Configuração de Formulário
      *
      * @param  Form  $form Elemento para Configuração
@@ -42,6 +48,28 @@ class Model
     }
 
     /**
+     * Configuração de Persistência de Dados
+     *
+     * @param  PersistenceInterface $persistence Elemento para Configuração
+     * @return Model                Próprio Objeto para Encadeamento
+     */
+    public function setPersistence(PersistenceInterface $persistence)
+    {
+        $this->persistence = $persistence;
+        return $this;
+    }
+
+    /**
+     * Apresentação de Persistência de Dados
+     *
+     * @return PersistenceInterface Elemento Solicitado
+     */
+    public function getPersistence()
+    {
+        return $this->persistence;
+    }
+
+    /**
      * Consulta de Elementos
      *
      * @param  Parameters $params Parâmetros de Execução
@@ -49,7 +77,8 @@ class Model
      */
     public function fetch(Parameters $params)
     {
-        return array();
+        // Consulta de Elementos
+        return $this->getPersistence()->fetch($params);
     }
 
     /**
@@ -71,6 +100,8 @@ class Model
         }
         // Capturar Valores
         $values = $form->getData();
+        // Salvar Dados
+        $this->getPersistence()->save($data);
         // Encadeamento
         return $this;
     }
@@ -78,11 +109,14 @@ class Model
     /**
      * Remover Elemento
      *
-     * @param  Parameters $params Parâmetros de Execução
-     * @return Model      Próprio Objeto para Encadeamento
+     * @param  Parameters     $params Parâmetros de Execução
+     * @return Model          Próprio Objeto para Encadeamento
+     * @throws ModelException Problema na Remoção do Elemento
      */
     public function remove(Parameters $params)
     {
+        // Remover Elemento
+        $this->getPersistence()->remove($params);
         // Encadeamento
         return $this;
     }
