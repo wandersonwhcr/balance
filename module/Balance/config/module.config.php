@@ -1,5 +1,6 @@
 <?php
 
+use Balance\Controller;
 use Balance\Form;
 use Balance\Model;
 use Zend\Db;
@@ -117,8 +118,12 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Balance\Controller\Home'     => 'Balance\Controller\Home',
-            'Balance\Controller\Accounts' => 'Balance\Controller\Accounts',
             'Balance\Controller\Postings' => 'Balance\Controller\Postings',
+        ),
+        'factories' => array(
+            'Balance\Controller\Accounts' => function ($manager) {
+                return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Accounts'));
+            },
         ),
     ),
 
@@ -137,6 +142,7 @@ return array(
                 // Camada de Modelo
                 return new Model\Model($form, $persistence);
             },
+
             'Balance\Db\TableGateway\Accounts' => function ($manager) {
                 $table = new Db\TableGateway\TableGateway('accounts', $manager->get('db'));
                 $table->getFeatureSet()
