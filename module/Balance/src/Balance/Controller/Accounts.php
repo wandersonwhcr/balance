@@ -60,8 +60,14 @@ class Accounts extends AbstractActionController
         } else {
             // Chave Primária?
             if ($params) {
-                // Carregar Elemento
-                $model->load(new Parameters($params));
+                // Tratamento
+                try {
+                    // Carregar Elemento
+                    $model->load(new Parameters($params));
+                } catch (ModelException $e) {
+                    // Redirecionamento
+                    return $this->redirect()->toRoute('accounts');
+                }
             }
         }
         // Visualização
@@ -78,6 +84,20 @@ class Accounts extends AbstractActionController
      */
     public function removeAction()
     {
-        return new ViewModel();
+        // Camada de Modelo
+        $model = $this->getServiceLocator()->get('Balance\Model\Accounts');
+        // Chave Primária
+        $params = $this->params()->fromRoute();
+        // Remover Controladora e Ação
+        $params = array_diff_key($params, array_flip(array('controller', 'action')));
+        // Tratamento
+        try {
+            // Remover Elemento
+            $model->remove(new Parameters($params));
+        } catch (ModelException $e) {
+            // Erro Encontrado
+        }
+        // Redirecionamento
+        return $this->redirect()->toRoute('accounts');
     }
 }

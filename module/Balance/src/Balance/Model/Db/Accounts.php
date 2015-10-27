@@ -2,6 +2,7 @@
 
 namespace Balance\Model\Db;
 
+use Balance\Model\ModelException;
 use Balance\Model\PersistenceInterface;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -68,8 +69,10 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
      */
     public function find(Parameters $params)
     {
-        // Inicialização
-        $element = null;
+        // Chave Primária?
+        if (!$params['id']) {
+            throw new ModelException('Unknown Primary Key');
+        }
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
         // Seletor
@@ -77,15 +80,21 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
             ->from(array('a' => 'accounts'))
             ->columns(array('id', 'name', 'type', 'description'))
             ->where(function ($where) use ($params) {
-                $where->equalTo('a.id', $params['id']);
+                $where->equalTo('a.id', (int) $params['id']);
             });
         // Consulta
         $row = $db->query($select->getSqlString($db->getPlatform()))->execute()->current();
         // Encontrado?
-        if ($row) {
-            // Configuração
-            $element = $row;
+        if (!$row) {
+            throw new ModelException('Unknown Element');
         }
+        // Configurações
+        $element = array(
+            'id'          => (int) $row['id'],
+            'type'        => $row['type'],
+            'name'        => $row['name'],
+            'description' => $row['description'],
+        );
         // Apresentação
         return $element;
     }
@@ -126,6 +135,23 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
      */
     public function remove(Parameters $params)
     {
+        // Chave Primária?
+        if (!$params['id']) {
+            throw new ModelException('Unknwon Primary Key');
+        }
+        // Inicialização
+        $tbAccounts = $this->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
+        // Remover Elemento
+        $count = $tbAccounts->delete(function ($delete) use ($params) {
+            $delete->where(function ($where) use ($params) {
+                $where->equalTo('id', $params['id']);
+            });
+        });
+        // Sucesso?
+        if ($count !== 1) {
+            throw new ModelException('Unknown Element');
+        }
+        // Encadeamento
         return $this;
     }
 }

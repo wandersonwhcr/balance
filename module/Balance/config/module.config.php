@@ -55,7 +55,7 @@ return array(
                         'options' => array(
                             'route'    => '/remove/:id',
                             'defaults' => array(
-                                'action' => 'edit',
+                                'action' => 'remove',
                             ),
                             'constraints' => array(
                                 'id' => '[0-9]+',
@@ -102,7 +102,7 @@ return array(
                         'options' => array(
                             'route'    => '/remove/:id',
                             'defaults' => array(
-                                'action' => 'edit',
+                                'action' => 'remove',
                             ),
                             'constraints' => array(
                                 'id' => '[0-9]+',
