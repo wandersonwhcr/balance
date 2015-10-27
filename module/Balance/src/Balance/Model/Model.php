@@ -26,12 +26,25 @@ class Model
     private $persistence;
 
     /**
+     * Construtor Padrão
+     *
+     * @param Form                 $form        Formulário
+     * @param PersistenceInterface $persistence Persistência de Dados
+     */
+    public function __construct(Form $form, PersistenceInterface $persistence)
+    {
+        $this
+            ->setForm($form)
+            ->setPersistence($persistence);
+    }
+
+    /**
      * Configuração de Formulário
      *
      * @param  Form  $form Elemento para Configuração
      * @return Model Próprio Objeto para Encadeamento
      */
-    public function setForm(Form $form)
+    protected function setForm(Form $form)
     {
         $this->form = $form;
         return $this;
@@ -53,7 +66,7 @@ class Model
      * @param  PersistenceInterface $persistence Elemento para Configuração
      * @return Model                Próprio Objeto para Encadeamento
      */
-    public function setPersistence(PersistenceInterface $persistence)
+    protected function setPersistence(PersistenceInterface $persistence)
     {
         $this->persistence = $persistence;
         return $this;

@@ -1,4 +1,8 @@
 <?php
+
+use Balance\Form;
+use Balance\Model;
+
 return array(
     'router' => array(
         'routes' => array(
@@ -114,6 +118,15 @@ return array(
             'Balance\Controller\Home'     => 'Balance\Controller\Home',
             'Balance\Controller\Accounts' => 'Balance\Controller\Accounts',
             'Balance\Controller\Postings' => 'Balance\Controller\Postings',
+        ),
+    ),
+
+    'service_manager' => array(
+        'factories' => array(
+            'Balance\Model\Accounts' => function ($manager) {
+                // Camada de Modelo
+                return new Model\Model(new Form\Accounts(), new Model\Db\Accounts());
+            },
         ),
     ),
 

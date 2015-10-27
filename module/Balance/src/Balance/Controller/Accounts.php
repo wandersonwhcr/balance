@@ -17,6 +17,9 @@ class Accounts extends AbstractActionController
      */
     public function indexAction()
     {
+        // Camada de Modelo
+        $model = $this->getServiceLocator()->get('Balance\Model\Accounts');
+        // Camada de Visualização
         return new ViewModel();
     }
 
