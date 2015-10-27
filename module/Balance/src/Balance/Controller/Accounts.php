@@ -36,11 +36,22 @@ class Accounts extends AbstractActionController
      */
     public function editAction()
     {
+        // Camada de Modelo
+        $model = $this->getServiceLocator()->get('Balance\Model\Accounts');
         // Chave Primária
         $id = (int) $this->params()->fromRoute('id');
+        // Dados Enviados?
+        if ($this->getRequest()->isPost()) {
+            // Captura de Dados
+            $data = $this->getRequest()->getPost();
+            // Salvar Dados
+            $model->save($data);
+        } else {
+        }
         // Visualização
         return new ViewModel(array(
             'type' => ($id ? 'edit' : 'add'),
+            'form' => $model->getForm(),
         ));
     }
 

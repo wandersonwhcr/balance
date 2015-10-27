@@ -127,8 +127,11 @@ return array(
         ),
         'factories' => array(
             'Balance\Model\Accounts' => function ($manager) {
+                // Dependências
+                $form        = $manager->get('FormElementManager')->get('Balance\Form\Accounts');
+                $persistence = $manager->get('Balance\Model\Db\Accounts');
                 // Camada de Modelo
-                return new Model\Model(new Form\Accounts(), $manager->get('Balance\Model\Db\Accounts'));
+                return new Model\Model($form, $persistence);
             },
         ),
     ),

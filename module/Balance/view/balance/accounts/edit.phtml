@@ -7,4 +7,8 @@
         $this->headTitle()->append('Editar');
     endif;
 ?>
+<?php
+    $form->prepare();
+?>
 Balance\Controller\Accounts::editAction();
+<?php echo $this->form($form) ?>
