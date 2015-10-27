@@ -19,8 +19,14 @@ class Accounts extends AbstractActionController
     {
         // Camada de Modelo
         $model = $this->getServiceLocator()->get('Balance\Model\Accounts');
+        // Parâmetros de Consulta
+        $params = $this->getRequest()->getPost();
+        // Consulta de Elementos
+        $elements = $model->fetch($params);
         // Camada de Visualização
-        return new ViewModel();
+        return new ViewModel(array(
+            'elements' => $elements,
+        ));
     }
 
     /**

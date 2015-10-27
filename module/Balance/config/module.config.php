@@ -122,10 +122,13 @@ return array(
     ),
 
     'service_manager' => array(
+        'invokables' => array(
+            'Balance\Model\Db\Accounts' => 'Balance\Model\Db\Accounts',
+        ),
         'factories' => array(
             'Balance\Model\Accounts' => function ($manager) {
                 // Camada de Modelo
-                return new Model\Model(new Form\Accounts(), new Model\Db\Accounts());
+                return new Model\Model(new Form\Accounts(), $manager->get('Balance\Model\Db\Accounts'));
             },
         ),
     ),
