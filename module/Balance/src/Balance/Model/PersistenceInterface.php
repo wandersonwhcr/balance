@@ -18,6 +18,14 @@ interface PersistenceInterface
     public function fetch(Parameters $params);
 
     /**
+     * Consultar Elemento
+     *
+     * @param  Parameters $params Parâmetros de Execução
+     * @return array      Informações Encontradas
+     */
+    public function find(Parameters $params);
+
+    /**
      * Salvar Elemento
      *
      * @param  Parameters           $data Dados para Salvamento

@@ -2,6 +2,7 @@
 
 use Balance\Form;
 use Balance\Model;
+use Zend\Db;
 
 return array(
     'router' => array(
@@ -135,6 +136,12 @@ return array(
                 $form->setInputFilter($filter);
                 // Camada de Modelo
                 return new Model\Model($form, $persistence);
+            },
+            'Balance\Db\TableGateway\Accounts' => function ($manager) {
+                $table = new Db\TableGateway\TableGateway('accounts', $manager->get('db'));
+                $table->getFeatureSet()
+                    ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'accounts_id_seq'));
+                return $table;
             },
         ),
     ),

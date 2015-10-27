@@ -95,6 +95,26 @@ class Model
     }
 
     /**
+     * Carregar Elemento
+     *
+     * @param  Parameters $params Parâmetros de Execução
+     * @return array      Conjunto de Informações Encontradas
+     */
+    public function load(Parameters $params)
+    {
+        // Carregar Elementos
+        $element = $this->getPersistence()->find($params);
+        // Encontrado?
+        if (!$element) {
+            throw new ModelException('Unknown Element');
+        }
+        // Preencher Formulário
+        $this->getForm()->setData($element);
+        // Apresentação
+        return $element;
+    }
+
+    /**
      * Salvar Elemento
      *
      * @param  Parameters     $data Dados para Salvamento
@@ -114,7 +134,7 @@ class Model
         // Capturar Valores
         $values = $form->getData();
         // Salvar Dados
-        $this->getPersistence()->save($data);
+        $this->getPersistence()->save(new Parameters($values));
         // Encadeamento
         return $this;
     }

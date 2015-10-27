@@ -4,6 +4,7 @@ namespace Balance\Controller;
 
 use Balance\Model\ModelException;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -40,7 +41,9 @@ class Accounts extends AbstractActionController
         // Camada de Modelo
         $model = $this->getServiceLocator()->get('Balance\Model\Accounts');
         // Chave Primária
-        $id = (int) $this->params()->fromRoute('id');
+        $params = $this->params()->fromRoute();
+        // Remover Controladora e Ação
+        $params = array_diff_key($params, array_flip(array('controller', 'action')));
         // Dados Enviados?
         if ($this->getRequest()->isPost()) {
             // Captura de Dados
@@ -49,14 +52,21 @@ class Accounts extends AbstractActionController
             try {
                 // Salvar Dados
                 $model->save($data);
+                // Redirecionamento
+                return $this->redirect()->toRoute('accounts');
             } catch (ModelException $e) {
                 // Erro Encontrado
             }
         } else {
+            // Chave Primária?
+            if ($params) {
+                // Carregar Elemento
+                $model->load(new Parameters($params));
+            }
         }
         // Visualização
         return new ViewModel(array(
-            'type' => ($id ? 'edit' : 'add'),
+            'type' => ($params ? 'edit' : 'add'),
             'form' => $model->getForm(),
         ));
     }
