@@ -129,7 +129,10 @@ return array(
             'Balance\Model\Accounts' => function ($manager) {
                 // Dependências
                 $form        = $manager->get('FormElementManager')->get('Balance\Form\Accounts');
+                $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Accounts');
                 $persistence = $manager->get('Balance\Model\Db\Accounts');
+                // Configurações
+                $form->setInputFilter($filter);
                 // Camada de Modelo
                 return new Model\Model($form, $persistence);
             },
