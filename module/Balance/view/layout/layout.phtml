@@ -26,6 +26,7 @@
         ?>
         <?php
             $this->headLink()
+                ->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath('/images/favicon.ico'), 'type' => 'image/x-icon'))
                 ->appendStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap.min.css'))
                 ->appendStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap-theme.min.css'))
                 ->appendStylesheet($this->basePath('/module/Balance/assets/default/css/default.css'));
