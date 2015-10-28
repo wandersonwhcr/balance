@@ -115,12 +115,14 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'Balance\Controller\Home'     => 'Balance\Controller\Home',
-            'Balance\Controller\Postings' => 'Balance\Controller\Postings',
+            'Balance\Controller\Home' => 'Balance\Controller\Home',
         ),
         'factories' => array(
             'Balance\Controller\Accounts' => function ($manager) {
                 return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Accounts'));
+            },
+            'Balance\Controller\Postings' => function ($manager) {
+                return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Postings'));
             },
         ),
     ),
@@ -128,6 +130,7 @@ return array(
     'service_manager' => array(
         'invokables' => array(
             'Balance\Model\Db\Accounts' => 'Balance\Model\Db\Accounts',
+            'Balance\Model\Db\Postings' => 'Balance\Model\Db\Postings',
         ),
         'factories' => array(
             'Balance\Model\Accounts' => function ($manager) {
@@ -140,11 +143,27 @@ return array(
                 // Camada de Modelo
                 return new Model\Model($form, $persistence);
             },
+            'Balance\Model\Postings' => function ($manager) {
+                // Dependências
+                $form        = $manager->get('FormElementManager')->get('Balance\Form\Postings');
+                $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Postings');
+                $persistence = $manager->get('Balance\Model\Db\Postings');
+                // Configurações
+                $form->setInputFilter($filter);
+                // Camada de Modelo
+                return new Model\Model($form, $persistence);
+            },
 
             'Balance\Db\TableGateway\Accounts' => function ($manager) {
                 $table = new Db\TableGateway\TableGateway('accounts', $manager->get('db'));
                 $table->getFeatureSet()
                     ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'accounts_id_seq'));
+                return $table;
+            },
+            'Balance\Db\TableGateway\Postings' => function ($manager) {
+                $table = new Db\TableGateway\TableGateway('postings', $manager->get('db'));
+                $table->getFeatureSet()
+                    ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'postings_id_seq'));
                 return $table;
             },
         ),
