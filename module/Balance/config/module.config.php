@@ -221,7 +221,7 @@ return array(
     'view_manager' => array(
         'doctype' => 'HTML5',
 
-        'display_exceptions'       => false,
+        'display_exceptions'       => true,
         'display_not_found_reason' => false,
 
         'not_found_template' => 'error/404',
