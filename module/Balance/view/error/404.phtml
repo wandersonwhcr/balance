@@ -1,1 +1,36 @@
-404
+<?php
+    switch ($this->reason) :
+        case 'error-controller-cannot-dispatch':
+            $reasonMessage = 'The requested controller was unable to dispatch the request.';
+            break;
+        case 'error-controller-not-found':
+            $reasonMessage = 'The requested controller could not be mapped to an existing controller class.';
+            break;
+        case 'error-controller-invalid':
+            $reasonMessage = 'The requested controller was not dispatchable.';
+            break;
+        case 'error-router-no-match':
+            $reasonMessage = 'The requested URL could not be matched by routing.';
+            break;
+        default:
+            $reasonMessage = 'We cannot determine at this time why a 404 was generated.';
+    endswitch;
+?>
+<div class="page-header">
+    <h1>Erro Encontrado <small>Página Desconhecida</small></h1>
+</div>
+
+<p class="lead"><?php echo $this->escapeHtml($this->message) ?></p>
+
+<?php echo $this->escapeHtml($reasonMessage) ?>
+
+<?php if ($this->controller) : ?>
+    <dl>
+        <dt>Controller</td>
+        <dd><?php echo $this->escapeHtml($this->controller) ?></dd>
+        <?php if ($this->controller_class) : ?>
+            <dt>Controller Class</dt>
+            <dd><?php echo $this->escapeHtml($this->controller_class) ?></dd>
+        <?php endif ?>
+    </dl>
+<?php endif ?>

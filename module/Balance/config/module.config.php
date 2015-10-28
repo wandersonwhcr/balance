@@ -121,7 +121,7 @@ return array(
         'doctype' => 'HTML5',
 
         'display_exceptions'       => false,
-        'display_not_found_reason' => false,
+        'display_not_found_reason' => true,
 
         'not_found_template' => 'error/404',
         'exception_template' => 'error/500',
