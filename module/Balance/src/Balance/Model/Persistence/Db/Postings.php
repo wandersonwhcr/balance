@@ -3,13 +3,17 @@
 namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\Persistence\PersistenceInterface;
+use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Stdlib\Parameters;
 
 /**
  * Camada de Modelo de Banco de Dados para Lançamentos
  */
-class Postings implements PersistenceInterface
+class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * {@inheritdoc}
      */

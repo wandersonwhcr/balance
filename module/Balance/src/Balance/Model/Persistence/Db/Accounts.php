@@ -4,9 +4,9 @@ namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
+use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Parameters;
 
 /**
@@ -14,28 +14,7 @@ use Zend\Stdlib\Parameters;
  */
 class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
 {
-    /**
-     * Localizador de Serviços
-     * @type ServiceLocatorInterface
-     */
-    private $serviceLocator;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
+    use ServiceLocatorAwareTrait;
 
     /**
      * {@inheritdoc}
