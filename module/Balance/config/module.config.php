@@ -35,7 +35,6 @@ return array(
                             'route'    => '/add',
                             'defaults' => array(
                                 'action' => 'edit',
-                                'id'     => 0,
                             ),
                         ),
                     ),
@@ -82,7 +81,6 @@ return array(
                             'route'    => '/add',
                             'defaults' => array(
                                 'action' => 'edit',
-                                'id'     => 0,
                             ),
                         ),
                     ),

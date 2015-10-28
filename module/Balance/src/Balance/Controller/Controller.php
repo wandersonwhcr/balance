@@ -5,6 +5,7 @@ namespace Balance\Controller;
 use Balance\Model\Model;
 use Balance\Model\ModelException;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
@@ -64,6 +65,9 @@ class Controller extends AbstractActionController
         $params = $this->getRequest()->getPost();
         // Consulta de Elementos
         $elements = $model->fetch($params);
+        // Utilizar Template do Roteamento
+        $this->getServiceLocator()->get('ViewManager')
+            ->getInjectTemplateListener()->setPreferRouteMatchController(true);
         // Camada de Visualização
         return new ViewModel(array(
             'elements' => $elements,
@@ -109,6 +113,9 @@ class Controller extends AbstractActionController
                 }
             }
         }
+        // Utilizar Template do Roteamento
+        $this->getServiceLocator()->get('ViewManager')
+            ->getInjectTemplateListener()->setPreferRouteMatchController(true);
         // Visualização
         return new ViewModel(array(
             'type' => ($params ? 'edit' : 'add'),
