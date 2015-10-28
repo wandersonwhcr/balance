@@ -156,12 +156,6 @@ return array(
         ),
     ),
 
-    'service_manager' => array(
-        'factories' => array(
-            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-        ),
-    ),
-
     'controllers' => array(
         'invokables' => array(
             'Balance\Controller\Home' => 'Balance\Controller\Home',
@@ -182,6 +176,8 @@ return array(
             'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
         ),
         'factories' => array(
+            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+
             'Balance\Model\Accounts' => function ($manager) {
                 // Dependências
                 $form        = $manager->get('FormElementManager')->get('Balance\Form\Accounts');
