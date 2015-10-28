@@ -1,9 +1,9 @@
 <?php
 
-namespace Balance\Model\Db;
+namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\ModelException;
-use Balance\Model\PersistenceInterface;
+use Balance\Model\Persistence\PersistenceInterface;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

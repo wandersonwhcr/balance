@@ -129,15 +129,15 @@ return array(
 
     'service_manager' => array(
         'invokables' => array(
-            'Balance\Model\Db\Accounts' => 'Balance\Model\Db\Accounts',
-            'Balance\Model\Db\Postings' => 'Balance\Model\Db\Postings',
+            'Balance\Model\Persistence\Db\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
+            'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
         ),
         'factories' => array(
             'Balance\Model\Accounts' => function ($manager) {
                 // Dependências
                 $form        = $manager->get('FormElementManager')->get('Balance\Form\Accounts');
                 $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Accounts');
-                $persistence = $manager->get('Balance\Model\Db\Accounts');
+                $persistence = $manager->get('Balance\Model\Persistence\Db\Accounts');
                 // Configurações
                 $form->setInputFilter($filter);
                 // Camada de Modelo
@@ -147,7 +147,7 @@ return array(
                 // Dependências
                 $form        = $manager->get('FormElementManager')->get('Balance\Form\Postings');
                 $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Postings');
-                $persistence = $manager->get('Balance\Model\Db\Postings');
+                $persistence = $manager->get('Balance\Model\Persistence\Db\Postings');
                 // Configurações
                 $form->setInputFilter($filter);
                 // Camada de Modelo

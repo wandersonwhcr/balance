@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use Balance\Model\Persistence\PersistenceInterface;
 use Zend\Form\Form;
 use Zend\Stdlib\Parameters;
 

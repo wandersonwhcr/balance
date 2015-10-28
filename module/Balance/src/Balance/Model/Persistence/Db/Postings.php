@@ -1,8 +1,8 @@
 <?php
 
-namespace Balance\Model\Db;
+namespace Balance\Model\Persistence\Db;
 
-use Balance\Model\PersistenceInterface;
+use Balance\Model\Persistence\PersistenceInterface;
 use Zend\Stdlib\Parameters;
 
 /**

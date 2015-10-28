@@ -1,6 +1,6 @@
 <?php
 
-namespace Balance\Model;
+namespace Balance\Model\Persistence;
 
 use Zend\Stdlib\Parameters;
 
