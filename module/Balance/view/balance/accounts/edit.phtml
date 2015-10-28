@@ -6,5 +6,74 @@
     if ($this->type == 'edit') :
         $this->headTitle()->append('Editar');
     endif;
+
+    $this->formElementErrors()
+        ->setMessageOpenFormat('<p class="help-block">')
+        ->setMessageSeparatorString('</p><p class="help-block">')
+        ->setMessageCloseString('</p>');
 ?>
-Balance\Controller\Accounts::editAction();
+
+<?php $this->form->prepare() ?>
+<?php echo $this->form()->openTag($this->form) ?>
+
+    <?php echo $this->formElement($this->form->get('id')) ?>
+
+    <div class="row">
+        <div class="col-md-2">
+            <?php $element = $this->form->get('type') ?>
+            <div class="form-group<?php echo $element->getMessages() ? ' has-warning' : '' ?>">
+                <?php
+                    $element
+                        ->setLabel('Tipo')
+                        ->setEmptyOption('-- Selecione --')
+                        ->setAttribute('id', $element->getName())
+                        ->setAttribute('class', 'form-control');
+                ?>
+                <?php echo $this->formLabel($element) ?>
+                <?php echo $this->formElement($element) ?>
+                <?php echo $this->formElementErrors($element) ?>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <?php $element = $this->form->get('name') ?>
+            <div class="form-group<?php echo $element->getMessages() ? ' has-warning' : '' ?>">
+                <?php
+                    $element
+                        ->setLabel('Nome')
+                        ->setAttribute('id', $element->getName())
+                        ->setAttribute('class', 'form-control');
+                ?>
+                <?php echo $this->formLabel($element) ?>
+                <?php echo $this->formElement($element) ?>
+                <?php echo $this->formElementErrors($element) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <?php $element = $this->form->get('description') ?>
+            <div class="form-group<?php echo $element->getMessages() ? ' has-warning' : '' ?>">
+                <?php
+                    $element
+                        ->setLabel('Descrição')
+                        ->setAttribute('id', $element->getName())
+                        ->setAttribute('class', 'form-control');
+                ?>
+                <?php echo $this->formLabel($element) ?>
+                <?php echo $this->formElement($element) ?>
+                <?php echo $this->formElementErrors($element) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-right">
+                <button class="btn btn-primary" type="submit">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+<?php echo $this->form()->closeTag() ?>
+

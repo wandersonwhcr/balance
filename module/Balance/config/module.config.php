@@ -1,4 +1,10 @@
 <?php
+
+use Balance\Controller;
+use Balance\Form;
+use Balance\Model;
+use Zend\Db;
+
 return array(
     'router' => array(
         'routes' => array(
@@ -29,7 +35,6 @@ return array(
                             'route'    => '/add',
                             'defaults' => array(
                                 'action' => 'edit',
-                                'id'     => 0,
                             ),
                         ),
                     ),
@@ -50,7 +55,7 @@ return array(
                         'options' => array(
                             'route'    => '/remove/:id',
                             'defaults' => array(
-                                'action' => 'edit',
+                                'action' => 'remove',
                             ),
                             'constraints' => array(
                                 'id' => '[0-9]+',
@@ -76,7 +81,6 @@ return array(
                             'route'    => '/add',
                             'defaults' => array(
                                 'action' => 'edit',
-                                'id'     => 0,
                             ),
                         ),
                     ),
@@ -97,7 +101,7 @@ return array(
                         'options' => array(
                             'route'    => '/remove/:id',
                             'defaults' => array(
-                                'action' => 'edit',
+                                'action' => 'remove',
                             ),
                             'constraints' => array(
                                 'id' => '[0-9]+',
@@ -160,9 +164,57 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'Balance\Controller\Home'     => 'Balance\Controller\Home',
-            'Balance\Controller\Accounts' => 'Balance\Controller\Accounts',
-            'Balance\Controller\Postings' => 'Balance\Controller\Postings',
+            'Balance\Controller\Home' => 'Balance\Controller\Home',
+        ),
+        'factories' => array(
+            'Balance\Controller\Accounts' => function ($manager) {
+                return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Accounts'));
+            },
+            'Balance\Controller\Postings' => function ($manager) {
+                return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Postings'));
+            },
+        ),
+    ),
+
+    'service_manager' => array(
+        'invokables' => array(
+            'Balance\Model\Persistence\Db\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
+            'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
+        ),
+        'factories' => array(
+            'Balance\Model\Accounts' => function ($manager) {
+                // Dependências
+                $form        = $manager->get('FormElementManager')->get('Balance\Form\Accounts');
+                $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Accounts');
+                $persistence = $manager->get('Balance\Model\Persistence\Db\Accounts');
+                // Configurações
+                $form->setInputFilter($filter);
+                // Camada de Modelo
+                return new Model\Model($form, $persistence);
+            },
+            'Balance\Model\Postings' => function ($manager) {
+                // Dependências
+                $form        = $manager->get('FormElementManager')->get('Balance\Form\Postings');
+                $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Postings');
+                $persistence = $manager->get('Balance\Model\Persistence\Db\Postings');
+                // Configurações
+                $form->setInputFilter($filter);
+                // Camada de Modelo
+                return new Model\Model($form, $persistence);
+            },
+
+            'Balance\Db\TableGateway\Accounts' => function ($manager) {
+                $table = new Db\TableGateway\TableGateway('accounts', $manager->get('db'));
+                $table->getFeatureSet()
+                    ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'accounts_id_seq'));
+                return $table;
+            },
+            'Balance\Db\TableGateway\Postings' => function ($manager) {
+                $table = new Db\TableGateway\TableGateway('postings', $manager->get('db'));
+                $table->getFeatureSet()
+                    ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'postings_id_seq'));
+                return $table;
+            },
         ),
     ),
 
