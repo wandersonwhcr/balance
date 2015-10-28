@@ -1,4 +1,7 @@
 <?php
+    // Navigation
+    $navigation = $this->navigation('navigation');
+    // FlashMessenger
     $flashMessengerOpenContent  = '<div%s role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>';
     $flashMessengerCloseContent = '</div>';
     $this->flashMessenger()
@@ -36,8 +39,9 @@
         ?>
     </head>
     <body>
-        <?php echo $this->navigation('navigation')->menu()->setPartial('layout/navigation') ?>
+        <?php echo $navigation->menu()->setPartial('layout/navigation') ?>
         <div class="container-fluid">
+            <?php echo $navigation->breadcrumbs()->setPartial('layout/breadcrumbs') ?>
             <div class="row">
                 <div class="col-md-12">
                     <div id="alert-container">
