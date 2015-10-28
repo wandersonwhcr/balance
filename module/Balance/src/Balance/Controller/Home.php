@@ -17,6 +17,7 @@ class Home extends AbstractActionController
      */
     public function indexAction()
     {
+        throw new \Exception('Teste', 500, new \Exception('Anterior', 500, new \Exception('Mais Anterior')));
         $this->flashMessenger()
             ->addMessage('alert alert-success', 'success')
             ->addMessage('alert alert-info', 'info')
