@@ -29,8 +29,8 @@ interface PersistenceInterface
      * Salvar Elemento
      *
      * @param  Parameters           $data Dados para Salvamento
-     * @return PersistenceInterface Próprio Objeto para Encadeamento
      * @throws ModelException       Problema no Salvamento dos Dados em Persistência
+     * @return PersistenceInterface Próprio Objeto para Encadeamento
      */
     public function save(Parameters $data);
 
@@ -38,8 +38,8 @@ interface PersistenceInterface
      * Remover Elemento
      *
      * @param  Parameters           $params Parâmetros de Execução
-     * @return PersistenceInterface Próprio Objeto para Encadeamento
      * @throws ModelException       Problema na Remoção do Elemento
+     * @return PersistenceInterface Próprio Objeto para Encadeamento
      */
     public function remove(Parameters $params);
 }

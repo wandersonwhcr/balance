@@ -106,7 +106,7 @@ class Model
         // Carregar Elementos
         $element = $this->getPersistence()->find($params);
         // Encontrado?
-        if (!$element) {
+        if ( ! $element) {
             throw new ModelException('Unknown Element');
         }
         // Preencher Formulário
@@ -119,8 +119,8 @@ class Model
      * Salvar Elemento
      *
      * @param  Parameters     $data Dados para Salvamento
-     * @return Model          Próprio Objeto para Encadeamento
      * @throws ModelException Dados Inválidos
+     * @return Model          Próprio Objeto para Encadeamento
      */
     public function save(Parameters $data)
     {
@@ -129,7 +129,7 @@ class Model
         // Configurar Dados
         $form->setData($data);
         // Dados Válidos?
-        if (!$form->isValid()) {
+        if ( ! $form->isValid()) {
             throw new ModelException('Invalid Data');
         }
         // Capturar Valores
@@ -144,8 +144,8 @@ class Model
      * Remover Elemento
      *
      * @param  Parameters     $params Parâmetros de Execução
-     * @return Model          Próprio Objeto para Encadeamento
      * @throws ModelException Problema na Remoção do Elemento
+     * @return Model          Próprio Objeto para Encadeamento
      */
     public function remove(Parameters $params)
     {
