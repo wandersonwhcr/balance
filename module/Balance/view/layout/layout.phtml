@@ -1,4 +1,7 @@
 <?php
+    // Navigation
+    $navigation = $this->navigation('navigation');
+    // FlashMessenger
     $flashMessengerOpenContent  = '<div%s role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>';
     $flashMessengerCloseContent = '</div>';
     $this->flashMessenger()
@@ -36,30 +39,9 @@
         ?>
     </head>
     <body>
-        <nav class="nav navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
-                        <span class="sr-only">Alternar Navegação</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>">Balance</a>
-                </div>
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="<?php echo $this->url('accounts') ?>">Contas</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->url('postings') ?>">Lançamentos</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <?php echo $navigation->menu()->setPartial('layout/navigation') ?>
         <div class="container-fluid">
+            <?php echo $navigation->breadcrumbs()->setPartial('layout/breadcrumbs') ?>
             <div class="row">
                 <div class="col-md-12">
                     <div id="alert-container">

@@ -1,0 +1,15 @@
+<?php
+    // Captura da Raiz
+    $root = $this->navigation()->findOneByLabel('Balance');
+    // Configuração de Classe
+    $root->setClass('');
+?>
+<div class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <?php foreach ($this->pages as $page) : ?>
+                <li><?php echo $this->navigation()->breadcrumbs()->htmlify($page) ?></li>
+            <?php endforeach ?>
+        </ol>
+    </div><!-- col -->
+</div><!-- row -->
