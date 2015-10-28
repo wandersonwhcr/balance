@@ -49,7 +49,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
     public function find(Parameters $params)
     {
         // Chave Primária?
-        if ( ! $params['id']) {
+        if (! $params['id']) {
             throw new ModelException('Unknown Primary Key');
         }
         // Adaptador de Banco de Dados
@@ -64,7 +64,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
         // Consulta
         $row = $db->query($select->getSqlString($db->getPlatform()))->execute()->current();
         // Encontrado?
-        if ( ! $row) {
+        if (! $row) {
             throw new ModelException('Unknown Element');
         }
         // Configurações
@@ -115,7 +115,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
     public function remove(Parameters $params)
     {
         // Chave Primária?
-        if ( ! $params['id']) {
+        if (! $params['id']) {
             throw new ModelException('Unknwon Primary Key');
         }
         // Inicialização
