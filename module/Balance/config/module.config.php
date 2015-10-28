@@ -109,6 +109,55 @@ return array(
         ),
     ),
 
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label' => 'Balance',
+                'route' => 'home',
+                'pages' => array(
+                    array(
+                        'label' => 'Home',
+                        'route' => 'home',
+                    ),
+                    array(
+                        'label' => 'Contas',
+                        'route' => 'accounts',
+                        'pages' => array(
+                            array(
+                                'label' => 'Listar',
+                                'route' => 'accounts',
+                            ),
+                            array(
+                                'label' => 'Adicionar',
+                                'route' => 'accounts/add',
+                            ),
+                        ),
+                    ),
+                    array(
+                        'label' => 'Lançamentos',
+                        'route' => 'postings',
+                        'pages' => array(
+                            array(
+                                'label' => 'Listar',
+                                'route' => 'postings',
+                            ),
+                            array(
+                                'label' => 'Adicionar',
+                                'route' => 'postings/add',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+    'service_manager' => array(
+        'factories' => array(
+            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+        ),
+    ),
+
     'controllers' => array(
         'invokables' => array(
             'Balance\Controller\Home'     => 'Balance\Controller\Home',
