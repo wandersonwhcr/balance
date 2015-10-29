@@ -38,3 +38,7 @@
         <?php endif ?>
     </dl>
 <?php endif ?>
+
+<?php if ($this->display_exceptions) : ?>
+    <?php echo $this->partial('layout/exceptions', array('exception' => $this->exception)) ?>
+<?php endif ?>
