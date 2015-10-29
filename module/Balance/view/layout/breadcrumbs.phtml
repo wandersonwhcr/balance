@@ -3,13 +3,18 @@
     $root = $this->navigation()->findOneByLabel('Balance');
     // Configuração de Classe
     $root->setClass('');
+    // Captura de Páginas
+    $pages = $this->pages;
+    // Remoção da Última Página
+    $lastPage = array_pop($pages);
 ?>
 <div class="row">
     <div class="col-md-12">
         <ol class="breadcrumb">
-            <?php foreach ($this->pages as $page) : ?>
+            <?php foreach ($pages as $page) : ?>
                 <li><?php echo $this->navigation()->breadcrumbs()->htmlify($page) ?></li>
             <?php endforeach ?>
+            <li class="active"><?php echo $lastPage->getLabel() ?></li>
         </ol>
     </div><!-- col -->
 </div><!-- row -->
