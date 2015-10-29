@@ -1,14 +1,24 @@
 <?php
+    // Dependências
+    use Balance\View\Table\Table;
+
+    // Título
     $this->headTitle()
         ->append('Lançamentos')
         ->append('Listar');
-?>
 
-<?php
-    echo $this->partial('layout/page-header', array(
-        'title'    => 'Lançamentos',
-        'subtitle' => 'Listar',
-    ))
+    // Tabela
+    $table = (new Table())
+        ->setTitle('Listar Lançamentos')
+        ->addColumn('datetime', 'Data e Hora')
+        ->addColumn('description', 'Descrição')
+        ->setElements($this->elements);
+    // Ação: Adicionar
+    $table->setAction('add', array('route' => 'postings/add'));
+    // Ação: Elemento - Editar
+    $table->setElementAction('edit', array('route' => 'accounts/edit'));
+    // Ação: Elemento - Remover
+    $table->setElementAction('remove', array('route' => 'accounts/remove'));
+    // Renderização
+    echo $this->partial('layout/table', array('table' => $table));
 ?>
-
-<?php var_dump($this->elements) ?>

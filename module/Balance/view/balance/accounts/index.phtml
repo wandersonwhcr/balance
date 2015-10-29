@@ -1,14 +1,24 @@
 <?php
+    // Dependências
+    use Balance\View\Table\Table;
+
+    // Título
     $this->headTitle()
         ->append('Contas')
         ->append('Listar');
-?>
 
-<?php
-    echo $this->partial('layout/page-header', array(
-        'title'    => 'Contas',
-        'subtitle' => 'Listar',
-    ))
+    // Tabela
+    $table = (new Table())
+        ->setTitle('Listar Contas')
+        ->addColumn('name', 'Nome')
+        ->addColumn('type', 'Tipo')
+        ->setElements($this->elements);
+    // Ação: Adicionar
+    $table->setAction('add', array('route' => 'accounts/add'));
+    // Ação: Elemento - Editar
+    $table->setElementAction('edit', array('route' => 'accounts/edit'));
+    // Ação: Elemento - Remover
+    $table->setElementAction('remove', array('route' => 'accounts/remove'));
+    // Renderização
+    echo $this->partial('layout/table', array('table' => $table));
 ?>
-
-<?php var_dump($this->elements) ?>

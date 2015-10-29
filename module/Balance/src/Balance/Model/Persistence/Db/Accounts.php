@@ -5,6 +5,7 @@ namespace Balance\Model\Persistence\Db;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Stdlib\Parameters;
@@ -25,10 +26,17 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
         $result = array();
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
+        // Expressões
+        $eType = new Expression(
+            'CASE "a"."type"'
+            . ' WHEN \'ACTIVE\' THEN \'Ativo\''
+            . ' WHEN \'PASSIVE\' THEN \'Passivo\''
+            . ' END'
+        );
         // Seletor
         $select = (new Select())
             ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'name', 'type'));
+            ->columns(array('id', 'name', 'type' => $eType));
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
