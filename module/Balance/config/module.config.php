@@ -156,17 +156,78 @@ return array(
         ),
     ),
 
+    'balance_manager' => array(
+        'factories' => array(
+            // Controllers
+            'Balance\Controller\Accounts' => array(
+                'factory' => 'Balance\Controller\AbstractControllerFactory',
+                'params'  => array(
+                    'model' => 'Balance\Model\Accounts',
+                ),
+            ),
+            'Balance\Controller\Postings' => array(
+                'factory' => 'Balance\Controller\AbstractControllerFactory',
+                'params'  => array(
+                    'model' => 'Balance\Model\Postings',
+                ),
+            ),
+
+            // Models
+            'Balance\Model\Accounts' => array(
+                'factory' => 'Balance\Model\AbstractModelFactory',
+                'params'  => array(
+                    'form'         => 'Balance\Form\Accounts',
+                    'input_filter' => 'Balance\InputFilter\Accounts',
+                    'persistence'  => 'Balance\Model\Persistence\Db\Accounts',
+                ),
+            ),
+            'Balance\Model\Postings' => array(
+                'factory' => 'Balance\Model\AbstractModelFactory',
+                'params'  => array(
+                    'form'         => 'Balance\Form\Postings',
+                    'input_filter' => 'Balance\InputFilter\Postings',
+                    'persistence'  => 'Balance\Model\Persistence\Db\Postings',
+                ),
+            ),
+
+            // TableGateway
+            'Balance\Db\TableGateway\Accounts' => array(
+                'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+                'params'  => array(
+                    'table'       => 'accounts',
+                    'primary_key' => array('id'),
+                    'sequence'    => 'accounts_id_seq',
+                ),
+            ),
+            'Balance\Db\TableGateway\Postings' => array(
+                'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+                'params'  => array(
+                    'table'       => 'postings',
+                    'primary_key' => array('id'),
+                    'sequence'    => 'postings_id_seq',
+                ),
+            ),
+            'Balance\Db\TableGateway\Entries' => array(
+                'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+                'params'  => array(
+                    'table'       => 'entries',
+                    'primary_key' => array('account_id', 'posting_id'),
+                    'sequence'    => false,
+                ),
+            ),
+        ),
+    ),
+
     'controllers' => array(
         'invokables' => array(
             'Balance\Controller\Home' => 'Balance\Controller\Home',
         ),
+        'abstract_fcatories' => array(
+            'Balance\Controller\AbstractControllerFactory',
+        ),
         'factories' => array(
-            'Balance\Controller\Accounts' => function ($manager) {
-                return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Accounts'));
-            },
-            'Balance\Controller\Postings' => function ($manager) {
-                return new Controller\Controller($manager->getServiceLocator()->get('Balance\Model\Postings'));
-            },
+            'Balance\Controller\Accounts' => 'Balance\Controller\AbstractControllerFactory',
+            'Balance\Controller\Postings' => 'Balance\Controller\AbstractControllerFactory',
         ),
     ),
 
@@ -175,42 +236,21 @@ return array(
             'Balance\Model\Persistence\Db\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
         ),
+        'abstract_factories' => array(
+            'Balance\Model\AbstractModelFactory',
+            'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+        ),
         'factories' => array(
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
 
-            'Balance\Model\Accounts' => function ($manager) {
-                // Dependências
-                $form        = $manager->get('FormElementManager')->get('Balance\Form\Accounts');
-                $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Accounts');
-                $persistence = $manager->get('Balance\Model\Persistence\Db\Accounts');
-                // Configurações
-                $form->setInputFilter($filter);
-                // Camada de Modelo
-                return new Model\Model($form, $persistence);
-            },
-            'Balance\Model\Postings' => function ($manager) {
-                // Dependências
-                $form        = $manager->get('FormElementManager')->get('Balance\Form\Postings');
-                $filter      = $manager->get('InputFilterManager')->get('Balance\InputFilter\Postings');
-                $persistence = $manager->get('Balance\Model\Persistence\Db\Postings');
-                // Configurações
-                $form->setInputFilter($filter);
-                // Camada de Modelo
-                return new Model\Model($form, $persistence);
-            },
+            // Models
+            'Balance\Model\Accounts' => 'Balance\Model\AbstractModelFactory',
+            'Balance\Model\Postings' => 'Balance\Model\AbstractModelFactory',
 
-            'Balance\Db\TableGateway\Accounts' => function ($manager) {
-                $table = new Db\TableGateway\TableGateway('accounts', $manager->get('db'));
-                $table->getFeatureSet()
-                    ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'accounts_id_seq'));
-                return $table;
-            },
-            'Balance\Db\TableGateway\Postings' => function ($manager) {
-                $table = new Db\TableGateway\TableGateway('postings', $manager->get('db'));
-                $table->getFeatureSet()
-                    ->addFeature(new Db\TableGateway\Feature\SequenceFeature('id', 'postings_id_seq'));
-                return $table;
-            },
+            // TableGateways
+            'Balance\Db\TableGateway\Accounts' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+            'Balance\Db\TableGateway\Postings' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+            'Balance\Db\TableGateway\Entries'  => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
         ),
     ),
 
