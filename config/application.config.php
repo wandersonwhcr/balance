@@ -2,6 +2,7 @@
 return array(
     'modules' => array(
         'Balance',
+        'TwbBundle',
     ),
     'service_manager' => array(
         'factories' => array(
