@@ -222,10 +222,7 @@ return array(
         'invokables' => array(
             'Balance\Controller\Home' => 'Balance\Controller\Home',
         ),
-        'abstract_fcatories' => array(
-            'Balance\Controller\AbstractControllerFactory',
-        ),
-        'factories' => array(
+        'abstract_factories' => array(
             'Balance\Controller\Accounts' => 'Balance\Controller\AbstractControllerFactory',
             'Balance\Controller\Postings' => 'Balance\Controller\AbstractControllerFactory',
         ),
@@ -237,20 +234,16 @@ return array(
             'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
         ),
         'abstract_factories' => array(
-            'Balance\Model\AbstractModelFactory',
-            'Balance\Db\TableGateway\AbstractTableGatewayFactory',
-        ),
-        'factories' => array(
-            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-
             // Models
             'Balance\Model\Accounts' => 'Balance\Model\AbstractModelFactory',
             'Balance\Model\Postings' => 'Balance\Model\AbstractModelFactory',
-
             // TableGateways
             'Balance\Db\TableGateway\Accounts' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
             'Balance\Db\TableGateway\Postings' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
             'Balance\Db\TableGateway\Entries'  => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+        ),
+        'factories' => array(
+            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
     ),
 
