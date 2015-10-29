@@ -29,8 +29,8 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "./vendor/bin/phinx migrate",
-            "HOME=./ bower install"
+            "php vendor/bin/phinx migrate",
+            "HOME=. bower install"
         ]
     }
 }
