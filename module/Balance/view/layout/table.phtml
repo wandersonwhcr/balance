@@ -13,7 +13,7 @@
                         <?php foreach ($columns as $column) : ?>
                             <th><?php echo $this->escapeHtml($column) ?></th>
                         <?php endforeach ?>
-                        <th>Ações</th>
+                        <th class="table-action-<?php echo count($actions) ?>">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
