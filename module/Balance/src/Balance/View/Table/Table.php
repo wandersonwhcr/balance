@@ -8,6 +8,12 @@ namespace Balance\View\Table;
 class Table
 {
     /**
+     * Título da Tabela
+     * @type string
+     */
+    protected $title = '';
+
+    /**
      * Colunas Configuradas
      * @type string[]
      */
@@ -30,6 +36,28 @@ class Table
      * @type string[][]
      */
     protected $elementActions = array();
+
+    /**
+     * Configuração de Título da Tabela
+     *
+     * @param  string $title Valor para Configuração
+     * @return Table  Próprio Objeto para Encadeamento
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * Apresentação de Título da Tabela
+     *
+     * @return string Valor Configurado
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
     /**
      * Adicionar Coluna

@@ -11,10 +11,11 @@
             <div class="panel-heading">
                 <div class="btn-group pull-right">
                     <?php foreach ($actions as $identifier => $params) : ?>
+                        <?php echo $this->partial('layout/table-action', array('identifier' => $identifier, 'params' => $params)) ?>
                     <?php endforeach ?>
                 </div>
                 <div class="panel-title">
-                    Listar Contas
+                    <?php echo $this->escapeHtml($this->table->getTitle()) ?>
                 </div>
             </div>
             <table class="table table-striped table-hover">
