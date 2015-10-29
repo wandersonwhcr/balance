@@ -11,4 +11,20 @@
     ))
 ?>
 
-<?php var_dump($this->elements) ?>
+<?php
+    // Inicialização
+    $table = $this->table()
+        ->addColumn('name', 'Nome')
+        ->addColumn('type', 'Tipo')
+        ->setElements($elements);
+    // Ação: Editar
+    $table->addAction('edit', function ($element) {
+        return '<a class="btn btn-primary" href="' . $this->url('accounts/edit', array('id' => $element['id'])) . '">Editar</a>';
+    });
+    // Ação: Remover
+    $table->addAction('remove', function ($element) {
+        return '<a class="btn btn-danger table-action-remove" href="' . $this->url('accounts/remove', array('id' => $element['id'])) . '">Remover</a>';
+    });
+    // Renderização
+    echo $this->partial('layout/table', array('table' => $table));
+?>
