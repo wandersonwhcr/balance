@@ -3,4 +3,12 @@
         ->append('Lançamentos')
         ->append('Listar');
 ?>
-Balance\Controller\Postings::indexAction();
+
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Lançamentos',
+        'subtitle' => 'Listar',
+    ))
+?>
+
+<?php var_dump($this->elements) ?>
