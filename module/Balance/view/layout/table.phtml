@@ -41,6 +41,14 @@
                                 </td>
                             </tr>
                         <?php endforeach ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="<?php echo (count($columns) + 1) ?>">
+                                <div class="text-center">
+                                    Nenhum Elemento Encontrado
+                                </div>
+                            </td>
+                        </tr>
                     <?php endif ?>
                 </tbody>
             </table>

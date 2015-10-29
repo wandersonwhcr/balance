@@ -1,6 +1,6 @@
 <?php
     // Dependências
-    use Balance\View\Table;
+    use Balance\View\Table\Table;
 
     // Título
     $this->headTitle()
@@ -8,11 +8,11 @@
         ->append('Listar');
 
     // Tabela
-    $table = (new Table\Table())
+    $table = (new Table())
         ->setTitle('Listar Contas')
         ->addColumn('name', 'Nome')
         ->addColumn('type', 'Tipo')
-        ->setElements($elements);
+        ->setElements($this->elements);
     // Ação: Adicionar
     $table->setAction('add', array('route' => 'accounts/add'));
     // Ação: Elemento - Editar
