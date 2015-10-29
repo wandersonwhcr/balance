@@ -1,10 +1,5 @@
 <?php
 
-use Balance\Controller;
-use Balance\Form;
-use Balance\Model;
-use Zend\Db;
-
 return array(
     'router' => array(
         'routes' => array(
