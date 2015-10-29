@@ -26,6 +26,12 @@ class Table
     protected $actions = array();
 
     /**
+     * Ações de Elementos Configuradas
+     * @type string[][]
+     */
+    protected $elementActions = array();
+
+    /**
      * Adicionar Coluna
      *
      * @param  string $identifier Identificador da Coluna
@@ -71,13 +77,13 @@ class Table
     }
 
     /**
-     * Adicionar Ação
+     * Configurar Ação
      *
      * @param  string   $identifier Identificador da Ação
      * @param  string[] $params     Parâmetros para Captura em Ação
      * @return Table    Próprio Objeto para Encadeamento
      */
-    public function addAction($identifier, array $params)
+    public function setAction($identifier, array $params)
     {
         $this->actions[$identifier] = $params;
         return $this;
@@ -91,5 +97,28 @@ class Table
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Configurar Ação de Elemento
+     *
+     * @param  string   $identifier Identificador da Ação
+     * @param  string[] $params     Parâmetros para Captura em Ação
+     * @return Table    Próprio Objeto para Encadeamento
+     */
+    public function setElementAction($identifier, array $params)
+    {
+        $this->elementActions[$identifier] = $params;
+        return $this;
+    }
+
+    /**
+     * Apresentação de Ações de Elemento
+     *
+     * @return string[][] Conjunto de Elementos Solicitados
+     */
+    public function getElementActions()
+    {
+        return $this->elementActions;
     }
 }

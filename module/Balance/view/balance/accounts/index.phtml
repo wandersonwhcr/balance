@@ -12,10 +12,12 @@
         ->addColumn('name', 'Nome')
         ->addColumn('type', 'Tipo')
         ->setElements($elements);
-    // Ação: Editar
-    $table->addAction('edit', array('route' => 'accounts/edit'));
-    // Ação: Remover
-    $table->addAction('remove', array('route' => 'accounts/remove'));
+    // Ação: Adicionar
+    $table->setAction('add', array('route' => 'accounts/add'));
+    // Ação: Elemento - Editar
+    $table->setElementAction('edit', array('route' => 'accounts/edit'));
+    // Ação: Elemento - Remover
+    $table->setElementAction('remove', array('route' => 'accounts/remove'));
 ?>
 
 <?php
