@@ -1,0 +1,5 @@
+<?php if ($this->identifier == 'edit') : ?>
+    <a class="btn btn-primary" href="<?php echo $this->url($this->params['route'], array('id' => $this->element['id'])) ?>">Editar</a>
+<?php elseif ($this->identifier == 'remove') : ?>
+    <a class="btn btn-danger" href="<?php echo $this->url($this->params['route'], array('id' => $this->element['id'])) ?>">Remover</a>
+<?php endif ?>

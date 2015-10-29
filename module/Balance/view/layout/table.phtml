@@ -24,8 +24,8 @@
                                     <td><?php echo $this->escapeHtml($element[$identifier]) ?></td>
                                 <?php endforeach ?>
                                 <td>
-                                    <?php foreach ($actions as $identifier => $action) : ?>
-                                        <?php echo call_user_func($action, $element) ?>
+                                    <?php foreach ($actions as $identifier => $params) : ?>
+                                        <?php echo $this->partial('layout/table-action', array('identifier' => $identifier, 'element' => $element, 'params' => $params)) ?>
                                     <?php endforeach ?>
                                 </td>
                             </tr>

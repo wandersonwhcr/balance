@@ -261,10 +261,4 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-
-    'view_helpers' => array(
-        'invokables' => array(
-            'table' => 'Balance\View\Helper\Table',
-        ),
-    ),
 );

@@ -1,8 +1,6 @@
 <?php
 
-namespace Balance\View;
-
-use Closure;
+namespace Balance\View\Table;
 
 /**
  * Tabela para Renderização de Elementos em Visualização
@@ -23,7 +21,7 @@ class Table
 
     /**
      * Ações Configuradas
-     * @type Closure[]
+     * @type string[][]
      */
     protected $actions = array();
 
@@ -75,20 +73,20 @@ class Table
     /**
      * Adicionar Ação
      *
-     * @param  string  $identifier Identificador da Ação
-     * @param  Closure $callable   Ação para Execução
-     * @return Table   Próprio Objeto para Encadeamento
+     * @param  string   $identifier Identificador da Ação
+     * @param  string[] $params     Parâmetros para Captura em Ação
+     * @return Table    Próprio Objeto para Encadeamento
      */
-    public function addAction($identifier, Closure $callable)
+    public function addAction($identifier, array $params)
     {
-        $this->actions[$identifier] = $callable;
+        $this->actions[$identifier] = $params;
         return $this;
     }
 
     /**
      * Apresentação de Ações
      *
-     * @return Closure[] Conjunto de Elementos Solicitados
+     * @return string[][] Conjunto de Elementos Solicitados
      */
     public function getActions()
     {
