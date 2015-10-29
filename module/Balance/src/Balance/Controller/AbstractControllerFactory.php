@@ -21,7 +21,7 @@ class AbstractControllerFactory implements AbstractFactoryInterface
         return
             isset($config[$requestedName])
             && isset($config[$requestedName]['factory'])
-            && $config[$requestedName]['factory'] == __CLASS__
+            && $config[$requestedName]['factory'] === __CLASS__
             && isset($config[$requestedName]['params'])
             && isset($config[$requestedName]['params']['model']);
     }
