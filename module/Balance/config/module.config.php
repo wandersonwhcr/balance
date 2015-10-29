@@ -130,6 +130,10 @@ return array(
                                 'label' => 'Adicionar',
                                 'route' => 'accounts/add',
                             ),
+                            array(
+                                'label' => 'Editar',
+                                'route' => 'accounts/edit',
+                            ),
                         ),
                     ),
                     array(
@@ -143,6 +147,10 @@ return array(
                             array(
                                 'label' => 'Adicionar',
                                 'route' => 'postings/add',
+                            ),
+                            array(
+                                'label' => 'Editar',
+                                'route' => 'postings/edit',
                             ),
                         ),
                     ),
