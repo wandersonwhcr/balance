@@ -3,7 +3,12 @@
         ->append('Página Principal');
 ?>
 
-<h1>Balance <small>Balancete Completo</small></h1>
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Balance',
+        'subtitle' => 'Balancete Completo',
+    ));
+?>
 
 <div class="row">
     <div class="col-md-12">
