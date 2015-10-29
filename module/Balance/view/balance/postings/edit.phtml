@@ -7,4 +7,10 @@
         $this->headTitle()->append('Editar');
     endif;
 ?>
-Balance\Controller\Postings::editAction();
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Lançamentos',
+        'subtitle' => ($this->type == 'add' ? 'Adicionar' : 'Editar'),
+    ))
+?>
+

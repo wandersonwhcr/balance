@@ -3,5 +3,12 @@
         ->append('Contas')
         ->append('Listar');
 ?>
-Balance\Controller\Accounts::indexAction();
+
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Contas',
+        'subtitle' => 'Listar',
+    ))
+?>
+
 <?php var_dump($this->elements) ?>

@@ -13,6 +13,13 @@
         ->setMessageCloseString('</p>');
 ?>
 
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Contas',
+        'subtitle' => ($this->type == 'add' ? 'Adicionar' : 'Editar'),
+    ))
+?>
+
 <?php $this->form->prepare() ?>
 <?php echo $this->form()->openTag($this->form) ?>
 

@@ -16,9 +16,13 @@
             $reasonMessage = 'We cannot determine at this time why a 404 was generated.';
     endswitch;
 ?>
-<div class="page-header">
-    <h1>Erro Encontrado <small>Página Desconhecida</small></h1>
-</div>
+
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Erro Encontrado',
+        'subtitle' => 'Página Desconhecida',
+    ));
+?>
 
 <p class="lead"><?php echo $this->escapeHtml($this->message) ?></p>
 

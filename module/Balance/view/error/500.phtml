@@ -1,6 +1,9 @@
-<div class="page-header">
-    <h1>Erro Encontrado <small>Problema Interno</small></h1>
-</div>
+<?php
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Erro Encontrado',
+        'subtitle' => 'Problema Interno',
+    ));
+?>
 
 <p class="lead"><?php echo $this->escapeHtml($this->message) ?></p>
 
