@@ -10,3 +10,6 @@ body {
 .table tbody tr td {
     vertical-align: middle;
 }
+.balance-toolbar {
+    margin: 20px 0;
+}
