@@ -95,6 +95,8 @@ class Controller extends AbstractActionController
             try {
                 // Salvar Dados
                 $model->save($data);
+                // Sucesso
+                $this->flashMessenger()->addSuccessMessage('Os dados foram salvos com sucesso.');
                 // Redirecionamento
                 return $this->redirect()->toRoute('accounts');
             } catch (ModelException $e) {
@@ -140,6 +142,8 @@ class Controller extends AbstractActionController
         try {
             // Remover Elemento
             $model->remove(new Parameters($params));
+            // Sucesso
+            $this->flashMessenger()->addSuccessMessage('Os dados foram removidos com sucesso.');
         } catch (ModelException $e) {
             // Erro Encontrado
         }
