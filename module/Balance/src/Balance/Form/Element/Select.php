@@ -15,7 +15,7 @@ class Select extends ZendSelect
     public function getEmptyOption()
     {
         $option = parent::getEmptyOption();
-        if (!isset($option)) {
+        if (! isset($option)) {
             $option = '-- Selecione --';
             $this->setEmptyOption($option);
         }
