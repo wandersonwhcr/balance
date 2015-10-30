@@ -16,8 +16,11 @@ class Search extends Form
     {
         // Palavras-Chave
         $this->add(array(
-            'type' => 'Text',
-            'name' => 'keywords',
+            'type'    => 'Text',
+            'name'    => 'keywords',
+            'options' => array(
+                'label' => 'Palavras-Chave',
+            ),
         ));
     }
 }

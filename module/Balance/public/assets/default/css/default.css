@@ -13,3 +13,6 @@ body {
 .balance-toolbar {
     margin: 20px 0;
 }
+.form-inline .form-group label {
+    margin-right: 10px;
+}

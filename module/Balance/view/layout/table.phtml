@@ -1,11 +1,13 @@
 <?php
     // Inicialização
+    $form           = $this->table->getForm();
     $columns        = $this->table->getColumns();
     $elements       = $this->table->getElements();
     $actions        = $this->table->getActions();
     $elementActions = $this->table->getElementActions();
 ?>
 
+<?php $form->prepare() ?>
 <form class="form-inline" action="<?php echo $this->url() ?>" method="GET">
     <div class="balance-toolbar">
         <div class="btn-group">
@@ -25,10 +27,9 @@
             </div><!-- panel-title -->
         </div><!-- panel-heading -->
         <div class="panel-body">
-            <div class="form-group">
-                <label for="keywords">Palavras-Chave</label>
-                <input id="keywords" type="text" name="keywords" class="form-control" value="">
-            </div>
+            <?php foreach ($form as $element) : ?>
+                <?php echo $this->formRow($element) ?>
+            <?php endforeach ?>
         </div><!-- panel-body -->
     </div><!-- panel -->
 </form>
