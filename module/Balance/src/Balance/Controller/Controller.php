@@ -62,7 +62,7 @@ class Controller extends AbstractActionController
         // Camada de Modelo
         $model = $this->getModel();
         // Parâmetros de Consulta
-        $params = $this->getRequest()->getPost();
+        $params = $this->getRequest()->getQuery();
         // Consulta de Elementos
         $elements = $model->fetch($params);
         // Utilizar Template do Roteamento
