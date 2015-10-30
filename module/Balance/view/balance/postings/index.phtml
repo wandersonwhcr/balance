@@ -19,6 +19,11 @@
     $table->setElementAction('edit', array('route' => 'accounts/edit'));
     // Ação: Elemento - Remover
     $table->setElementAction('remove', array('route' => 'accounts/remove'));
+    // Cabeçalho
+    echo $this->partial('layout/page-header', array(
+        'title'    => 'Lançamentos',
+        'subtitle' => 'Listar',
+    ));
     // Renderização
     echo $this->partial('layout/table', array('table' => $table));
 ?>
