@@ -2,6 +2,7 @@
 
 namespace Balance\Form;
 
+use Balance\Model\AccountType;
 use Zend\Form\Element;
 use Zend\Form\Form;
 
@@ -23,10 +24,7 @@ class Accounts extends Form
 
         // Tipo
         $input = (new Element\Select('type'))
-            ->setValueOptions(array(
-                'ACTIVE'  => 'Ativo',
-                'PASSIVE' => 'Passivo',
-            ));
+            ->setValueOptions((new AccountType())->getDefinition());
         $this->add($input);
 
         // Descrição
