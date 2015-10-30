@@ -21,7 +21,7 @@ class Home extends AbstractActionController
             ->addMessage('alert alert-success', 'success')
             ->addMessage('alert alert-info', 'info')
             ->addMessage('alert alert-warning', 'warning')
-            ->addMessage('alert alert-danger', 'danger');
+            ->addMessage('alert alert-danger', 'error');
         return new ViewModel();
     }
 }
