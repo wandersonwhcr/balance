@@ -2,11 +2,19 @@
 
 namespace Balance\View\Table;
 
+use Zend\Form\Form;
+
 /**
  * Tabela para Renderização de Elementos em Visualização
  */
 class Table
 {
+    /**
+     * Formulário
+     * @type Form
+     */
+    protected $form = null;
+
     /**
      * Título da Tabela
      * @type string
@@ -36,6 +44,28 @@ class Table
      * @type string[][]
      */
     protected $elementActions = array();
+
+    /**
+     * Configurar Formulário
+     *
+     * @param  Form  $form Elemento para Configuração
+     * @return Table Próprio Objeto para Encadeamento
+     */
+    public function setForm(Form $form)
+    {
+        $this->form = $form;
+        return $this;
+    }
+
+    /**
+     * Apresentar Formulário
+     *
+     * @return Form Elemento Solicitado
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
 
     /**
      * Configuração de Título da Tabela

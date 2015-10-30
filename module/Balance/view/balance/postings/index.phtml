@@ -9,6 +9,7 @@
 
     // Tabela
     $table = (new Table())
+        ->setForm($form)
         ->setTitle('Listar Lançamentos')
         ->addColumn('datetime', 'Data e Hora')
         ->addColumn('description', 'Descrição')
