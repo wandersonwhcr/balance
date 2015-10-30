@@ -272,4 +272,10 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+
+    'form_elements' => array(
+        'invokables' => array(
+            'select' => 'Balance\Form\Element\Select',
+        ),
+    ),
 );
