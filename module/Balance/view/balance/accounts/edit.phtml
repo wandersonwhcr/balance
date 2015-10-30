@@ -33,17 +33,14 @@
                 <div class="col-md-2">
                     <?php
                         $element = $this->form->get('type');
-                        $element
-                            ->setLabel('Tipo')
-                            ->setEmptyOption('-- Selecione --');
+                        $element->setLabel('Tipo');
                         echo $this->formRow($element);
                     ?>
                 </div><!-- col -->
                 <div class="col-md-10">
                     <?php
                         $element = $this->form->get('name');
-                        $element
-                            ->setLabel('Nome');
+                        $element->setLabel('Nome');
                         echo $this->formRow($element);
                     ?>
                 </div><!-- col -->
@@ -52,8 +49,7 @@
                 <div class="col-md-12">
                     <?php
                         $element = $this->form->get('description');
-                        $element
-                            ->setLabel('Nome');
+                        $element->setLabel('Nome');
                         echo $this->formRow($element);
                     ?>
                 </div><!-- col -->
