@@ -2,7 +2,6 @@
 
 namespace Balance\Form;
 
-use Zend\Form\Element;
 use Zend\Form\Form;
 
 /**
@@ -16,20 +15,33 @@ class Accounts extends Form
     public function init()
     {
         // Chave Primária
-        $this->add(new Element\Hidden('id'));
-
-        // Nome
-        $this->add(new Element\Text('name'));
+        $this->add(array(
+            'type' => 'Hidden',
+            'name' => 'id',
+        ));
 
         // Tipo
-        $input = (new Element\Select('type'))
-            ->setValueOptions(array(
-                'ACTIVE'  => 'Ativo',
-                'PASSIVE' => 'Passivo',
-            ));
-        $this->add($input);
+        $this->add(array(
+            'type'    => 'Select',
+            'name'    => 'type',
+            'options' => array(
+                'value_options' => array(
+                    'ACTIVE'  => 'Ativo',
+                    'PASSIVE' => 'Passivo',
+                ),
+            ),
+        ));
+
+        // Nome
+        $this->add(array(
+            'type' => 'Text',
+            'name' => 'name',
+        ));
 
         // Descrição
-        $this->add(new Element\Textarea('description'));
+        $this->add(array(
+            'type' => 'Textarea',
+            'name' => 'description',
+        ));
     }
 }
