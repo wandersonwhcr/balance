@@ -2,6 +2,7 @@
 
 namespace Balance\Model\Persistence\Db;
 
+use Balance\Entity\Account as AccountEntity;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
@@ -26,13 +27,15 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
         $result = array();
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
-        // Expressões
-        $eType = new Expression(
-            'CASE "a"."type"'
-            . ' WHEN \'ACTIVE\' THEN \'Ativo\''
-            . ' WHEN \'PASSIVE\' THEN \'Passivo\''
-            . ' END'
-        );
+        // Expressão: Tipo
+        $expression = 'CASE "a"."type"';
+        $definition = (new AccountEntity())->getTypeDefinition();
+        foreach ($definition as $identifier => $value) {
+            $expression = $expression . sprintf(" WHEN '%s' THEN '%s'", $identifier, $value);
+        }
+        $expression = $expression . ' END';
+        // Construtor
+        $eType = new Expression($expression);
         // Seletor
         $select = (new Select())
             ->from(array('a' => 'accounts'))
