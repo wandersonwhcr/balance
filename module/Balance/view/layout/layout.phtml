@@ -1,13 +1,6 @@
 <?php
     // Navigation
     $navigation = $this->navigation('navigation');
-    // FlashMessenger
-    $flashMessengerOpenContent  = '<div%s role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>';
-    $flashMessengerCloseContent = '</div>';
-    $this->flashMessenger()
-        ->setMessageOpenFormat($flashMessengerOpenContent)
-        ->setMessageSeparatorString($flashMessengerCloseContent . $flashMessengerOpenContent)
-        ->setMessageCloseString($flashMessengerCloseContent);
 ?>
 <?php echo $this->doctype('HTML5') ?>
 <html lang="pt-br">
