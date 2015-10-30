@@ -24,7 +24,7 @@ class Model
      * Formulário de Pesquisa
      * @type Form
      */
-    private $searchForm;
+    private $formSearch;
 
     /**
      * Persistência de Dados
@@ -36,14 +36,14 @@ class Model
      * Construtor Padrão
      *
      * @param Form                 $form        Formulário
-     * @param Form                 $searchForm  Formulário de Pesquisa
+     * @param Form                 $formSearch  Formulário de Pesquisa
      * @param PersistenceInterface $persistence Persistência de Dados
      */
-    public function __construct(Form $form, Form $searchForm, PersistenceInterface $persistence)
+    public function __construct(Form $form, Form $formSearch, PersistenceInterface $persistence)
     {
         $this
             ->setForm($form)
-            ->setSearchForm($searchForm)
+            ->setFormSearch($formSearch)
             ->setPersistence($persistence);
     }
 
@@ -72,12 +72,12 @@ class Model
     /**
      * Configuração de Formulário de Pesquisa
      *
-     * @param  Form  $searchForm Elemento para Configuração
+     * @param  Form  $formSearch Elemento para Configuração
      * @return Model Próprio Objeto para Encadeamento
      */
-    protected function setSearchForm(Form $searchForm)
+    protected function setFormSearch(Form $formSearch)
     {
-        $this->searchForm = $searchForm;
+        $this->formSearch = $formSearch;
         return $this;
     }
 
@@ -86,9 +86,9 @@ class Model
      *
      * @return Form Elemento Solicitado
      */
-    public function getSearchForm()
+    public function getFormSearch()
     {
-        return $this->searchForm;
+        return $this->formSearch;
     }
 
     /**
@@ -122,7 +122,7 @@ class Model
     public function fetch(Parameters $params)
     {
         // Formulário de Pesquisa
-        $form = $this->getSearchForm();
+        $form = $this->getFormSearch();
         // Preencher Formulário
         $form->setData($params);
         // Consulta de Elementos

@@ -71,7 +71,7 @@ class Controller extends AbstractActionController
         // Camada de Visualização
         return new ViewModel(array(
             'elements' => $elements,
-            'form'     => $model->getSearchForm(),
+            'form'     => $model->getFormSearch(),
         ));
     }
 

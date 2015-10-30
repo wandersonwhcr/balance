@@ -24,7 +24,7 @@ class AbstractModelFactory implements AbstractFactoryInterface
             && $config[$requestedName]['factory'] === __CLASS__
             && isset($config[$requestedName]['params'])
             && isset($config[$requestedName]['params']['form'])
-            && isset($config[$requestedName]['params']['search_form'])
+            && isset($config[$requestedName]['params']['form_search'])
             && isset($config[$requestedName]['params']['input_filter'])
             && isset($config[$requestedName]['params']['persistence']);
     }
@@ -38,12 +38,12 @@ class AbstractModelFactory implements AbstractFactoryInterface
         $config = $serviceLocator->get('Config')['balance_manager']['factories'][$requestedName];
         // Inicialização
         $form        = $serviceLocator->get('FormElementManager')->get($config['params']['form']);
-        $searchForm  = $serviceLocator->get('FormElementManager')->get($config['params']['search_form']);
+        $formSearch  = $serviceLocator->get('FormElementManager')->get($config['params']['form_search']);
         $inputFilter = $serviceLocator->get('InputFilterManager')->get($config['params']['input_filter']);
         $persistence = $serviceLocator->get($config['params']['persistence']);
         // Configurações
         $form->setInputFilter($inputFilter);
         // Apresentação
-        return new Model($form, $searchForm, $persistence);
+        return new Model($form, $formSearch, $persistence);
     }
 }
