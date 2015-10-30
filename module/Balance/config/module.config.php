@@ -180,6 +180,7 @@ return array(
                 'factory' => 'Balance\Model\AbstractModelFactory',
                 'params'  => array(
                     'form'         => 'Balance\Form\Accounts',
+                    'search_form'  => 'Balance\Form\Search\Search',
                     'input_filter' => 'Balance\InputFilter\Accounts',
                     'persistence'  => 'Balance\Model\Persistence\Db\Accounts',
                 ),
@@ -188,6 +189,7 @@ return array(
                 'factory' => 'Balance\Model\AbstractModelFactory',
                 'params'  => array(
                     'form'         => 'Balance\Form\Postings',
+                    'search_form'  => 'Balance\Form\Search\Search',
                     'input_filter' => 'Balance\InputFilter\Postings',
                     'persistence'  => 'Balance\Model\Persistence\Db\Postings',
                 ),
