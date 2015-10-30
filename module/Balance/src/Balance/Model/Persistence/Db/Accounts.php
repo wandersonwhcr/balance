@@ -40,6 +40,21 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
         $select = (new Select())
             ->from(array('a' => 'accounts'))
             ->columns(array('id', 'name', 'type' => $eType));
+        // Pesquisa: Tipo
+        if ($params['type']) {
+            $select->where(function ($where) use ($params) {
+                $where->equalTo('a.type', $params['type']);
+            });
+        }
+        // Pesquisa: Palavras-Chave
+        if ($params['keywords']) {
+            $select->where(function ($where) use ($params) {
+                $where->nest()
+                    ->expression('"a"."name" ILIKE ?', '%' . $params['keywords'] . '%')
+                    ->or->expression('"a"."description" ILIKE ?', '%' . $params['keywords'] . '%')
+                    ->unnest();
+            });
+        }
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
