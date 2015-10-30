@@ -232,6 +232,9 @@ return array(
     ),
 
     'service_manager' => array(
+        'aliases' => array(
+            //'translator' => 'MvcTranslator',
+        ),
         'invokables' => array(
             'Balance\Model\Persistence\Db\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',

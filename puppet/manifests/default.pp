@@ -207,6 +207,20 @@ package { "php : postgresql":
     ],
 }
 
+package { "php : intl":
+    name    => "php5-intl",
+    require => [
+        Package["php : cli"],
+        Package["php : fpm"],
+    ],
+    notify  => [
+        Service["php"],
+    ],
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
 # composer
 
 exec { "composer":
