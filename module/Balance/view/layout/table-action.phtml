@@ -8,7 +8,7 @@
         <span class="sr-only">Editar</span>
     </a>
 <?php elseif ($this->identifier == 'remove') : ?>
-    <a class="btn btn-danger" href="<?php echo $this->url($this->params['route'], array('id' => $this->element['id'])) ?>" title="Remover Elemento">
+    <a class="btn btn-danger" href="<?php echo $this->url($this->params['route'], array('id' => $this->element['id'])) ?>" title="Remover Elemento" data-confirm="Você deseja realmente remover este elemento?">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         <span class="sr-only">Remove</span>
     </a>

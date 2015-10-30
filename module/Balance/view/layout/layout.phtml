@@ -35,7 +35,8 @@
         <?php
             $this->headScript()
                 ->appendFile($this->basePath('/assets/jquery/dist/jquery.min.js'))
-                ->appendFile($this->basePath('/assets/bootstrap/dist/js/bootstrap.min.js'));
+                ->appendFile($this->basePath('/assets/bootstrap/dist/js/bootstrap.min.js'))
+                ->appendFile($this->basePath('/module/Balance/assets/default/js/default.js'));
             echo $this->headScript();
         ?>
     </head>
