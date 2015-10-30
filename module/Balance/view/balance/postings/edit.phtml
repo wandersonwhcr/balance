@@ -14,3 +14,38 @@
     ))
 ?>
 
+<?php $this->form->prepare() ?>
+<?php echo $this->form(null, null)->openTag($this->form) ?>
+    <div class="balance-toolbar">
+        <div class="btn-group" role="group" aria-label="Ferramentas">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a class="btn btn-warning" href="<?php echo $this->url('postings') ?>">Cancelar</a>
+        </div><!-- btn-group -->
+    </div><!-- balance-toolbar -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">Informações Básicas</div>
+        </div><!-- panel-heading -->
+        <div class="panel-body">
+            <?php echo $this->formHidden($this->form->get('id')) ?>
+            <div class="row">
+                <div class="col-md-2">
+                    <?php
+                        $element = $this->form->get('datetime');
+                        $element->setLabel('Data e Hora');
+                        echo $this->formRow($element);
+                    ?>
+                </div><!-- col -->
+            </div><!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                        $element = $this->form->get('description');
+                        $element->setLabel('Descrição');
+                        echo $this->formRow($element);
+                    ?>
+                </div><!-- col -->
+            </div><!-- row -->
+        </div><!-- panel-body -->
+    </div><!-- panel -->
+<?php echo $this->form()->closeTag() ?>
