@@ -95,10 +95,13 @@ class Controller extends AbstractActionController
             try {
                 // Salvar Dados
                 $model->save($data);
+                // Sucesso
+                $this->flashMessenger()->addSuccessMessage('Os dados foram salvos com sucesso.');
                 // Redirecionamento
                 return $this->redirect()->toRoute('accounts');
             } catch (ModelException $e) {
                 // Erro Encontrado
+                $this->flashMessenger()->addWarningMessage('Verifique o preenchimento dos campos em destaque.');
             }
         } else {
             // Chave Primária?
@@ -108,6 +111,8 @@ class Controller extends AbstractActionController
                     // Carregar Elemento
                     $model->load(new Parameters($params));
                 } catch (ModelException $e) {
+                    // Erro Encontrado
+                    $this->flashMessenger()->addErrorMessage('Impossível carregar os dados solicitados.');
                     // Redirecionamento
                     return $this->redirect()->toRoute('accounts');
                 }
@@ -140,8 +145,11 @@ class Controller extends AbstractActionController
         try {
             // Remover Elemento
             $model->remove(new Parameters($params));
+            // Sucesso
+            $this->flashMessenger()->addSuccessMessage('Os dados foram removidos com sucesso.');
         } catch (ModelException $e) {
             // Erro Encontrado
+            $this->flashMessenger()->addErrorMessage('Impossível remover os dados solicitados.');
         }
         // Redirecionamento
         return $this->redirect()->toRoute('accounts');

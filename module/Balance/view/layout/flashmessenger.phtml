@@ -1,0 +1,35 @@
+<?php
+    // FlashMessenger
+    $flashMessengerOpenContent  = '<div%s role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>';
+    $flashMessengerCloseContent = '</div>';
+    $this->flashMessenger()
+        ->setMessageOpenFormat($flashMessengerOpenContent)
+        ->setMessageSeparatorString($flashMessengerCloseContent . $flashMessengerOpenContent)
+        ->setMessageCloseString($flashMessengerCloseContent);
+?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="alert-container">
+            <?php echo $this->flashMessenger()->render('success', array('alert', 'alert-success', 'alert-dismissible')) ?>
+            <?php echo $this->flashMessenger()->renderCurrent('success', array('alert', 'alert-success', 'alert-dismissible')) ?>
+
+            <?php echo $this->flashMessenger()->render('info', array('alert', 'alert-info',    'alert-dismissible')) ?>
+            <?php echo $this->flashMessenger()->renderCurrent('info', array('alert', 'alert-info',    'alert-dismissible')) ?>
+
+            <?php echo $this->flashMessenger()->render('warning', array('alert', 'alert-warning', 'alert-dismissible')) ?>
+            <?php echo $this->flashMessenger()->renderCurrent('warning', array('alert', 'alert-warning', 'alert-dismissible')) ?>
+
+            <?php echo $this->flashMessenger()->render('error', array('alert', 'alert-danger',  'alert-dismissible')) ?>
+            <?php echo $this->flashMessenger()->renderCurrent('error', array('alert', 'alert-danger',  'alert-dismissible')) ?>
+        </div>
+    </div>
+</div>
+
+<?php
+    // Limpezas
+    $this->flashMessenger()->clearCurrentMessages('success');
+    $this->flashMessenger()->clearCurrentMessages('info');
+    $this->flashMessenger()->clearCurrentMessages('warning');
+    $this->flashMessenger()->clearCurrentMessages('error');
+?>
