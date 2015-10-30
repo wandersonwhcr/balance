@@ -2,7 +2,7 @@
 
 namespace Balance\Form;
 
-use Balance\Entity\Account as AccountEntity;
+use Balance\Model\AccountType;
 use Zend\Form\Element;
 use Zend\Form\Form;
 
@@ -24,7 +24,7 @@ class Accounts extends Form
 
         // Tipo
         $input = (new Element\Select('type'))
-            ->setValueOptions((new AccountEntity())->getTypeDefinition());
+            ->setValueOptions((new AccountType())->getDefinition());
         $this->add($input);
 
         // Descrição
