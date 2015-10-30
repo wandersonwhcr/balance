@@ -101,7 +101,6 @@ class Controller extends AbstractActionController
                 return $this->redirect()->toRoute('accounts');
             } catch (ModelException $e) {
                 // Erro Encontrado
-                // TODO Exibir sem Redirecionamento
                 $this->flashMessenger()->addWarningMessage('Verifique o preenchimento dos campos em destaque.');
             }
         } else {
