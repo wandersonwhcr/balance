@@ -130,7 +130,7 @@ class Controller extends AbstractActionController
                 // Sucesso
                 $this->flashMessenger()->addSuccessMessage('Os dados foram salvos com sucesso.');
                 // Redirecionamento
-                return $this->redirect()->toRoute('accounts');
+                return $this->redirect()->toRoute($this->getRedirectRouteName());
             } catch (ModelException $e) {
                 // Erro Encontrado
                 $this->flashMessenger()->addWarningMessage('Verifique o preenchimento dos campos em destaque.');
@@ -146,7 +146,7 @@ class Controller extends AbstractActionController
                     // Erro Encontrado
                     $this->flashMessenger()->addErrorMessage('Impossível carregar os dados solicitados.');
                     // Redirecionamento
-                    return $this->redirect()->toRoute('accounts');
+                    return $this->redirect()->toRoute($this->getRedirectRouteName());
                 }
             }
         }
@@ -184,6 +184,6 @@ class Controller extends AbstractActionController
             $this->flashMessenger()->addErrorMessage('Impossível remover os dados solicitados.');
         }
         // Redirecionamento
-        return $this->redirect()->toRoute('accounts');
+        return $this->redirect()->toRoute($this->getRedirectRouteName());
     }
 }
