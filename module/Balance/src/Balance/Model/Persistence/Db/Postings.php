@@ -2,6 +2,7 @@
 
 namespace Balance\Model\Persistence\Db;
 
+use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Db\Sql\Select;
@@ -47,7 +48,33 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function find(Parameters $params)
     {
-        return array();
+        // Chave Primária?
+        if (! $params['id']) {
+            throw new ModelException('Unknown Primary Key');
+        }
+        // Adaptador de Banco de Dados
+        $db = $this->getServiceLocator()->get('db');
+        // Seletor
+        $select = (new Select())
+            ->from(array('p' => 'postings'))
+            ->columns(array('id', 'datetime', 'description'))
+            ->where(function ($where) use ($params) {
+                $where->equalTo('p.id', (int) $params['id']);
+            });
+        // Consulta
+        $row = $db->query($select->getSqlString($db->getPlatform()))->execute()->current();
+        // Encontrado?
+        if (! $row) {
+            throw new ModelException('Unknown Element');
+        }
+        // Configurações
+        $element = array(
+            'id'          => (int) $row['id'],
+            'datetime'    => date('d/m/Y H:i:s', strtotime($row['datetime'])),
+            'description' => $row['description'],
+        );
+        // Apresentação
+        return $element;
     }
 
     /**
