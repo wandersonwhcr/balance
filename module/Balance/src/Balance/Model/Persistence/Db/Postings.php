@@ -4,6 +4,7 @@ namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Stdlib\Parameters;
 
@@ -19,7 +20,26 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function fetch(Parameters $params)
     {
-        return array();
+        // Resultado Inicial
+        $result = array();
+        // Adaptador de Banco de Dados
+        $db = $this->getServiceLocator()->get('db');
+        // Seletor
+        $select = (new Select())
+            ->from(array('p' => 'postings'))
+            ->columns(array('id', 'datetime', 'description'));
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Captura
+        foreach ($rowset as $row) {
+            $result[] = array(
+                'id'          => (int) $row['id'],
+                'datetime'    => date('d/m/Y H:i:s', strtotime($row['datetime'])),
+                'description' => $row['description'],
+            );
+        }
+        // Apresentação
+        return $result;
     }
 
     /**
