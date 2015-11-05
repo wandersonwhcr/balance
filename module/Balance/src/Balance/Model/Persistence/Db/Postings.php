@@ -113,6 +113,23 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function remove(Parameters $params)
     {
+        // Chave Primária?
+        if (! $params['id']) {
+            throw new ModelException('Unknwon Primary Key');
+        }
+        // Inicialização
+        $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
+        // Remover Elemento
+        $count = $tbPostings->delete(function ($delete) use ($params) {
+            $delete->where(function ($where) use ($params) {
+                $where->equalTo('id', $params['id']);
+            });
+        });
+        // Sucesso?
+        if ($count !== 1) {
+            throw new ModelException('Unknown Element');
+        }
+        // Encadeamento
         return $this;
     }
 }
