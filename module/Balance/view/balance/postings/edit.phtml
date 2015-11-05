@@ -68,9 +68,14 @@
         <?php $this->placeholder('subform')->captureStart() ?>
             <?php $subform = $element->getTemplateElement() ?>
             <?php $subform->prepare() ?>
-            <div class="col-md-3">
+            <div class="col-md-3 collection-element">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default btn-sm collection-element-remove">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </div>
                         <div class="panel-title">Entrada</div>
                     </div><!-- panel-heading -->
                     <div class="panel-body">
@@ -105,7 +110,7 @@
                 </div><!-- panel -->
             </div><!-- col -->
         <?php $this->placeholder('subform')->captureEnd() ?>
-        <span class="collection-element" data-template="<?php echo $this->escapeHtml($this->placeholder('subform')) ?>" data-placeholder="<?php echo $element->getTemplatePlaceholder() ?>"></span>
+        <span class="collection-template" data-content="<?php echo $this->escapeHtml($this->placeholder('subform')) ?>" data-placeholder="<?php echo $element->getTemplatePlaceholder() ?>"></span>
 
     </div><!-- container-entries -->
 

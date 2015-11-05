@@ -1,12 +1,18 @@
 $(function () {
     (function () {
-        var element     = $('#entries .collection-element');
-        var template    = element.data('template');
-        var placeholder = element.data('placeholder');
-        var container   = $('#entries .collection-container');
+        // Template
+        var template    = $('#entries .collection-template');
+        var content     = template.data('content');
+        var placeholder = template.data('placeholder');
+        // Armazenador
+        var container = $('#entries .collection-container');
         // Adicionar Entrada de Lançamento
         $('#entries-add').on('click', function () {
-            container.append(template);
+            container.append(content);
+        });
+        // Remover Entradas de Lançamento
+        $('#entries').on('click', '.collection-element-remove', function () {
+            $(this).closest('.collection-element').remove();
         });
     })();
 });
