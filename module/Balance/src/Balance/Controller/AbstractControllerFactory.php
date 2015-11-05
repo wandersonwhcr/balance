@@ -24,7 +24,7 @@ class AbstractControllerFactory implements AbstractFactoryInterface
             && $config[$requestedName]['factory'] === __CLASS__
             && isset($config[$requestedName]['params'])
             && isset($config[$requestedName]['params']['model'])
-            && isset($config[$requestedName]['params']['redirect_route']);
+            && isset($config[$requestedName]['params']['redirect_route_name']);
     }
 
     /**
@@ -38,7 +38,9 @@ class AbstractControllerFactory implements AbstractFactoryInterface
         $config = $parentServiceLocator->get('Config')['balance_manager']['factories'][$requestedName];
         // Solicitar Camada de Modelo
         $model = $parentServiceLocator->get($config['params']['model']);
+        // Captura de Rota para Redirecionamento
+        $redirectRouteName = $config['params']['redirect_route_name'];
         // Apresentação
-        return new Controller($model);
+        return (new Controller($model, $redirectRouteName));
     }
 }
