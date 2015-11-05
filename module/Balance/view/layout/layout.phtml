@@ -20,16 +20,16 @@
         <?php
             $this->headLink()
                 ->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath('/images/favicon.ico'), 'type' => 'image/x-icon'))
-                ->appendStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap.min.css'))
-                ->appendStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap-theme.min.css'))
-                ->appendStylesheet($this->basePath('/module/Balance/assets/default/css/default.css'));
+                ->prependStylesheet($this->basePath('/module/Balance/assets/default/css/default.css'))
+                ->prependStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap-theme.min.css'))
+                ->prependStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap.min.css'));
             echo $this->headLink();
         ?>
         <?php
             $this->headScript()
-                ->appendFile($this->basePath('/assets/jquery/dist/jquery.min.js'))
-                ->appendFile($this->basePath('/assets/bootstrap/dist/js/bootstrap.min.js'))
-                ->appendFile($this->basePath('/module/Balance/assets/default/js/default.js'));
+                ->prependFile($this->basePath('/module/Balance/assets/default/js/default.js'))
+                ->prependFile($this->basePath('/assets/bootstrap/dist/js/bootstrap.min.js'))
+                ->prependFile($this->basePath('/assets/jquery/dist/jquery.min.js'));
             echo $this->headScript();
         ?>
     </head>

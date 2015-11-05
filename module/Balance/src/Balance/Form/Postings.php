@@ -2,6 +2,7 @@
 
 namespace Balance\Form;
 
+use Balance\Model\EntryType;
 use Zend\Form\Form;
 
 /**
@@ -30,6 +31,42 @@ class Postings extends Form
         $this->add(array(
             'type' => 'Textarea',
             'name' => 'description',
+        ));
+
+        // Subformulário: Entrada de Lançamento
+        $subform = new Form();
+
+        // Tipo de Entrada
+        $subform->add(array(
+            'type'    => 'Select',
+            'name'    => 'type',
+            'options' => array(
+                'value_options' => (new EntryType())->getDefinition(),
+            ),
+        ));
+
+        // Conta
+        $subform->add(array(
+            'type'    => 'Select',
+            'name'    => 'account_id',
+            'options' => array(
+                'value_options' => array(), // TODO
+            ),
+        ));
+
+        // Valor
+        $subform->add(array(
+            'type' => 'Text',
+            'name' => 'value',
+        ));
+
+        // Coleção de Entradas de Lançamentos
+        $this->add(array(
+            'type'    => 'Collection',
+            'name'    => 'entries',
+            'options' => array(
+                'target_element' => $subform,
+            ),
         ));
     }
 }

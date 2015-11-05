@@ -1,4 +1,8 @@
 <?php
+    // Adicionar Javascript
+    $this->headScript()
+        ->appendFile($this->basePath('/module/Balance/assets/default/js/postings-edit.js'));
+    // Editar
     $this->headTitle()->append('Lançamentos');
     if ($this->type == 'add') :
         $this->headTitle()->append('Adicionar');
@@ -16,12 +20,17 @@
 
 <?php $this->form->prepare() ?>
 <?php echo $this->form(null, null)->openTag($this->form) ?>
+
     <div class="balance-toolbar">
-        <div class="btn-group" role="group" aria-label="Ferramentas">
+        <div class="btn-group" role="group">
             <button type="submit" class="btn btn-primary">Salvar</button>
             <a class="btn btn-warning" href="<?php echo $this->url('postings') ?>">Cancelar</a>
         </div><!-- btn-group -->
+        <div class="btn-group" role="group">
+            <button id="entries-add" type="button" class="btn btn-default">Adicionar Entrada</button>
+        </div><!-- btn-group -->
     </div><!-- balance-toolbar -->
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title">Informações Básicas</div>
@@ -48,4 +57,56 @@
             </div><!-- row -->
         </div><!-- panel-body -->
     </div><!-- panel -->
+
+    <div id="entries" class="collection">
+        <div class="row collection-container"></div>
+
+        <?php
+            $element = $this->form->getFieldsets()['entries'];
+            $element->setShouldCreateTemplate(true);
+        ?>
+        <?php $this->placeholder('subform')->captureStart() ?>
+            <?php $subform = $element->getTemplateElement() ?>
+            <?php $subform->prepare() ?>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Entrada</div>
+                    </div><!-- panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                    $subelement = $subform->get('type');
+                                    $subelement->setLabel('Tipo');
+                                    echo $this->formRow($subelement);
+                                ?>
+                            </div><!-- col -->
+                        </div><!-- row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                    $subelement = $subform->get('account_id');
+                                    $subelement->setLabel('Conta');
+                                    echo $this->formRow($subelement);
+                                ?>
+                            </div><!-- col -->
+                        </div><!-- row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                    $subelement = $subform->get('value');
+                                    $subelement->setLabel('Valor');
+                                    echo $this->formRow($subelement);
+                                ?>
+                            </div><!-- col -->
+                        </div><!-- row -->
+                    </div><!-- panel-body -->
+                </div><!-- panel -->
+            </div><!-- col -->
+        <?php $this->placeholder('subform')->captureEnd() ?>
+        <span class="collection-element" data-template="<?php echo $this->escapeHtml($this->placeholder('subform')) ?>" data-placeholder="<?php echo $element->getTemplatePlaceholder() ?>"></span>
+
+    </div><!-- container-entries -->
+
 <?php echo $this->form()->closeTag() ?>
