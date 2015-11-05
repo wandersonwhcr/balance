@@ -165,13 +165,15 @@ return array(
             'Balance\Controller\Accounts' => array(
                 'factory' => 'Balance\Controller\AbstractControllerFactory',
                 'params'  => array(
-                    'model' => 'Balance\Model\Accounts',
+                    'model'               => 'Balance\Model\Accounts',
+                    'redirect_route_name' => 'accounts',
                 ),
             ),
             'Balance\Controller\Postings' => array(
                 'factory' => 'Balance\Controller\AbstractControllerFactory',
                 'params'  => array(
-                    'model' => 'Balance\Model\Postings',
+                    'model'               => 'Balance\Model\Postings',
+                    'redirect_route_name' => 'postings',
                 ),
             ),
 
