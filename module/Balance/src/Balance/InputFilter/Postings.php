@@ -7,7 +7,6 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator;
 
-
 /**
  * Validação de Dados de Lançamento
  */

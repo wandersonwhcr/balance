@@ -2,7 +2,6 @@
 
 namespace Balance\Form\Search;
 
-use Balance\Model\EntryType;
 use Zend\Form\Form;
 
 /**
@@ -15,22 +14,30 @@ class Postings extends Form
      */
     public function init()
     {
-        // Tipo
-        $this->add(array(
-            'type'    => 'Select',
-            'name'    => 'type',
-            'options' => array(
-                'label'         => 'Tipo',
-                'value_options' => (new EntryType())->getDefinition(),
-            ),
-        ));
-
         // Palavras-Chave
         $this->add(array(
             'type'    => 'Text',
             'name'    => 'keywords',
             'options' => array(
                 'label' => 'Palavras-Chave',
+            ),
+        ));
+
+        // Data e Hora Inicial
+        $this->add(array(
+            'type'    => 'Text',
+            'name'    => 'datetime_begin',
+            'options' => array(
+                'label' => 'Data e Hora Inicial',
+            ),
+        ));
+
+        // Data e Hora Final
+        $this->add(array(
+            'type'    => 'Text',
+            'name'    => 'datetime_end',
+            'options' => array(
+                'label' => 'Data e Hora Final',
             ),
         ));
     }
