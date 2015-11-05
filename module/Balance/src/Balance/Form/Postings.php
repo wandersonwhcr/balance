@@ -14,5 +14,22 @@ class Postings extends Form
      */
     public function init()
     {
+        // Chave Primária
+        $this->add(array(
+            'type' => 'Hidden',
+            'name' => 'id',
+        ));
+
+        // Data e Hora
+        $this->add(array(
+            'type' => 'Text',
+            'name' => 'datetime',
+        ));
+
+        // Descrição
+        $this->add(array(
+            'type' => 'Textarea',
+            'name' => 'description',
+        ));
     }
 }

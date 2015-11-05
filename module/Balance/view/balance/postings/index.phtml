@@ -17,9 +17,9 @@
     // Ação: Adicionar
     $table->setAction('add', array('route' => 'postings/add'));
     // Ação: Elemento - Editar
-    $table->setElementAction('edit', array('route' => 'accounts/edit'));
+    $table->setElementAction('edit', array('route' => 'postings/edit'));
     // Ação: Elemento - Remover
-    $table->setElementAction('remove', array('route' => 'accounts/remove'));
+    $table->setElementAction('remove', array('route' => 'postings/remove'));
     // Cabeçalho
     echo $this->partial('layout/page-header', array(
         'title'    => 'Lançamentos',
