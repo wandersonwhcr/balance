@@ -29,6 +29,30 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $select = (new Select())
             ->from(array('p' => 'postings'))
             ->columns(array('id', 'datetime', 'description'));
+        // Pesquisa: Palavras-Chave
+        if ($params['keywords']) {
+            $select->where(function ($where) use ($params) {
+                $where->expression('"p"."description" ILIKE ?', '%' . $params['keywords'] . '%');
+            });
+        }
+        // Pesquisa: Data e Hora Inicial
+        if ($params['datetime_begin']) {
+            // Filtrar Valor
+            $datetime = date('Y-m-d H:i:s', strtotime($params['datetime_begin']));
+            // Filtro
+            $select->where(function ($where) use ($datetime) {
+                $where->greaterThanOrEqualTo('p.datetime', $datetime);
+            });
+        }
+        // Pesquisa: Data e Hora Final
+        if ($params['datetime_end']) {
+            // Filtrar Valor
+            $datetime = date('Y-m-d H:i:s', strtotime($params['datetime_end']));
+            // Filtro
+            $select->where(function ($where) use ($datetime) {
+                $where->lessThanOrEqualTo('p.datetime', $datetime);
+            });
+        }
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
