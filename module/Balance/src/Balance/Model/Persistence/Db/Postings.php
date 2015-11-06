@@ -5,6 +5,7 @@ namespace Balance\Model\Persistence\Db;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use Exception;
 use NumberFormatter;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -131,47 +132,61 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
     public function save(Parameters $data)
     {
         // Inicialização
+        $connection = $this->getServiceLocator()->get('db')->getDriver()->getConnection();
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
         $datetime = date('Y-m-d H:i:s', strtotime($data['datetime']));
-        // Chave Primária?
-        if ($data['id']) {
-            // Atualizar Elemento
-            $tbPostings->update(array(
-                'datetime'    => $datetime,
-                'description' => $data['description'],
-            ), function ($where) use ($data) {
-                $where->equalTo('id', $data['id']);
+
+        // Tratamento
+        try {
+            // Transação
+            $connection->beginTransaction();
+            // Chave Primária?
+            if ($data['id']) {
+                // Atualizar Elemento
+                $tbPostings->update(array(
+                    'datetime'    => $datetime,
+                    'description' => $data['description'],
+                ), function ($where) use ($data) {
+                    $where->equalTo('id', $data['id']);
+                });
+            } else {
+                // Inserir Elemento
+                $tbPostings->insert(array(
+                    'datetime'    => $datetime,
+                    'description' => $data['description'],
+                ));
+                // Chave Primária
+                $data['id'] = (int) $tbPostings->getLastInsertValue();
+            }
+            // Remover Entradas
+            $tbEntries->delete(function ($delete) use ($data) {
+                $delete->where(function ($where) use ($data) {
+                    $where->equalTo('posting_id', $data['id']);
+                });
             });
-        } else {
-            // Inserir Elemento
-            $tbPostings->insert(array(
-                'datetime'    => $datetime,
-                'description' => $data['description'],
-            ));
-            // Chave Primária
-            $data['id'] = (int) $tbPostings->getLastInsertValue();
-        }
-        // Remover Entradas
-        $tbEntries->delete(function ($delete) use ($data) {
-            $delete->where(function ($where) use ($data) {
-                $where->equalTo('posting_id', $data['id']);
-            });
-        });
-        // Formatador de Números
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
-        // Configuração de Símbolo
-        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
-        // Salvar Entradas
-        foreach ($data['entries'] as $subdata) {
+            // Formatador de Números
+            $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+            // Configuração de Símbolo
+            $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
             // Salvar Entradas
-            $tbEntries->insert(array(
-                'posting_id' => $data['id'],
-                'account_id' => $subdata['account_id'],
-                'type'       => $subdata['type'],
-                'value'      => $formatter->parseCurrency($subdata['value'], $currency),
-            ));
+            foreach ($data['entries'] as $subdata) {
+                // Salvar Entradas
+                $tbEntries->insert(array(
+                    'posting_id' => $data['id'],
+                    'account_id' => $subdata['account_id'],
+                    'type'       => $subdata['type'],
+                    'value'      => $formatter->parseCurrency($subdata['value'], $currency),
+                ));
+            }
+            // Finalização
+            $connection->commit();
+        } catch (Exception $e) {
+            // Retorno
+            $connection->rollback();
+            // Apresentar Erro para Camada Superior
+            throw new ModelException('Database Error', null, $e);
         }
         // Encadeamento
         return $this;
