@@ -19,11 +19,22 @@ return array(
                     'route'    => '/accounts',
                     'defaults' => array(
                         'controller' => 'Balance\Controller\Accounts',
-                        'action'     => 'index',
                     ),
                 ),
-                'may_terminate' => true,
                 'child_routes'  => array(
+                    'list' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '[/:page]',
+                            'defaults' => array(
+                                'action' => 'index',
+                                'page'   => 1,
+                            ),
+                            'constraints' => array(
+                                'page' => '[0-9]+',
+                            ),
+                        ),
+                    ),
                     'add' => array(
                         'type'    => 'literal',
                         'options' => array(
@@ -131,11 +142,11 @@ return array(
                     ),
                     array(
                         'label' => 'Contas',
-                        'route' => 'accounts',
+                        'route' => 'accounts/list',
                         'pages' => array(
                             array(
                                 'label' => 'Listar',
-                                'route' => 'accounts',
+                                'route' => 'accounts/list',
                             ),
                             array(
                                 'label' => 'Adicionar',
@@ -177,7 +188,7 @@ return array(
                 'factory' => 'Balance\Controller\AbstractControllerFactory',
                 'params'  => array(
                     'model'               => 'Balance\Model\Accounts',
-                    'redirect_route_name' => 'accounts',
+                    'redirect_route_name' => 'accounts/list',
                 ),
             ),
             'Balance\Controller\Postings' => array(
