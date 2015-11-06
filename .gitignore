@@ -1,3 +1,4 @@
+.cache
 .config
 .vagrant
 config/autoload/*.local.php
