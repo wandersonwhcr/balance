@@ -151,7 +151,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 'description' => $data['description'],
             ));
             // Chave Primária
-            $data['id'] = $tbPostings->getLastInsertValue();
+            $data['id'] = (int) $tbPostings->getLastInsertValue();
         }
         // Remover Entradas
         $tbEntries->delete(function ($delete) use ($data) {

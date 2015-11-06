@@ -202,7 +202,7 @@ return array(
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
                 'params'  => array(
                     'table'       => 'accounts',
-                    'primary_key' => array('id'),
+                    'primary_key' => 'id',
                     'sequence'    => 'accounts_id_seq',
                 ),
             ),
@@ -210,7 +210,7 @@ return array(
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
                 'params'  => array(
                     'table'       => 'postings',
-                    'primary_key' => array('id'),
+                    'primary_key' => 'id',
                     'sequence'    => 'postings_id_seq',
                 ),
             ),
