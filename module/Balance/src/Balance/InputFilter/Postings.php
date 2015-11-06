@@ -62,7 +62,10 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         $input = new Input();
         $input->getValidatorChain()
             ->attach(new Validator\InArray(array('haystack' => array_keys($pAccounts->getValueOptions()))))
-            ->attach(new Validator\Callback(array($this, 'doValidateAccountId')));
+            ->attach(new Validator\Callback(array(
+                'callback' => array($this, 'doValidateAccountId'),
+                'message'  => 'O valor de entrada foi configurado em outra entrada de lançamento',
+            )));
         $input->getFilterChain()
             ->attach(new Filter\ToInt());
         $filter->add($input, 'account_id');
@@ -70,8 +73,14 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Entradas: Valor
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\Regex(array('pattern' => '/^[1-9]*[0-9]+,[0-9]{2}$/')))
-            ->attach(new Validator\Callback(array($this, 'doValidateValue')));
+            ->attach(new Validator\Regex(array(
+                'pattern' => '/^[1-9]*[0-9]+,[0-9]{2}$/',
+                'message' => 'O valor informado não está no formato esperado',
+            )))
+            ->attach(new Validator\Callback(array(
+                'callback' => array($this, 'doValidateValue'),
+                'message'  => 'O valor de entrada não está balanceado',
+            )));
         $filter->add($input, 'value');
 
         // Coleção: Entradas
