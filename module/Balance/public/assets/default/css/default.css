@@ -16,3 +16,6 @@ body {
 .form-inline .form-group label {
     margin: 0 10px 0 5px;
 }
+.panel .panel-heading .btn-group.pull-right {
+    margin-top: -3px;
+}

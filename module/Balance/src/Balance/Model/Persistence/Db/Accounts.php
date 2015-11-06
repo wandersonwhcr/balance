@@ -5,6 +5,7 @@ namespace Balance\Model\Persistence\Db;
 use Balance\Model\AccountType;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
+use Balance\Model\Persistence\ValueOptionsInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
@@ -14,7 +15,7 @@ use Zend\Stdlib\Parameters;
 /**
  * Persistência de Dados para Contas
  */
-class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
+class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, ValueOptionsInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -158,5 +159,29 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface
         }
         // Encadeamento
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getValueOptions()
+    {
+        // Resultado Inicial
+        $result = array();
+        // Adaptador de Banco de Dados
+        $db = $this->getServiceLocator()->get('db');
+        // Seletor
+        $select = (new Select())
+            ->from(array('a' => 'accounts'))
+            ->columns(array('id', 'name'))
+            ->order(array('name'));
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Captura
+        foreach ($rowset as $row) {
+            $result[$row['id']] = $row['name'];
+        }
+        // Apresentação
+        return $result;
     }
 }

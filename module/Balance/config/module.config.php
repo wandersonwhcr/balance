@@ -206,7 +206,7 @@ return array(
                     'form'         => 'Balance\Form\Accounts',
                     'form_search'  => 'Balance\Form\Search\Accounts',
                     'input_filter' => 'Balance\InputFilter\Accounts',
-                    'persistence'  => 'Balance\Model\Persistence\Db\Accounts',
+                    'persistence'  => 'Balance\Model\Persistence\Accounts',
                 ),
             ),
             'Balance\Model\Postings' => array(
@@ -215,7 +215,7 @@ return array(
                     'form'         => 'Balance\Form\Postings',
                     'form_search'  => 'Balance\Form\Search\Postings',
                     'input_filter' => 'Balance\InputFilter\Postings',
-                    'persistence'  => 'Balance\Model\Persistence\Db\Postings',
+                    'persistence'  => 'Balance\Model\Persistence\Postings',
                 ),
             ),
 
@@ -224,7 +224,7 @@ return array(
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
                 'params'  => array(
                     'table'       => 'accounts',
-                    'primary_key' => array('id'),
+                    'primary_key' => 'id',
                     'sequence'    => 'accounts_id_seq',
                 ),
             ),
@@ -232,16 +232,14 @@ return array(
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
                 'params'  => array(
                     'table'       => 'postings',
-                    'primary_key' => array('id'),
+                    'primary_key' => 'id',
                     'sequence'    => 'postings_id_seq',
                 ),
             ),
             'Balance\Db\TableGateway\Entries' => array(
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
                 'params'  => array(
-                    'table'       => 'entries',
-                    'primary_key' => array('account_id', 'posting_id'),
-                    'sequence'    => false,
+                    'table' => 'entries',
                 ),
             ),
         ),
@@ -262,8 +260,9 @@ return array(
             //'translator' => 'MvcTranslator',
         ),
         'invokables' => array(
-            'Balance\Model\Persistence\Db\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
-            'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
+            // Persistences
+            'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
+            'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
         ),
         'abstract_factories' => array(
             // Models
