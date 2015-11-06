@@ -5,6 +5,7 @@ namespace Balance\Model\Persistence\Db;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use NumberFormatter;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Stdlib\Parameters;
@@ -108,12 +109,16 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             });
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Formatador de Números
+        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        // Configuração de Símbolo
+        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
         // Configurações
         foreach ($rowset as $row) {
             $element['entries'][] = array(
                 'type'       => $row['type'],
                 'account_id' => $row['account_id'],
-                'value'      => $row['value'],
+                'value'      => $formatter->format($row['value']),
             );
         }
         // Apresentação
@@ -151,17 +156,21 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Remover Entradas
         $tbEntries->delete(function ($delete) use ($data) {
             $delete->where(function ($where) use ($data) {
-                $where->equalTo('id', $data['id']);
+                $where->equalTo('posting_id', $data['id']);
             });
         });
+        // Formatador de Números
+        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        // Configuração de Símbolo
+        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
         // Salvar Entradas
         foreach ($data['entries'] as $subdata) {
             // Salvar Entradas
             $tbEntries->insert(array(
-                'posting_id' => (int) $data['id'],
-                'type'       => $subdata['type'],
+                'posting_id' => $data['id'],
                 'account_id' => $subdata['account_id'],
-                'value'      => (int) $subdata['value'],
+                'type'       => $subdata['type'],
+                'value'      => $formatter->parseCurrency($subdata['value'], $currency),
             ));
         }
         // Encadeamento
