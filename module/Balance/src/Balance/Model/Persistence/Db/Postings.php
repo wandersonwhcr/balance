@@ -179,6 +179,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                     'type'       => $subdata['type'],
                     'value'      => $formatter->parseCurrency($subdata['value'], $currency),
                 ));
+                // Limpeza PHPMD
+                unset($currency);
             }
             // Finalização
             $connection->commit();
