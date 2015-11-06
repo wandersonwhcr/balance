@@ -290,6 +290,26 @@ package { "git":
     ],
 }
 
+# phppgadmin
+
+package { "phppgadmin":
+    name      => "phppgadmin",
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
+file { "phppgadmin : virtualhost":
+    path    => "/etc/nginx/conf.d/20-phppgadmin.conf",
+    source  => "puppet:///modules/archives/phppgadmin_virtualhost",
+    require => [
+        Package["nginx"],
+    ],
+    notify => [
+        Service["nginx"],
+    ],
+}
+
 # balance
 
 exec { "balance : composer":
