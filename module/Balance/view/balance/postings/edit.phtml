@@ -60,9 +60,53 @@
     </div><!-- panel -->
 
     <div id="entries" class="collection">
-        <div class="row collection-container"></div>
-
         <?php $element = $this->form->get('entries') ?>
+        <div class="row collection-container">
+            <?php foreach ($element as $subform) : ?>
+                <div class="col-md-3 collection-element">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-default btn-sm collection-element-remove">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+                            <div class="panel-title">Entrada</div>
+                        </div><!-- panel-heading -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                        $subelement = $subform->get('type');
+                                        $subelement->setLabel('Tipo');
+                                        echo $this->formRow($subelement);
+                                    ?>
+                                </div><!-- col -->
+                            </div><!-- row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                        $subelement = $subform->get('account_id');
+                                        $subelement->setLabel('Conta');
+                                        echo $this->formRow($subelement);
+                                    ?>
+                                </div><!-- col -->
+                            </div><!-- row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                        $subelement = $subform->get('value');
+                                        $subelement->setLabel('Valor');
+                                        echo $this->formRow($subelement);
+                                    ?>
+                                </div><!-- col -->
+                            </div><!-- row -->
+                        </div><!-- panel-body -->
+                    </div><!-- panel -->
+                </div><!-- col -->
+            <?php endforeach ?>
+        </div><!-- collection-container -->
+
         <?php $this->placeholder('subform')->captureStart() ?>
             <?php $subform = $element->getTemplateElement() ?>
             <div class="col-md-3 collection-element">

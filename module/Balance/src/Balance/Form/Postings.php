@@ -48,7 +48,7 @@ class Postings extends Form implements ServiceLocatorAwareInterface
         ));
 
         // Subformulário: Entrada de Lançamento
-        $subform = new Fieldset();
+        $subform = $this->getServiceLocator()->get('Fieldset');
 
         // Tipo de Entrada
         $subform->add(array(
@@ -81,6 +81,7 @@ class Postings extends Form implements ServiceLocatorAwareInterface
             'options' => array(
                 'target_element' => $subform,
                 'allow_add'      => true,
+                'count'          => 2,
             ),
         ));
     }
