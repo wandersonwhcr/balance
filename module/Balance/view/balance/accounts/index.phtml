@@ -16,6 +16,8 @@
         ->setElements($this->elements);
     // Ação: Adicionar
     $table->setAction('add', array('route' => 'accounts/add'));
+    // Ação: Elemento - Mover
+    $table->setElementAction('move');
     // Ação: Elemento - Editar
     $table->setElementAction('edit', array('route' => 'accounts/edit'));
     // Ação: Elemento - Remover

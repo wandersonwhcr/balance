@@ -7,6 +7,9 @@ body {
 .table thead th.table-action-2 {
     width: 100px;
 }
+.table thead th.table-action-3 {
+    width: 144px;
+}
 .table tbody tr td {
     vertical-align: middle;
 }

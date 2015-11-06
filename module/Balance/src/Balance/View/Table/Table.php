@@ -171,7 +171,7 @@ class Table
      * @param  string[] $params     Parâmetros para Captura em Ação
      * @return Table    Próprio Objeto para Encadeamento
      */
-    public function setElementAction($identifier, array $params)
+    public function setElementAction($identifier, array $params = array())
     {
         $this->elementActions[$identifier] = $params;
         return $this;
