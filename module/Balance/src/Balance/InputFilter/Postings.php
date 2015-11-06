@@ -4,7 +4,9 @@ namespace Balance\InputFilter;
 
 use Balance\Model\EntryType;
 use Balance\Model\Persistence\ValueOptionsInterface;
+use Balance\Posting\Checker;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use NumberFormatter;
 use Zend\Filter;
 use Zend\InputFilter\CollectionInputFilter;
 use Zend\InputFilter\Input;
@@ -68,7 +70,8 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Entradas: Valor
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\Regex(array('pattern' => '/^[1-9]*[0-9]+,[0-9]{2}$/')));
+            ->attach(new Validator\Regex(array('pattern' => '/^[1-9]*[0-9]+,[0-9]{2}$/')))
+            ->attach(new Validator\Callback(array($this, 'doValidateValue')));
         $filter->add($input, 'value');
 
         // Coleção: Entradas
@@ -82,7 +85,6 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
      * Validação de Contas
      *
      * @param  string $value Valor para Verificação
-     * @param  array  $data  Dados Completos
      * @return bool   Confirmação do Validador
      */
     public function doValidateAccountId($value)
@@ -101,5 +103,38 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         $counter = array_count_values($accounts);
         // Resultado
         return isset($counter[$value]) && $counter[$value] === 1;
+    }
+
+    /**
+     * Validação de Valores
+     *
+     * @param  string $value Valor para Verificação
+     * @return bool   Confirmação do Validador
+     */
+    public function doValidateValue($value)
+    {
+        // Inicialização
+        $checker   = new Checker();
+        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        // Configuração de Símbolo
+        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+        // Tipos e Valores
+        if (isset($this->data['entries']) && is_array($this->data['entries'])) {
+            foreach ($this->data['entries'] as $entry) {
+                if (is_array($entry) && isset($entry['type']) && isset($entry['value'])) {
+                    // Capturar Valor Monetário
+                    $value = $formatter->parseCurrency($entry['value'], $currency);
+                    // Adicionar Entrada
+                    switch ($entry['type']) {
+                        case Checker::CREDIT:
+                        case Checker::DEBIT:
+                            $checker->addValue($entry['type'], $value);
+                            break;
+                    }
+                }
+            }
+        }
+        // Validação
+        return $checker->isValid();
     }
 }
