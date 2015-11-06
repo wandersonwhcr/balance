@@ -96,7 +96,26 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             'id'          => (int) $row['id'],
             'datetime'    => date('d/m/Y H:i:s', strtotime($row['datetime'])),
             'description' => $row['description'],
+            'entries'     => array(),
         );
+        // Carregar Entradas
+        // Seletor
+        $select = (new Select())
+            ->from(array('e' => 'entries'))
+            ->columns(array('type', 'account_id', 'value'))
+            ->where(function ($where) use ($element) {
+                $where->equalTo('e.posting_id', $element['id']);
+            });
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Configurações
+        foreach ($rowset as $row) {
+            $element['entries'][] = array(
+                'type'       => $row['type'],
+                'account_id' => $row['account_id'],
+                'value'      => $row['value'],
+            );
+        }
         // Apresentação
         return $element;
     }
@@ -106,9 +125,9 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function save(Parameters $data)
     {
-        var_dump($data);exit();
         // Inicialização
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
+        $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
         $datetime = date('Y-m-d H:i:s', strtotime($data['datetime']));
         // Chave Primária?
@@ -127,7 +146,23 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 'description' => $data['description'],
             ));
             // Chave Primária
-            $data['id'] = (int) $tbPostings->getLastInsertValue();
+            $data['id'] = $tbPostings->getLastInsertValue();
+        }
+        // Remover Entradas
+        $tbEntries->delete(function ($delete) use ($data) {
+            $delete->where(function ($where) use ($data) {
+                $where->equalTo('id', $data['id']);
+            });
+        });
+        // Salvar Entradas
+        foreach ($data['entries'] as $subdata) {
+            // Salvar Entradas
+            $tbEntries->insert(array(
+                'posting_id' => (int) $data['id'],
+                'type'       => $subdata['type'],
+                'account_id' => $subdata['account_id'],
+                'value'      => (int) $subdata['value'],
+            ));
         }
         // Encadeamento
         return $this;

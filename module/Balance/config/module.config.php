@@ -217,9 +217,7 @@ return array(
             'Balance\Db\TableGateway\Entries' => array(
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
                 'params'  => array(
-                    'table'       => 'entries',
-                    'primary_key' => array('account_id', 'posting_id'),
-                    'sequence'    => false,
+                    'table' => 'entries',
                 ),
             ),
         ),
