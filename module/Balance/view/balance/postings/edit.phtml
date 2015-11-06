@@ -18,6 +18,7 @@
     ))
 ?>
 
+<?php $this->form->get('entries')->setShouldCreateTemplate(true) ?>
 <?php $this->form->prepare() ?>
 <?php echo $this->form(null, null)->openTag($this->form) ?>
 
@@ -61,13 +62,9 @@
     <div id="entries" class="collection">
         <div class="row collection-container"></div>
 
-        <?php
-            $element = $this->form->getFieldsets()['entries'];
-            $element->setShouldCreateTemplate(true);
-        ?>
+        <?php $element = $this->form->get('entries') ?>
         <?php $this->placeholder('subform')->captureStart() ?>
             <?php $subform = $element->getTemplateElement() ?>
-            <?php $subform->prepare() ?>
             <div class="col-md-3 collection-element">
                 <div class="panel panel-default">
                     <div class="panel-heading">

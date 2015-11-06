@@ -6,9 +6,10 @@ $(function () {
         var placeholder = template.data('placeholder');
         // Armazenador
         var container = $('#entries .collection-container');
+        var counter   = 0;
         // Adicionar Entrada de Lançamento
         $('#entries-add').on('click', function () {
-            container.append(content);
+            container.append(content.replace(/__index__/g, counter++));
         });
         // Remover Entradas de Lançamento
         $('#entries').on('click', '.collection-element-remove', function () {

@@ -3,6 +3,7 @@
 namespace Balance\Form;
 
 use Balance\Model\EntryType;
+use Zend\Form\Fieldset;
 use Zend\Form\Form;
 
 /**
@@ -34,7 +35,7 @@ class Postings extends Form
         ));
 
         // Subformulário: Entrada de Lançamento
-        $subform = new Form();
+        $subform = new Fieldset();
 
         // Tipo de Entrada
         $subform->add(array(
@@ -66,6 +67,7 @@ class Postings extends Form
             'name'    => 'entries',
             'options' => array(
                 'target_element' => $subform,
+                'allow_add'      => true,
             ),
         ));
     }
