@@ -59,7 +59,8 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Entradas: Conta
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array_keys($pAccounts->getValueOptions()))));
+            ->attach(new Validator\InArray(array('haystack' => array_keys($pAccounts->getValueOptions()))))
+            ->attach(new Validator\Callback(array($this, 'doValidateAccountId')));
         $input->getFilterChain()
             ->attach(new Filter\ToInt());
         $filter->add($input, 'account_id');
@@ -75,5 +76,30 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
             ->setInputFilter($filter)
             ->setCount(2);
         $this->add($collection, 'entries');
+    }
+
+    /**
+     * Validação de Contas
+     *
+     * @param  string $value Valor para Verificação
+     * @param  array  $data  Dados Completos
+     * @return bool   Confirmação do Validador
+     */
+    public function doValidateAccountId($value)
+    {
+        // Inicialização
+        $accounts = array();
+        // Entradas
+        if (isset($this->data['entries']) && is_array($this->data['entries'])) {
+            foreach ($this->data['entries'] as $entry) {
+                if (is_array($entry) && isset($entry['account_id'])) {
+                    $accounts[] = (int) $entry['account_id'];
+                }
+            }
+        }
+        // Contabilizar uma só Entrada!
+        $counter = array_count_values($accounts);
+        // Resultado
+        return isset($counter[$value]) && $counter[$value] === 1;
     }
 }
