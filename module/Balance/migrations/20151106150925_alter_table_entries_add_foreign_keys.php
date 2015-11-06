@@ -4,11 +4,26 @@ use Phinx\Migration\AbstractMigration;
 
 class AlterTableEntriesAddForeignKeys extends AbstractMigration
 {
-    public function change()
+    public function up()
     {
-        $this->table('entries')
-            ->addForeignKey('account_id', 'accounts', 'id', array('update' => 'cascade', 'delete' => 'restrict'))
-            ->addForeignKey('posting_id', 'postings', 'id', array('update' => 'cascade', 'delete' => 'cascade'))
-            ->update();
+        // Chave Estrangeira de Contas
+        $this->execute(
+            'ALTER TABLE "entries" ADD CONSTRAINT "entries_account_id"'
+            . ' FOREIGN KEY("account_id") REFERENCES "accounts"("id")'
+            . ' ON UPDATE CASCADE ON DELETE RESTRICT'
+        );
+        // Chave Estrangeira de Lançamentos
+        $this->execute(
+            'ALTER TABLE "entries" ADD CONSTRAINT "entries_posting_id"'
+            . ' FOREIGN KEY("posting_id") REFERENCES "postings"("id")'
+            . ' ON UPDATE CASCADE ON DELETE CASCADE'
+        );
+    }
+
+    public function down()
+    {
+        // Remover Chaves Estrangeiras
+        $this->execute('ALTER TABLE "entries" DROP CONSTRAINT "entries_posting_id"');
+        $this->execute('ALTER TABLE "entries" DROP CONSTRAINT "entries_account_id"');
     }
 }
