@@ -106,6 +106,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function save(Parameters $data)
     {
+        var_dump($data);exit();
         // Inicialização
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         // Conversão para Banco de Dados
