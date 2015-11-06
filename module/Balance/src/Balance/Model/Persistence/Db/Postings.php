@@ -6,6 +6,7 @@ use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Db\Sql\Select;
+use Zend\Paginator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\Stdlib\Parameters;
 
@@ -21,8 +22,6 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function fetch(Parameters $params)
     {
-        // Resultado Inicial
-        $result = array();
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
         // Seletor
@@ -53,15 +52,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
             });
         }
-        // Consulta
-        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
-        // Captura
-        foreach ($rowset as $row) {
-            $result[] = array(
-                'id'          => (int) $row['id'],
-                'datetime'    => date('d/m/Y H:i:s', strtotime($row['datetime'])),
-                'description' => $row['description'],
-            );
+        // Paginação
+        $result = new Paginator\Paginator(new Paginator\Adapter\DbSelect($select, $db));
+        // Página?
+        if ($params['page']) {
+            // Configurar Página Atual
+            $result->setCurrentPageNumber($params['page']);
         }
         // Apresentação
         return $result;

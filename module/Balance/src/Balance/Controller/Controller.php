@@ -94,6 +94,8 @@ class Controller extends AbstractActionController
         $model = $this->getModel();
         // Parâmetros de Consulta
         $params = $this->getRequest()->getQuery();
+        // Captura de Página
+        $params['page'] = $this->params()->fromRoute('page');
         // Consulta de Elementos
         $elements = $model->fetch($params);
         // Utilizar Template do Roteamento
