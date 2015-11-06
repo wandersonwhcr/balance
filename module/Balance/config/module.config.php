@@ -65,11 +65,22 @@ return array(
                     'route'    => '/postings',
                     'defaults' => array(
                         'controller' => 'Balance\Controller\Postings',
-                        'action'     => 'index',
                     ),
                 ),
-                'may_terminate' => true,
                 'child_routes'  => array(
+                    'list' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '[/:page]',
+                            'defaults' => array(
+                                'action' => 'index',
+                                'page'   => 1,
+                            ),
+                            'constraints' => array(
+                                'page' => '[0-9]+',
+                            ),
+                        ),
+                    ),
                     'add' => array(
                         'type'    => 'literal',
                         'options' => array(
@@ -138,11 +149,11 @@ return array(
                     ),
                     array(
                         'label' => 'Lançamentos',
-                        'route' => 'postings',
+                        'route' => 'postings/list',
                         'pages' => array(
                             array(
                                 'label' => 'Listar',
-                                'route' => 'postings',
+                                'route' => 'postings/list',
                             ),
                             array(
                                 'label' => 'Adicionar',
@@ -173,7 +184,7 @@ return array(
                 'factory' => 'Balance\Controller\AbstractControllerFactory',
                 'params'  => array(
                     'model'               => 'Balance\Model\Postings',
-                    'redirect_route_name' => 'postings',
+                    'redirect_route_name' => 'postings/list',
                 ),
             ),
 

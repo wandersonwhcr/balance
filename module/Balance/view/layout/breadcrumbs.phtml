@@ -14,7 +14,9 @@
             <?php foreach ($pages as $page) : ?>
                 <li><?php echo $this->navigation()->breadcrumbs()->htmlify($page) ?></li>
             <?php endforeach ?>
-            <li class="active"><?php echo $lastPage->getLabel() ?></li>
+            <?php if ($lastPage) : ?>
+                <li class="active"><?php echo $lastPage->getLabel() ?></li>
+            <?php endif ?>
         </ol>
     </div><!-- col -->
 </div><!-- row -->

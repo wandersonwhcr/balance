@@ -59,6 +59,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Configurar Página Atual
             $result->setCurrentPageNumber($params['page']);
         }
+        $result->setItemCountPerPage(1);
         // Apresentação
         return $result;
     }
