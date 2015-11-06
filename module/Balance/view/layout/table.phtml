@@ -80,4 +80,6 @@
     </div>
 </div>
 
-<?php echo $this->paginationControl($elements, 'Sliding', 'layout/pagination') ?>
+<?php if ($elements instanceof Zend\Paginator\Paginator) : ?>
+    <?php echo $this->paginationControl($elements, 'Sliding', 'layout/pagination') ?>
+<?php endif ?>
