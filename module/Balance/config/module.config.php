@@ -184,7 +184,7 @@ return array(
                     'form'         => 'Balance\Form\Accounts',
                     'form_search'  => 'Balance\Form\Search\Accounts',
                     'input_filter' => 'Balance\InputFilter\Accounts',
-                    'persistence'  => 'Balance\Model\Persistence\Db\Accounts',
+                    'persistence'  => 'Balance\Model\Persistence\Accounts',
                 ),
             ),
             'Balance\Model\Postings' => array(
@@ -193,7 +193,7 @@ return array(
                     'form'         => 'Balance\Form\Postings',
                     'form_search'  => 'Balance\Form\Search\Postings',
                     'input_filter' => 'Balance\InputFilter\Postings',
-                    'persistence'  => 'Balance\Model\Persistence\Db\Postings',
+                    'persistence'  => 'Balance\Model\Persistence\Postings',
                 ),
             ),
 
@@ -240,8 +240,9 @@ return array(
             //'translator' => 'MvcTranslator',
         ),
         'invokables' => array(
-            'Balance\Model\Persistence\Db\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
-            'Balance\Model\Persistence\Db\Postings' => 'Balance\Model\Persistence\Db\Postings',
+            // Persistences
+            'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
+            'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
         ),
         'abstract_factories' => array(
             // Models

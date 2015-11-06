@@ -3,19 +3,32 @@
 namespace Balance\Form;
 
 use Balance\Model\EntryType;
+use Balance\Model\Persistence\ValueOptionsInterface;
+use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Form\Fieldset;
 use Zend\Form\Form;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Formulário de Lançamentos
  */
-class Postings extends Form
+class Postings extends Form implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * {@inheritdoc}
      */
     public function init()
     {
+        // Inicialização
+        $pAccounts = $this->getServiceLocator()->getServiceLocator()->get('Balance\Model\Persistence\Accounts');
+
+        // Verificações
+        if (! $pAccounts instanceof ValueOptionsInterface) {
+            throw new FormException('Invalid Model');
+        }
+
         // Chave Primária
         $this->add(array(
             'type' => 'Hidden',
@@ -51,7 +64,7 @@ class Postings extends Form
             'type'    => 'Select',
             'name'    => 'account_id',
             'options' => array(
-                'value_options' => array(), // TODO
+                'value_options' => $pAccounts->getValueOptions(),
             ),
         ));
 
