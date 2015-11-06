@@ -2,6 +2,10 @@
     // Dependências
     use Balance\View\Table\Table;
 
+    // Adicionar Javascript
+    $this->headScript()
+        ->appendFile($this->basePath('/module/Balance/assets/default/js/accounts-list.js'));
+
     // Título
     $this->headTitle()
         ->append('Contas')
