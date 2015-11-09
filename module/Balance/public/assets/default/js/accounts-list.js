@@ -7,8 +7,8 @@ $(function () {
         table.find('tbody').sortable({
             axis: 'y',
             scroll: true,
-            items: '> tr',
-            handle: '.table-move'
+            handle: '.table-move',
+            cancel: ''
         }).disableSelection();
     })();
 });
