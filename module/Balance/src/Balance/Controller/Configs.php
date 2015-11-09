@@ -22,7 +22,7 @@ class Configs extends AbstractActionController
         // Inicialização
         $view = new JsonModel($configs);
         // Configurar Variável
-        $view->setJsonpCallback('Application.setConfigs');
+        $view->setJsonpCallback('$.application.setConfigs');
         // Apresentação
         return $view;
     }
