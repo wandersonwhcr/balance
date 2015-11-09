@@ -28,3 +28,24 @@ $.application.setConfigs = function (configs) {
 $.application.getConfigs = function () {
     return this.configs;
 };
+
+/**
+ * Apresentar Configuração
+ *
+ * @param  string name Nome da Configuração
+ * @return mixed  Valor Configurado
+ */
+$.application.getConfig = function (name) {
+    return this.configs[name];
+};
+
+/**
+ * Apresentar o Caminho Base do Sistema
+ *
+ * @param  string url URL para Concatenação
+ * @return string Resultado Esperado
+ */
+$.application.basePath = function (url) {
+    // Concatenação Necessária
+    return this.getConfig('basePath') + (url ? url : '/');
+};

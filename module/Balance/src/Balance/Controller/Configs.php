@@ -21,6 +21,8 @@ class Configs extends AbstractActionController
         $configs = array();
         // Inicialização
         $view = new JsonModel($configs);
+        // Configurar Caminho Base
+        $view->setVariable('basePath', $this->getRequest()->getBaseUrl());
         // Configurar Variável
         $view->setJsonpCallback('$.application.setConfigs');
         // Apresentação
