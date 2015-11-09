@@ -13,6 +13,16 @@ return array(
                     ),
                 ),
             ),
+            'configs' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/configs',
+                    'defaults' => array(
+                        'controller' => 'Balance\Controller\Configs',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'accounts' => array(
                 'type'    => 'literal',
                 'options' => array(
@@ -247,7 +257,8 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'Balance\Controller\Home' => 'Balance\Controller\Home',
+            'Balance\Controller\Home'    => 'Balance\Controller\Home',
+            'Balance\Controller\Configs' => 'Balance\Controller\Configs',
         ),
         'abstract_factories' => array(
             'Balance\Controller\Accounts' => 'Balance\Controller\AbstractControllerFactory',
@@ -295,6 +306,10 @@ return array(
 
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
 
