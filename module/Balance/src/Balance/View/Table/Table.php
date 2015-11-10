@@ -3,6 +3,7 @@
 namespace Balance\View\Table;
 
 use Zend\Form\Form;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * Tabela para Renderização de Elementos em Visualização
@@ -44,6 +45,12 @@ class Table
      * @type string[][]
      */
     protected $elementActions = array();
+
+    /**
+     * Hidratador de Linhas
+     * @type HydratorInterface
+     */
+    protected $hydrator;
 
     /**
      * Configurar Formulário
@@ -178,5 +185,27 @@ class Table
     public function getElementActions()
     {
         return $this->elementActions;
+    }
+
+    /**
+     * Configuração do Hidratador de Linhas
+     *
+     * @param  HydratorInterface $hydrator Elemento para Configuração
+     * @return Table             Próprio Objeto para Encadeamento
+     */
+    public function setHydrator(HydratorInterface $hydrator)
+    {
+        $this->hydrator = $hydrator;
+        return $this;
+    }
+
+    /**
+     * Apresentação de Hidratador de Linhas
+     *
+     * @return HydratorInterface Elemento Solicitado
+     */
+    public function getHydrator()
+    {
+        return $this->hydrator;
     }
 }
