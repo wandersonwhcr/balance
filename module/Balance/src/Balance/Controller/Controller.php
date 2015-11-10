@@ -16,6 +16,7 @@ class Controller extends AbstractActionController
 {
     // Traits
     use IndexActionTrait;
+    use EditActionTrait;
     use RemoveActionTrait;
 
     /**
@@ -85,59 +86,5 @@ class Controller extends AbstractActionController
     public function getRedirectRouteName()
     {
         return $this->redirectRouteName;
-    }
-
-    /**
-     * Editar Elemento
-     *
-     * @return ViewModel Modelo de Visualização
-     */
-    public function editAction()
-    {
-        // Camada de Modelo
-        $model = $this->getModel();
-        // Chave Primária
-        $params = $this->params()->fromRoute();
-        // Remover Controladora e Ação
-        $params = array_diff_key($params, array_flip(array('controller', 'action')));
-        // Dados Enviados?
-        if ($this->getRequest()->isPost()) {
-            // Captura de Dados
-            $data = $this->getRequest()->getPost();
-            // Tratamento
-            try {
-                // Salvar Dados
-                $model->save($data);
-                // Sucesso
-                $this->flashMessenger()->addSuccessMessage('Os dados foram salvos com sucesso.');
-                // Redirecionamento
-                return $this->redirect()->toRoute($this->getRedirectRouteName());
-            } catch (ModelException $e) {
-                // Erro Encontrado
-                $this->flashMessenger()->addWarningMessage('Verifique o preenchimento dos campos em destaque.');
-            }
-        } else {
-            // Chave Primária?
-            if ($params) {
-                // Tratamento
-                try {
-                    // Carregar Elemento
-                    $model->load(new Parameters($params));
-                } catch (ModelException $e) {
-                    // Erro Encontrado
-                    $this->flashMessenger()->addErrorMessage('Impossível carregar os dados solicitados.');
-                    // Redirecionamento
-                    return $this->redirect()->toRoute($this->getRedirectRouteName());
-                }
-            }
-        }
-        // Utilizar Template do Roteamento
-        $this->getServiceLocator()->get('ViewManager')
-            ->getInjectTemplateListener()->setPreferRouteMatchController(true);
-        // Visualização
-        return new ViewModel(array(
-            'type' => ($params ? 'edit' : 'add'),
-            'form' => $model->getForm(),
-        ));
     }
 }
