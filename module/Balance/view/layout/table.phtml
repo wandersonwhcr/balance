@@ -5,6 +5,7 @@
     $elements       = $this->table->getElements();
     $actions        = $this->table->getActions();
     $elementActions = $this->table->getElementActions();
+    $hydrator       = $this->table->getHydrator();
 ?>
 
 <?php $form->prepare() ?>
@@ -54,6 +55,9 @@
                 <tbody>
                     <?php if (count($elements) > 0) : ?>
                         <?php foreach ($elements as $element) : ?>
+                            <?php if ($hydrator) : ?>
+                                <?php $element = $hydrator->extract($element) ?>
+                            <?php endif ?>
                             <tr>
                                 <?php foreach ($columns as $identifier => $column) : ?>
                                     <td><?php echo $this->escapeHtml($element[$identifier]) ?></td>

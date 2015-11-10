@@ -1,11 +1,17 @@
 <?php
     // Dependências
+    use Balance\Stdlib\Hydrator\Strategy as HydratorStrategy;
     use Balance\View\Table\Table;
+    use Zend\Stdlib\Hydrator;
 
     // Título
     $this->headTitle()
         ->append('Lançamentos')
         ->append('Listar');
+
+    // Hidratação das Linhas
+    $hydrator = (new Hydrator\ArraySerializable())
+        ->addStrategy('datetime', new HydratorStrategy\Datetime());
 
     // Tabela
     $table = (new Table())
@@ -13,7 +19,8 @@
         ->setTitle('Listar Lançamentos')
         ->addColumn('datetime', 'Data e Hora')
         ->addColumn('description', 'Descrição')
-        ->setElements($this->elements);
+        ->setElements($this->elements)
+        ->setHydrator($hydrator);
     // Ação: Adicionar
     $table->setAction('add', array('route' => 'postings/add'));
     // Ação: Elemento - Editar
