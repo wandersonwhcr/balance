@@ -28,7 +28,7 @@ class Checker
     public function addValue($type, $value)
     {
         // Validação
-        if (!$value) {
+        if (! $value) {
             // Valor Vazio
             throw new InvalidArgumentException('Empty Value');
         }
