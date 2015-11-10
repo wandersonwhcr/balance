@@ -21,6 +21,16 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * Apresentar um Formatador de Datas
+     *
+     * @return IntlDateFormatter Elemento Solicitado
+     */
+    protected function buildDateFormatter()
+    {
+        return new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function fetch(Parameters $params)
@@ -38,7 +48,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             });
         }
         // Conversão para Banco de Dados
-        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        $formatter = $this->buildDateFormatter();
         // Pesquisa: Data e Hora Inicial
         if ($params['datetime_begin']) {
             // Filtrar Valor
@@ -93,7 +103,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             throw new ModelException('Unknown Element');
         }
         // Conversão para Banco de Dados
-        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        $formatter = $this->buildDateFormatter();
         // Configurações
         $element = array(
             'id'          => (int) $row['id'],
@@ -137,7 +147,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
-        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        $formatter = $this->buildDateFormatter();
         $datetime  = date('c', $formatter->parse($data['datetime']));
 
         // Tratamento
