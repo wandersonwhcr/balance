@@ -37,10 +37,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 $where->expression('"p"."description" ILIKE ?', '%' . $params['keywords'] . '%');
             });
         }
+        // Conversão para Banco de Dados
+        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
         // Pesquisa: Data e Hora Inicial
         if ($params['datetime_begin']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', strtotime($params['datetime_begin']));
+            $datetime = date('c', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->greaterThanOrEqualTo('p.datetime', $datetime);
@@ -49,7 +51,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Final
         if ($params['datetime_end']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', strtotime($params['datetime_end']));
+            $datetime = date('c', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
@@ -90,10 +92,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         if (! $row) {
             throw new ModelException('Unknown Element');
         }
+        // Conversão para Banco de Dados
+        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
         // Configurações
         $element = array(
             'id'          => (int) $row['id'],
-            'datetime'    => date('d/m/Y H:i:s', strtotime($row['datetime'])),
+            'datetime'    => $formatter->format(strtotime($row['datetime'])),
             'description' => $row['description'],
             'entries'     => array(),
         );
@@ -133,7 +137,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
-        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
         $datetime  = date('c', $formatter->parse($data['datetime']));
 
         // Tratamento
