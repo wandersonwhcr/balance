@@ -3,6 +3,7 @@
 namespace Balance\Controller;
 
 use Balance\Model\ModelException;
+use Exception;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
@@ -18,6 +19,11 @@ trait EditActionTrait
      */
     public function editAction()
     {
+        // Camada de Modelo?
+        if (! $this instanceof ModelAwareInterface) {
+            // Erro Encontrado
+            throw new Exception('Invalid Controller');
+        }
         // Camada de Modelo
         $model = $this->getModel();
         // Chave Primária

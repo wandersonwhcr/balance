@@ -2,6 +2,7 @@
 
 namespace Balance\Controller;
 
+use Exception;
 use Zend\Stdlib\Parameters;
 
 /**
@@ -16,6 +17,11 @@ trait RemoveActionTrait
      */
     public function removeAction()
     {
+        // Camada de Modelo?
+        if (! $this instanceof ModelAwareInterface) {
+            // Erro Encontrado
+            throw new Exception('Invalid Controller');
+        }
         // Camada de Modelo
         $model = $this->getModel();
         // Chave Primária

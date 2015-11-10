@@ -2,6 +2,7 @@
 
 namespace Balance\Controller;
 
+use Exception;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -16,6 +17,11 @@ trait IndexActionTrait
      */
     public function indexAction()
     {
+        // Camada de Modelo?
+        if (! $this instanceof ModelAwareInterface) {
+            // Erro Encontrado
+            throw new Exception('Invalid Controller');
+        }
         // Camada de Modelo
         $model = $this->getModel();
         // Parâmetros de Consulta
