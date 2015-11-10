@@ -6,6 +6,7 @@ use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Exception;
+use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Select;
 use Zend\Paginator;
@@ -132,7 +133,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
-        $datetime = date('Y-m-d H:i:s', strtotime($data['datetime']));
+        $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+        $datetime  = date('c', $formatter->parse($data['datetime']));
 
         // Tratamento
         try {
