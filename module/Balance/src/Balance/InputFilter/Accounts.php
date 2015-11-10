@@ -2,6 +2,7 @@
 
 namespace Balance\InputFilter;
 
+use Balance\Model\AccountType;
 use Zend\Filter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
@@ -26,7 +27,7 @@ class Accounts extends InputFilter
         // Tipo
         $input = new Input('type');
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array('ACTIVE', 'PASSIVE'))));
+            ->attach(new Validator\InArray(array('haystack' => array_keys((new AccountType())->getDefinition()))));
         $this->add($input);
 
         // Nome
