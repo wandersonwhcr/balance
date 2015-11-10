@@ -27,6 +27,11 @@ class Checker
      */
     public function addValue($type, $value)
     {
+        // Validação
+        if (! $value) {
+            // Valor Vazio
+            throw new InvalidArgumentException('Empty Value');
+        }
         // Pesquisa
         switch ($type) {
             case self::CREDIT:
