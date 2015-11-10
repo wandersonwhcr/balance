@@ -6,6 +6,7 @@ use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Exception;
+use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Select;
 use Zend\Paginator;
@@ -18,6 +19,16 @@ use Zend\Stdlib\Parameters;
 class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
 {
     use ServiceLocatorAwareTrait;
+
+    /**
+     * Apresentar um Formatador de Datas
+     *
+     * @return IntlDateFormatter Elemento Solicitado
+     */
+    protected function buildDateFormatter()
+    {
+        return new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+    }
 
     /**
      * {@inheritdoc}
@@ -36,10 +47,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 $where->expression('"p"."description" ILIKE ?', '%' . $params['keywords'] . '%');
             });
         }
+        // Conversão para Banco de Dados
+        $formatter = $this->buildDateFormatter();
         // Pesquisa: Data e Hora Inicial
         if ($params['datetime_begin']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', strtotime($params['datetime_begin']));
+            $datetime = date('c', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->greaterThanOrEqualTo('p.datetime', $datetime);
@@ -48,7 +61,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Final
         if ($params['datetime_end']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', strtotime($params['datetime_end']));
+            $datetime = date('c', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
@@ -89,10 +102,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         if (! $row) {
             throw new ModelException('Unknown Element');
         }
+        // Conversão para Banco de Dados
+        $formatter = $this->buildDateFormatter();
         // Configurações
         $element = array(
             'id'          => (int) $row['id'],
-            'datetime'    => date('d/m/Y H:i:s', strtotime($row['datetime'])),
+            'datetime'    => $formatter->format(strtotime($row['datetime'])),
             'description' => $row['description'],
             'entries'     => array(),
         );
@@ -132,7 +147,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
-        $datetime = date('Y-m-d H:i:s', strtotime($data['datetime']));
+        $formatter = $this->buildDateFormatter();
+        $datetime  = date('c', $formatter->parse($data['datetime']));
 
         // Tratamento
         try {
