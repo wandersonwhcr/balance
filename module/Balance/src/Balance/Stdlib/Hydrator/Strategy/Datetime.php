@@ -2,6 +2,7 @@
 
 namespace Balance\Stdlib\Hydrator\Strategy;
 
+use IntlDateFormatter;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 /**
@@ -10,11 +11,33 @@ use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 class Datetime implements StrategyInterface
 {
     /**
+     * Formatador de Data
+     * @type IntlDateFormatter
+     */
+    protected $formatter;
+
+    /**
+     * Apresentação de Formatador de Data
+     *
+     * @return IntlDateFormatter Elemento Solicitado
+     */
+    protected function getFormatter()
+    {
+        // Formatador Inicializado?
+        if (! $this->formatter) {
+            // Inicialização
+            $this->formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        }
+        // Apresentação
+        return $this->formatter;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function extract($value)
     {
-        return date('d/m/Y H:i:s', strtotime($value));
+        return $this->getFormatter()->format(strtotime($value));
     }
 
     /**
@@ -22,6 +45,6 @@ class Datetime implements StrategyInterface
      */
     public function hydrate($value)
     {
-        return date('Y-m-d H:i:s', strtotime($value));
+        return date('Y-m-d H:i:s', $this->getFormatter()->parse($value));
     }
 }
