@@ -57,4 +57,18 @@ class CheckerTest extends TestCase
 
         $this->assertEquals(0.01, $checker->getDifference());
     }
+
+    public function testCreditEmptyValue()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+
+        (new Checker())->addValue(Checker::CREDIT, 0.00);
+    }
+
+    public function testDebitEmptyValue()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+
+        (new Checker())->addValue(Checker::DEBIT, 0.00);
+    }
 }
