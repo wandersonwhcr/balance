@@ -3,11 +3,7 @@
 namespace Balance\Controller;
 
 use Balance\Model\Model;
-use Balance\Model\ModelException;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\Parameters;
-use Zend\View\Model\ViewModel;
 
 /**
  * Controladora
