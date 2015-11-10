@@ -8,18 +8,14 @@ use Zend\Mvc\Controller\AbstractActionController;
 /**
  * Controladora
  */
-class Controller extends AbstractActionController
+class Controller extends AbstractActionController implements ModelAwareInterface
 {
     // Traits
+    use ModelAwareTrait;
+    // Traits de Ação
     use IndexActionTrait;
     use EditActionTrait;
     use RemoveActionTrait;
-
-    /**
-     * Camada de Modelo
-     * @type Model
-     */
-    private $model;
 
     /**
      * Nome da Rota para Redirecionamento
@@ -38,28 +34,6 @@ class Controller extends AbstractActionController
         $this
             ->setModel($model)
             ->setRedirectRouteName($redirectRouteName);
-    }
-
-    /**
-     * Configuração de Camada de Modelo
-     *
-     * @param  Model      $model Elemento para Configuração
-     * @return Controller Próprio Objeto para Encadeamento
-     */
-    protected function setModel(Model $model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
-    /**
-     * Apresentação de Camada de Modelo
-     *
-     * @return Model Elemento Solicitado
-     */
-    public function getModel()
-    {
-        return $this->model;
     }
 
     /**
