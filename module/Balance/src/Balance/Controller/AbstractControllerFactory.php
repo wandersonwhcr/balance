@@ -36,11 +36,27 @@ class AbstractControllerFactory implements AbstractFactoryInterface
         $parentServiceLocator = $serviceLocator->getServiceLocator();
         // Captura de Configuração
         $config = $parentServiceLocator->get('Config')['balance_manager']['factories'][$requestedName];
-        // Solicitar Camada de Modelo
-        $model = $parentServiceLocator->get($config['params']['model']);
-        // Captura de Rota para Redirecionamento
-        $redirectRouteName = $config['params']['redirect_route_name'];
+
+        // Inicialização
+        $controller = new Controller();
+
+        // Camada de Modelo?
+        if ($controller instanceof ModelAwareInterface) {
+            // Solicitar Camada de Modelo
+            $model = $parentServiceLocator->get($config['params']['model']);
+            // Configuração
+            $controller->setModel($model);
+        }
+
+        // Rota para Redirecionamento?
+        if ($controller instanceof RedirectRouteNameAwareInterface) {
+            // Captura de Rota para Redirecionamento
+            $redirectRouteName = $config['params']['redirect_route_name'];
+            // Configuração
+            $controller->setRedirectRouteName($redirectRouteName);
+        }
+
         // Apresentação
-        return (new Controller($model, $redirectRouteName));
+        return $controller;
     }
 }
