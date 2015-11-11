@@ -51,29 +51,47 @@
             </tr>
         </thead>
         <tbody>
-            <?php $first = true ?>
-            <?php foreach ($this->elements['ACTIVE'] as $account) : ?>
+            <?php if (count($this->elements['ACTIVE'])) : ?>
+                <?php $first = true ?>
+                <?php foreach ($this->elements['ACTIVE'] as $account) : ?>
+                    <tr>
+                        <?php if ($first) : ?>
+                            <td rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
+                            <?php $first = false ?>
+                        <?php endif ?>
+                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else : ?>
                 <tr>
-                    <?php if ($first) : ?>
-                        <td rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
-                        <?php $first = false ?>
-                    <?php endif ?>
-                    <td><?php echo $this->escapeHtml($account['name']) ?></td>
-                    <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                    <td>Ativo</td>
+                    <td colspan="2">
+                        <div class="text-center">Nenhum Elemento Encontrado</div>
+                    </td>
                 </tr>
-            <?php endforeach ?>
+            <?php endif ?>
 
-            <?php $first = true ?>
-            <?php foreach ($this->elements['PASSIVE'] as $account) : ?>
+            <?php if (count($this->elements['PASSIVE'])) : ?>
+                <?php $first = true ?>
+                <?php foreach ($this->elements['PASSIVE'] as $account) : ?>
+                    <tr>
+                        <?php if ($first) : ?>
+                            <td rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
+                            <?php $first = false ?>
+                        <?php endif ?>
+                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else : ?>
                 <tr>
-                    <?php if ($first) : ?>
-                        <td rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
-                        <?php $first = false ?>
-                    <?php endif ?>
-                    <td><?php echo $this->escapeHtml($account['name']) ?></td>
-                    <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                    <td>Passivo</td>
+                    <td colspan="2">
+                        <div class="text-center">Nenhum Elemento Encontrado</div>
+                    </td>
                 </tr>
-            <?php endforeach ?>
+            <?php endif ?>
         </tbody>
         <tfoot>
             <tr>
