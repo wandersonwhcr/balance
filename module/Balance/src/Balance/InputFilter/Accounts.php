@@ -30,6 +30,12 @@ class Accounts extends InputFilter
             ->attach(new Validator\InArray(array('haystack' => array_keys((new AccountType())->getDefinition()))));
         $this->add($input);
 
+        // Acúmulo de Conta
+        $input = new Input('accumulate');
+        $input->getValidatorChain()
+            ->attach(new Validator\InArray(array('haystack' => array('true', 'false'))));
+        $this->add($input);
+
         // Nome
         $this->add(new Input('name'));
 

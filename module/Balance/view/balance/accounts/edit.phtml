@@ -37,7 +37,14 @@
                         echo $this->formRow($element);
                     ?>
                 </div><!-- col -->
-                <div class="col-md-10">
+                <div class="col-md-2">
+                    <?php
+                        $element = $this->form->get('accumulate');
+                        $element->setLabel('Acumulativa');
+                        echo $this->formRow($element);
+                    ?>
+                </div><!-- col -->
+                <div class="col-md-8">
                     <?php
                         $element = $this->form->get('name');
                         $element->setLabel('Nome');
