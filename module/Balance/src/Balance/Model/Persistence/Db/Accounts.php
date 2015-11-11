@@ -3,6 +3,7 @@
 namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\AccountType;
+use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\Model\Persistence\ValueOptionsInterface;
@@ -87,7 +88,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         // Seletor
         $select = (new Select())
             ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'name', 'type', 'description'))
+            ->columns(array('id', 'name', 'type', 'description', 'accumulate'))
             ->where(function ($where) use ($params) {
                 $where->equalTo('a.id', (int) $params['id']);
             });
@@ -103,6 +104,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             'type'        => $row['type'],
             'name'        => $row['name'],
             'description' => $row['description'],
+            'accumulate'  => $row['accumulate'] === 't' ? BooleanType::YES : BooleanType::NO,
         );
         // Apresentação
         return $element;
@@ -122,6 +124,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 'type'        => $data['type'],
                 'name'        => $data['name'],
                 'description' => $data['description'],
+                'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
             ), function ($where) use ($data) {
                 $where->equalTo('id', $data['id']);
             });
@@ -146,6 +149,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                     'name'        => $data['name'],
                     'description' => $data['description'],
                     'position'    => $position,
+                    'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
                 ));
                 // Finalização
                 $connection->commit();

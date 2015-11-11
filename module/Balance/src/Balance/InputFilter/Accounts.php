@@ -3,6 +3,7 @@
 namespace Balance\InputFilter;
 
 use Balance\Model\AccountType;
+use Balance\Model\BooleanType;
 use Zend\Filter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
@@ -28,6 +29,12 @@ class Accounts extends InputFilter
         $input = new Input('type');
         $input->getValidatorChain()
             ->attach(new Validator\InArray(array('haystack' => array_keys((new AccountType())->getDefinition()))));
+        $this->add($input);
+
+        // Acúmulo de Conta
+        $input = new Input('accumulate');
+        $input->getValidatorChain()
+            ->attach(new Validator\InArray(array('haystack' => array_keys((new BooleanType())->getDefinition()))));
         $this->add($input);
 
         // Nome

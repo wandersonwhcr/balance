@@ -30,6 +30,12 @@ class Accounts extends Form
             ),
         ));
 
+        // Acumular Valores?
+        $this->add(array(
+            'type' => 'Boolean',
+            'name' => 'accumulate',
+        ));
+
         // Nome
         $this->add(array(
             'type' => 'Text',
