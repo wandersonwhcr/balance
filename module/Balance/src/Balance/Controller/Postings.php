@@ -8,7 +8,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 /**
  * Controladora de Lançamentos
  */
-class Accounts extends AbstractActionController implements ModelAwareInterface, RedirectRouteNameAwareInterface
+class Postings extends AbstractActionController implements ModelAwareInterface, RedirectRouteNameAwareInterface
 {
     // Traits
     use ModelAwareTrait;
