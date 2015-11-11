@@ -28,6 +28,11 @@ trait RemoveActionTrait
             // Erro Encontrado
             throw new Exception('Invalid Controller');
         }
+        // Redirecionamento?
+        if (! $this instanceof RedirectRouteNameAwareInterface) {
+            // Erro Encontrado
+            throw new Exception('Invalid Controller');
+        }
         // Camada de Modelo
         $model = $this->getModel();
         // Chave Primária
