@@ -56,6 +56,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                     ->unnest();
             });
         }
+        // Ordenação
+        $select->order(array('a.position'));
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
@@ -193,6 +195,69 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
      */
     public function order(Parameters $params)
     {
+        // Inicialização
+        $before = (int) $params['before'];
+        $after  = (int) $params['after'];
+        // Antes?
+        if ($before < 0) {
+            // Impossível Continuar
+            throw new ModelException('Invalid "before" Parameter');
+        }
+        // Depois?
+        if ($after < 0) {
+            // Impossível Continuar
+            throw new ModelException('Invalid "after" Parameter');
+        }
+        // Válidos?
+        if ($after === $before) {
+            // Impossível Continuar
+            throw new ModelException('Invalid Parameters');
+        }
+        // Inicialização
+        $tbAccounts = $this->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
+        // Deslocando para Frente?
+        if ($before < $after) {
+            // Empurrar Todos os "Posterior"
+            $tbAccounts->update(array(
+                'position' => new Expression('"position" + 1'),
+            ), function ($where) use ($after) {
+                $where->greaterThanOrEqualTo('position', $after);
+            });
+            // Colocar o "Anterior" no "Posterior"
+            $tbAccounts->update(array(
+                'position' => $after,
+            ), function ($where) use ($before) {
+                $where->equalTo('position', $before);
+            });
+            // Puxar Todos os "Anterior"
+            $tbAccounts->update(array(
+                'position' => new Expression('"position" - 1'),
+            ), function ($where) use ($before) {
+                $where->greaterThan('position', $before);
+            });
+        }
+        // Deslocando para Trás?
+        if ($before > $after) {
+            // Empurrar Todos para "Anterior"
+            $tbAccounts->update(array(
+                'position' => new Expression('"position" - 1'),
+            ), function ($where) use ($after) {
+                $where->lessThanOrEqualTo('position', $after);
+            });
+            // Colocar o "Anterior" no "Posterior"
+            $tbAccounts->update(array(
+                'position' => $after,
+            ), function ($where) use ($before) {
+                $where->equalTo('position', $before);
+            });
+            // Puxar Todos os "Posterior"
+            $tbAccounts->update(array(
+                'position' => new Expression('"position" + 1'),
+            ), function ($where) use ($before) {
+                $where->lessThan('position', $before);
+            });
+        }
+        // Encadeamento
         return $this;
     }
 }
