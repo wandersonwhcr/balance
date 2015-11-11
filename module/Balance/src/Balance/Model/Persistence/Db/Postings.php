@@ -243,10 +243,11 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Inicialização
         $db     = $this->getServiceLocator()->get('db');
         $result = array(
-            'ACTIVE'     => array(),
-            'PASSIVE'    => array(),
-            'ACCUMULATE' => array(),
+            'ACTIVE'  => array(),
+            'PASSIVE' => array(),
         );
+        // Formatador de Moedas
+        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
         // Expressões
         $eValue = new Expression(
             'CASE'
@@ -257,6 +258,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             . ' ELSE "e"."value"'
             . ' END'
         );
+
         // Seletor de Balanço
         $subselect = (new Select())
             ->from(array('a' => 'accounts'))
@@ -274,8 +276,6 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             ->order(array('a.type', 'a.position'));
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
-        // Formatador de Moedas
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
         // Processamento
         foreach ($rowset as $row) {
             // Tipagem
@@ -287,14 +287,27 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 'value' => $formatter->format($row['value']),
             );
         }
+
+        // Seletor de Acumuladores
+        $subselect = (new Select())
+            ->from(array('a' => 'accounts'))
+            ->columns(array('value' => $eValue))
+            ->join(array('e' => 'entries'), 'a.id = e.account_id', array())
+            ->where(function ($where) {
+                $where->equalTo('a.accumulate', 1);
+            });
+        // Seletor
+        $select = (new Select())
+            ->from(array('b' => $subselect))
+            ->columns(array('value' => new Expression('SUM("b"."value")')));
+        // Consulta
+        $value = (float) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['value'];
         // Captura
-        return array(
-            'ACTIVE'  => $result['ACTIVE'],
-            'PASSIVE' => $result['PASSIVE'],
+        return array_merge($result, array(
             'ACCUMULATE' => array(
-                'name'  => 'Lucro',
-                'value' => 'R$1200,00',
+                'name'  => $value < 0 ? 'Prejuízo' : 'Lucro',
+                'value' => $formatter->format($value),
             ),
-        );
+        ));
     }
 }
