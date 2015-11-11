@@ -17,11 +17,6 @@ class Home extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->flashMessenger()
-            ->addMessage('alert alert-success', 'success')
-            ->addMessage('alert alert-info', 'info')
-            ->addMessage('alert alert-warning', 'warning')
-            ->addMessage('alert alert-danger', 'error');
         return new ViewModel();
     }
 }
