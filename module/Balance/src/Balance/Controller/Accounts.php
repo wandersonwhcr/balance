@@ -6,9 +6,9 @@ use Balance\Model\Model;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
- * Controladora
+ * Controladora de Contas
  */
-class Controller extends AbstractActionController implements ModelAwareInterface, RedirectRouteNameAwareInterface
+class Accounts extends AbstractActionController implements ModelAwareInterface, RedirectRouteNameAwareInterface
 {
     // Traits
     use ModelAwareTrait;

@@ -20,11 +20,9 @@ class AbstractControllerFactory implements AbstractFactoryInterface
         // Configurado e Parâmetros Corretos?
         return
             isset($config[$requestedName])
+            && class_exists($requestedName)
             && isset($config[$requestedName]['factory'])
-            && $config[$requestedName]['factory'] === __CLASS__
-            && isset($config[$requestedName]['params'])
-            && isset($config[$requestedName]['params']['model'])
-            && isset($config[$requestedName]['params']['redirect_route_name']);
+            && $config[$requestedName]['factory'] === __CLASS__;
     }
 
     /**
@@ -38,7 +36,7 @@ class AbstractControllerFactory implements AbstractFactoryInterface
         $config = $parentServiceLocator->get('Config')['balance_manager']['factories'][$requestedName];
 
         // Inicialização
-        $controller = new Controller();
+        $controller = new $requestedName();
 
         // Camada de Modelo?
         if ($controller instanceof ModelAwareInterface) {
