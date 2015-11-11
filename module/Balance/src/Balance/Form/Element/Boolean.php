@@ -2,6 +2,8 @@
 
 namespace Balance\Form\Element;
 
+use Balance\Model\BooleanType;
+
 /**
  * Elemento de Formulário Booleano
  */
@@ -15,10 +17,7 @@ class Boolean extends Select
         $valueOptions = parent::getValueOptions();
         if (! $valueOptions) {
             // Inicialização
-            $this->setValueOptions(array(
-                'yes' => 'Sim',
-                'no'  => 'Não',
-            ));
+            $this->setValueOptions((new BooleanType())->getDefinition());
             // Captura
             $valueOptions = parent::getValueOptions();
         }
