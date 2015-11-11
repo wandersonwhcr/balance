@@ -25,6 +25,10 @@ class Accounts extends AbstractActionController implements ModelAwareInterface, 
      */
     public function orderAction()
     {
+        // Camada de Persistência
+        $pAccounts = $this->getServiceLocator()->get('Balance\Model\Persistence\Accounts');
+        // Solicitar Ordenação
+        $pAccounts->order($this->getRequest()->getPost());
         // Apresentação
         return new JsonModel(array(
             array(

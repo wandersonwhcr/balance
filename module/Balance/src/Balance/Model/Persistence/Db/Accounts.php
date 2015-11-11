@@ -184,4 +184,15 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         // Apresentação
         return $result;
     }
+
+    /**
+     * Ordenar Elementos
+     *
+     * @param  Parameters $params Parâmetros de Execução
+     * @return Accounts   Próprio Objeto para Encadeamento
+     */
+    public function order(Parameters $params)
+    {
+        return $this;
+    }
 }
