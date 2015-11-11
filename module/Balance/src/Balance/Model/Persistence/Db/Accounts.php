@@ -7,6 +7,7 @@ use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\Model\Persistence\ValueOptionsInterface;
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use Exception;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -126,20 +127,34 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             });
         } else {
             // Inicialização
-            $db = $this->getServiceLocator()->get('db');
-            // Consultar Última Posição
-            $select = (new Select())
-                ->from(array('a' => 'accounts'))
-                ->columns(array('position' => new Expression('MAX("a"."position") + 1')));
-            // Consulta
-            $position = (int) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['position'];
-            // Inserir Elemento
-            $tbAccounts->insert(array(
-                'type'        => $data['type'],
-                'name'        => $data['name'],
-                'description' => $data['description'],
-                'position'    => $position,
-            ));
+            $db         = $this->getServiceLocator()->get('db');
+            $connection = $db->getDriver()->getConnection();
+            // Tratamento
+            try {
+                // Inicializar Transação
+                $connection->beginTransaction();
+                // Consultar Última Posição
+                $select = (new Select())
+                    ->from(array('a' => 'accounts'))
+                    ->columns(array('position' => new Expression('MAX("a"."position") + 1')));
+                // Consulta
+                $position = (int) $db->query($select->getSqlString($db->getPlatform()))->execute()
+                    ->current()['position'];
+                // Inserir Elemento
+                $tbAccounts->insert(array(
+                    'type'        => $data['type'],
+                    'name'        => $data['name'],
+                    'description' => $data['description'],
+                    'position'    => $position,
+                ));
+                // Finalização
+                $connection->commit();
+            } catch (Exception $e) {
+                // Erro Encontrado
+                $connection->rollback();
+                // Apresentar Erro
+                throw new ModelException('Database Error', null, $e);
+            }
             // Chave Primária
             $data['id'] = (int) $tbAccounts->getLastInsertValue();
         }
