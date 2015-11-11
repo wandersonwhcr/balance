@@ -3,6 +3,7 @@
 namespace Balance\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -17,6 +18,15 @@ class Home extends AbstractActionController
      */
     public function indexAction()
     {
-        return new ViewModel();
+        // Camada de Modelo
+        $pPostings = $this->getServiceLocator()->get('Balance\Model\Persistence\Postings');
+        // Parâmetros de Execução
+        $params = $this->params()->fromQuery();
+        // Consulta de Balancete
+        $elements = $pPostings->fetchBalance(new Parameters($params));
+        // Camada de Visualização
+        return new ViewModel(array(
+            'elements' => $elements,
+        ));
     }
 }

@@ -230,4 +230,15 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Encadeamento
         return $this;
     }
+
+    /**
+     * Consultar o Balanço Completo
+     *
+     * @param  Parameters $params Parâmetros de Execução
+     * @return array      Conjunto de Valores Encontrados
+     */
+    public function fetchBalance(Parameters $params)
+    {
+        return array();
+    }
 }
