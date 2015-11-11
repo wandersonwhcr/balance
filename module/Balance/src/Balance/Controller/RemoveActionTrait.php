@@ -3,6 +3,7 @@
 namespace Balance\Controller;
 
 use Exception;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Parameters;
 
 /**
@@ -17,6 +18,11 @@ trait RemoveActionTrait
      */
     public function removeAction()
     {
+        // Controladora?
+        if (! $this instanceof AbstractActionController) {
+            // Erro Encontrado
+            throw new Exception('Invalid Controller');
+        }
         // Camada de Modelo?
         if (! $this instanceof ModelAwareInterface) {
             // Erro Encontrado

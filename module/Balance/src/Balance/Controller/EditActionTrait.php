@@ -4,6 +4,7 @@ namespace Balance\Controller;
 
 use Balance\Model\ModelException;
 use Exception;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
@@ -19,6 +20,11 @@ trait EditActionTrait
      */
     public function editAction()
     {
+        // Controladora?
+        if (! $this instanceof AbstractActionController) {
+            // Erro Encontrado
+            throw new Exception('Invalid Controller');
+        }
         // Camada de Modelo?
         if (! $this instanceof ModelAwareInterface) {
             // Erro Encontrado
