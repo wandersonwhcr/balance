@@ -239,6 +239,40 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     public function fetchBalance(Parameters $params)
     {
-        return array();
+        return array(
+            'ACTIVE' => array(
+                array(
+                    'id'    => 1,
+                    'name'  => 'Poupança',
+                    'value' => 'R$3000,00',
+                ),
+                array(
+                    'id'    => 2,
+                    'name'  => 'Banco',
+                    'value' => 'R$1000,00',
+                ),
+                array(
+                    'id'    => 3,
+                    'name'  => 'Caixa',
+                    'value' => 'R$500,00',
+                ),
+            ),
+            'PASSIVE' => array(
+                array(
+                    'id'    => 3,
+                    'name'  => 'Capital',
+                    'value' => 'R$6000,00',
+                ),
+                array(
+                    'id'    => 4,
+                    'name'  => 'Cartão de Crédito',
+                    'value' => 'R$800,00',
+                ),
+            ),
+            'ACCUMULATE' => array(
+                'name'  => 'Lucro',
+                'value' => 'R$1200,00',
+            ),
+        );
     }
 }

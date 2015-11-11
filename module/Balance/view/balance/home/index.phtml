@@ -51,34 +51,35 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td rowspan="3">Ativo</td>
-                <td>Poupança</td>
-                <td>R$3000,00</td>
-            </tr>
-            <tr>
-                <td>Banco</td>
-                <td>R$1000,00</td>
-            </tr>
-            <tr>
-                <td>Caixa</td>
-                <td>R$500,00</td>
-            </tr>
-            <tr>
-                <td rowspan="2">Passivo</td>
-                <td>Capital</td>
-                <td>R$6000,00</td>
-            </tr>
-            <tr>
-                <td>Cartão de Crédito</td>
-                <td>R$800,00</td>
-            </tr>
+            <?php $first = true ?>
+            <?php foreach ($this->elements['ACTIVE'] as $account) : ?>
+                <tr>
+                    <?php if ($first) : ?>
+                        <td rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
+                        <?php $first = false ?>
+                    <?php endif ?>
+                    <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                    <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                </tr>
+            <?php endforeach ?>
+
+            <?php $first = true ?>
+            <?php foreach ($this->elements['PASSIVE'] as $account) : ?>
+                <tr>
+                    <?php if ($first) : ?>
+                        <td rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
+                        <?php $first = false ?>
+                    <?php endif ?>
+                    <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                    <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                </tr>
+            <?php endforeach ?>
         </tbody>
         <tfoot>
             <tr>
                 <th>&nbsp;</th>
-                <th>Lucro</th>
-                <th>R$1200,00</th>
+                <th><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['name']) ?></th>
+                <th><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['value']) ?></th>
             </tr>
         </tfoot>
     </table>
