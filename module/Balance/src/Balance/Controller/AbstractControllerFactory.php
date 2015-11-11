@@ -2,6 +2,7 @@
 
 namespace Balance\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -21,6 +22,7 @@ class AbstractControllerFactory implements AbstractFactoryInterface
         return
             isset($config[$requestedName])
             && class_exists($requestedName)
+            && is_subclass_of($requestedName, AbstractActionController::CLASS)
             && isset($config[$requestedName]['factory'])
             && $config[$requestedName]['factory'] === __CLASS__;
     }
