@@ -2,8 +2,8 @@
 
 namespace Balance\Controller;
 
-use Balance\Model\Model;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 
 /**
  * Controladora de Contas
@@ -17,4 +17,25 @@ class Accounts extends AbstractActionController implements ModelAwareInterface, 
     use IndexActionTrait;
     use EditActionTrait;
     use RemoveActionTrait;
+
+    /**
+     * Ordenar Contas
+     *
+     * @return JsonModel
+     */
+    public function orderAction()
+    {
+        // Camada de Persistência
+        $pAccounts = $this->getServiceLocator()->get('Balance\Model\Persistence\Accounts');
+        // Solicitar Ordenação
+        $pAccounts->order($this->getRequest()->getPost());
+        // Apresentação
+        return new JsonModel(array(
+            array(
+                'type'    => 'success',
+                'message' => 'Ordenação de elementos efetuada com sucesso.',
+                'payload' => array(),
+            ),
+        ));
+    }
 }

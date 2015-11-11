@@ -78,6 +78,15 @@ return array(
                             ),
                         ),
                     ),
+                    'order' => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/order',
+                            'defaults' => array(
+                                'action' => 'order',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'postings' => array(

@@ -2,6 +2,10 @@
     // Dependências
     use Balance\View\Table\Table;
 
+    // Adicionar Javascript
+    $this->headScript()
+        ->appendFile($this->basePath('/module/Balance/assets/default/js/accounts-list.js'));
+
     // Título
     $this->headTitle()
         ->append('Contas')
@@ -16,6 +20,8 @@
         ->setElements($this->elements);
     // Ação: Adicionar
     $table->setAction('add', array('route' => 'accounts/add'));
+    // Ação: Elemento - Mover
+    $table->setElementAction('move');
     // Ação: Elemento - Editar
     $table->setElementAction('edit', array('route' => 'accounts/edit'));
     // Ação: Elemento - Remover

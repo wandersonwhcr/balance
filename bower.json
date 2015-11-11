@@ -2,6 +2,7 @@
   "name": "balance",
   "dependencies": {
     "jquery": "2.*",
+    "jqueryui": "1.*",
     "bootstrap": "3.*",
     "font-awesome": "4.*"
   }

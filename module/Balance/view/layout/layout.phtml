@@ -21,6 +21,7 @@
             $this->headLink()
                 ->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath('/images/favicon.ico'), 'type' => 'image/x-icon'))
                 ->prependStylesheet($this->basePath('/module/Balance/assets/default/css/default.css'))
+                ->prependStylesheet($this->basePath('/assets/jqueryui/themes/smoothness/jquery-ui.min.css'))
                 ->prependStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap-theme.min.css'))
                 ->prependStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap.min.css'));
             echo $this->headLink();
@@ -31,6 +32,7 @@
                 ->prependFile($this->url('configs'))
                 ->prependFile($this->basePath('/module/Balance/assets/jquery-application/js/jquery-application.js'))
                 ->prependFile($this->basePath('/assets/bootstrap/dist/js/bootstrap.min.js'))
+                ->prependFile($this->basePath('/assets/jqueryui/jquery-ui.min.js'))
                 ->prependFile($this->basePath('/assets/jquery/dist/jquery.min.js'));
             echo $this->headScript();
         ?>
