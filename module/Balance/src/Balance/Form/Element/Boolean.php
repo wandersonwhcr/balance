@@ -16,8 +16,8 @@ class Boolean extends Select
         if (! $valueOptions) {
             // Inicialização
             $this->setValueOptions(array(
-                'true'  => 'Sim',
-                'false' => 'Não',
+                'yes' => 'Sim',
+                'no'  => 'Não',
             ));
             // Captura
             $valueOptions = parent::getValueOptions();

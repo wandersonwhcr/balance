@@ -33,7 +33,7 @@ class Accounts extends InputFilter
         // Acúmulo de Conta
         $input = new Input('accumulate');
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array('true', 'false'))));
+            ->attach(new Validator\InArray(array('haystack' => array('yes', 'no'))));
         $this->add($input);
 
         // Nome
