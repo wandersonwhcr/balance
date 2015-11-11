@@ -221,11 +221,11 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             $tbAccounts->update(array(
                 'position' => new Expression('"position" + 1'),
             ), function ($where) use ($after) {
-                $where->greaterThanOrEqualTo('position', $after);
+                $where->greaterThan('position', $after);
             });
             // Colocar o "Anterior" no "Posterior"
             $tbAccounts->update(array(
-                'position' => $after,
+                'position' => $after + 1,
             ), function ($where) use ($before) {
                 $where->equalTo('position', $before);
             });
@@ -242,11 +242,11 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             $tbAccounts->update(array(
                 'position' => new Expression('"position" - 1'),
             ), function ($where) use ($after) {
-                $where->lessThanOrEqualTo('position', $after);
+                $where->lessThan('position', $after);
             });
             // Colocar o "Anterior" no "Posterior"
             $tbAccounts->update(array(
-                'position' => $after,
+                'position' => $after - 1,
             ), function ($where) use ($before) {
                 $where->equalTo('position', $before);
             });
