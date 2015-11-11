@@ -2,7 +2,6 @@
 
 namespace Balance\Controller;
 
-use Balance\Model\Model;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**

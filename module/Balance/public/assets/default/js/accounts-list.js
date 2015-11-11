@@ -32,22 +32,15 @@ $(function () {
             stop: function (event, ui) {
                 // Posição Atual
                 var cPosition = table.find('tbody tr').index(ui.item);
-                // Enviar para Servidor as Trocas de Posição
-                (function (params) {
-                    // Dados Estáticos
-                    var data = [
-                        {
-                            type:    'success',
-                            message: 'Ordenação de elementos efetuada com sucesso.',
-                            payload: []
-                        }
-                    ];
-                    // TODO Consulta AJAX
-                    window.setTimeout(function (data) {
-                        // Logger
-                        console.log(data);
-                    }, 2000, data);
-                })({ before: position, after: cPosition });
+                // Parâmetros de Execução
+                var params = {
+                    before: position,
+                    after:  cPosition
+                };
+                // Processamento
+                $.post($.application.basePath('/accounts/order'), params, function (envelopes) {
+                    // Ordenação Efetuada com Sucesso
+                }, 'json');
                 // Limpar Posição Final
                 position = null;
             }
