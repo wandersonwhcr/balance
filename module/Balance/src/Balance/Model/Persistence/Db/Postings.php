@@ -40,7 +40,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Seletor
         $select = (new Select())
             ->from(array('p' => 'postings'))
-            ->columns(array('id', 'datetime', 'description'));
+            ->columns(array('id', 'datetime', 'description'))
+            ->order(array('p.datetime DESC'));
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
             $select->where(function ($where) use ($params) {
