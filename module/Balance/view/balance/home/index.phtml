@@ -11,7 +11,7 @@
 ?>
 
 <?php $form->prepare() ?>
-<?php echo $this->form(null, null)->openTag($form) ?>
+<form action="<?php echo $this->url() ?>" method="GET">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -41,7 +41,7 @@
             </div><!-- panel -->
         </div><!-- col -->
     </div><!-- row -->
-<?php echo $this->form()->closeTag() ?>
+</form>
 
 <div class="table-responsive">
     <table class="table table-striped table-hover">

@@ -3,6 +3,7 @@
 namespace Balance\Model\Persistence\Db;
 
 use Balance\ServiceManager\ServiceLocatorAwareTrait;
+use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
@@ -29,6 +30,17 @@ class Balance implements ServiceLocatorAwareInterface
             'ACTIVE'  => array(),
             'PASSIVE' => array(),
         );
+
+        // Data e Hora Limite
+        $datetime = false;
+        // Enviado?
+        if ($params['datetime']) {
+            // Formatador
+            $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            // Captura
+            $datetime = date('c', $formatter->parse($params['datetime']));
+        }
+
         // Formatador de Moedas
         $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
         // Expressões
@@ -43,13 +55,24 @@ class Balance implements ServiceLocatorAwareInterface
         );
 
         // Seletor de Balanço
-        $subselect = (new Select())
+        $balanceSelect = (new Select())
             ->from(array('a' => 'accounts'))
             ->columns(array('id', 'value' => $eValue))
             ->join(array('e' => 'entries'), 'a.id = e.account_id', array())
-            ->where(function ($where) {
-                $where->equalTo('a.accumulate', 0);
+            ->join(array('p' => 'postings'), 'p.id = e.posting_id', array());
+        // Captura
+        $subselect = clone($balanceSelect);
+        // Filtro de Não Acumulados
+        $subselect->where(function ($where) {
+            $where->equalTo('a.accumulate', 0);
+        });
+        // Filtro?
+        if ($datetime) {
+            // Aplicar Filtro de Data Limite
+            $subselect->where(function ($where) use ($datetime) {
+                $where->lessThanOrEqualTo('p.datetime', $datetime);
             });
+        }
         // Seletor
         $select = (new Select())
             ->from(array('b' => $subselect))
@@ -72,13 +95,11 @@ class Balance implements ServiceLocatorAwareInterface
         }
 
         // Seletor de Acumuladores
-        $subselect = (new Select())
-            ->from(array('a' => 'accounts'))
-            ->columns(array('value' => $eValue))
-            ->join(array('e' => 'entries'), 'a.id = e.account_id', array())
-            ->where(function ($where) {
-                $where->equalTo('a.accumulate', 1);
-            });
+        $subselect = clone($balanceSelect);
+        // Filtro para Acumulados
+        $subselect->where(function ($where) {
+            $where->equalTo('a.accumulate', 1);
+        });
         // Seletor
         $select = (new Select())
             ->from(array('b' => $subselect))
