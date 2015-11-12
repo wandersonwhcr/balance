@@ -27,7 +27,7 @@ class Balance implements ServiceLocatorAwareInterface
     public function getFormSearch()
     {
         // Inicializado?
-        if (!$this->formSearch) {
+        if (! $this->formSearch) {
             // Inicialização
             $this->formSearch = $this->getServiceLocator()->get('FormElementManager')
                 ->get('Balance\Form\Search\Balance');
