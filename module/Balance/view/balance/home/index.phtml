@@ -10,20 +10,22 @@
     ));
 ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <form action="<?php echo $this->url('home') ?>" method="post">
+<?php $form->prepare() ?>
+<form action="<?php echo $this->url() ?>" method="GET">
+    <div class="row">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Pesquisa
                 </div><!-- panel-heading -->
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="datetime">Data e Hora Limite</label>
-                                <input id="datetime" type="text" class="form-control">
-                            </div>
+                        <div class="col-md-2">
+                            <?php
+                                $element = $form->get('datetime');
+                                $element->setLabel('Data e Hora Limite');
+                                echo $this->formRow($element);
+                            ?>
                         </div>
                     </div>
                 </div><!-- panel-body -->
@@ -37,9 +39,9 @@
                     </div>
                 </div>
             </div><!-- panel -->
-        </form>
-    </div><!-- col -->
-</div><!-- row -->
+        </div><!-- col -->
+    </div><!-- row -->
+</form>
 
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -51,34 +53,53 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td rowspan="3">Ativo</td>
-                <td>Poupança</td>
-                <td>R$3000,00</td>
-            </tr>
-            <tr>
-                <td>Banco</td>
-                <td>R$1000,00</td>
-            </tr>
-            <tr>
-                <td>Caixa</td>
-                <td>R$500,00</td>
-            </tr>
-            <tr>
-                <td rowspan="2">Passivo</td>
-                <td>Capital</td>
-                <td>R$6000,00</td>
-            </tr>
-            <tr>
-                <td>Cartão de Crédito</td>
-                <td>R$800,00</td>
-            </tr>
+            <?php if (count($this->elements['ACTIVE'])) : ?>
+                <?php $first = true ?>
+                <?php foreach ($this->elements['ACTIVE'] as $account) : ?>
+                    <tr>
+                        <?php if ($first) : ?>
+                            <td rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
+                            <?php $first = false ?>
+                        <?php endif ?>
+                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else : ?>
+                <tr>
+                    <td>Ativo</td>
+                    <td colspan="2">
+                        <div class="text-center">Nenhum Elemento Encontrado</div>
+                    </td>
+                </tr>
+            <?php endif ?>
+
+            <?php if (count($this->elements['PASSIVE'])) : ?>
+                <?php $first = true ?>
+                <?php foreach ($this->elements['PASSIVE'] as $account) : ?>
+                    <tr>
+                        <?php if ($first) : ?>
+                            <td rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
+                            <?php $first = false ?>
+                        <?php endif ?>
+                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else : ?>
+                <tr>
+                    <td>Passivo</td>
+                    <td colspan="2">
+                        <div class="text-center">Nenhum Elemento Encontrado</div>
+                    </td>
+                </tr>
+            <?php endif ?>
         </tbody>
         <tfoot>
             <tr>
                 <th>&nbsp;</th>
-                <th>Lucro</th>
-                <th>R$1200,00</th>
+                <th><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['name']) ?></th>
+                <th><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['value']) ?></th>
             </tr>
         </tfoot>
     </table>

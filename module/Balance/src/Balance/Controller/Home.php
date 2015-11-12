@@ -3,6 +3,7 @@
 namespace Balance\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -17,11 +18,16 @@ class Home extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->flashMessenger()
-            ->addMessage('alert alert-success', 'success')
-            ->addMessage('alert alert-info', 'info')
-            ->addMessage('alert alert-warning', 'warning')
-            ->addMessage('alert alert-danger', 'error');
-        return new ViewModel();
+        // Camada de Modelo
+        $mPostings = $this->getServiceLocator()->get('Balance\Model\Balance');
+        // Parâmetros de Execução
+        $params = $this->params()->fromQuery();
+        // Consulta de Balancete
+        $elements = $mPostings->fetch(new Parameters($params));
+        // Camada de Visualização
+        return new ViewModel(array(
+            'elements' => $elements,
+            'form'     => $mPostings->getFormSearch(),
+        ));
     }
 }

@@ -280,9 +280,12 @@ return array(
             //'translator' => 'MvcTranslator',
         ),
         'invokables' => array(
+            // Models
+            'Balance\Model\Balance' => 'Balance\Model\Balance',
             // Persistences
             'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
+            'Balance\Model\Persistence\Balance'  => 'Balance\Model\Persistence\Db\Balance',
         ),
         'abstract_factories' => array(
             // Models
