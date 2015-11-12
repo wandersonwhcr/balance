@@ -19,14 +19,15 @@ class Home extends AbstractActionController
     public function indexAction()
     {
         // Camada de Modelo
-        $pPostings = $this->getServiceLocator()->get('Balance\Model\Balance');
+        $mPostings = $this->getServiceLocator()->get('Balance\Model\Balance');
         // Parâmetros de Execução
         $params = $this->params()->fromQuery();
         // Consulta de Balancete
-        $elements = $pPostings->fetch(new Parameters($params));
+        $elements = $mPostings->fetch(new Parameters($params));
         // Camada de Visualização
         return new ViewModel(array(
             'elements' => $elements,
+            'form'     => $mPostings->getFormSearch(),
         ));
     }
 }
