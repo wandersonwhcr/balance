@@ -19,7 +19,7 @@ class Home extends AbstractActionController
     public function indexAction()
     {
         // Camada de Modelo
-        $pPostings = $this->getServiceLocator()->get('Balance\Model\Persistence\Balance');
+        $pPostings = $this->getServiceLocator()->get('Balance\Model\Balance');
         // Parâmetros de Execução
         $params = $this->params()->fromQuery();
         // Consulta de Balancete
