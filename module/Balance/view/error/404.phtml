@@ -1,4 +1,13 @@
 <?php
+    // Adicionar Migalha
+    $navigation = $this->getHelperPluginManager()->getServiceLocator()->get('navigation');
+    // Adicionar Página Desconhecida Ativa
+    $navigation->findBy('route', 'home')->addPage(array(
+        'label'  => 'Página Desconhecida',
+        'uri'    => '',
+        'active' => true,
+    ));
+    // Mensagens
     switch ($this->reason) :
         case 'error-controller-cannot-dispatch':
             $reasonMessage = 'The requested controller was unable to dispatch the request.';
