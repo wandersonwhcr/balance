@@ -8,10 +8,6 @@
     $this->headScript()
         ->appendFile($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.js'))
         ->appendFile($this->basePath('/module/Balance/assets/jQuery-Timepicker-Addon/js/jquery-ui-timepicker-addon.js'));
-    // Formulário de Pesquisa
-    $form->get('datetime')
-        ->setAttribute('class', 'form-control-datetimepicker')
-        ->setOption('add-on-append', '<span class="glyphicon glyphicon-calendar"></span>');
 ?>
 <?php
     echo $this->partial('layout/page-header', array(

@@ -327,8 +327,9 @@ return array(
 
     'form_elements' => array(
         'invokables' => array(
-            'select'  => 'Balance\Form\Element\Select',
-            'boolean' => 'Balance\Form\Element\Boolean',
+            'select'   => 'Balance\Form\Element\Select',
+            'boolean'  => 'Balance\Form\Element\Boolean',
+            'datetime' => 'Balance\Form\Element\DateTime',
         ),
     ),
 );

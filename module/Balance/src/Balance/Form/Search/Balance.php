@@ -16,7 +16,7 @@ class Balance extends Form
     {
         // Data e Hora
         $this->add(array(
-            'type' => 'Text',
+            'type' => 'Datetime',
             'name' => 'datetime',
         ));
     }
