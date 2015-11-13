@@ -70,7 +70,7 @@ class Postings extends Form implements ServiceLocatorAwareInterface
 
         // Valor
         $subform->add(array(
-            'type' => 'Text',
+            'type' => 'Currency',
             'name' => 'value',
         ));
 

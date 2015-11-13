@@ -330,6 +330,7 @@ return array(
             'select'   => 'Balance\Form\Element\Select',
             'boolean'  => 'Balance\Form\Element\Boolean',
             'datetime' => 'Balance\Form\Element\DateTime',
+            'currency' => 'Balance\Form\Element\Currency',
         ),
     ),
 );
