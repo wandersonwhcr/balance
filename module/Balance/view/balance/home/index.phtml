@@ -1,15 +1,17 @@
 <?php
-    $this->headTitle()
-        ->append('Página Principal');
+    // Título
+    $this->headTitle()->append('Página Principal');
+    // Formulário de Pesquisa
+    $form->get('datetime')
+        ->setAttribute('class', 'form-control-datetimepicker')
+        ->setOption('add-on-append', '<span class="glyphicon glyphicon-calendar"></span>');
 ?>
-
 <?php
     echo $this->partial('layout/page-header', array(
         'title'    => 'Balance',
         'subtitle' => 'Balancete Completo',
     ));
 ?>
-
 <?php $form->prepare() ?>
 <form action="<?php echo $this->url() ?>" method="GET">
     <div class="row">
