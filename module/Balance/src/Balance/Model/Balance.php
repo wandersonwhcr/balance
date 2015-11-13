@@ -46,6 +46,11 @@ class Balance implements ServiceLocatorAwareInterface
     {
         // Formulário de Pesquisa
         $form = $this->getFormSearch();
+        // Data Informada?
+        if (! isset($params['datetime'])) {
+            // Colocar a Data Atual
+            $params['datetime'] = date('d/m/Y H:i:s');
+        }
         // Preencher Formulário
         $form->setData($params);
         // Consulta
