@@ -17,15 +17,6 @@
         ->append('Lançamentos')
         ->append('Listar');
 
-    // Formulário
-    $form->get('datetime_begin')
-        ->setAttribute('class', 'form-control-datetimepicker')
-        ->setOption('add-on-append', '<span class="glyphicon glyphicon-calendar"></span>');
-    // Formulário
-    $form->get('datetime_end')
-        ->setAttribute('class', 'form-control-datetimepicker')
-        ->setOption('add-on-append', '<span class="glyphicon glyphicon-calendar"></span>');
-
     // Hidratação das Linhas
     $hydrator = (new Hydrator\ArraySerializable())
         ->addStrategy('datetime', new HydratorStrategy\Datetime());

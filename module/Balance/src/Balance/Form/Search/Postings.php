@@ -25,7 +25,7 @@ class Postings extends Form
 
         // Data e Hora Inicial
         $this->add(array(
-            'type'    => 'Text',
+            'type'    => 'DateTime',
             'name'    => 'datetime_begin',
             'options' => array(
                 'label' => 'Data e Hora Inicial',
@@ -34,7 +34,7 @@ class Postings extends Form
 
         // Data e Hora Final
         $this->add(array(
-            'type'    => 'Text',
+            'type'    => 'DateTime',
             'name'    => 'datetime_end',
             'options' => array(
                 'label' => 'Data e Hora Final',
