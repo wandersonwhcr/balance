@@ -47,6 +47,20 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 $where->expression('"p"."description" ILIKE ?', '%' . $params['keywords'] . '%');
             });
         }
+        // Pesquisa: Conta
+        if ($params['account_id']) {
+            // Consulta Interna
+            $subselect = (new Select())
+                ->from(array('e' => 'entries'))
+                ->columns(array('posting_id'))
+                ->where(function ($where) use ($params) {
+                    $where->equalTo('e.account_id', $params['account_id']);
+                });
+            // Aplicar Filtro
+            $select->where(function ($where) use ($subselect) {
+                $where->in('p.id', $subselect);
+            });
+        }
         // Conversão para Banco de Dados
         $formatter = $this->buildDateFormatter();
         // Pesquisa: Data e Hora Inicial
