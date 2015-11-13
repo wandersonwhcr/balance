@@ -329,6 +329,7 @@ return array(
         'invokables' => array(
             'select'  => 'Balance\Form\Element\Select',
             'boolean' => 'Balance\Form\Element\Boolean',
+            'currency' => 'Balance\Form\Element\Currency',
         ),
     ),
 );
