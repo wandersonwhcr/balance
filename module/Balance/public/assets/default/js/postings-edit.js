@@ -32,4 +32,21 @@ $(function () {
         // Atualizar Remoções
         updateCallback();
     })();
+
+    (function () {
+        // Inicialização
+        var container = $('#entries .collection-container');
+        // Sortable
+        container.sortable({
+            axis: 'y',
+            scroll: true,
+            handle: '.collection-element-move',
+            cancel: '',
+            start: function (event, ui) {
+                console.log(ui.item.height());
+                // Altura do Placeholder
+                ui.placeholder.height(ui.item.height());
+            }
+        });
+    })();
 });

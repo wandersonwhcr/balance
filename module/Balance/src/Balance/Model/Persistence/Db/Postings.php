@@ -118,7 +118,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             ->columns(array('type', 'account_id', 'value'))
             ->where(function ($where) use ($element) {
                 $where->equalTo('e.posting_id', $element['id']);
-            });
+            })
+            ->order(array('e.position'));
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
@@ -182,6 +183,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
             // Configuração de Símbolo
             $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+            // Posicionamento
+            $position = 0;
             // Salvar Entradas
             foreach ($data['entries'] as $subdata) {
                 // Salvar Entradas
@@ -190,6 +193,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                     'account_id' => $subdata['account_id'],
                     'type'       => $subdata['type'],
                     'value'      => $formatter->parseCurrency($subdata['value'], $currency),
+                    'position'   => $position++,
                 ));
                 // Limpeza PHPMD
                 unset($currency);
