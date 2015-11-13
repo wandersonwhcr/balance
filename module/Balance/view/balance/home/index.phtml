@@ -1,6 +1,13 @@
 <?php
     // Título
     $this->headTitle()->append('Página Principal');
+    // Dependências
+    $this->headLink()
+        ->appendStylesheet($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.css'));
+    // Dependências
+    $this->headScript()
+        ->appendFile($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.js'))
+        ->appendFile($this->basePath('/module/Balance/assets/default/js/home.js'));
     // Formulário de Pesquisa
     $form->get('datetime')
         ->setAttribute('class', 'form-control-datetimepicker')
