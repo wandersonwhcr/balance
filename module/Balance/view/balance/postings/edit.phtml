@@ -1,6 +1,10 @@
 <?php
+    // Dependências
+    $this->headLink()
+        ->appendStylesheet($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.css'));
     // Adicionar Javascript
     $this->headScript()
+        ->appendFile($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.js'))
         ->appendFile($this->basePath('/module/Balance/assets/default/js/postings-edit.js'));
     // Editar
     $this->headTitle()->append('Lançamentos');
@@ -18,6 +22,12 @@
     ))
 ?>
 
+<?php
+    // Formulário
+    $form->get('datetime')
+        ->setAttribute('class', 'form-control-datetimepicker')
+        ->setOption('add-on-append', '<span class="glyphicon glyphicon-calendar"></span>');
+?>
 <?php $this->form->get('entries')->setShouldCreateTemplate(true) ?>
 <?php $this->form->prepare() ?>
 <?php echo $this->form(null, null)->openTag($this->form) ?>
