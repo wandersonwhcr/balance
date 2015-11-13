@@ -276,9 +276,6 @@ return array(
     ),
 
     'service_manager' => array(
-        'aliases' => array(
-            //'translator' => 'MvcTranslator',
-        ),
         'invokables' => array(
             // Models
             'Balance\Model\Balance' => 'Balance\Model\Balance',
