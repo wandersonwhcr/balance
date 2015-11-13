@@ -22,6 +22,8 @@ class DateTime extends ZendDateTime
             $classes = array_filter(array_map('trim', explode(' ', $value)));
             // Adicionar Classe
             array_unshift($classes, 'form-control-datetimepicker');
+            // Melhorias
+            $classes = array_unique($classes);
             // Aplicação
             $value = implode(' ', $classes);
             // Configuração
@@ -39,7 +41,7 @@ class DateTime extends ZendDateTime
         // Captura
         $value = parent::getOption($option);
         // Parâmetro?
-        if ($option === 'add-on-append' && !$value) {
+        if ($option === 'add-on-append' && ! $value) {
             // Valor Padrão
             $value = '<span class="glyphicon glyphicon-calendar"></span>';
             // Configuração
