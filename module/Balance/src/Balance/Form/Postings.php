@@ -37,7 +37,7 @@ class Postings extends Form implements ServiceLocatorAwareInterface
 
         // Data e Hora
         $this->add(array(
-            'type' => 'Text',
+            'type' => 'DateTime',
             'name' => 'datetime',
         ));
 

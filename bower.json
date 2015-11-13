@@ -4,6 +4,7 @@
     "jquery": "2.*",
     "jqueryui": "1.*",
     "bootstrap": "3.*",
-    "font-awesome": "4.*"
+    "font-awesome": "4.*",
+    "jQuery-Timepicker-Addon": "1.*"
   }
 }
