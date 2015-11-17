@@ -19,10 +19,16 @@ class AlterTypeOperationFixNames extends AbstractMigration
 
     public function down()
     {
+        $this->execute('ALTER TABLE "accounts" ALTER COLUMN "type" TYPE TEXT USING "type"::TEXT');
+        $this->execute('ALTER TABLE "entries" ALTER COLUMN "type" TYPE TEXT USING "type"::TEXT');
+
+        $this->execute('UPDATE "accounts" SET "type" = \'INPUT\' WHERE "type" = \'ACTIVE\'');
+        $this->execute('UPDATE "accounts" SET "type" = \'OUTPUT\' WHERE "type" = \'PASSIVE\'');
+
         $this->execute('CREATE TYPE operation AS ENUM (\'CREDIT\', \'DEBIT\', \'INPUT\', \'OUTPUT\')');
 
-        $this->execute('ALTER TABLE "accounts" ALTER COLUMN "type" TYPE OPERATION USING "type"::TEXT::OPERATION');
-        $this->execute('ALTER TABLE "entries" ALTER COLUMN "type" TYPE OPERATION USING "type"::TEXT::OPERATION');
+        $this->execute('ALTER TABLE "accounts" ALTER COLUMN "type" TYPE OPERATION USING "type"::OPERATION');
+        $this->execute('ALTER TABLE "entries" ALTER COLUMN "type" TYPE OPERATION USING "type"::OPERATION');
 
         $this->execute('DROP TYPE ACCOUNT_TYPE');
         $this->execute('DROP TYPE ENTRY_TYPE');
