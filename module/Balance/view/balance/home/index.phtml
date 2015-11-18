@@ -66,7 +66,7 @@
                             <td rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
                             <?php $first = false ?>
                         <?php endif ?>
-                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td><a href="<?php echo $this->url('postings/list') . '?account_id=' . $account['id'] ?>"><?php echo $this->escapeHtml($account['name']) ?></a></td>
                         <td><?php echo $this->escapeHtml($account['value']) ?></td>
                     </tr>
                 <?php endforeach ?>
@@ -87,7 +87,7 @@
                             <td rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
                             <?php $first = false ?>
                         <?php endif ?>
-                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td><a href="<?php echo $this->url('postings/list') . '?account_id=' . $account['id'] ?>"><?php echo $this->escapeHtml($account['name']) ?></a></td>
                         <td><?php echo $this->escapeHtml($account['value']) ?></td>
                     </tr>
                 <?php endforeach ?>
