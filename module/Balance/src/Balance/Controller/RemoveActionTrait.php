@@ -2,6 +2,7 @@
 
 namespace Balance\Controller;
 
+use Balance\Model\ModelException;
 use Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Parameters;
