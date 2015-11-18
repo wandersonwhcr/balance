@@ -49,7 +49,7 @@
 </form>
 
 <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table">
         <thead>
             <tr>
                 <th>Tipo</th>
@@ -63,11 +63,11 @@
                 <?php foreach ($this->elements['ACTIVE'] as $account) : ?>
                     <tr>
                         <?php if ($first) : ?>
-                            <td rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
+                            <td class="active" rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
                             <?php $first = false ?>
                         <?php endif ?>
-                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
-                        <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($account['currency']) ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php else : ?>
@@ -84,11 +84,11 @@
                 <?php foreach ($this->elements['PASSIVE'] as $account) : ?>
                     <tr>
                         <?php if ($first) : ?>
-                            <td rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
+                            <td class="active" rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
                             <?php $first = false ?>
                         <?php endif ?>
-                        <td><?php echo $this->escapeHtml($account['name']) ?></td>
-                        <td><?php echo $this->escapeHtml($account['value']) ?></td>
+                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($account['name']) ?></td>
+                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($account['currency']) ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php else : ?>
@@ -102,9 +102,8 @@
         </tbody>
         <tfoot>
             <tr>
-                <th>&nbsp;</th>
-                <th><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['name']) ?></th>
-                <th><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['value']) ?></th>
+                <th class="active" colspan="2"><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['name']) ?></th>
+                <th class="<?php echo ($this->elements['ACCUMULATE']['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($this->elements['ACCUMULATE']['currency']) ?></th>
             </tr>
         </tfoot>
     </table>

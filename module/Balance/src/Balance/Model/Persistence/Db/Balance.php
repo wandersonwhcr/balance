@@ -88,9 +88,10 @@ class Balance implements ServiceLocatorAwareInterface
             $type = $row['type'];
             // Adicionar Entrada
             $result[$type][] = array(
-                'id'    => (int) $row['id'],
-                'name'  => $row['name'],
-                'value' => $formatter->format($row['value']),
+                'id'       => (int) $row['id'],
+                'name'     => $row['name'],
+                'value'    => (float) $row['value'],
+                'currency' => $formatter->format($row['value']),
             );
         }
 
@@ -109,8 +110,9 @@ class Balance implements ServiceLocatorAwareInterface
         // Captura
         return array_merge($result, array(
             'ACCUMULATE' => array(
-                'name'  => $value < 0 ? 'Prejuízo' : 'Lucro',
-                'value' => $formatter->format($value),
+                'name'     => $value < 0 ? 'Prejuízo' : 'Lucro',
+                'value'    => (float) $value,
+                'currency' => $formatter->format($value),
             ),
         ));
     }
