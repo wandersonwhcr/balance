@@ -76,7 +76,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Final
         if ($params['datetime_end']) {
             // Filtrar Valor
-            $datetime = date('c', $formatter->parse($params['datetime_begin']));
+            $datetime = date('c', $formatter->parse($params['datetime_end']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
