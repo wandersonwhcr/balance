@@ -2,12 +2,12 @@
 
 namespace Balance\Form\Element;
 
-use Zend\Form\Element\DateTime as ZendDateTime;
+use Zend\Form\Element\Text;
 
 /**
  * Elemento de Formulário para Data e Hora
  */
-class DateTime extends ZendDateTime
+class DateTime extends Text
 {
     /**
      * {@inheritdoc}
