@@ -176,9 +176,26 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             throw new ModelException('Unknwon Primary Key');
         }
         // Inicialização
+        $db         = $this->getServiceLocator()->get('db');
         $tbAccounts = $this->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
+        $connection = $db->getDriver()->getConnection();
         // Tratamento
         try {
+            // Transação
+            $connection->beginTransaction();
+            // Seletor
+            $select = (new Select())
+                ->from(array('a' => 'accounts'))
+                ->columns(array('position'))
+                ->where(function ($where) use ($params) {
+                    $where->equalTo('a.id', $params['id']);
+                });
+            // Consultar Posição
+            $row = $db->query($select->getSqlString($db->getPlatform()))->execute()->current();
+            // Encontrado?
+            if (! $row) {
+                throw new ModelException('Unknown Element');
+            }
             // Remover Elemento
             $count = $tbAccounts->delete(function ($delete) use ($params) {
                 $delete->where(function ($where) use ($params) {
@@ -189,7 +206,17 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             if ($count !== 1) {
                 throw new ModelException('Unknown Element');
             }
+            // Reordenar Contas
+            $tbAccounts->update(array(
+                'position' => new Expression('"position" - 1'),
+            ), function ($where) use ($row) {
+                $where->greaterThan('position', $row['position']);
+            });
+            // Confirmação
+            $connection->commit();
         } catch (Exception $e) {
+            // Retorno
+            $connection->rollback();
             // Apresentar Erro
             throw new ModelException('Database Error', null, $e);
         }
