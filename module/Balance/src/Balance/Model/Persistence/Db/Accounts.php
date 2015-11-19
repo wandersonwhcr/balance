@@ -177,15 +177,21 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         }
         // Inicialização
         $tbAccounts = $this->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
-        // Remover Elemento
-        $count = $tbAccounts->delete(function ($delete) use ($params) {
-            $delete->where(function ($where) use ($params) {
-                $where->equalTo('id', $params['id']);
+        // Tratamento
+        try {
+            // Remover Elemento
+            $count = $tbAccounts->delete(function ($delete) use ($params) {
+                $delete->where(function ($where) use ($params) {
+                    $where->equalTo('id', $params['id']);
+                });
             });
-        });
-        // Sucesso?
-        if ($count !== 1) {
-            throw new ModelException('Unknown Element');
+            // Sucesso?
+            if ($count !== 1) {
+                throw new ModelException('Unknown Element');
+            }
+        } catch (Exception $e) {
+            // Apresentar Erro
+            throw new ModelException('Database Error', null, $e);
         }
         // Encadeamento
         return $this;
