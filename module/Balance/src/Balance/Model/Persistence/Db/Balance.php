@@ -79,7 +79,10 @@ class Balance implements ServiceLocatorAwareInterface
             ->columns(array('value' => new Expression('SUM("b"."value")')))
             ->join(array('a' => 'accounts'), 'a.id = b.id', array('type', 'id', 'name'))
             ->group(array('a.id'))
-            ->order(array('a.type', 'a.position'));
+            ->order(array('a.type', 'a.position'))
+            ->having(function ($where) {
+                $where->notEqualTo(new Expression('SUM("b"."value")'), 0);
+            });
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Processamento
