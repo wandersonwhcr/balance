@@ -32,8 +32,6 @@ trait IndexActionTrait
         $model = $this->getModel();
         // Parâmetros de Consulta
         $params = $this->getRequest()->getQuery();
-        // Captura de Página
-        $params['page'] = $this->params()->fromRoute('page');
         // Consulta de Elementos
         $elements = $model->fetch($params);
         // Utilizar Template do Roteamento
@@ -43,6 +41,7 @@ trait IndexActionTrait
         return new ViewModel(array(
             'elements' => $elements,
             'form'     => $model->getFormSearch(),
+            'params'   => $params,
         ));
     }
 }

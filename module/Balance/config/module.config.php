@@ -29,22 +29,11 @@ return array(
                     'route'    => '/accounts',
                     'defaults' => array(
                         'controller' => 'Balance\Controller\Accounts',
+                        'action'     => 'index',
                     ),
                 ),
+                'may_terminate' => true,
                 'child_routes'  => array(
-                    'list' => array(
-                        'type'    => 'segment',
-                        'options' => array(
-                            'route'    => '[/:page]',
-                            'defaults' => array(
-                                'action' => 'index',
-                                'page'   => 1,
-                            ),
-                            'constraints' => array(
-                                'page' => '[0-9]+',
-                            ),
-                        ),
-                    ),
                     'add' => array(
                         'type'    => 'literal',
                         'options' => array(
@@ -95,22 +84,11 @@ return array(
                     'route'    => '/postings',
                     'defaults' => array(
                         'controller' => 'Balance\Controller\Postings',
+                        'action'     => 'index',
                     ),
                 ),
+                'may_terminate' => true,
                 'child_routes'  => array(
-                    'list' => array(
-                        'type'    => 'segment',
-                        'options' => array(
-                            'route'    => '[/:page]',
-                            'defaults' => array(
-                                'action' => 'index',
-                                'page'   => 1,
-                            ),
-                            'constraints' => array(
-                                'page' => '[0-9]+',
-                            ),
-                        ),
-                    ),
                     'add' => array(
                         'type'    => 'literal',
                         'options' => array(
@@ -161,12 +139,8 @@ return array(
                     ),
                     array(
                         'label' => 'Contas',
-                        'route' => 'accounts/list',
+                        'route' => 'accounts',
                         'pages' => array(
-                            array(
-                                'label' => 'Listar',
-                                'route' => 'accounts/list',
-                            ),
                             array(
                                 'label' => 'Adicionar',
                                 'route' => 'accounts/add',
@@ -179,12 +153,8 @@ return array(
                     ),
                     array(
                         'label' => 'Lançamentos',
-                        'route' => 'postings/list',
+                        'route' => 'postings',
                         'pages' => array(
-                            array(
-                                'label' => 'Listar',
-                                'route' => 'postings/list',
-                            ),
                             array(
                                 'label' => 'Adicionar',
                                 'route' => 'postings/add',
@@ -207,14 +177,14 @@ return array(
                 'factory' => 'Balance\Controller\AbstractControllerFactory',
                 'params'  => array(
                     'model'               => 'Balance\Model\Accounts',
-                    'redirect_route_name' => 'accounts/list',
+                    'redirect_route_name' => 'accounts',
                 ),
             ),
             'Balance\Controller\Postings' => array(
                 'factory' => 'Balance\Controller\AbstractControllerFactory',
                 'params'  => array(
                     'model'               => 'Balance\Model\Postings',
-                    'redirect_route_name' => 'postings/list',
+                    'redirect_route_name' => 'postings',
                 ),
             ),
 
