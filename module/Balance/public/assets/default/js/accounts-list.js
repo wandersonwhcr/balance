@@ -30,12 +30,12 @@ $(function () {
                 // Parâmetros
                 var params = {};
                 // Captura de Chaves Primárias
-                params.id    = ui.item.find('.table-move').data('id');
-                params.pivot = ui.item.prev().find('.table-move').data('id');
+                params.id       = ui.item.find('.table-move').data('id');
+                params.previous = ui.item.prev().find('.table-move').data('id');
                 // Encontrado?
-                if (params.pivot === undefined) {
-                    // Anterior não Existe!
-                    params.pivot = 0; // Primeiro Elemento
+                if (params.previous == undefined) {
+                    // Configurar como Inexistente
+                    params.previous = 0;
                 }
                 // Processamento
                 $.post($.application.basePath('/accounts/order'), params, function (envelopes) {

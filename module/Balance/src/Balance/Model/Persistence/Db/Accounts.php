@@ -249,6 +249,34 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
     }
 
     /**
+     * Captura de Posição
+     *
+     * @param  int            $id Chave Primária
+     * @throws ModelException Elemento não Encontrado
+     * @return int            Posição Encontrada
+     */
+    private function getPosition($id)
+    {
+        // Inicialização
+        $db = $this->getServiceLocator()->get('db');
+        // Capturador de Posições
+        $select = (new Select())
+            ->from(array('a' => 'accounts'))
+            ->columns(array('position'))
+            ->where(function ($where) use ($id) {
+                $where->equalTo('a.id', $id);
+            });
+        // Consulta
+        $row = $db->query($select->getSqlString($db->getPlatform()))->execute()->current();
+        // Encontrado?
+        if (! $row) {
+            throw new ModelException('Invalid Element');
+        }
+        // Apresentar Posição
+        return (int) $row['position'];
+    }
+
+    /**
      * Ordenar Elementos
      *
      * @param  Parameters $params Parâmetros de Execução
@@ -257,80 +285,68 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
     public function order(Parameters $params)
     {
         // Inicialização
-        $before = (int) $params['before'];
-        $after  = (int) $params['after'];
-        // Antes?
-        if ($before < 0) {
-            // Impossível Continuar
-            throw new ModelException('Invalid "before" Parameter');
-        }
-        // Depois?
-        if ($after < 0) {
-            // Impossível Continuar
-            throw new ModelException('Invalid "after" Parameter');
-        }
-        // Válidos?
-        if ($after === $before) {
-            // Impossível Continuar
-            throw new ModelException('Invalid Parameters');
-        }
+        $id       = (int) $params['id'];
+        $previous = (int) $params['previous'];
+
         // Inicialização
         $tbAccounts = $this->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
-        $connection = $this->getServiceLocator()->get('db')->getDriver()->getConnection();
+        $db         = $this->getServiceLocator()->get('db');
+        $connection = $db->getDriver()->getConnection();
+
+        // Capturar Posição do Elemento
+        $positionBefore = $this->getPosition($id);
+        $positionAfter  = 0;
+
+        // Elemento Anterior Enviado?
+        if ($previous) {
+            // Capturar Elemento
+            $positionAfter = $this->getPosition($previous);
+        }
+
+        // Mesma Posição?
+        if ($positionBefore === $positionAfter) {
+            // Encadeamento
+            return $this;
+        }
+
+        // Posição Anterior Maior que Posição Posterior?
+        if ($positionBefore > $positionAfter && $positionAfter !== 0) {
+            // Posição Posterior é de Elemento que não Participa do Intervalo que Modifica Posição
+            $positionAfter = $positionAfter + 1;
+        }
+
         // Tratamento
         try {
+
             // Transação
             $connection->beginTransaction();
-            // Deslocando para Frente?
-            if ($before < $after) {
-                // Empurrar Todos os "Posterior"
-                $tbAccounts->update(array(
-                    'position' => new Expression('"position" + 1'),
-                ), function ($where) use ($after) {
-                    $where->greaterThan('position', $after);
-                });
-                // Colocar o "Anterior" no "Posterior"
-                $tbAccounts->update(array(
-                    'position' => $after + 1,
-                ), function ($where) use ($before) {
-                    $where->equalTo('position', $before);
-                });
-                // Puxar Todos os "Anterior"
-                $tbAccounts->update(array(
-                    'position' => new Expression('"position" - 1'),
-                ), function ($where) use ($before) {
-                    $where->greaterThan('position', $before);
-                });
-            }
-            // Deslocando para Trás?
-            if ($before > $after) {
-                // Empurrar Todos para "Anterior"
-                $tbAccounts->update(array(
-                    'position' => new Expression('"position" - 1'),
-                ), function ($where) use ($after) {
-                    $where->lessThan('position', $after);
-                });
-                // Colocar o "Anterior" no "Posterior"
-                $tbAccounts->update(array(
-                    'position' => $after - 1,
-                ), function ($where) use ($before) {
-                    $where->equalTo('position', $before);
-                });
-                // Puxar Todos os "Posterior"
-                $tbAccounts->update(array(
-                    'position' => new Expression('"position" + 1'),
-                ), function ($where) use ($before) {
-                    $where->lessThan('position', $before);
-                });
-            }
+
+            // Parâmetros (Antes === Depois) Não Existe Aqui!
+            $parameters = array($positionBefore, $positionAfter, ($positionBefore < $positionAfter ? '-1' : '+1'));
+            // Expressão
+            $expression = new Expression('(CASE WHEN "position" = ? THEN ? ELSE "position" + ? END)', $parameters);
+
+            // Atualização para Frente
+            $tbAccounts->update(array(
+                'position' => $expression,
+            ), function ($where) use ($positionBefore, $positionAfter) {
+                $where->between(
+                    'position',
+                    min($positionBefore, $positionAfter),
+                    max($positionBefore, $positionAfter)
+                );
+            });
+
             // Finalização
             $connection->commit();
+
         } catch (Exception $e) {
             // Erro Encontrado
             $connection->rollback();
             // Apresentar Erro
             throw new ModelException('Database Error', null, $e);
         }
+
         // Encadeamento
         return $this;
     }
