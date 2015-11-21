@@ -21,7 +21,7 @@ class AlterTableAccountsAddConstraintUniquePosition extends AbstractMigration
         ');
 
         // Adicionar Verificação
-        $this->execute('ALTER TABLE "accounts" ADD UNIQUE("position")');
+        $this->execute('ALTER TABLE "accounts" ADD UNIQUE("position") DEFERRABLE');
     }
 
     public function down()
