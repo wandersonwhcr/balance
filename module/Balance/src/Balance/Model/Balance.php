@@ -49,7 +49,7 @@ class Balance implements ServiceLocatorAwareInterface
         // Data Informada?
         if (! isset($params['datetime'])) {
             // Colocar a Data Atual
-            $params['datetime'] = date('d/m/Y H:i:s');
+            $params['datetime'] = date('d/m/Y H:i:s', strtotime('first day of next month midnight -1 second'));
         }
         // Preencher Formulário
         $form->setData($params);
