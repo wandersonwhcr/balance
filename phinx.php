@@ -6,7 +6,7 @@ foreach ($config['module_listener_options']['config_glob_paths'] as $pattern) {
     // Captura de Arquivos
     foreach (glob($pattern, GLOB_BRACE) as $filename) {
         // Carregamento
-        $config = array_merge($config, include $filename);
+        $config = call_user_func(array('Zend\Stdlib\ArrayUtils', 'merge'), $config, include $filename);
     }
 }
 // Apresentação
