@@ -49,4 +49,23 @@ $(function () {
             }
         });
     })();
+
+    (function () {
+        // Configurações
+        numeral.language('pt-br');
+        // Inicialização
+        var container = $('#entries .collection-container');
+        // Editar Campo de Moeda
+        container.on('keyup', '.form-control-currency', function (event) {
+            // Inicialização
+            var element = $(this);
+            // Captura de Valor
+            var number = window.parseInt(element.val().replace(/[^0-9]/, ''));
+            // Numero?
+            number = number ? number : 0;
+            number = number / 100;
+            // Formatação
+            element.val(numeral(number).format('0.00'));
+        });
+    })();
 });
