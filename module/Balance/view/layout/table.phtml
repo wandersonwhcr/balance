@@ -47,9 +47,9 @@
                 <thead>
                     <tr>
                         <?php foreach ($columns as $column) : ?>
-                            <th><?php echo (empty($column['label']) ? '' : $this->escapeHtml($column['label'])) ?></th>
+                            <th class="<?php echo (empty($column['class']) ? '' : $this->escapeHtml($column['class'])) ?>"><?php echo (empty($column['label']) ? '' : $this->escapeHtml($column['label'])) ?></th>
                         <?php endforeach ?>
-                        <th class="table-action-<?php echo count($elementActions) ?>">Ações</th>
+                        <th class="col-md-2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
