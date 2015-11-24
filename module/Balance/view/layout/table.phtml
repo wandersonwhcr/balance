@@ -47,9 +47,9 @@
                 <thead>
                     <tr>
                         <?php foreach ($columns as $column) : ?>
-                            <th><?php echo $this->escapeHtml($column) ?></th>
+                            <th class="<?php echo (empty($column['class']) ? '' : $this->escapeHtml($column['class'])) ?>"><?php echo (empty($column['label']) ? '' : $this->escapeHtml($column['label'])) ?></th>
                         <?php endforeach ?>
-                        <th class="table-action-<?php echo count($elementActions) ?>">Ações</th>
+                        <th class="col-md-2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,7 @@
                                 <?php foreach ($columns as $identifier => $column) : ?>
                                     <td><?php echo $this->escapeHtml($element[$identifier]) ?></td>
                                 <?php endforeach ?>
-                                <td>
+                                <td class="text-center">
                                     <?php foreach ($elementActions as $identifier => $params) : ?>
                                         <?php echo $this->partial('layout/table-action', array('identifier' => $identifier, 'element' => $element, 'params' => $params)) ?>
                                     <?php endforeach ?>

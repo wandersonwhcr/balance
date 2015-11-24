@@ -25,8 +25,8 @@
     $table = (new Table())
         ->setForm($form)
         ->setTitle('Listar Lançamentos')
-        ->addColumn('datetime', 'Data e Hora')
-        ->addColumn('description', 'Descrição')
+        ->addColumn('datetime', array('label' => 'Data e Hora', 'class' => 'col-md-2'))
+        ->addColumn('description', array('label' => 'Descrição', 'class' => 'col-md-8'))
         ->setElements($this->elements)
         ->setHydrator($hydrator);
     // Ação: Adicionar
