@@ -6,6 +6,8 @@
     $actions        = $this->table->getActions();
     $elementActions = $this->table->getElementActions();
     $hydrator       = $this->table->getHydrator();
+    // Parâmetros de Paginação
+    $filters        = $this->params ? $this->params->toArray() : array();
 ?>
 
 <?php $form->prepare() ?>
@@ -85,5 +87,5 @@
 </div>
 
 <?php if ($elements instanceof Zend\Paginator\Paginator) : ?>
-    <?php echo $this->paginationControl($elements, 'Sliding', 'layout/pagination') ?>
+    <?php echo $this->paginationControl($elements, 'Sliding', 'layout/pagination', array('params' => $filters)) ?>
 <?php endif ?>
