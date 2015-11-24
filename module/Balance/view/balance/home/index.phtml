@@ -66,7 +66,7 @@
                             <td class="active" rowspan="<?php echo count($this->elements['ACTIVE']) ?>">Ativo</td>
                             <?php $first = false ?>
                         <?php endif ?>
-                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><a href="<?php echo $this->url('postings') . '?account_id=' . $account['id'] ?>"><?php echo $this->escapeHtml($account['name']) ?></a></td>
+                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><a href="<?php echo $this->url('postings', array(), array('query' => array('account_id' => $account['id']))) ?>"><?php echo $this->escapeHtml($account['name']) ?></a></td>
                         <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($account['currency']) ?></td>
                     </tr>
                 <?php endforeach ?>
@@ -87,7 +87,7 @@
                             <td class="active" rowspan="<?php echo count($this->elements['PASSIVE']) ?>">Passivo</td>
                             <?php $first = false ?>
                         <?php endif ?>
-                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><a href="<?php echo $this->url('postings') . '?account_id=' . $account['id'] ?>"><?php echo $this->escapeHtml($account['name']) ?></a></td>
+                        <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><a href="<?php echo $this->url('postings', array(), array('query' => array('account_id' => $account['id']))) ?>"><?php echo $this->escapeHtml($account['name']) ?></a></td>
                         <td class="<?php echo ($account['value'] < 0 ? 'danger' : 'success') ?>"><?php echo $this->escapeHtml($account['currency']) ?></td>
                     </tr>
                 <?php endforeach ?>
