@@ -62,7 +62,7 @@
                                 <?php foreach ($columns as $identifier => $column) : ?>
                                     <td><?php echo $this->escapeHtml($element[$identifier]) ?></td>
                                 <?php endforeach ?>
-                                <td>
+                                <td class="text-center">
                                     <?php foreach ($elementActions as $identifier => $params) : ?>
                                         <?php echo $this->partial('layout/table-action', array('identifier' => $identifier, 'element' => $element, 'params' => $params)) ?>
                                     <?php endforeach ?>
