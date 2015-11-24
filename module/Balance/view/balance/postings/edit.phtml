@@ -6,6 +6,8 @@
     $this->headScript()
         ->appendFile($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.js'))
         ->appendFile($this->basePath('/module/Balance/assets/jQuery-Timepicker-Addon/js/jquery-ui-timepicker-addon.js'))
+        ->appendFile($this->basePath('/assets/numeral/min/numeral.min.js'))
+        ->appendFile($this->basePath('/assets/numeral/min/languages/pt-br.min.js'))
         ->appendFile($this->basePath('/module/Balance/assets/default/js/postings-edit.js'));
     // Editar
     $this->headTitle()->append('Lançamentos');
