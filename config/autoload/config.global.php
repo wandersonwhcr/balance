@@ -6,6 +6,7 @@ return array(
         'username' => 'balance',
         'password' => 'balance',
         'hostname' => 'localhost',
+        'port'     => '5432',
         'charset'  => 'UNICODE',
     ),
 );
