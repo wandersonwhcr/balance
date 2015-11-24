@@ -15,8 +15,8 @@
     $table = (new Table())
         ->setForm($form)
         ->setTitle('Listagem')
-        ->addColumn('name', 'Nome')
-        ->addColumn('type', 'Tipo')
+        ->addColumn('name', array('label' => 'Nome'))
+        ->addColumn('type', array('label' => 'Tipo'))
         ->setElements($this->elements);
     // Ação: Adicionar
     $table->setAction('add', array('route' => 'accounts/add'));

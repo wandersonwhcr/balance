@@ -24,7 +24,7 @@ class Table
 
     /**
      * Colunas Configuradas
-     * @type string[]
+     * @type array[]
      */
     protected $columns = array();
 
@@ -100,19 +100,19 @@ class Table
      * Adicionar Coluna
      *
      * @param  string $identifier Identificador da Coluna
-     * @param  string $column     Nome da Coluna
+     * @param  array  $params     Parâmetros para Coluna
      * @return Table  Próprio Objeto para Encadeamento
      */
-    public function addColumn($identifier, $column)
+    public function addColumn($identifier, array $params = array())
     {
-        $this->columns[$identifier] = $column;
+        $this->columns[$identifier] = $params;
         return $this;
     }
 
     /**
      * Apresentação de Colunas
      *
-     * @return string[] Conjunto de Elementos Solicitados
+     * @return array[] Conjunto de Elementos Solicitados
      */
     public function getColumns()
     {
