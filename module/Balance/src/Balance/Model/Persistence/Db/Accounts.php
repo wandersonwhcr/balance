@@ -51,11 +51,29 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         }
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
+            // Filtro
             $select->where(function ($where) use ($params) {
-                $where->nest()
-                    ->expression('"a"."name" ILIKE ?', '%' . $params['keywords'] . '%')
-                    ->or->expression('"a"."description" ILIKE ?', '%' . $params['keywords'] . '%')
-                    ->unnest();
+                // Documento
+                $document = new Expression(
+                    'TO_TSVECTOR(\'portuguese\', "a"."name")'
+                    . ' || TO_TSVECTOR(\'portuguese\', "a"."description")'
+                );
+                // Construção do Documento
+                $search = (new Select())
+                    ->from(array('a' => 'accounts'))
+                    ->columns(array('account_id' => 'id', 'document' => $document));
+                // Pesquisa Interna
+                $subselect = (new Select())
+                    ->from(array('search' => $search))
+                    ->columns(array('account_id'))
+                    ->where(function ($where) use ($params) {
+                        $where->expression(
+                            '"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)',
+                            sprintf("'%s'", addslashes($params['keywords']))
+                        );
+                    });
+                // Aplicação do Filtro
+                $where->in('a.id', $subselect);
             });
         }
         // Ordenação
