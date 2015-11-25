@@ -64,7 +64,10 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                     ->from(array('search' => $search))
                     ->columns(array('posting_id'))
                     ->where(function ($where) use ($params) {
-                        $where->expression('"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)', $params['keywords']);
+                        $where->expression(
+                            '"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)',
+                            sprintf("'%s'", addslashes($params['keywords']))
+                        );
                     });
                 // Aplicação do Filtro
                 $where->in('p.id', $subselect);
