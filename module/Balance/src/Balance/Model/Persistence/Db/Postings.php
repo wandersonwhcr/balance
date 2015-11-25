@@ -8,6 +8,7 @@ use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Exception;
 use IntlDateFormatter;
 use NumberFormatter;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\Paginator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -44,8 +45,29 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             ->order(array('p.datetime DESC'));
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
+            // Filtro
             $select->where(function ($where) use ($params) {
-                $where->expression('"p"."description" ILIKE ?', '%' . $params['keywords'] . '%');
+                // Documento
+                $document = new Expression(
+                    'TO_TSVECTOR(\'portuguese\', STRING_AGG("a"."name", \' \'))'
+                    . ' || TO_TSVECTOR(\'portuguese\', STRING_AGG("p"."description", \' \'))'
+                );
+                // Construção do Documento
+                $search = (new Select())
+                    ->from(array('p' => 'postings'))
+                    ->columns(array('posting_id' => 'id', 'document' => $document))
+                    ->join(array('e' => 'entries'), 'p.id = e.posting_id', array())
+                    ->join(array('a' => 'accounts'), 'a.id = e.account_id', array())
+                    ->group(array('p.id'));
+                // Pesquisa Interna
+                $subselect = (new Select())
+                    ->from(array('search' => $search))
+                    ->columns(array('posting_id'))
+                    ->where(function ($where) use ($params) {
+                        $where->expression('"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)', $params['keywords']);
+                    });
+                // Aplicação do Filtro
+                $where->in('p.id', $subselect);
             });
         }
         // Pesquisa: Conta
