@@ -317,7 +317,6 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
 
         // Tratamento
         try {
-
             // Transação
             $connection->beginTransaction();
 
@@ -339,7 +338,6 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
 
             // Finalização
             $connection->commit();
-
         } catch (Exception $e) {
             // Erro Encontrado
             $connection->rollback();
