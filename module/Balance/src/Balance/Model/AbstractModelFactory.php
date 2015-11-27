@@ -24,8 +24,9 @@ class AbstractModelFactory implements AbstractFactoryInterface
             && $config[$requestedName]['factory'] === __CLASS__
             && isset($config[$requestedName]['params'])
             && isset($config[$requestedName]['params']['form'])
-            && isset($config[$requestedName]['params']['form_search'])
             && isset($config[$requestedName]['params']['input_filter'])
+            && isset($config[$requestedName]['params']['form_search'])
+            && isset($config[$requestedName]['params']['input_filter_search'])
             && isset($config[$requestedName]['params']['persistence']);
     }
 
@@ -37,12 +38,14 @@ class AbstractModelFactory implements AbstractFactoryInterface
         // Captura de Configuração
         $config = $serviceLocator->get('Config')['balance_manager']['factories'][$requestedName];
         // Inicialização
-        $form        = $serviceLocator->get('FormElementManager')->get($config['params']['form']);
-        $formSearch  = $serviceLocator->get('FormElementManager')->get($config['params']['form_search']);
-        $inputFilter = $serviceLocator->get('InputFilterManager')->get($config['params']['input_filter']);
-        $persistence = $serviceLocator->get($config['params']['persistence']);
+        $form              = $serviceLocator->get('FormElementManager')->get($config['params']['form']);
+        $inputFilter       = $serviceLocator->get('InputFilterManager')->get($config['params']['input_filter']);
+        $formSearch        = $serviceLocator->get('FormElementManager')->get($config['params']['form_search']);
+        $inputFilterSearch = $serviceLocator->get('InputFilterManager')->get($config['params']['input_filter_search']);
+        $persistence       = $serviceLocator->get($config['params']['persistence']);
         // Configurações
         $form->setInputFilter($inputFilter);
+        $formSearch->setInputFilter($inputFilterSearch);
         // Apresentação
         return new Model($form, $formSearch, $persistence);
     }
