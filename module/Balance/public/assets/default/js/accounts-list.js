@@ -2,9 +2,8 @@ $(function () {
     // Movimentar Linhas
     (function () {
         // Tabela
-        var table    = $('.table');
-        var columns  = table.find('thead tr:first-child th');
-        var position = null;
+        var table   = $('.table');
+        var columns = table.find('thead tr:first-child th');
         // Draggable
         table.find('tbody').sortable({
             axis: 'y',
@@ -24,25 +23,24 @@ $(function () {
                 return ui;
             },
             start: function (event, ui) {
-                // Capturar Posição do Item
-                position = table.find('tbody tr').index(ui.item);
                 // Altura do Placeholder
                 ui.placeholder.height(ui.item.height());
             },
             stop: function (event, ui) {
-                // Posição Atual
-                var cPosition = table.find('tbody tr').index(ui.item);
-                // Parâmetros de Execução
-                var params = {
-                    before: position,
-                    after:  cPosition
-                };
+                // Parâmetros
+                var params = {};
+                // Captura de Chaves Primárias
+                params.id       = ui.item.find('.table-move').data('id');
+                params.previous = ui.item.prev().find('.table-move').data('id');
+                // Encontrado?
+                if (params.previous == undefined) {
+                    // Configurar como Inexistente
+                    params.previous = 0;
+                }
                 // Processamento
                 $.post($.application.basePath('/accounts/order'), params, function (envelopes) {
                     // Ordenação Efetuada com Sucesso
                 }, 'json');
-                // Limpar Posição Final
-                position = null;
             }
         }).disableSelection();
     })();

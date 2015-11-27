@@ -13,7 +13,7 @@
         <span class="sr-only">Remove</span>
     </a>
 <?php elseif ($this->identifier == 'move') : ?>
-    <button type="button" class="btn btn-default table-move">
+    <button type="button" class="btn btn-default table-move" data-id="<?php echo $this->escapeHtml($this->element['id']) ?>">
         <span class="glyphicon glyphicon-resize-vertical"></span>
     </button>
 <?php endif ?>
