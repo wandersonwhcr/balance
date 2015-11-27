@@ -192,19 +192,21 @@ return array(
             'Balance\Model\Accounts' => array(
                 'factory' => 'Balance\Model\AbstractModelFactory',
                 'params'  => array(
-                    'form'         => 'Balance\Form\Accounts',
-                    'form_search'  => 'Balance\Form\Search\Accounts',
-                    'input_filter' => 'Balance\InputFilter\Accounts',
-                    'persistence'  => 'Balance\Model\Persistence\Accounts',
+                    'form'                => 'Balance\Form\Accounts',
+                    'input_filter'        => 'Balance\InputFilter\Accounts',
+                    'form_search'         => 'Balance\Form\Search\Accounts',
+                    'input_filter_search' => 'Balance\InputFilter\Search\Accounts',
+                    'persistence'         => 'Balance\Model\Persistence\Accounts',
                 ),
             ),
             'Balance\Model\Postings' => array(
                 'factory' => 'Balance\Model\AbstractModelFactory',
                 'params'  => array(
-                    'form'         => 'Balance\Form\Postings',
-                    'form_search'  => 'Balance\Form\Search\Postings',
-                    'input_filter' => 'Balance\InputFilter\Postings',
-                    'persistence'  => 'Balance\Model\Persistence\Postings',
+                    'form'                => 'Balance\Form\Postings',
+                    'input_filter'        => 'Balance\InputFilter\Postings',
+                    'form_search'         => 'Balance\Form\Search\Postings',
+                    'input_filter_search' => 'Balance\InputFilter\Search\Postings',
+                    'persistence'         => 'Balance\Model\Persistence\Postings',
                 ),
             ),
 

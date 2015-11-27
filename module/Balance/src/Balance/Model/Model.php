@@ -125,6 +125,14 @@ class Model
         $form = $this->getFormSearch();
         // Preencher Formulário
         $form->setData($params);
+        // Validação
+        $form->isValid();
+        // Reiniciar Parâmetros
+        $params = new Parameters();
+        // Capturar Valores Válidos
+        foreach ($form->getInputFilter()->getValidInput() as $identifier => $input) {
+            $params[$identifier] = $input->getValue();
+        }
         // Consulta de Elementos
         return $this->getPersistence()->fetch($params);
     }
