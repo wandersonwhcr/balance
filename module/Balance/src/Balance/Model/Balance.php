@@ -29,8 +29,15 @@ class Balance implements ServiceLocatorAwareInterface
         // Inicializado?
         if (! $this->formSearch) {
             // Inicialização
-            $this->formSearch = $this->getServiceLocator()->get('FormElementManager')
+            $form = $this->getServiceLocator()->get('FormElementManager')
                 ->get('Balance\Form\Search\Balance');
+            // Filtro de Dados
+            $inputFilter = $this->getServiceLocator()->get('InputFilterManager')
+                ->get('Balance\InputFilter\Search\Balance');
+            // Configuração
+            $form->setInputFilter($inputFilter);
+            // Configuração
+            $this->formSearch = $form;
         }
         // Apresentação
         return $this->formSearch;
@@ -53,6 +60,14 @@ class Balance implements ServiceLocatorAwareInterface
         }
         // Preencher Formulário
         $form->setData($params);
+        // Validar Dados
+        $form->isValid();
+        // Reiniciar Parâmetros
+        $params = new Parameters();
+        // Capturar Valores Válidos
+        foreach ($form->getInputFilter()->getValidInput() as $identifier => $input) {
+            $params[$identifier] = $input->getValue();
+        }
         // Consulta
         return $this->getServiceLocator()->get('Balance\Model\Persistence\Balance')->fetch($params);
     }
