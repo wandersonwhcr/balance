@@ -8,7 +8,7 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Balance\Controller\Home',
+                        'controller' => 'Balance\Mvc\Controller\Home',
                         'action'     => 'index',
                     ),
                 ),
@@ -18,7 +18,7 @@ return array(
                 'options' => array(
                     'route'    => '/configs',
                     'defaults' => array(
-                        'controller' => 'Balance\Controller\Configs',
+                        'controller' => 'Balance\Mvc\Controller\Configs',
                         'action'     => 'index',
                     ),
                 ),
@@ -28,7 +28,7 @@ return array(
                 'options' => array(
                     'route'    => '/accounts',
                     'defaults' => array(
-                        'controller' => 'Balance\Controller\Accounts',
+                        'controller' => 'Balance\Mvc\Controller\Accounts',
                         'action'     => 'index',
                     ),
                 ),
@@ -83,7 +83,7 @@ return array(
                 'options' => array(
                     'route'    => '/postings',
                     'defaults' => array(
-                        'controller' => 'Balance\Controller\Postings',
+                        'controller' => 'Balance\Mvc\Controller\Postings',
                         'action'     => 'index',
                     ),
                 ),
@@ -173,15 +173,15 @@ return array(
     'balance_manager' => array(
         'factories' => array(
             // Controllers
-            'Balance\Controller\Accounts' => array(
-                'factory' => 'Balance\Controller\AbstractControllerFactory',
+            'Balance\Mvc\Controller\Accounts' => array(
+                'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
                 'params'  => array(
                     'model'               => 'Balance\Model\Accounts',
                     'redirect_route_name' => 'accounts',
                 ),
             ),
-            'Balance\Controller\Postings' => array(
-                'factory' => 'Balance\Controller\AbstractControllerFactory',
+            'Balance\Mvc\Controller\Postings' => array(
+                'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
                 'params'  => array(
                     'model'               => 'Balance\Model\Postings',
                     'redirect_route_name' => 'postings',
@@ -238,12 +238,12 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'Balance\Controller\Home'    => 'Balance\Controller\Home',
-            'Balance\Controller\Configs' => 'Balance\Controller\Configs',
+            'Balance\Mvc\Controller\Home'    => 'Balance\Mvc\Controller\Home',
+            'Balance\Mvc\Controller\Configs' => 'Balance\Mvc\Controller\Configs',
         ),
         'abstract_factories' => array(
-            'Balance\Controller\Accounts' => 'Balance\Controller\AbstractControllerFactory',
-            'Balance\Controller\Postings' => 'Balance\Controller\AbstractControllerFactory',
+            'Balance\Mvc\Controller\Accounts' => 'Balance\Mvc\Controller\AbstractControllerFactory',
+            'Balance\Mvc\Controller\Postings' => 'Balance\Mvc\Controller\AbstractControllerFactory',
         ),
     ),
 

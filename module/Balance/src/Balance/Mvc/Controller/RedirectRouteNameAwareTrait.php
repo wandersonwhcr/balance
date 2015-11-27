@@ -1,6 +1,6 @@
 <?php
 
-namespace Balance\Controller;
+namespace Balance\Mvc\Controller;
 
 /**
  * Configuração de Nome da Rota para Redirecionamento

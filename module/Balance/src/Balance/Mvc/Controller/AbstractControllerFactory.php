@@ -1,6 +1,6 @@
 <?php
 
-namespace Balance\Controller;
+namespace Balance\Mvc\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\ServiceManager\AbstractFactoryInterface;
