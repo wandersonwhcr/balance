@@ -32,7 +32,7 @@ class Table
      * Elementos para Renderização
      * @type mixed
      */
-    protected $elements = null;
+    protected $elements = array();
 
     /**
      * Ações Configuradas
