@@ -221,6 +221,20 @@ package { "php : intl":
     ],
 }
 
+package { "php : xdebug":
+    name    => "php5-xdebug",
+    require => [
+        Package["php : cli"],
+        Package["php : fpm"],
+    ],
+    notify  => [
+        Service["php"],
+    ],
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
 # composer
 
 exec { "composer":
