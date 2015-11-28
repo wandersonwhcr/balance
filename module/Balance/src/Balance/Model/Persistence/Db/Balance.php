@@ -2,12 +2,12 @@
 
 namespace Balance\Model\Persistence\Db;
 
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**

@@ -7,11 +7,11 @@ use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\Model\Persistence\ValueOptionsInterface;
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Exception;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**

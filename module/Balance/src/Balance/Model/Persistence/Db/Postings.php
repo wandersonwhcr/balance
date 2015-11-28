@@ -4,7 +4,6 @@ namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Exception;
 use IntlDateFormatter;
 use NumberFormatter;
@@ -12,6 +11,7 @@ use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\Paginator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**
