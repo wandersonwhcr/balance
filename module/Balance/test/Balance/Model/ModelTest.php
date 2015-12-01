@@ -20,6 +20,9 @@ class ModelTest extends TestCase
         $inputFilterSearch = new InputFilter();
         $persistence       = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
         // Parâmetro
+        $form->add(new Text('id'));
+        $inputFilter->add(new Input('id'));
+        // Parâmetro
         $form->add(new Text('foo'));
         $inputFilter->add(new Input('foo'));
         // Pesquisa: Palavras Chave
@@ -88,5 +91,41 @@ class ModelTest extends TestCase
         $persistence->expects($this->once())->method('find')->will($this->returnValue(false));
         // Consulta
         $model->load(new Parameters(array('id' => 'foobar')));
+    }
+
+    public function testSave()
+    {
+        // Inicialização
+        $model   = $this->getModel();
+        $element = array('foo' => 'bar');
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Carregamento
+        $persistence->expects($this->once())->method('save')->will($this->returnCallback(function ($params) {
+            if (! $params['id'] === 'foobar') {
+                throw new ModelException('Unknown Element');
+            }
+            if (! $params['foo'] === 'bar') {
+                throw new ModelException('Internal Error');
+            }
+        }));
+        // Consulta
+        $result = $model->save(new Parameters(array('id' => 'foobar', 'foo' => 'bar')));
+        // Verificações
+        $this->assertSame($model, $result);
+        $this->assertEquals('foobar', $model->getForm()->get('id')->getValue());
+        $this->assertEquals('bar', $model->getForm()->get('foo')->getValue());
+    }
+
+    public function testSaveWithInvalidData()
+    {
+        // Expectativas
+        $this->setExpectedException('Balance\Model\ModelException', 'Invalid Data');
+        // Inicialização
+        $model = $this->getModel();
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Consulta
+        $model->save(new Parameters(array()));
     }
 }
