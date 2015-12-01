@@ -100,7 +100,7 @@ class ModelTest extends TestCase
         $element = array('foo' => 'bar');
         // Camada de Persistência
         $persistence = $model->getPersistence();
-        // Mock: Carregamento
+        // Mock: Salvar
         $persistence->expects($this->once())->method('save')->will($this->returnCallback(function ($params) {
             if (! $params['id'] === 'foobar') {
                 throw new ModelException('Unknown Element');
@@ -127,5 +127,23 @@ class ModelTest extends TestCase
         $persistence = $model->getPersistence();
         // Consulta
         $model->save(new Parameters(array()));
+    }
+
+    public function testRemove()
+    {
+        // Inicialização
+        $model = $this->getModel();
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Remoção
+        $persistence->expects($this->once())->method('remove')->will($this->returnCallback(function ($params) {
+            if (! $params['id'] === 'foobar') {
+                throw new ModelException('Unknown Element');
+            }
+        }));
+        // Remover
+        $result = $model->remove(new Parameters(array('id' => 'foobar')));
+        // Verificações
+        $this->assertSame($result, $model);
     }
 }
