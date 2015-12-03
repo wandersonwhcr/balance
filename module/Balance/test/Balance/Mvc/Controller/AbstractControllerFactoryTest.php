@@ -15,17 +15,15 @@ class AbstractControllerFactoryTest extends TestCase
         // Inicializar Localizador de Serviço
         $serviceLocator    = new ServiceManager();
         $controllerLocator = (new ControllerManager())->setServiceLocator($serviceLocator);
-        $controller        = $this
-            ->getMockBuilder('Zend\Mvc\Controller\AbstractActionController')
-            ->setMockClassName('Balance_Mvc_Controller_Controller')
-            ->getMock();
+        $controller        = $this->getMock('Zend\Mvc\Controller\AbstractActionController');
+        $classname         = get_class($controller);
 
         // Configurar Elemento
         $serviceLocator->setService('Config', array(
             // Balance
             'balance_manager' => array(
                 'factories' => array(
-                    'Balance_Mvc_Controller_Controller' => array(
+                    $classname => array(
                         'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
                         'params'  => array(
                             'model'               => 'Balance\Model\Model',
@@ -41,7 +39,7 @@ class AbstractControllerFactoryTest extends TestCase
         $result  = $factory->canCreateServiceWithName(
             $controllerLocator,
             'controller',
-            'Balance_Mvc_Controller_Controller'
+            $classname
         );
         // Verificações
         $this->assertTrue($result);
@@ -50,7 +48,7 @@ class AbstractControllerFactoryTest extends TestCase
         $element = $factory->createServiceWithName(
             $controllerLocator,
             'controller',
-            'Balance_Mvc_Controller_Controller'
+            $classname
         );
         // Verificações
         $this->assertInstanceOf('Zend\Mvc\Controller\AbstractActionController', $element);
