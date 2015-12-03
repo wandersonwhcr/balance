@@ -2,6 +2,8 @@
 
 namespace Balance\Mvc\Controller;
 
+use Exception;
+use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -21,6 +23,12 @@ class Configs extends AbstractActionController
         $configs = array();
         // Inicialização
         $view = new JsonModel($configs);
+        // Requisição
+        $request = $this->getRequest();
+        // Tipagem Correta?
+        if (! $request instanceof Http\PhpEnvironment\Request) {
+            throw new Exception('Invalid Request');
+        }
         // Configurar Caminho Base
         $view->setVariable('basePath', $this->getRequest()->getBaseUrl());
         // Configurar Variável
