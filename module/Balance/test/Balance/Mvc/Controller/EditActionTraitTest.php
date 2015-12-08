@@ -8,6 +8,8 @@ use Zend\Form\Form;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Router\RouteMatch;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
 
@@ -20,9 +22,36 @@ class EditActionController
     use RedirectRouteNameAwareTrait;
 }
 
+class EditActionWithoutControllerController
+    implements ModelAwareInterface, RedirectRouteNameAwareInterface, ServiceLocatorAwareInterface
+{
+    use EditActionTrait;
+    use ModelAwareTrait;
+    use RedirectRouteNameAwareTrait;
+    use ServiceLocatorAwareTrait;
+}
+
+class EditActionWithoutModelController
+    extends AbstractActionController
+    implements RedirectRouteNameAwareInterface
+{
+    use EditActionTrait;
+    use ModelAwareTrait;
+    use RedirectRouteNameAwareTrait;
+}
+
+class EditActionWithoutRedirectRouteNameController
+    extends AbstractActionController
+    implements ModelAwareInterface
+{
+    use EditActionTrait;
+    use ModelAwareTrait;
+    use RedirectRouteNameAwareTrait;
+}
+
 class EditActionTraitTest extends TestCase
 {
-    protected function getController()
+    protected function getController($type)
     {
         // Localizador de Serviços
         $serviceLocator = new ServiceManager();
@@ -51,7 +80,20 @@ class EditActionTraitTest extends TestCase
             ->will($this->returnValue($form));
 
         // Controladora
-        $controller = new EditActionController();
+        switch ($type) {
+            case 'edit-action-controller':
+                $controller = new EditActionController();
+                break;
+            case 'edit-action-without-controller-controller':
+                $controller = new EditActionWithoutControllerController();
+                break;
+            case 'edit-action-without-model-controller':
+                $controller = new EditActionWithoutModelController();
+                break;
+            case 'edit-action-without-redirect-route-name-controller':
+                $controller = new EditActionWithoutRedirectRouteNameController();
+                break;
+        }
 
         // Configurações
         $controller
@@ -65,7 +107,7 @@ class EditActionTraitTest extends TestCase
     public function testEditAction()
     {
         // Inicialização
-        $controller = $this->getController();
+        $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
         $controller->getEvent()->setRouteMatch(new RouteMatch(array(
@@ -84,7 +126,7 @@ class EditActionTraitTest extends TestCase
     public function testEditActionWithParameters()
     {
         // Inicialização
-        $controller = $this->getController();
+        $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
         $controller->getEvent()->setRouteMatch(new RouteMatch(array(
@@ -104,7 +146,7 @@ class EditActionTraitTest extends TestCase
     public function testEditActionWithParametersAndException()
     {
         // Inicialização
-        $controller = $this->getController();
+        $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
         $controller->getEvent()->setRouteMatch(new RouteMatch(array(
@@ -132,7 +174,7 @@ class EditActionTraitTest extends TestCase
     public function testEditActionWithPost()
     {
         // Inicialização
-        $controller = $this->getController();
+        $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
         $controller->getEvent()->setRouteMatch(new RouteMatch(array(
@@ -159,7 +201,7 @@ class EditActionTraitTest extends TestCase
     public function testEditActionWithPostAndException()
     {
         // Inicialização
-        $controller = $this->getController();
+        $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
         $controller->getEvent()->setRouteMatch(new RouteMatch(array(
@@ -186,5 +228,51 @@ class EditActionTraitTest extends TestCase
 
         // Verificação
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
+    }
+
+    public function testEditActionWithoutController()
+    {
+        // Verificações
+        $this->setExpectedException('Exception', 'Invalid Controller');
+
+        // Inicialização
+        $controller = $this->getController('edit-action-without-controller-controller');
+
+        // Execução
+        $controller->editAction();
+    }
+
+    public function testEditActionWithoutModel()
+    {
+        // Verificações
+        $this->setExpectedException('Exception', 'Invalid Controller');
+
+        // Inicialização
+        $controller = $this->getController('edit-action-without-model-controller');
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+        )));
+
+        // Execução
+        $controller->dispatch(new Request());
+    }
+
+    public function testEditActionWithoutRedirectRouteNameModel()
+    {
+        // Verificações
+        $this->setExpectedException('Exception', 'Invalid Controller');
+
+        // Inicialização
+        $controller = $this->getController('edit-action-without-redirect-route-name-controller');
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+        )));
+
+        // Execução
+        $controller->dispatch(new Request());
     }
 }
