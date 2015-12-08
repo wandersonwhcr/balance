@@ -2,6 +2,7 @@
 
 namespace Balance\Mvc\Controller;
 
+use Balance\Model\ModelException;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Form;
 use Zend\Http\PhpEnvironment\Request;
@@ -20,7 +21,7 @@ class EditActionController
 
 class EditActionTraitTest extends TestCase
 {
-    public function testEditAction()
+    protected function getController()
     {
         // Localizador de Serviços
         $serviceLocator = new ServiceManager();
@@ -51,15 +52,24 @@ class EditActionTraitTest extends TestCase
         // Controladora
         $controller = new EditActionController();
 
-        // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
-            'action' => 'edit',
-        )));
-
         // Configurações
         $controller
             ->setModel($model)
             ->setServiceLocator($serviceLocator);
+
+        // Apresentação
+        return $controller;
+    }
+
+    public function testEditAction()
+    {
+        // Inicialização
+        $controller = $this->getController();
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+        )));
 
         // Execução
         $result = $controller->dispatch(new Request());
@@ -67,6 +77,54 @@ class EditActionTraitTest extends TestCase
         // Verificações
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
         $this->assertEquals('add', $result->type);
-        $this->assertSame($form, $result->form);
+        $this->assertSame($controller->getModel()->getForm(), $result->form);
+    }
+
+    public function testEditActionWithParameters()
+    {
+        // Inicialização
+        $controller = $this->getController();
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+            'one'    => 'two',
+        )));
+
+        // Execução
+        $result = $controller->dispatch(new Request());
+
+        // Verificações
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
+        $this->assertEquals('edit', $result->type);
+        $this->assertSame($controller->getModel()->getForm(), $result->form);
+    }
+
+    public function testEditActionWithParametersAndException()
+    {
+        // Inicialização
+        $controller = $this->getController();
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+            'one'    => 'two',
+        )));
+
+        // Plugin de Redirecionamento
+        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
+        // Configurações
+        $controller->getPluginManager()->setService('redirect', $redirect);
+
+        // Camada de Modelo
+        $controller->getModel()
+            ->method('load')
+            ->will($this->throwException(new ModelException('Invalid Element')));
+
+        // Execução
+        $result = $controller->dispatch(new Request());
+
+        // Verificação
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
     }
 }
