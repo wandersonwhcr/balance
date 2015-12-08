@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use Balance\Form\Element\DateTime;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Form;
 use Zend\Form\FormElementManager;
@@ -37,6 +38,8 @@ class BalanceTest extends TestCase
         $formElementManager = new FormElementManager();
         $inputFilterManager = new InputFilterPluginManager();
 
+        $formElementManager->setService('datetime', new DateTime());
+
         $serviceLocator = new ServiceManager();
         $serviceLocator
             ->setService('FormElementManager', $formElementManager)
@@ -67,5 +70,35 @@ class BalanceTest extends TestCase
         )));
 
         $this->assertEquals($data, $result);
+    }
+
+    public function testFetchWithoutDatetime()
+    {
+        $model = new Balance();
+
+        $formElementManager = new FormElementManager();
+        $inputFilterManager = new InputFilterPluginManager();
+
+        $formElementManager->setService('datetime', new DateTime());
+
+        $serviceLocator = new ServiceManager();
+        $serviceLocator
+            ->setService('FormElementManager', $formElementManager)
+            ->setService('InputFilterManager', $inputFilterManager);
+
+        $model->setServiceLocator($serviceLocator);
+
+        $persistence = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
+        $persistence
+            ->expects($this->atLeastOnce())
+            ->method('fetch')
+            ->will($this->returnCallback(function ($params) {
+                return isset($params['datetime']) ? array(array('one' => 'two')) : array();
+            }));
+        $serviceLocator->setService('Balance\Model\Persistence\Balance', $persistence);
+
+        $result = $model->fetch(new Parameters());
+
+        $this->assertEquals(array(array('one' => 'two')), $result);
     }
 }
