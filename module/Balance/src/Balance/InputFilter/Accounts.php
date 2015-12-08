@@ -22,7 +22,8 @@ class Accounts extends InputFilter
         // Chave Primária
         $input = new Input('id');
         $input->getFilterChain()
-            ->attach(new Filter\ToInt());
+            ->attach(new Filter\ToInt())
+            ->attach(new Filter\ToNull());
         $this->add($input);
 
         // Tipo
