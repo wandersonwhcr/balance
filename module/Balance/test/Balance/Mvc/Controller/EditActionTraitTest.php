@@ -9,6 +9,7 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Router\RouteMatch;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Stdlib\Parameters;
 
 class EditActionController
     extends AbstractActionController
@@ -123,6 +124,65 @@ class EditActionTraitTest extends TestCase
 
         // Execução
         $result = $controller->dispatch(new Request());
+
+        // Verificação
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
+    }
+
+    public function testEditActionWithPost()
+    {
+        // Inicialização
+        $controller = $this->getController();
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+        )));
+
+        // Plugin de Redirecionamento
+        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
+        // Configurações
+        $controller->getPluginManager()->setService('redirect', $redirect);
+
+        // Requisição
+        $request = (new Request())
+            ->setMethod('POST')
+            ->setPost(new Parameters(array('one' => 'two')));
+
+        // Execução
+        $result = $controller->dispatch($request);
+
+        // Verificação
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
+    }
+
+    public function testEditActionWithPostAndException()
+    {
+        // Inicialização
+        $controller = $this->getController();
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'edit',
+        )));
+
+        // Plugin de Redirecionamento
+        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
+        // Configurações
+        $controller->getPluginManager()->setService('redirect', $redirect);
+
+        // Camada de Modelo
+        $controller->getModel()
+            ->method('save')
+            ->will($this->throwException(new ModelException('Invalid Element')));
+
+        // Requisição
+        $request = (new Request())
+            ->setMethod('POST')
+            ->setPost(new Parameters(array('one' => 'two')));
+
+        // Execução
+        $result = $controller->dispatch($request);
 
         // Verificação
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
