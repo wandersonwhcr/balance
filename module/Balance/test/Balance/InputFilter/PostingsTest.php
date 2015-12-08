@@ -30,7 +30,7 @@ class PostingsTest extends TestCase
 
         $input = $inputFilter->get('id');
         $this->assertTrue($input->isRequired());
-        $this->assertNull($input->setValue('')->getValue());
+        $this->assertNotNull($input->setValue('')->getValue());
         $this->assertInternalType('int', $input->setValue('1')->getValue());
 
         $element = $inputFilter->get('datetime');
@@ -60,6 +60,72 @@ class PostingsTest extends TestCase
 
         $input = $subInputFilter->get('value');
         $this->assertTrue($input->isRequired());
+
+        $inputFilter->setData(array(
+            // Dados Básicos
+            'id'          => '',
+            'datetime'    => '10/10/2010 10:10:10',
+            'description' => 'Foo bar.',
+            // Entradas
+            'entries' => array(
+                array(
+                    'type'       => EntryType::CREDIT,
+                    'account_id' => '1',
+                    'value'      => '0,01',
+                ),
+                array(
+                    'type'       => EntryType::DEBIT,
+                    'account_id' => '2',
+                    'value'      => '0,01',
+                ),
+            ),
+        ));
+
+        $this->assertTrue($inputFilter->isValid());
+
+        $inputFilter->setData(array(
+            // Dados Básicos
+            'id'          => '',
+            'datetime'    => '10/10/2010 10:10:10',
+            'description' => 'Foo bar.',
+            // Entradas
+            'entries' => array(
+                array(
+                    'type'       => EntryType::CREDIT,
+                    'account_id' => '1',
+                    'value'      => '0,00',
+                ),
+                array(
+                    'type'       => EntryType::DEBIT,
+                    'account_id' => '2',
+                    'value'      => '0,00',
+                ),
+            ),
+        ));
+
+        $this->assertFalse($inputFilter->isValid());
+
+        $inputFilter->setData(array(
+            // Dados Básicos
+            'id'          => '',
+            'datetime'    => '10/10/2010 10:10:10',
+            'description' => 'Foo bar.',
+            // Entradas
+            'entries' => array(
+                array(
+                    'type'       => EntryType::CREDIT,
+                    'account_id' => '1',
+                    'value'      => '0,01',
+                ),
+                array(
+                    'type'       => EntryType::DEBIT,
+                    'account_id' => '1',
+                    'value'      => '0,01',
+                ),
+            ),
+        ));
+
+        $this->assertFalse($inputFilter->isValid());
     }
 
     public function testInitWithoutPersistence()

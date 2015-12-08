@@ -37,8 +37,7 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Chave Primária
         $input = new Input();
         $input->getFilterChain()
-            ->attach(new Filter\ToInt())
-            ->attach(new Filter\ToNull());
+            ->attach(new Filter\ToInt());
         $this->add($input, 'id');
 
         // Data e Hora

@@ -16,7 +16,7 @@ class AccountsTest extends TestCase
 
         $input = $inputFilter->get('id');
         $this->assertTrue($input->isRequired());
-        $this->assertNull($input->setValue('')->getValue());
+        $this->assertNotNull($input->setValue('')->getValue());
         $this->assertInternalType('int', $input->setValue('1')->getValue());
 
         $input = $inputFilter->get('type');
