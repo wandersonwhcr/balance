@@ -61,4 +61,25 @@ class PostingsTest extends TestCase
         $input = $subInputFilter->get('value');
         $this->assertTrue($input->isRequired());
     }
+
+    public function testInitWithoutPersistence()
+    {
+        $this->setExpectedException('Balance\InputFilter\InputFilterException', 'Invalid Model');
+
+        $inputFilter = new Postings();
+
+        $serviceLocator = new ServiceManager();
+
+        $serviceLocator->setService(
+            'Balance\Model\Persistence\Accounts',
+            $this->getMock('Balance\Model\Persistence\PersistenceInterface')
+        );
+
+        $inputFilterPluginManager = new InputFilterPluginManager();
+        $inputFilterPluginManager->setServiceLocator($serviceLocator);
+        $inputFilter->setServiceLocator($inputFilterPluginManager);
+
+        $inputFilter->init();
+
+    }
 }

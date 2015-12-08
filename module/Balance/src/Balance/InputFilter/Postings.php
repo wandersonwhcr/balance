@@ -31,7 +31,7 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
 
         // Verificações
         if (! $pAccounts instanceof ValueOptionsInterface) {
-            throw new FormException('Invalid Model');
+            throw new InputFilterException('Invalid Model');
         }
 
         // Chave Primária
