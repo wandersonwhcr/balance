@@ -2,6 +2,7 @@
 
 namespace Balance\Mvc\Controller;
 
+use Balance\Model\ModelException;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -57,6 +58,16 @@ class RemoveActionTraitTest extends TestCase
             ->setModel($model)
             ->setServiceLocator($serviceLocator);
 
+        // Plugin de Redirecionamento
+        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
+        // Configurações
+        $controller->getPluginManager()->setService('redirect', $redirect);
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+            'action' => 'remove',
+        )));
+
         // Apresentação
         return $controller;
     }
@@ -66,15 +77,19 @@ class RemoveActionTraitTest extends TestCase
         // Inicialização
         $controller = $this->getController('remove-action-controller');
 
-        // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
-            'action' => 'remove',
-        )));
+        // Execução
+        $controller->dispatch(new Request());
+    }
 
-        // Plugin de Redirecionamento
-        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
-        // Configurações
-        $controller->getPluginManager()->setService('redirect', $redirect);
+    public function testRemoveActionAndException()
+    {
+        // Inicialização
+        $controller = $this->getController('remove-action-controller');
+
+        // Camada de Modelo
+        $model = $controller->getModel()
+            ->method('remove')
+            ->will($this->throwException(new ModelException('Invalid Element')));
 
         // Execução
         $controller->dispatch(new Request());
