@@ -258,6 +258,33 @@ class AccountsTest extends TestCase
         $persistence->find(new Parameters(array('id' => $id)));
     }
 
+    public function testSaveWithInsert()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Dados
+        $data = new Parameters(array(
+            'type'        => AccountType::PASSIVE,
+            'name'        => 'FB Account Test',
+            'description' => 'Description of the Account',
+            'accumulate'  => BooleanType::YES,
+        ));
+
+        // Salvar Informações
+        $result = $persistence->save($data);
+
+        // Verificação
+        $this->assertSame($persistence, $result);
+        $this->assertInternalType('int', $data['id']);
+
+        // Consulta
+        $result = $persistence->find(new Parameters(array('id' => $data['id'])));
+
+        // Verificação
+        $this->assertNotEmpty($result);
+    }
+
     public function testRemove()
     {
         // Inicialização
