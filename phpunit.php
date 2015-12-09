@@ -1,6 +1,6 @@
 <?php
 
-namespace Balance\Test\Mvc
+namespace Balance\Mvc
 {
     use Zend\Mvc\Application as MvcApplication;
 
@@ -45,5 +45,5 @@ namespace
 
     $application = Zend\Mvc\Application::init(require 'config/application.config.php');
 
-    Balance\Test\Mvc\Application::setApplication($application);
+    Balance\Mvc\Application::setApplication($application);
 }
