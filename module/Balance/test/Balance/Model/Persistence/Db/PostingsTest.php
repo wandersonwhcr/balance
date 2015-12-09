@@ -2,6 +2,8 @@
 
 namespace Balance\Model\Persistence\Db;
 
+use Balance\Model\AccountType;
+use Balance\Model\EntryType;
 use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
@@ -9,7 +11,7 @@ use Zend\Stdlib\Parameters;
 
 class PostingsTest extends TestCase
 {
-    public function testFetch()
+    protected function getPersistence()
     {
         // Inicialização
         $persistence = new Postings();
@@ -25,21 +27,100 @@ class PostingsTest extends TestCase
         $serviceLocator->setService('db', $db);
 
         // Tabelas
+        $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
         $tbPostings = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Postings');
+        $tbEntries  = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Entries');
 
         // Limpeza
         $tbPostings->delete(function ($delete) {});
+        $tbAccounts->delete(function ($delete) {});
+
+        // Chaves Primárias
+        $primaries = array(
+            'postings' => array(),
+            'accounts' => array(),
+        );
+
+        // Inserir Conta 1
+        $tbAccounts->insert(array(
+            'name'        => 'Account AA',
+            'type'        => AccountType::ACTIVE,
+            'description' => 'Account AA Description',
+            'position'    => 0,
+            'accumulate'  => 0,
+        ));
+        // Captura de Chave Primária
+        $primaries['accounts']['aa'] = (int) $tbAccounts->getLastInsertValue();
+
+        // Inserir Conta 2
+        $tbAccounts->insert(array(
+            'name'        => 'Account BB',
+            'type'        => AccountType::ACTIVE,
+            'description' => 'Account BB Description',
+            'position'    => 1,
+            'accumulate'  => 0,
+        ));
+        // Captura de Chave Primária
+        $primaries['accounts']['bb'] = (int) $tbAccounts->getLastInsertValue();
 
         // Inserir Lançamento 1
         $tbPostings->insert(array(
             'datetime'    => '2010-10-10 09:10:10',
-            'description' => 'Posting 1',
+            'description' => 'Posting XX',
         ));
+        // Captura de Chave Primária
+        $primaries['postings']['xx'] = (int) $tbPostings->getLastInsertValue();
+
         // Inserir Lançamento 2
         $tbPostings->insert(array(
             'datetime'    => '2010-10-10 10:10:10',
-            'description' => 'Posting 2',
+            'description' => 'Posting YY',
         ));
+        // Captura de Chave Primária
+        $primaries['postings']['yy'] = (int) $tbPostings->getLastInsertValue();
+
+        // Relacionamento 0-0
+        $tbEntries->insert(array(
+            'posting_id' => $primaries['postings']['xx'],
+            'account_id' => $primaries['accounts']['aa'],
+            'type'       => EntryType::CREDIT,
+            'value'      => 100,
+            'position'   => 0,
+        ));
+        // Relacionamento 0-1
+        $tbEntries->insert(array(
+            'posting_id' => $primaries['postings']['xx'],
+            'account_id' => $primaries['accounts']['bb'],
+            'type'       => EntryType::DEBIT,
+            'value'      => 100,
+            'position'   => 1,
+        ));
+
+        // Relacionamento 1-0
+        $tbEntries->insert(array(
+            'posting_id' => $primaries['postings']['yy'],
+            'account_id' => $primaries['accounts']['aa'],
+            'type'       => EntryType::CREDIT,
+            'value'      => 200,
+            'position'   => 0,
+        ));
+        // Relacionamento 1-1
+        $tbEntries->insert(array(
+            'posting_id' => $primaries['postings']['yy'],
+            'account_id' => $primaries['accounts']['bb'],
+            'type'       => EntryType::DEBIT,
+            'value'      => 200,
+            'position'   => 1,
+        ));
+
+        // Apresentação
+        return $persistence;
+    }
+
+    public function testFetch()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
 
         // Consulta
         $result = $persistence->fetch(new Parameters())->getCurrentItems();
@@ -51,12 +132,29 @@ class PostingsTest extends TestCase
         $element = current($result);
         // Verificações
         $this->assertEquals('2010-10-10 10:10:10', $element['datetime']);
-        $this->assertEquals('Posting 2', $element['description']);
+        $this->assertEquals('Posting YY', $element['description']);
 
         // Elemento
         $element = next($result);
         // Verificações
         $this->assertEquals('2010-10-10 09:10:10', $element['datetime']);
-        $this->assertEquals('Posting 1', $element['description']);
+        $this->assertEquals('Posting XX', $element['description']);
+    }
+
+    public function testFetchWithKeywords()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters(array('keywords' => 'XX')))->getCurrentItems();
+
+        // Verificações
+        $this->assertCount(1, $result);
+
+        // Elemento
+        $element = current($result);
+        // Verificações
+        $this->assertEquals('Posting XX', $element['description']);
     }
 }
