@@ -508,4 +508,42 @@ class AccountsTest extends TestCase
         // Verificações
         $this->assertEquals($elementB['id'], $element['id']);
     }
+
+    public function testOrderWithSamePosition()
+    {
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+
+        // Colocar no Início (já está)
+        $persistence->order(new Parameters(array(
+            'id' => $elementA['id'],
+        )));
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+
+        // Capturar Primeiro Elemento
+        $element = array_shift($result);
+
+        // Verificações
+        $this->assertEquals($elementA['id'], $element['id']);
+
+        // Colocar o A no mesmo Lugar
+        $persistence->order(new Parameters(array(
+            'id'       => $elementA['id'],
+            'previous' => $elementA['id'],
+        )));
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+
+        // Capturar Primeiro Elemento
+        $element = array_shift($result);
+
+        // Verificações
+        $this->assertEquals($elementA['id'], $element['id']);
+    }
 }
