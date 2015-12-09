@@ -253,4 +253,34 @@ class PostingsTest extends TestCase
         // Verificações
         $this->assertCount(0, $result);
     }
+
+    public function testRemoveWithoutPrimaryKey()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Primary Key');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Remover Lançamento
+        $persistence->remove(new Parameters());
+    }
+
+    public function testRemoveUnknownElement()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Element');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Chave Primária Desconhecida
+        do {
+            // Gerar Nova Chave Randômica
+            $id = rand();
+        } while ($id == $this->primaries['postings']['xx'] || $id == $this->primaries['postings']['yy']);
+
+        // Remover Lançamento
+        $persistence->remove(new Parameters(array('id' => $id)));
+    }
 }

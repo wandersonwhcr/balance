@@ -261,7 +261,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
     {
         // Chave Primária?
         if (! $params['id']) {
-            throw new ModelException('Unknwon Primary Key');
+            throw new ModelException('Unknown Primary Key');
         }
         // Inicialização
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
