@@ -3,6 +3,7 @@
 namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\AccountType;
+use Balance\Model\BooleanType;
 use Balance\Test\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Db\Sql\Sql;
@@ -15,6 +16,23 @@ class AccountsTest extends TestCase
     {
         // Inicialização
         $persistence = new Accounts();
+
+        // Conta ZZ
+        $elementZZ = array(
+            'name'        => 'ZZ Account Test',
+            'type'        => AccountType::ACTIVE,
+            'description' => 'Description',
+            'position'    => 1,
+            'accumulate'  => 0,
+        );
+        // Conta AA
+        $elementAA = array(
+            'name'        => 'AA Account Test',
+            'type'        => AccountType::ACTIVE,
+            'description' => 'Description',
+            'position'    => 0,
+            'accumulate'  => 0,
+        );
 
         // Localizador de Serviços
         $serviceLocator = new ServiceManager();
@@ -38,26 +56,33 @@ class AccountsTest extends TestCase
             ->columns(array('name', 'type', 'description', 'position', 'accumulate'));
 
         // Adicionar Conta ZZ
-        $insert->values(array(
-            'name'        => 'ZZ Account Test',
-            'type'        => AccountType::ACTIVE,
-            'description' => 'Description',
-            'position'    => 1,
-            'accumulate'  => 0,
-        ));
+        $insert->values($elementZZ);
         // Execução
         $db->query($insert->getSqlString($db->getPlatform()))->execute();
 
         // Adicionar Conta AA
-        $insert->values(array(
-            'name'        => 'AA Account Test',
-            'type'        => AccountType::ACTIVE,
-            'description' => 'Description',
-            'position'    => 0,
-            'accumulate'  => 0,
-        ));
+        $insert->values($elementAA);
         // Execução
         $db->query($insert->getSqlString($db->getPlatform()))->execute();
+
+        // Consultar as Duas Chaves Primárias
+        $select = (new Sql($db))->select()
+            ->from('accounts')
+            ->columns(array('id', 'name'));
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Consulta
+        foreach ($rowset as $row) {
+            switch ($row['name']) {
+                case $elementAA['name']:
+                    $elementAA['id'] = (int) $row['id'];
+                    break;
+                case $elementZZ['name']:
+                    $elementZZ['id'] = (int) $row['id'];
+                    break;
+            }
+        }
+        // Configurar Elementos
+        $this->data = array($elementAA, $elementZZ);
 
         // Apresentação
         return $persistence;
@@ -149,6 +174,83 @@ class AccountsTest extends TestCase
         // Verificações
         $this->assertInternalType('array', $result);
         $this->assertCount(2, $result);
+    }
+
+    public function testFind()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Primeiro Elemento
+        $element = array_shift($this->data);
+
+        // Consulta
+        $result = $persistence->find(new Parameters(array('id' => $element['id'])));
+
+        // Verificações
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('id', $result);
+        $this->assertEquals($element['id'], $result['id']);
+        $this->assertArrayHasKey('type', $result);
+        $this->assertEquals($element['type'], $result['type']);
+        $this->assertArrayHasKey('name', $result);
+        $this->assertEquals($element['name'], $result['name']);
+        $this->assertArrayHasKey('description', $result);
+        $this->assertEquals($element['description'], $result['description']);
+        $this->assertArrayHasKey('accumulate', $result);
+        $this->assertEquals(BooleanType::NO, $result['accumulate']);
+
+        // Segundo Elemento
+        $element = array_shift($this->data);
+
+        // Consulta
+        $result = $persistence->find(new Parameters(array('id' => $element['id'])));
+
+        // Verificações
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('id', $result);
+        $this->assertEquals($element['id'], $result['id']);
+        $this->assertArrayHasKey('type', $result);
+        $this->assertEquals($element['type'], $result['type']);
+        $this->assertArrayHasKey('name', $result);
+        $this->assertEquals($element['name'], $result['name']);
+        $this->assertArrayHasKey('description', $result);
+        $this->assertEquals($element['description'], $result['description']);
+        $this->assertArrayHasKey('accumulate', $result);
+        $this->assertEquals(BooleanType::NO, $result['accumulate']);
+    }
+
+    public function testFindWithoutPrimaryKey()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Primary Key');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consulta
+        $persistence->find(new Parameters());
+    }
+
+    public function testFindWithUnknownPrimaryKey()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Element');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+        // Gerar uma Chave Primária Desconhecida
+        do {
+            // Chave Randômica
+            $id = rand();
+        } while ($id == $elementA['id'] || $id == $elementB['id']);
+
+        // Consulta
+        $persistence->find(new Parameters(array('id' => $id)));
     }
 
     public function testGetValueOptions()
