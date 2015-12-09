@@ -5,6 +5,7 @@ namespace Balance\Model\Persistence\Db;
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Test\Mvc\Application;
+use Exception as BaseException;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Db\Sql\Sql;
 use Zend\ServiceManager\ServiceManager;
@@ -566,5 +567,40 @@ class AccountsTest extends TestCase
 
         // Colocar no Início
         $persistence->order(new Parameters(array('id' => $id)));
+    }
+
+    public function testOrderWithDatabaseError()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Database Error');
+
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Criar um Mock para Tabela de Contas
+        $tbAccounts = $this->getMockBuilder('Zend\Db\TableGateway\TableGateway')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Configurações
+        $persistence->getServiceLocator()
+            ->setAllowOverride(true)
+            ->setService('Balance\Db\TableGateway\Accounts', $tbAccounts)
+            ->setAllowOverride(false);
+
+        // Gerar o Erro
+        $tbAccounts
+            ->method('update')
+            ->will($this->throwException(new BaseException('Internal Error')));
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+
+        // Ordenar Elementos
+        $persistence->order(new Parameters(array(
+            'id'       => $elementA['id'],
+            'previous' => $elementB['id'],
+        )));
     }
 }
