@@ -41,7 +41,11 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Seletor
         $select = (new Select())
             ->from(array('p' => 'postings'))
-            ->columns(array('id', 'datetime', 'description'))
+            ->columns(array(
+                'id'          => 'id',
+                'datetime'    => new Expression('TO_CHAR("p"."datetime", \'YYYY-MM-DD HH24:MI:SS\')'),
+                'description' => 'description',
+            ))
             ->order(array('p.datetime DESC'));
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
