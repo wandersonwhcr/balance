@@ -31,6 +31,12 @@ class PostingsTest extends TestCase
         $tbPostings = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Entries');
 
+        // Configuração
+        $serviceLocator
+            ->setService('Balance\Db\TableGateway\Accounts', $tbAccounts)
+            ->setService('Balance\Db\TableGateway\Postings', $tbPostings)
+            ->setService('Balance\Db\TableGateway\Entries', $tbEntries);
+
         // Limpeza
         $tbPostings->delete(function ($delete) {});
         $tbAccounts->delete(function ($delete) {});
@@ -210,5 +216,41 @@ class PostingsTest extends TestCase
         $element = current($result);
         // Verificações
         $this->assertEquals('Posting YY', $element['description']);
+    }
+
+    public function testFetchWithPage()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consulta de Página Inválida
+        $result = $persistence->fetch(new Parameters(array('page' => 2)))->getCurrentItems();
+
+        // Verificações
+        $this->assertCount(2, $result);
+    }
+
+    public function testRemove()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Remover Lançamento
+        $result = $persistence->remove(new Parameters(array('id' => $this->primaries['postings']['xx'])));
+        // Verificações
+        $this->assertSame($persistence, $result);
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+        // Verificações
+        $this->assertCount(1, $result);
+
+        // Remover Lançamento
+        $persistence->remove(new Parameters(array('id' => $this->primaries['postings']['yy'])));
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+        // Verificações
+        $this->assertCount(0, $result);
     }
 }
