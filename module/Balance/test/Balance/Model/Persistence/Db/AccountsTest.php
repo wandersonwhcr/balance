@@ -50,6 +50,11 @@ class AccountsTest extends TestCase
         // Configurações
         $serviceLocator->setService('Balance\Db\TableGateway\Accounts', $tbAccounts);
 
+        // Remover Todos os Lançamentos
+        $delete = (new Sql($db))->delete()
+            ->from('postings');
+        // Execução
+        $db->query($delete->getSqlString($db->getPlatform()))->execute();
         // Remover Todas as Contas
         $delete = (new Sql($db))->delete()
             ->from('accounts');
