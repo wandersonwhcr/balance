@@ -425,4 +425,39 @@ class AccountsTest extends TestCase
         // Verificação
         $this->assertEquals('ZZ Account Test', $element);
     }
+
+    public function testOrderToBegin()
+    {
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+
+        // Colocar na Primeira Posição
+        $result = $persistence->order(new Parameters(array(
+            'id' => $elementB['id'],
+        )));
+
+        // Verificações
+        $this->assertSame($persistence, $result);
+
+        // Consulta
+        $element = $persistence->find(new Parameters(array('id' => $elementB['id'])));
+
+        // Verificações
+        $this->assertEquals($elementB['name'], $element['name']);
+
+        // Colocar na Primeira Posição
+        $result = $persistence->order(new Parameters(array(
+            'id' => $elementA['id'],
+        )));
+
+        // Consulta
+        $element = $persistence->find(new Parameters(array('id' => $elementA['id'])));
+
+        // Verificações
+        $this->assertEquals($elementA['name'], $element['name']);
+    }
 }
