@@ -179,4 +179,36 @@ class PostingsTest extends TestCase
         // Verificações
         $this->assertEquals('Posting YY', $element['description']);
     }
+
+    public function testFetchWithDatetime()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consulta
+        $result = $persistence
+            ->fetch(new Parameters(array('datetime_end' => '10/10/2010 09:10:10')))
+            ->getCurrentItems();
+
+        // Verificações
+        $this->assertCount(1, $result);
+
+        // Elemento
+        $element = current($result);
+        // Verificações
+        $this->assertEquals('Posting XX', $element['description']);
+
+        // Consulta
+        $result = $persistence
+            ->fetch(new Parameters(array('datetime_begin' => '10/10/2010 10:10:10')))
+            ->getCurrentItems();
+
+        // Verificações
+        $this->assertCount(1, $result);
+
+        // Elemento
+        $element = current($result);
+        // Verificações
+        $this->assertEquals('Posting YY', $element['description']);
+    }
 }
