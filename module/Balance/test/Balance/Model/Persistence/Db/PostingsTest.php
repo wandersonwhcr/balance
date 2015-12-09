@@ -113,6 +113,9 @@ class PostingsTest extends TestCase
             'position'   => 1,
         ));
 
+        // Configuração
+        $this->primaries = $primaries;
+
         // Apresentação
         return $persistence;
     }
@@ -156,5 +159,24 @@ class PostingsTest extends TestCase
         $element = current($result);
         // Verificações
         $this->assertEquals('Posting XX', $element['description']);
+    }
+
+    public function testFetchWithAccount()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consulta
+        $result = $persistence
+            ->fetch(new Parameters(array('account_id' => $this->primaries['accounts']['aa'])))
+            ->getCurrentItems();
+
+        // Verificações
+        $this->assertCount(2, $result);
+
+        // Elemento
+        $element = current($result);
+        // Verificações
+        $this->assertEquals('Posting YY', $element['description']);
     }
 }
