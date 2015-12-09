@@ -285,6 +285,40 @@ class AccountsTest extends TestCase
         $this->assertNotEmpty($result);
     }
 
+    public function testSaveWithUpdate()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Elemento
+        $element = array_shift($this->data);
+
+        // Dados
+        $data = new Parameters(array(
+            'id'          => $element['id'],
+            'type'        => AccountType::PASSIVE,
+            'name'        => 'Another Name',
+            'description' => 'Another Description',
+            'accumulate'  => BooleanType::NO,
+        ));
+
+        // Salvar Informações
+        $result = $persistence->save($data);
+
+        // Verificação
+        $this->assertSame($persistence, $result);
+
+        // Consulta
+        $result = $persistence->find(new Parameters(array('id' => $data['id'])));
+
+        // Verificação
+        $this->assertNotEmpty($result);
+        $this->assertEquals($data['type'], $result['type']);
+        $this->assertEquals($data['name'], $result['name']);
+        $this->assertEquals($data['description'], $result['description']);
+        $this->assertEquals($data['accumulate'], $result['accumulate']);
+    }
+
     public function testRemove()
     {
         // Inicialização
