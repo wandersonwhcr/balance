@@ -44,6 +44,11 @@ class AccountsTest extends TestCase
         // Configurações
         $serviceLocator->setService('db', $db);
 
+        // Tabela de Contas
+        $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
+        // Configurações
+        $serviceLocator->setService('Balance\Db\TableGateway\Accounts', $tbAccounts);
+
         // Remover Todas as Contas
         $delete = (new Sql($db))->delete()
             ->from('accounts');
@@ -251,6 +256,36 @@ class AccountsTest extends TestCase
 
         // Consulta
         $persistence->find(new Parameters(array('id' => $id)));
+    }
+
+    public function testRemove()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+
+        // Remoção
+        $result = $persistence->remove(new Parameters(array('id' => $elementA['id'])));
+
+        // Verificação
+        $this->assertSame($persistence, $result);
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+
+        // Verificação
+        $this->assertCount(1, $result);
+
+        // Remoção
+        $persistence->remove(new Parameters(array('id' => $elementB['id'])));
+
+        $result = $persistence->fetch(new Parameters());
+
+        // Verificação
+        $this->assertCount(0, $result);
     }
 
     public function testGetValueOptions()
