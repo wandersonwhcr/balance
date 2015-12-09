@@ -282,10 +282,44 @@ class AccountsTest extends TestCase
         // Remoção
         $persistence->remove(new Parameters(array('id' => $elementB['id'])));
 
+        // Consulta
         $result = $persistence->fetch(new Parameters());
 
         // Verificação
         $this->assertCount(0, $result);
+    }
+
+    public function testRemoveWithoutPrimaryKey()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Primary Key');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Remoção
+        $persistence->remove(new Parameters());
+    }
+
+    public function testRemoveUnknownElement()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Database Error');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+        // Gerar uma Chave Primária Desconhecida
+        do {
+            // Chave Randômica
+            $id = rand();
+        } while ($id == $elementA['id'] || $id == $elementB['id']);
+
+        // Remoção
+        $persistence->remove(new Parameters(array('id' => $id)));
     }
 
     public function testGetValueOptions()

@@ -191,7 +191,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
     {
         // Chave Primária?
         if (! $params['id']) {
-            throw new ModelException('Unknwon Primary Key');
+            throw new ModelException('Unknown Primary Key');
         }
         // Inicialização
         $db         = $this->getServiceLocator()->get('db');
@@ -215,15 +215,11 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 throw new ModelException('Unknown Element');
             }
             // Remover Elemento
-            $count = $tbAccounts->delete(function ($delete) use ($params) {
+            $tbAccounts->delete(function ($delete) use ($params) {
                 $delete->where(function ($where) use ($params) {
                     $where->equalTo('id', $params['id']);
                 });
             });
-            // Sucesso?
-            if ($count !== 1) {
-                throw new ModelException('Unknown Element');
-            }
             // Reordenar Contas
             $tbAccounts->update(array(
                 'position' => new Expression('"position" - 1'),
