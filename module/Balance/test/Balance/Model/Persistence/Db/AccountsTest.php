@@ -546,4 +546,25 @@ class AccountsTest extends TestCase
         // Verificações
         $this->assertEquals($elementA['id'], $element['id']);
     }
+
+    public function testOrderWithUnknownElement()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Element');
+
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+        // Gerar uma Chave Primária Desconhecida
+        do {
+            // Chave Randômica
+            $id = rand();
+        } while ($id == $elementA['id'] || $id == $elementB['id']);
+
+        // Colocar no Início
+        $persistence->order(new Parameters(array('id' => $id)));
+    }
 }

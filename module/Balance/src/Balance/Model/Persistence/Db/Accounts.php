@@ -284,7 +284,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         $row = $db->query($select->getSqlString($db->getPlatform()))->execute()->current();
         // Encontrado?
         if (! $row) {
-            throw new ModelException('Invalid Element');
+            throw new ModelException('Unknown Element');
         }
         // Apresentar Posição
         return (int) $row['position'];
