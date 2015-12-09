@@ -603,4 +603,49 @@ class AccountsTest extends TestCase
             'previous' => $elementB['id'],
         )));
     }
+
+    public function testOrderWithThreeElements()
+    {
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Novo Elemento
+        $data = new Parameters(array(
+            'type'        => AccountType::PASSIVE,
+            'name'        => 'Another Name',
+            'description' => 'Another Description',
+            'accumulate'  => BooleanType::NO,
+        ));
+
+        // Salvar
+        $persistence->save($data);
+
+        // Capturar Elementos
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
+
+        // Trocar Posições
+        $persistence->order(new Parameters(array(
+            'id'       => $data['id'],
+            'previous' => $elementB['id'],
+        )));
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+
+        // Capturar Elemento
+        $element = array_shift($result);
+        // Verificações
+        $this->assertEquals($elementA['id'], $element['id']);
+
+        // Capturar Elemento
+        $element = array_shift($result);
+        // Verificações
+        $this->assertEquals($elementB['id'], $element['id']);
+
+        // Capturar Elemento
+        $element = array_shift($result);
+        // Verificações
+        $this->assertEquals($data['id'], $element['id']);
+    }
 }
