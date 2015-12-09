@@ -230,6 +230,52 @@ class PostingsTest extends TestCase
         $this->assertCount(2, $result);
     }
 
+    public function testFind()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consulta de Elemento
+        $element = $persistence->find(new Parameters(array('id' => $this->primaries['postings']['xx'])));
+        // Verificações
+        $this->assertEquals('Posting XX', $element['description']);
+
+        // Consulta de Elemento
+        $element = $persistence->find(new Parameters(array('id' => $this->primaries['postings']['yy'])));
+        // Verificações
+        $this->assertEquals('Posting YY', $element['description']);
+    }
+
+    public function testFindWithoutPrimaryKey()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Primary Key');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Consultar Elemento
+        $persistence->find(new Parameters());
+    }
+
+    public function testFindUnknownElement()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Unknown Element');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Chave Primária Desconhecida
+        do {
+            // Gerar Nova Chave Randômica
+            $id = rand();
+        } while ($id == $this->primaries['postings']['xx'] || $id == $this->primaries['postings']['yy']);
+
+        // Consultar Elemento
+        $persistence->find(new Parameters(array('id' => $id)));
+    }
+
     public function testRemove()
     {
         // Inicialização
