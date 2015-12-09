@@ -11,7 +11,7 @@ final class Application
 {
     /**
      * Instância de Aplicativo para Acesso
-     * @var MvcApplication
+     * @type MvcApplication
      */
     private static $application;
 
