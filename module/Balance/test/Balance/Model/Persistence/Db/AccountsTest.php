@@ -285,6 +285,25 @@ class AccountsTest extends TestCase
         $this->assertNotEmpty($result);
     }
 
+    public function testSaveWithInsertWithException()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Database Error');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Dados
+        $data = new Parameters(array(
+            'type'        => 'UNKNOWN',
+            'name'        => 'FB Account Test',
+            'description' => 'Description of the Account',
+            'accumulate'  => BooleanType::YES,
+        ));
+
+        $persistence->save($data);
+    }
+
     public function testSaveWithUpdate()
     {
         // Inicialização
