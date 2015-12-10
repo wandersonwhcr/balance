@@ -2,6 +2,14 @@
 
 Então você quer contribuir com este projeto? Muito obrigado pelo seu interesse! Aqui estão descritos alguns padrões que são utilizados durante o meu desenvolvimento e que eu gostaria que você também seguisse. Então, vamos lá!
 
+## Abrindo uma Issue
+
+Possui algum problema? Você não precisa saber programação para ajudar neste projeto.
+
+Abra uma [nova _issue_](//github.com/wandersonwhcr/balance/issues/new) e descreva os problemas encontrados da melhor maneira possível. Informe o passo-a-passo para gerar o problema, incluindo botões pressionados, _screenshots_ de telas ou até _dump_ de banco de dados.
+
+Lembre-se de que a informação sobre o problema é um item precioso para solucioná-lo.
+
 ## Estrutura do Repositório
 
 Este projeto é controlado com _tags_ no formato de versionamento semântico e 2 _branches_ principais: `master` e `develop`. Todas as _tags_ representam ambientes estáveis e a última _tag_ sempre aponta para o _branch_ `master`. Todos os _branches_ saem do _branch_ `master` e retornam para o _branch_ `develop`. Quando uma _tag_ é finalizada, todos os _branches_ que não retornaram deverão sofrer um _rebase_ para o _branch_ `master`.
