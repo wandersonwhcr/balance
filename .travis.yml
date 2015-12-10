@@ -14,6 +14,7 @@ install:
     - composer install
 
 script:
+    - php vendor/bin/phinx migrate
     - php vendor/bin/phpunit --coverage-text=php://stdout --whitelist module/Balance/src
     - php vendor/bin/phploc module/Balance/src
     - php vendor/bin/phpcpd module/Balance/src
