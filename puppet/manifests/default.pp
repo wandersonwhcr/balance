@@ -363,3 +363,13 @@ exec { "balance : dbname":
         Exec["balance : dbuser"]
     ]
 }
+
+exec { "balance : phinx":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    command => "php vendor/bin/phinx migrate",
+    user    => "vagrant",
+    cwd     => "/vagrant",
+    require => [
+        Exec["balance : dbname"]
+    ],
+}
