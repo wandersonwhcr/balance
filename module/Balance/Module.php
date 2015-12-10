@@ -25,7 +25,7 @@ class Module
             ->setLocale('pt_BR')
             ->addTranslationFile(
                 'phpArray',
-                './vendor/zendframework/zendframework/resources/languages/pt_BR/Zend_Validate.php',
+                './vendor/zendframework/zend-i18n-resources/languages/pt_BR/Zend_Validate.php',
                 'default',
                 'pt_BR'
             );
