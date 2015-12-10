@@ -14,10 +14,11 @@
         }
     },
     "require": {
-        "zendframework/zendframework": "2.4.*",
-        "robmorgan/phinx": "0.4.*",
+        "php": ">=5.6",
         "ext-pgsql": "*",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "zendframework/zendframework": "2.4.*",
+        "robmorgan/phinx": "0.4.*"
     },
     "require-dev": {
         "ext-xdebug": "*",
