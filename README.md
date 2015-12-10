@@ -11,6 +11,8 @@ cp Vagrantfile.dist Vagrantfile
 vagrant up
 ```
 
+O projeto estará acessível através de um navegador no endereço `http://localhost:8000`.
+
 ## Instalação Completa
 
 O Balance é um sistema que utliza um servidor Web, PHP e banco de dados PostgreSQL para armazenamento das informações. A instalação deste projeto deve feita através do `composer` e `bower`.
