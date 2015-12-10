@@ -5,13 +5,13 @@ namespace Balance\InputFilter;
 use Balance\Model\EntryType;
 use Balance\Model\Persistence\ValueOptionsInterface;
 use Balance\Posting\Checker;
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use NumberFormatter;
 use Zend\Filter;
 use Zend\InputFilter\CollectionInputFilter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Validator;
 
 /**
@@ -31,7 +31,7 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
 
         // Verificações
         if (! $pAccounts instanceof ValueOptionsInterface) {
-            throw new FormException('Invalid Model');
+            throw new InputFilterException('Invalid Model');
         }
 
         // Chave Primária

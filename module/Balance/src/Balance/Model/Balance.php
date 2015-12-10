@@ -2,8 +2,8 @@
 
 namespace Balance\Model;
 
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**

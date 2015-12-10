@@ -14,7 +14,7 @@ install:
     - composer install
 
 script:
-    - php vendor/bin/phpunit
+    - php vendor/bin/phpunit --coverage-text=php://stdout --whitelist module/Balance/src
     - php vendor/bin/phploc module/Balance/src
     - php vendor/bin/phpcpd module/Balance/src
     - php vendor/bin/parallel-lint module/Balance/src

@@ -4,9 +4,9 @@ namespace Balance\Form\Search;
 
 use Balance\Form\FormException;
 use Balance\Model\Persistence\ValueOptionsInterface;
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Formulário de Pesquisa de Lançamentos

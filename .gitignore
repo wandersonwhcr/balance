@@ -3,4 +3,5 @@
 .vagrant
 config/autoload/*.local.php
 public/assets
+public/coverage
 vendor

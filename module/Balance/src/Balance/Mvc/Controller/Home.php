@@ -2,6 +2,8 @@
 
 namespace Balance\Mvc\Controller;
 
+use Exception;
+use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
@@ -19,15 +21,21 @@ class Home extends AbstractActionController
     public function indexAction()
     {
         // Camada de Modelo
-        $mPostings = $this->getServiceLocator()->get('Balance\Model\Balance');
+        $mBalance = $this->getServiceLocator()->get('Balance\Model\Balance');
+        // Requisição
+        $request = $this->getRequest();
+        // Requisição Correta?
+        if (! $request instanceof Http\PhpEnvironment\Request) {
+            throw new Exception('Invalid Request');
+        }
         // Parâmetros de Execução
-        $params = $this->params()->fromQuery();
+        $params = $request->getQuery();
         // Consulta de Balancete
-        $elements = $mPostings->fetch(new Parameters($params));
+        $elements = $mBalance->fetch($params);
         // Camada de Visualização
         return new ViewModel(array(
             'elements' => $elements,
-            'form'     => $mPostings->getFormSearch(),
+            'form'     => $mBalance->getFormSearch(),
         ));
     }
 }

@@ -4,10 +4,10 @@ namespace Balance\Form;
 
 use Balance\Model\EntryType;
 use Balance\Model\Persistence\ValueOptionsInterface;
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Form\Fieldset;
 use Zend\Form\Form;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Formulário de Lançamentos

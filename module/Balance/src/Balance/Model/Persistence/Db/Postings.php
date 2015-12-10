@@ -4,7 +4,6 @@ namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
-use Balance\ServiceManager\ServiceLocatorAwareTrait;
 use Exception;
 use IntlDateFormatter;
 use NumberFormatter;
@@ -12,6 +11,7 @@ use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\Paginator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**
@@ -41,7 +41,11 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Seletor
         $select = (new Select())
             ->from(array('p' => 'postings'))
-            ->columns(array('id', 'datetime', 'description'))
+            ->columns(array(
+                'id'          => 'id',
+                'datetime'    => new Expression('TO_CHAR("p"."datetime", \'YYYY-MM-DD HH24:MI:SS\')'),
+                'description' => 'description',
+            ))
             ->order(array('p.datetime DESC'));
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
@@ -92,7 +96,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Inicial
         if ($params['datetime_begin']) {
             // Filtrar Valor
-            $datetime = date('c', $formatter->parse($params['datetime_begin']));
+            $datetime = date('Y-m-d H:i:s', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->greaterThanOrEqualTo('p.datetime', $datetime);
@@ -101,7 +105,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Final
         if ($params['datetime_end']) {
             // Filtrar Valor
-            $datetime = date('c', $formatter->parse($params['datetime_end']));
+            $datetime = date('Y-m-d H:i:s', $formatter->parse($params['datetime_end']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
@@ -189,7 +193,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
         $formatter = $this->buildDateFormatter();
-        $datetime  = date('c', $formatter->parse($data['datetime']));
+        $datetime  = date('Y-m-d H:i:s', $formatter->parse($data['datetime']));
 
         // Tratamento
         try {
@@ -198,12 +202,16 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
-                $tbPostings->update(array(
+                $count = $tbPostings->update(array(
                     'datetime'    => $datetime,
                     'description' => $data['description'],
                 ), function ($where) use ($data) {
                     $where->equalTo('id', $data['id']);
                 });
+                // Verificações
+                if ($count !== 1) {
+                    throw new ModelException('Unknown Element');
+                }
             } else {
                 // Inserir Elemento
                 $tbPostings->insert(array(
@@ -257,7 +265,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
     {
         // Chave Primária?
         if (! $params['id']) {
-            throw new ModelException('Unknwon Primary Key');
+            throw new ModelException('Unknown Primary Key');
         }
         // Inicialização
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');

@@ -45,7 +45,7 @@ class CheckerTest extends TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        (new Checker())->addValue('UNKNOWN', 0);
+        (new Checker())->addValue('UNKNOWN', 1.0);
     }
 
     public function testDifference()
