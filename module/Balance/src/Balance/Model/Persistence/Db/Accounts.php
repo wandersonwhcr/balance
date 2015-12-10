@@ -135,25 +135,24 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
     {
         // Inicialização
         $tbAccounts = $this->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
-        // Chave Primária?
-        if ($data['id']) {
-            // Atualizar Elemento
-            $tbAccounts->update(array(
-                'type'        => $data['type'],
-                'name'        => $data['name'],
-                'description' => $data['description'],
-                'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
-            ), function ($where) use ($data) {
-                $where->equalTo('id', $data['id']);
-            });
-        } else {
-            // Inicialização
-            $db         = $this->getServiceLocator()->get('db');
-            $connection = $db->getDriver()->getConnection();
-            // Tratamento
-            try {
-                // Inicializar Transação
-                $connection->beginTransaction();
+        $db         = $this->getServiceLocator()->get('db');
+        $connection = $db->getDriver()->getConnection();
+        // Tratamento
+        try {
+            // Inicializar Transação
+            $connection->beginTransaction();
+            // Chave Primária?
+            if ($data['id']) {
+                // Atualizar Elemento
+                $tbAccounts->update(array(
+                    'type'        => $data['type'],
+                    'name'        => $data['name'],
+                    'description' => $data['description'],
+                    'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
+                ), function ($where) use ($data) {
+                    $where->equalTo('id', $data['id']);
+                });
+            } else {
                 // Consultar Última Posição
                 $select = (new Select())
                     ->from(array('a' => 'accounts'))
@@ -169,16 +168,16 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                     'position'    => $position,
                     'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
                 ));
-                // Finalização
-                $connection->commit();
-            } catch (Exception $e) {
-                // Erro Encontrado
-                $connection->rollback();
-                // Apresentar Erro
-                throw new ModelException('Database Error', null, $e);
+                // Chave Primária
+                $data['id'] = (int) $tbAccounts->getLastInsertValue();
             }
-            // Chave Primária
-            $data['id'] = (int) $tbAccounts->getLastInsertValue();
+            // Finalização
+            $connection->commit();
+        } catch (Exception $e) {
+            // Erro Encontrado
+            $connection->rollback();
+            // Apresentar Erro
+            throw new ModelException('Database Error', null, $e);
         }
         // Encadeamento
         return $this;
