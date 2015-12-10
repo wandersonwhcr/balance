@@ -50,5 +50,10 @@
             "HOME=. bower install"
         ]
     },
-    "non-feature-branches": ["develop"]
+    "non-feature-branches": ["develop"],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
 }
