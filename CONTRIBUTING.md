@@ -14,10 +14,22 @@ Lembre-se dessa estrutura! Ela é muito importante!
 
 ## Nomenclatura de Referências
 
-Somente 2 _branches_ possuem nomes fora do padrão: o `master` e o `develop`. Todos os outros _branches_ devem possuir o formato `issue-[1-9][0-9]*`, representando o número da _issue_ que gerou aquele _branch_. Portanto, todos os _branches_ criados devem ser resultantes da abertura de uma _issue_ no projeto. Descrevendo melhor, todos os _branches_ devem iniciar com `issue-` e finalizar com o número da _issue_ que gerou aquele _branch_.
+Somente 2 _branches_ possuem nomes fora do padrão: o `master` e o `develop`. Todos os outros _branches_ devem possuir o formato `/^issue-[1-9][0-9]*$/`, representando o número da _issue_ que gerou aquele _branch_. Portanto, todos os _branches_ criados devem ser resultantes da abertura de uma _issue_ no projeto. Descrevendo melhor, todos os _branches_ devem iniciar com `issue-` e finalizar com o número da _issue_ que gerou aquele _branch_.
 
 Por exemplo, se existe uma _issue_ 42 que irá gerar uma alteração de código, o _branch_ que será criado terá o nome `issue-42`.
 
 Como eu não utilizo um _fork_ do projeto e efetuo _commits_ diretamente, em alguns momentos você poderá encontrar _branches_ neste padrão. Ignore, são os meus _branches_. Não utilize-os, eles são extremamente instáveis e podem causar uma fissão nuclear.
 
 As _tags_ obedecem ao [versionamento semântico](http://semver.org/) comum aos projetos _opensource_ disponíveis. A última _tag_ sempre será o projeto mais estável e todas elas apontarão para o _branch_ `master`.
+
+## Patch Requests (PR)
+
+Oba! Você quer criar um _patch_? Então primeiramente, faça um _fork_ deste projeto utilizando o próprio Github e faça um _clone_ em seu ambiente de trabalho.
+
+Seguindo os padrões de estrutura do projeto, sempre faça um _branch_ a partir do _branch_ `master`, nomeado no padrão `/^issue-[1-9][0-9]*$/`. Efetue seus _commits_, sempre com a mensagem possuindo o padrão `/^Issue #[1-9][0-9]*/`. Isto quer dizer que todos os seus _commits_ devem possuir mensagens que iniciam com um texto que aponta para a _issue_ relacionada ao _branch_. Isto faz com que o Github referencie os _commits_ com a _issue_, facilitando a navegação.
+
+Se você alterar o código-fonte do projeto, por favor, crie um teste unitário que faça **100%** de _coverage_ em suas alterações. Assim vamos garantir que este projeto poderá rodar em futuras versões do PHP. Se sua alterações forem para novos recursos, os famosos _enhancements_, crie um teste unitário com o mesmo _namespace_ de suas novas classes.
+
+Por exemplo, se você criar uma classe nova chamada `Balance\Model\Persistence\FooBar`, crie um novo arquivo na estrutura de testes chamado `module/Balance/test/Balance/Model/Persistence/FooBarTest.php` com uma classe chamada `Balance\Model\Persistence\FooBarTest`.
+
+Depois que você enviar suas alterações para o Github, este projeto utiliza o [Travis CI](//travis-ci.org/wandersonwhcr/balance) para analisar o código.
