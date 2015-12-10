@@ -21,6 +21,7 @@ O Balance é um sistema que utliza um servidor Web, PHP e banco de dados Postgre
 
 * Servidor Web (Apache, Nginx, IIS);
 * PHP 5.6 ou superior (inclusive PHP 7);
+* PHP com Extensões `pgsql` e `intl`;
 * PostgreSQL 9.4 ou superior; e
 * Composer e Bower.
 
