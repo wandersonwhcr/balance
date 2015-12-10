@@ -72,3 +72,71 @@ Depois que você enviar suas alterações para o Github, este projeto utiliza o 
 ### Aceitando o PR
 
 Eu só vou aceitar PR que contenham todos estes requisitos! Poxa, eu estou tentando criar um projeto legal, então vamos criar uma estrutura legal, certo?
+
+Todos os retornos de _branches_ terão uma mensagem com o nome do _branch_ utilizado para retorno. Isto quer dizer que vamos saber todos os pontos onde todos os _branches_ sairam e retornaram. Simples assim.
+
+### Resumo
+
+Como eu utilizo o repositório original para envio de novos _branches_, normalmente faço os seguintes comandos para a alteração de código-fonte da _issue_ 42.
+
+```bash
+git remote update --prune
+git checkout master
+git merge origin/master
+git checkout master -b issue-42
+```
+
+Faço as alterações necessárias e para cada _commit_ faço os seguintes comandos.
+
+```bash
+git add -A
+git commit -m'Issue #42 Resposta da vida, universo e tudo mais.'
+```
+
+Depois envio as alterações para o Github, que informará o Travis CI e este executará os testes unitários.
+
+```bash
+git push origin issue-42
+```
+
+Tudo certo? Feito! Vamos reintegrar o _branch_ no _develop_.
+
+```bash
+git remote update --prune
+git checkout develop
+git merge origin/develop
+
+git checkout issue-42
+git rebase develop
+git checkout develop
+git merge --no-ff issue-42
+
+git push origin develop
+```
+
+Sim, faço _merges_ com `--no-ff` para criar um novo nó na árvore de versionamento.
+
+Fechando versão? Então faço um _merge_ no _branch_ `master` do `develop` sem utilizar o `--no-ff`.
+
+```bash
+git remote update --prune
+
+git checkout develop
+git merge origin/develop
+
+git checkout master
+git merge origin/master
+
+git merge develop
+git push origin develop master
+```
+
+Simples?
+
+## Finalização
+
+Todos estes passos são necessários para mantermos um padrão. Sei que tudo isto parece complicado, mas foi a maneira mais simples que encontrei para manter todo o código-fonte padronizado.
+
+Tens alguma dúvida? Entre em contato! Abra uma _issue_. Comente.
+
+Happy Coding!
