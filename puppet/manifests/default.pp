@@ -336,6 +336,9 @@ exec { "balance : composer":
         ["COMPOSER_HOME=/home/vagrant/.composer"],
     ],
     require => [
+        Package["php : postgresql"],
+        Package["php : intl"],
+        Package["php : xdebug"],
         Exec["composer : update"],
     ],
 }
