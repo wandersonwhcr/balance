@@ -45,12 +45,6 @@
         "phpmd/phpmd": "2.*",
         "neilime/zf2-twb-bundle": "2.*"
     },
-    "scripts": {
-        "post-install-cmd": [
-            "php vendor/bin/phinx migrate",
-            "HOME=. bower install"
-        ]
-    },
     "non-feature-branches": ["develop"],
     "extra": {
         "branch-alias": {
