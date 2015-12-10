@@ -28,8 +28,34 @@ Oba! Você quer criar um _patch_? Então primeiramente, faça um _fork_ deste pr
 
 Seguindo os padrões de estrutura do projeto, sempre faça um _branch_ a partir do _branch_ `master`, nomeado no padrão `/^issue-[1-9][0-9]*$/`. Efetue seus _commits_, sempre com a mensagem possuindo o padrão `/^Issue #[1-9][0-9]*/`. Isto quer dizer que todos os seus _commits_ devem possuir mensagens que iniciam com um texto que aponta para a _issue_ relacionada ao _branch_. Isto faz com que o Github referencie os _commits_ com a _issue_, facilitando a navegação.
 
-Se você alterar o código-fonte do projeto, por favor, crie um teste unitário que faça **100%** de _coverage_ em suas alterações. Assim vamos garantir que este projeto poderá rodar em futuras versões do PHP. Se sua alterações forem para novos recursos, os famosos _enhancements_, crie um teste unitário com o mesmo _namespace_ de suas novas classes.
+### Testes Unitários
 
-Por exemplo, se você criar uma classe nova chamada `Balance\Model\Persistence\FooBar`, crie um novo arquivo na estrutura de testes chamado `module/Balance/test/Balance/Model/Persistence/FooBarTest.php` com uma classe chamada `Balance\Model\Persistence\FooBarTest`.
+Se você alterar o código-fonte do projeto, por favor, crie um teste unitário que faça **100%** de _coverage_ em suas alterações. Assim, vamos garantir que este projeto poderá rodar em futuras versões do PHP. Para executar os testes unitários no projeto, basta executar o [PHPUnit](https://phpunit.de/) disponível na instalação.
 
-Depois que você enviar suas alterações para o Github, este projeto utiliza o [Travis CI](//travis-ci.org/wandersonwhcr/balance) para analisar o código.
+```bash
+php vendor/bin/phpunit
+```
+
+Se sua alterações forem para novos recursos, os famosos _enhancements_, crie um teste unitário com o mesmo _namespace_ de suas novas classes. Por exemplo, se você criar uma classe nova chamada `Balance\Model\Persistence\FooBar`, crie um novo arquivo na estrutura de testes chamado `module/Balance/test/Balance/Model/Persistence/FooBarTest.php` com uma classe chamada `Balance\Model\Persistence\FooBarTest`.
+
+Todavia, se você está corrigindo um _bug_ que está descrito na _issue_ 42, crie um arquivo na estrutura de testes chamado `module/Balance/test/Balance/Bugs/Issue42Test.php` com uma classe chamada `Balance\Bugs\Issue42Test`, que force a execução do _bug_ informado. Altere o código até que este _bug_ seja solucionado.
+
+### Estrutura de Banco de Dados
+
+O banco de dados possui uma estrutura gerenciada pelo [Phinx](https://phinx.org/) através de _migrations_. Para criar uma nova _migration_, utilize o seguinte comando.
+
+```bash
+php vendor/bin/phinx create AlterTableFooAddBar
+```
+
+Tente nomear a _migration_ conforme o padrão das criadas anteriormente. Particularmente, não possuo padrões para isto.
+
+Lembre-se de sempre criar _migrations_ que consigam subir e descer versões corretamente, alterando e retornando alterações num formato que minimize a perda de informações em ambientes de produção.
+
+### Travis CI
+
+Depois que você enviar suas alterações para o Github, este projeto utiliza o [Travis CI](//travis-ci.org/wandersonwhcr/balance) para analisar o código. Inúmeros testes serão feitos, principalmente de padronização de código. Somente quando você receber um _status_ **passing**, crie o PR.
+
+### Aceitando o PR
+
+Eu só vou aceitar PR que contenham todos estes requisitos! Poxa, eu estou tentando criar um projeto legal, então vamos criar uma estrutura legal, certo?
