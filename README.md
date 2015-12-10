@@ -1,6 +1,8 @@
 # Balance
 
-O Balance é um pequeno sistema Web para controle de balancete contábil simples, com cadastro de contas, lançamentose visualização do balancete.
+O Balance é um pequeno sistema Web para controle de balancete contábil simples, com cadastro de contas, lançamentos e visualização do balancete.
+
+O funcionamento básico pode ser encontrado na [Wiki](//github.com/wandersonwhcr/balance/wiki) do projeto.
 
 ## Instalação Rápida: Vagrant
 
