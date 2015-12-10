@@ -29,11 +29,5 @@
         "fabpot/php-cs-fixer": "1.*",
         "phpmd/phpmd": "2.*",
         "neilime/zf2-twb-bundle": "2.*@stable"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php vendor/bin/phinx migrate",
-            "HOME=. bower install"
-        ]
     }
 }
