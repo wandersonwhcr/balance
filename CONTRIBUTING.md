@@ -22,9 +22,22 @@ Como eu não utilizo um _fork_ do projeto e efetuo _commits_ diretamente, em alg
 
 As _tags_ obedecem ao [versionamento semântico](http://semver.org/) comum aos projetos _opensource_ disponíveis. A última _tag_ sempre será o projeto mais estável e todas elas apontarão para o _branch_ `master`.
 
+## Ambiente de Desenvolvimento
+
+Oba! Você quer contribuir? Então primeiramente, faça um _fork_ deste projeto utilizando o próprio Github e faça um _clone_ em seu ambiente de trabalho. Para desenvolvimento, eu utilizo uma máquina Vagrant neste projeto. Para inicializá-la, basta copiar o arquivo de configurações do Vagrant que está na distribuição e solicitar a sua criação.
+
+```bash
+cp Vagrantfile.dist Vagrantfile
+vagrant up
+```
+
+Todo o projeto será inicializado e estará pronto para execução, acessível no endereço `http://localhost:8000`. Também será instalado o PHPPgAdmin, disponível no endereço `http://localhost:9000`.
+
+Caso o Vagrant encontrar estas portas ocupadas, ele irá informá-lo quais são as novas portas definidas.
+
 ## Patch Requests (PR)
 
-Oba! Você quer criar um _patch_? Então primeiramente, faça um _fork_ deste projeto utilizando o próprio Github e faça um _clone_ em seu ambiente de trabalho.
+YEAH! Patch Request! Vamos lá!
 
 Seguindo os padrões de estrutura do projeto, sempre faça um _branch_ a partir do _branch_ `master`, nomeado no padrão `/^issue-[1-9][0-9]*$/`. Efetue seus _commits_, sempre com a mensagem possuindo o padrão `/^Issue #[1-9][0-9]*/`. Isto quer dizer que todos os seus _commits_ devem possuir mensagens que iniciam com um texto que aponta para a _issue_ relacionada ao _branch_. Isto faz com que o Github referencie os _commits_ com a _issue_, facilitando a navegação.
 
