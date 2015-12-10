@@ -5,4 +5,5 @@
 config/autoload/*.local.php
 public/assets
 public/coverage
+Vagrantfile
 vendor
