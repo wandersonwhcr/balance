@@ -1,26 +1,39 @@
 {
     "name": "wandersonwhcr/balance",
     "description": "Balance Balancete Contábil",
+    "type": "project",
+    "keywords": ["accounting", "contabilidade", "balancete"],
+    "homepage": "https://github.com/wandersonwhcr/balance",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Wanderson Camargo",
+            "email": "wandersonwhcr@gmail.com",
+            "homepage": "http://www.wanderson.camargo.nom.br",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/wandersonwhcr/balance/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "Balance\\": "module/Balance/src/Balance/"
+        }
+    },
     "repositories": [
         {
             "type": "composer",
             "url": "https://packages.zendframework.com"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Balance\\": "module/Balance/src/Balance/"
-        }
-    },
     "require": {
-        "zendframework/zendframework": "2.4.*",
+        "zendframework/zendframework": "2.5.*",
         "robmorgan/phinx": "0.4.*",
         "ext-pgsql": "*",
         "ext-intl": "*"
     },
     "require-dev": {
-        "ext-xdebug": "*",
         "phpunit/phpunit": "5.0.*",
         "phploc/phploc": "2.*",
         "sebastian/phpcpd": "2.*",
@@ -28,12 +41,14 @@
         "squizlabs/php_codesniffer": "2.*",
         "fabpot/php-cs-fixer": "1.*",
         "phpmd/phpmd": "2.*",
-        "neilime/zf2-twb-bundle": "2.*@stable"
+        "neilime/zf2-twb-bundle": "2.*",
+        "ext-xdebug": "*"
     },
     "scripts": {
         "post-install-cmd": [
             "php vendor/bin/phinx migrate",
             "HOME=. bower install"
         ]
-    }
+    },
+    "non-feature-branches": ["develop"]
 }
