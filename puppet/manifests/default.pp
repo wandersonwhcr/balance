@@ -363,3 +363,27 @@ exec { "balance : dbname":
         Exec["balance : dbuser"]
     ]
 }
+
+exec { "balance : phinx":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    command => "php vendor/bin/phinx migrate",
+    user    => "vagrant",
+    cwd     => "/vagrant",
+    require => [
+        Exec["balance : dbname"]
+    ],
+}
+
+exec { "balance : bower":
+    path        => ["/usr/bin", "/usr/sbin", "/bin"],
+    command     => "bower install",
+    user        => "vagrant",
+    timeout     => 0,
+    cwd         => "/vagrant",
+    environment => [
+        ["HOME=."],
+    ],
+    require      => [
+        Exec["bower"],
+    ],
+}
