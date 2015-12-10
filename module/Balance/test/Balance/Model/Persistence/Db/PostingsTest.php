@@ -329,4 +329,96 @@ class PostingsTest extends TestCase
         // Remover Lançamento
         $persistence->remove(new Parameters(array('id' => $id)));
     }
+
+    public function testSaveWithInsert()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Dados para Salvamento
+        $data = new Parameters(array(
+            'datetime'    => '10/10/2010 11:10:10',
+            'description' => 'Posting ZZ',
+            'entries'     => array(
+                array(
+                    'account_id' => $this->primaries['accounts']['aa'],
+                    'type'       => EntryType::CREDIT,
+                    'value'      => 'R$10,10',
+                ),
+                array(
+                    'account_id' => $this->primaries['accounts']['bb'],
+                    'type'       => EntryType::DEBIT,
+                    'value'      => 'R$10,10',
+                ),
+            ),
+        ));
+
+        // Salvar Lançamento
+        $result = $persistence->save($data);
+        // Verificações
+        $this->assertSame($persistence, $result);
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters())->getCurrentItems();
+        // Verificações
+        $this->assertCount(3, $result);
+
+        // Capturar Elemento
+        $element = current($result);
+        // Verificações
+        $this->assertEquals('Posting ZZ', $element['description']);
+    }
+
+    public function testSaveWithUpdate()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Dados para Salvamento
+        $data = new Parameters(array(
+            'id'          => $this->primaries['postings']['xx'],
+            'datetime'    => '10/10/2010 11:10:10',
+            'description' => 'Posting ZZ',
+            'entries'     => array(
+                array(
+                    'account_id' => $this->primaries['accounts']['aa'],
+                    'type'       => EntryType::CREDIT,
+                    'value'      => 'R$10,10',
+                ),
+                array(
+                    'account_id' => $this->primaries['accounts']['bb'],
+                    'type'       => EntryType::DEBIT,
+                    'value'      => 'R$10,10',
+                ),
+            ),
+        ));
+
+        // Salvar Lançamento
+        $result = $persistence->save($data);
+        // Verificações
+        $this->assertSame($persistence, $result);
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters())->getCurrentItems();
+        // Verificações
+        $this->assertCount(2, $result);
+    }
+
+    public function testSaveWithException()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Database Error');
+
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Capturar Chave Primária Desconhecida
+        do {
+            // Gerar Nova Chave Randômica
+            $id = rand();
+        } while ($id == $this->primaries['postings']['xx'] || $id == $this->primaries['postings']['yy']);
+
+        // Salvar Lançamento
+        $persistence->save(new Parameters(array('id' => $id)));
+    }
 }

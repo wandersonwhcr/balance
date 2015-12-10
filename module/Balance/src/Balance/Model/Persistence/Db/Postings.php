@@ -193,7 +193,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
         $formatter = $this->buildDateFormatter();
-        $datetime  = date('c', $formatter->parse($data['datetime']));
+        $datetime  = date('Y-m-d H:i:s', $formatter->parse($data['datetime']));
 
         // Tratamento
         try {
@@ -202,12 +202,16 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
-                $tbPostings->update(array(
+                $count = $tbPostings->update(array(
                     'datetime'    => $datetime,
                     'description' => $data['description'],
                 ), function ($where) use ($data) {
                     $where->equalTo('id', $data['id']);
                 });
+                // Verificações
+                if ($count !== 1) {
+                    throw new ModelException('Unknown Element');
+                }
             } else {
                 // Inserir Elemento
                 $tbPostings->insert(array(
