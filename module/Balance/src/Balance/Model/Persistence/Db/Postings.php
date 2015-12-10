@@ -167,9 +167,9 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL);
         // Configuração de Símbolo
-        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+        $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
         // Configurações
         foreach ($rowset as $row) {
             $element['entries'][] = array(
