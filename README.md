@@ -2,16 +2,28 @@
 
 O Balance é um pequeno sistema Web para controle de balancete contábil simples, com cadastro de contas, lançamentose visualização do balancete.
 
-## Requisitos Mínimos
+## Instalação Rápida: Vagrant
+
+Este projeto possui uma instalação rápida através do Vagrant, bastando copiar o arquivo de configuração `Vagrantfile` da distribuição e solicitar a criação máquina virtual.
+
+```bash
+cp Vagrantfile.dist Vagrantfile
+vagrant up
+```
+
+## Instalação Completa
+
+O Balance é um sistema que utliza um servidor Web, PHP e banco de dados PostgreSQL para armazenamento das informações. A instalação deste projeto deve feita através do `composer` e `bower`.
+
+### Requisitos Mínimos
 
 * Servidor Web (Apache, Nginx, IIS);
 * PHP 5.6 ou superior (inclusive PHP 7);
 * PostgreSQL 9.4 ou superior; e
 * Composer e Bower.
 
-## Instalação
 
-O Balance é um sistema que utliza um servidor Web, PHP e banco de dados PostgreSQL para armazenamento das informações. A instalação deste projeto deve feita através do `composer` e `bower`.
+### Criação da Estrutura
 
 A inicialização do projeto deve ser efetuada utilizando o `composer`.
 
