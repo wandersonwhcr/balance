@@ -3,6 +3,10 @@
 O Balance é um pequeno sistema Web para controle de balancete contábil simples, com cadastro de contas, lançamentos e visualização do balancete.
 
 [![Build Status](https://travis-ci.org/wandersonwhcr/balance.svg?branch=master)](https://travis-ci.org/wandersonwhcr/balance)
+[![Latest Stable Version](https://poser.pugx.org/wandersonwhcr/balance/v/stable)](https://packagist.org/packages/wandersonwhcr/balance)
+[![Total Downloads](https://poser.pugx.org/wandersonwhcr/balance/downloads)](https://packagist.org/packages/wandersonwhcr/balance)
+[![Latest Unstable Version](https://poser.pugx.org/wandersonwhcr/balance/v/unstable)](https://packagist.org/packages/wandersonwhcr/balance)
+[![License](https://poser.pugx.org/wandersonwhcr/balance/license)](https://packagist.org/packages/wandersonwhcr/balance)
 
 O funcionamento básico pode ser encontrado na [Wiki](//github.com/wandersonwhcr/balance/wiki) do projeto.
 
