@@ -28,7 +28,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     protected function buildDateFormatter()
     {
-        return new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        return $this->getServiceLocator()->get('i18n')
+            ->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
     }
 
     /**

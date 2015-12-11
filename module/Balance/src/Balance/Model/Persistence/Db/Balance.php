@@ -36,7 +36,8 @@ class Balance implements ServiceLocatorAwareInterface
         // Enviado?
         if ($params['datetime']) {
             // Formatador
-            $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            $formatter = $this->getServiceLocator()->get('i18n')
+                ->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
             // Captura
             $datetime = date('c', $formatter->parse($params['datetime']));
         }
