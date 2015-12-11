@@ -236,12 +236,8 @@ return array(
         ),
     ),
 
-    'balance_config' => array(
-        'i18n' => array(
-            'pt_BR' => array(
-                'locale' => 'pt_BR',
-            ),
-        ),
+    'balance_i18n' => array(
+        'locale' => 'pt_BR',
     ),
 
     'controllers' => array(
@@ -274,7 +270,13 @@ return array(
             'Balance\Db\TableGateway\Entries'  => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
         ),
         'factories' => array(
+            // Navegação
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            // I18n
+            'i18n' => function ($serviceLocator) {
+                // Inicialização
+                return new Balance\I18n\I18n($serviceLocator->get('Config')['balance_i18n']['locale']);
+            },
         ),
     ),
 
