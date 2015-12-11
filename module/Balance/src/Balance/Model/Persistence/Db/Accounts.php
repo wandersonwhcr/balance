@@ -309,7 +309,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
 
         // Capturar Posição do Elemento
         $positionBefore = $this->getPosition($id);
-        $positionAfter  = 0;
+        $positionAfter  = -1;
 
         // Elemento Anterior Enviado?
         if ($previous) {

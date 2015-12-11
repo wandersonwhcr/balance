@@ -7,6 +7,7 @@ use Balance\Model\BooleanType;
 use Balance\Model\Persistence\Db\Accounts;
 use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
+use Zend\Db\Sql\Sql;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
 
@@ -136,5 +137,24 @@ class Issue142Test extends TestCase
         $element = next($result);
         // Precisa ser o B
         $this->assertEquals($this->data['B']['name'], $element['name']);
+
+        // Banco de Dados
+        $db = $persistence->getServiceLocator()->get('db');
+
+        // Seletor
+        $select = (new Sql($db))->select()
+            ->from('accounts')
+            ->columns(array('position'))
+            ->order(array('position'));
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Processamento
+        $result = array();
+        foreach ($rowset as $row) {
+            $result[] = (int) $row['position'];
+        }
+
+        // As Posições devem estar com NÙMEROS CORRETOS!
+        $this->assertEquals(array(0, 1, 2), $result);
     }
 }
