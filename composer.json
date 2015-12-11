@@ -32,18 +32,18 @@
         "ext-pgsql": "*",
         "ext-intl": "*",
         "zendframework/zendframework": "2.5.*",
-        "robmorgan/phinx": "0.4.*"
+        "robmorgan/phinx": "0.5.*"
     },
     "require-dev": {
         "ext-xdebug": "*",
-        "phpunit/phpunit": "5.0.*",
-        "phploc/phploc": "2.*",
-        "sebastian/phpcpd": "2.*",
-        "jakub-onderka/php-parallel-lint": "0.*",
-        "squizlabs/php_codesniffer": "2.*",
+        "phpunit/phpunit": "5.1.*",
+        "phploc/phploc": "2.1.*",
+        "sebastian/phpcpd": "2.0.*",
+        "jakub-onderka/php-parallel-lint": "0.9.*",
+        "squizlabs/php_codesniffer": "2.5.*",
         "fabpot/php-cs-fixer": "1.*",
-        "phpmd/phpmd": "2.*",
-        "neilime/zf2-twb-bundle": "2.*"
+        "phpmd/phpmd": "2.3.*",
+        "neilime/zf2-twb-bundle": "2.6.*"
     },
     "non-feature-branches": ["develop"],
     "extra": {
