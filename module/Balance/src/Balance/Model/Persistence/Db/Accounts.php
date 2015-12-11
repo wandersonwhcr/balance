@@ -243,21 +243,40 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
      */
     public function getValueOptions()
     {
+        // Definições de Nomeclatura
+        $definition = (new AccountType())->getDefinition();
         // Resultado Inicial
-        $result = array();
+        $result = array(
+            AccountType::ACTIVE  => array(
+                'label'   => $definition[AccountType::ACTIVE],
+                'options' => array(),
+            ),
+            AccountType::PASSIVE => array(
+                'label'   => $definition[AccountType::PASSIVE],
+                'options' => array(),
+            ),
+        );
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
         // Seletor
         $select = (new Select())
             ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'name'))
+            ->columns(array('id', 'type', 'name'))
             ->order(array('a.type', 'a.name'));
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
         foreach ($rowset as $row) {
-            $result[$row['id']] = $row['name'];
+            $result[$row['type']]['options'][$row['id']] = $row['name'];
         }
+        // Remover Conjuntos Vazios
+        foreach ($result as $identifier => $container) {
+            if (! $container['options']) {
+                unset($result[$identifier]);
+            }
+        }
+        // Limpeza de Chaves no Primeiro Nível
+        $result = array_values($result);
         // Apresentação
         return $result;
     }
