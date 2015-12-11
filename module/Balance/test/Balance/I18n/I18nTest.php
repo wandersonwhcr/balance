@@ -53,4 +53,12 @@ class I18nTest extends TestCase
         $element->setLocale('en');
         $this->assertEquals('en', $element->getLanguageLocale());
     }
+
+    public function testLanguage()
+    {
+        $element = new I18n('pt_BR');
+
+        $this->assertEquals('Portuguese', $element->getLanguage());
+        $this->assertEquals('English', $element->setLocale('en_US')->getLanguage());
+    }
 }

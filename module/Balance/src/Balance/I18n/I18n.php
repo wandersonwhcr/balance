@@ -62,6 +62,19 @@ class I18n
     }
 
     /**
+     * Apresentação de Linguagem Utilizada
+     *
+     * Este método é utilizado para capturar o nome da linguagem definida no sistema, principalmente para pesquisas em
+     * banco de dados que utilizam o idioma para criação de vetores em radicais de palavras.
+     *
+     * @return string Valor Solicitado
+     */
+    public function getLanguage()
+    {
+        return call_user_func(array('Locale', 'getDisplayLanguage'), $this->getLocale(), 'en');
+    }
+
+    /**
      * Criar um Novo Objeto de Formatação de Números
      *
      * @param  int             $style Estilo Utilizado no Construtor
