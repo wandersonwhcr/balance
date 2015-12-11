@@ -38,13 +38,13 @@ class TableTest extends TestCase
         $result = $table->getColumns();
         $this->assertEquals(array(), $result);
 
-        $result = $table->addColumn('one', array('foo' => 'bar'));
+        $result = $table->setColumn('one', array('foo' => 'bar'));
         $this->assertSame($table, $result);
 
         $result = $table->getColumns();
         $this->assertEquals(array('one' => array('foo' => 'bar')), $result);
 
-        $table->addColumn('two', array('one' => 'two'));
+        $table->setColumn('two', array('one' => 'two'));
         $result = $table->getColumns();
         $this->assertEquals(array('one' => array('foo' => 'bar'), 'two' => array('one' => 'two')), $result);
     }
