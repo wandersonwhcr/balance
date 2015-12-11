@@ -1,8 +1,8 @@
 # Balance
 
-[![Build Status](https://travis-ci.org/wandersonwhcr/balance.svg?branch=master)](https://travis-ci.org/wandersonwhcr/balance)
-
 O Balance é um pequeno sistema Web para controle de balancete contábil simples, com cadastro de contas, lançamentos e visualização do balancete.
+
+[![Build Status](https://travis-ci.org/wandersonwhcr/balance.svg?branch=master)](https://travis-ci.org/wandersonwhcr/balance)
 
 O funcionamento básico pode ser encontrado na [Wiki](//github.com/wandersonwhcr/balance/wiki) do projeto.
 
