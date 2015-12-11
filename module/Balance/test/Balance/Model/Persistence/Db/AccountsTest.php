@@ -467,54 +467,6 @@ class AccountsTest extends TestCase
         $this->assertEquals($elementA['id'], $element['id']);
     }
 
-    public function testOrderSwap()
-    {
-        // Camada de Persistência
-        $persistence = $this->getPersistence();
-
-        // Capturar Elementos
-        $elementA = array_shift($this->data);
-        $elementB = array_shift($this->data);
-
-        // Trocar Posições
-        $persistence->order(new Parameters(array(
-            'id'       => $elementB['id'],
-            'previous' => $elementA['id'],
-        )));
-
-        // Consulta
-        $result = $persistence->fetch(new Parameters());
-
-        // Capturar Primeiro Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementB['id'], $element['id']);
-
-        // Capturar Segundo Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementA['id'], $element['id']);
-
-        // Trocar Posições
-        $persistence->order(new Parameters(array(
-            'id'       => $elementA['id'],
-            'previous' => $elementB['id'],
-        )));
-
-        // Consulta
-        $result = $persistence->fetch(new Parameters());
-
-        // Capturar Primeiro Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementA['id'], $element['id']);
-
-        // Capturar Segundo Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementB['id'], $element['id']);
-    }
-
     public function testOrderWithSamePosition()
     {
         // Camada de Persistência
