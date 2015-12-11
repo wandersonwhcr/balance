@@ -3,6 +3,7 @@
 namespace Balance\InputFilter;
 
 use Balance\Model\EntryType;
+use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\ServiceManager\ServiceManager;
@@ -21,6 +22,8 @@ class PostingsTest extends TestCase
             ->method('getValueOptions')
             ->will($this->returnValue(array(1 => 'One', 2 => 'Two')));
         $serviceLocator->setService('Balance\Model\Persistence\Accounts', $persistence);
+
+        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
 
         $inputFilterPluginManager = new InputFilterPluginManager();
         $inputFilterPluginManager->setServiceLocator($serviceLocator);

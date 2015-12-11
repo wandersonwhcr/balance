@@ -134,7 +134,8 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
     {
         // Inicialização
         $checker   = new Checker();
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        $formatter = $this->getServiceLocator()->getServiceLocator()->get('i18n')
+            ->createNumberFormatter(NumberFormatter::CURRENCY);
         // Configuração de Símbolo
         $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
         // Tipos e Valores
