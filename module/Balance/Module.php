@@ -20,14 +20,15 @@ class Module
     {
         // Tradução
         $translator = $event->getApplication()->getServiceManager()->get('MvcTranslator');
+        $locale     = $event->getApplication()->getServiceManager()->get('i18n')->getLocale();
         // Configuração
         $translator
-            ->setLocale('pt_BR')
+            ->setLocale($locale)
             ->addTranslationFile(
                 'phpArray',
-                './vendor/zendframework/zend-i18n-resources/languages/pt_BR/Zend_Validate.php',
+                './vendor/zendframework/zend-i18n-resources/languages/' . $locale . '/Zend_Validate.php',
                 'default',
-                'pt_BR'
+                $locale
             );
         call_user_func(array('Zend\Validator\AbstractValidator', 'setDefaultTranslator'), $translator);
     }

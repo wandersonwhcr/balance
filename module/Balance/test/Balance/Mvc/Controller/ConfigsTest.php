@@ -2,9 +2,11 @@
 
 namespace Balance\Mvc\Controller;
 
+use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http;
 use Zend\Mvc\Router;
+use Zend\ServiceManager\ServiceManager;
 
 class ConfigsTest extends TestCase
 {
@@ -12,6 +14,11 @@ class ConfigsTest extends TestCase
     {
         // Inicialização
         $element = new Configs();
+        // Localizador de Serviços
+        $serviceLocator = new ServiceManager();
+        $element->setServiceLocator($serviceLocator);
+        // I18n
+        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
         // Configurar Parâmetros de Despacho
         $element->getEvent()->setRouteMatch(new Router\RouteMatch(array(
             'action' => 'index',

@@ -31,6 +31,8 @@ class Configs extends AbstractActionController
         }
         // Configurar Caminho Base
         $view->setVariable('basePath', $this->getRequest()->getBaseUrl());
+        // Configurar Linguagem de Localização
+        $view->setVariable('languageLocale', $this->getServiceLocator()->get('i18n')->getLanguageLocale());
         // Configurar Variável
         $view->setJsonpCallback('$.application.setConfigs');
         // Apresentação
