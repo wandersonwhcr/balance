@@ -583,8 +583,8 @@ class AccountsTest extends TestCase
 
         // Trocar Posições
         $persistence->order(new Parameters(array(
-            'id'       => $data['id'],
-            'previous' => $elementB['id'],
+            'id'       => $elementA['id'],
+            'previous' => $data['id'],
         )));
 
         // Consulta
@@ -593,16 +593,16 @@ class AccountsTest extends TestCase
         // Capturar Elemento
         $element = array_shift($result);
         // Verificações
-        $this->assertEquals($elementA['id'], $element['id']);
+        $this->assertEquals($elementB['name'], $element['name']);
 
         // Capturar Elemento
         $element = array_shift($result);
         // Verificações
-        $this->assertEquals($elementB['id'], $element['id']);
+        $this->assertEquals($data['name'], $element['name']);
 
         // Capturar Elemento
         $element = array_shift($result);
         // Verificações
-        $this->assertEquals($data['id'], $element['id']);
+        $this->assertEquals($elementA['name'], $element['name']);
     }
 }
