@@ -49,6 +49,19 @@ class I18n
     }
 
     /**
+     * Apresentação de Localização em Formato de Linguagem
+     *
+     * Método utilizado para converter o nome da localização para o nome da linguagem. Este valor geralmente é utilizado
+     * no ambiente de FrontEnd para manipulação com Javascript.
+     *
+     * @return string Valor Solicitado
+     */
+    public function getLanguageLocale()
+    {
+        return strtolower(str_replace('_', '-', $this->getLocale()));
+    }
+
+    /**
      * Criar um Novo Objeto de Formatação de Números
      *
      * @param  int             $style Estilo Utilizado no Construtor

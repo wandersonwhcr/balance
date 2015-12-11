@@ -40,4 +40,17 @@ class I18nTest extends TestCase
         $anotherFormatter = $element->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
         $this->assertNotSame($formatter, $anotherFormatter);
     }
+
+    public function testLanguageLocale()
+    {
+        $element = new I18n('pt_BR');
+
+        $this->assertEquals('pt-br', $element->getLanguageLocale());
+
+        $element->setLocale('en_US');
+        $this->assertEquals('en-us', $element->getLanguageLocale());
+
+        $element->setLocale('en');
+        $this->assertEquals('en', $element->getLanguageLocale());
+    }
 }
