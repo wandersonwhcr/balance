@@ -16,7 +16,7 @@ install:
 
 script:
     - php vendor/bin/phinx migrate
-    - php vendor/bin/phpunit --coverage-text=php://stdout --whitelist module/Balance/src
+    - php vendor/bin/phpunit --coverage-text=php://stdout --coverage-clover=coverage.xml --whitelist module/Balance/src
     - php vendor/bin/phploc module/Balance/src
     - php vendor/bin/phpcpd module/Balance/src
     - php vendor/bin/parallel-lint module/Balance/src
@@ -24,3 +24,6 @@ script:
     - php vendor/bin/php-cs-fixer fix --config-file=phpcs.php --dry-run --diff
     - php vendor/bin/phpmd module/Balance/src text phpmd.xml
     - php vendor/bin/phinx migrate -t0
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
