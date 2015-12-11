@@ -2,6 +2,7 @@
 
 namespace Balance\Form\Element;
 
+use Balance\Mvc\Application;
 use NumberFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
 
@@ -22,7 +23,8 @@ class CurrencyTest extends TestCase
     {
         $element = new Currency();
 
-        $symbol = (new NumberFormatter('pt_BR', NumberFormatter::CURRENCY))
+        $symbol = Application::getApplication()->getServiceManager()->get('i18n')
+            ->createNumberFormatter(NumberFormatter::CURRENCY)
             ->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
 
         $value = $element->getOption('add-on-prepend');
