@@ -432,6 +432,45 @@ class AccountsTest extends TestCase
         $this->assertEquals('ZZ Account Test', $element);
     }
 
+    public function testGetValueOptionsByPosition()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Conta NN Passiva
+        $data = new Parameters(array(
+            'type'        => AccountType::PASSIVE,
+            'name'        => 'MM Account Test',
+            'description' => '',
+            'accumulate'  => BooleanType::NO,
+        ));
+        // Salvar
+        $persistence->save($data);
+
+        // Conta MM Ativa
+        $data = new Parameters(array(
+            'type'        => AccountType::ACTIVE,
+            'name'        => 'NN Account Test',
+            'description' => '',
+            'accumulate'  => BooleanType::NO,
+        ));
+        // Salvar
+        $persistence->save($data);
+
+        // Consulta
+        $result = $persistence->getValueOptions();
+        // Capturar Valores (Ignorar Chaves Primárias)
+        $result = array_values($result);
+
+        // Verificações
+        $this->assertEquals(array(
+            'AA Account Test',
+            'NN Account Test',
+            'ZZ Account Test',
+            'MM Account Test',
+        ), $result);
+    }
+
     public function testOrderToBegin()
     {
         // Camada de Persistência

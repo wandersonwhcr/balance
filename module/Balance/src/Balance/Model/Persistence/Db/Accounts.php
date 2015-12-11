@@ -251,7 +251,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         $select = (new Select())
             ->from(array('a' => 'accounts'))
             ->columns(array('id', 'name'))
-            ->order(array('name'));
+            ->order(array('a.type', 'a.name'));
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
