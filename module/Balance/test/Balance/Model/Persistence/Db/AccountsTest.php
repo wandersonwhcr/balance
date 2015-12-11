@@ -421,15 +421,68 @@ class AccountsTest extends TestCase
 
         // Consultar Resultados
         $this->assertInternalType('array', $result);
-        $this->assertCount(2, $result);
+        $this->assertCount(1, $result);
+        // Capturar Primeiro Conjunto
+        $result = array_shift($result);
         // Capturar Primeira Posição
-        $element = array_shift($result);
+        $element = array_shift($result['options']);
         // Verificação
         $this->assertEquals('AA Account Test', $element);
         // Capturar Segunda Posição
-        $element = array_shift($result);
+        $element = array_shift($result['options']);
         // Verificação
         $this->assertEquals('ZZ Account Test', $element);
+    }
+
+    public function testGetValueOptionsByPosition()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Conta NN Passiva
+        $data = new Parameters(array(
+            'type'        => AccountType::PASSIVE,
+            'name'        => 'MM Account Test',
+            'description' => '',
+            'accumulate'  => BooleanType::NO,
+        ));
+        // Salvar
+        $persistence->save($data);
+
+        // Conta MM Ativa
+        $data = new Parameters(array(
+            'type'        => AccountType::ACTIVE,
+            'name'        => 'NN Account Test',
+            'description' => '',
+            'accumulate'  => BooleanType::NO,
+        ));
+        // Salvar
+        $persistence->save($data);
+
+        // Consulta
+        $result = $persistence->getValueOptions();
+
+        // Contabilização
+        $this->assertCount(2, $result);
+
+        // Definições
+        $definition = (new AccountType())->getDefinition();
+
+        // Capturar Primeiro Elemento
+        $element = current($result);
+        // Verificações
+        $this->assertEquals($definition[AccountType::ACTIVE], $element['label']);
+        $this->assertEquals(array(
+            'AA Account Test',
+            'NN Account Test',
+            'ZZ Account Test',
+        ), array_values($element['options']));
+
+        // Capturar Segundo Elemento
+        $element = next($result);
+        // Verificações
+        $this->assertEquals($definition[AccountType::PASSIVE], $element['label']);
+        $this->assertEquals(array('MM Account Test'), array_values($element['options']));
     }
 
     public function testOrderToBegin()
