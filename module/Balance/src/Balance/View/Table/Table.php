@@ -97,13 +97,13 @@ class Table
     }
 
     /**
-     * Adicionar Coluna
+     * Configurar Coluna
      *
      * @param  string $identifier Identificador da Coluna
      * @param  array  $params     Parâmetros para Coluna
      * @return Table  Próprio Objeto para Encadeamento
      */
-    public function addColumn($identifier, array $params = array())
+    public function setColumn($identifier, array $params = array())
     {
         $this->columns[$identifier] = $params;
         return $this;
