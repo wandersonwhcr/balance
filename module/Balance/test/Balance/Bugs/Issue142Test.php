@@ -12,7 +12,7 @@ use Zend\Stdlib\Parameters;
 
 class Issue142Test extends TestCase
 {
-    public function testAccountOrder()
+    protected function getPersistence()
     {
         // Inicialização
         $persistence = new Accounts();
@@ -68,10 +68,26 @@ class Issue142Test extends TestCase
         // Salvar
         $persistence->save($accountC);
 
+        // Salvamento
+        $this->data = array(
+            'A' => $accountA,
+            'B' => $accountB,
+            'C' => $accountC,
+        );
+
+        // Apresentação
+        return $persistence;
+    }
+
+    public function testAccountOrder()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
         // Ordenar o C para B (Então Coloca C com A antes dele)
         $persistence->order(new Parameters(array(
-            'id'       => $accountC['id'],
-            'previous' => $accountA['id'],
+            'id'       => $this->data['C']['id'],
+            'previous' => $this->data['A']['id'],
         )));
 
         // Consulta
@@ -80,16 +96,16 @@ class Issue142Test extends TestCase
         // Primeiro Elemento
         $element = current($result);
         // Precisa ser o A
-        $this->assertEquals($accountA['name'], $element['name']);
+        $this->assertEquals($this->data['A']['name'], $element['name']);
 
         // Segundo Elemento
         $element = next($result);
         // Precisa ser o C
-        $this->assertEquals($accountC['name'], $element['name']);
+        $this->assertEquals($this->data['C']['name'], $element['name']);
 
         // Terceiro Elemento
         $element = next($result);
         // Precisa ser o B
-        $this->assertEquals($accountB['name'], $element['name']);
+        $this->assertEquals($this->data['B']['name'], $element['name']);
     }
 }
