@@ -520,54 +520,6 @@ class AccountsTest extends TestCase
         $this->assertEquals($elementA['id'], $element['id']);
     }
 
-    public function testOrderSwap()
-    {
-        // Camada de Persistência
-        $persistence = $this->getPersistence();
-
-        // Capturar Elementos
-        $elementA = array_shift($this->data);
-        $elementB = array_shift($this->data);
-
-        // Trocar Posições
-        $persistence->order(new Parameters(array(
-            'id'       => $elementB['id'],
-            'previous' => $elementA['id'],
-        )));
-
-        // Consulta
-        $result = $persistence->fetch(new Parameters());
-
-        // Capturar Primeiro Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementB['id'], $element['id']);
-
-        // Capturar Segundo Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementA['id'], $element['id']);
-
-        // Trocar Posições
-        $persistence->order(new Parameters(array(
-            'id'       => $elementA['id'],
-            'previous' => $elementB['id'],
-        )));
-
-        // Consulta
-        $result = $persistence->fetch(new Parameters());
-
-        // Capturar Primeiro Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementA['id'], $element['id']);
-
-        // Capturar Segundo Elemento
-        $element = array_shift($result);
-        // Verificações
-        $this->assertEquals($elementB['id'], $element['id']);
-    }
-
     public function testOrderWithSamePosition()
     {
         // Camada de Persistência
@@ -684,8 +636,8 @@ class AccountsTest extends TestCase
 
         // Trocar Posições
         $persistence->order(new Parameters(array(
-            'id'       => $data['id'],
-            'previous' => $elementB['id'],
+            'id'       => $elementA['id'],
+            'previous' => $data['id'],
         )));
 
         // Consulta
@@ -694,16 +646,16 @@ class AccountsTest extends TestCase
         // Capturar Elemento
         $element = array_shift($result);
         // Verificações
-        $this->assertEquals($elementA['id'], $element['id']);
+        $this->assertEquals($elementB['name'], $element['name']);
 
         // Capturar Elemento
         $element = array_shift($result);
         // Verificações
-        $this->assertEquals($elementB['id'], $element['id']);
+        $this->assertEquals($data['name'], $element['name']);
 
         // Capturar Elemento
         $element = array_shift($result);
         // Verificações
-        $this->assertEquals($data['id'], $element['id']);
+        $this->assertEquals($elementA['name'], $element['name']);
     }
 }

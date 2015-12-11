@@ -327,7 +327,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
 
         // Capturar Posição do Elemento
         $positionBefore = $this->getPosition($id);
-        $positionAfter  = 0;
+        $positionAfter  = -1;
 
         // Elemento Anterior Enviado?
         if ($previous) {
@@ -342,7 +342,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         }
 
         // Posição Anterior Maior que Posição Posterior?
-        if ($positionBefore > $positionAfter && $positionAfter !== 0) {
+        if ($positionBefore > $positionAfter) {
             // Posição Posterior é de Elemento que não Participa do Intervalo que Modifica Posição
             $positionAfter = $positionAfter + 1;
         }
