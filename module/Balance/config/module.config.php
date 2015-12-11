@@ -236,6 +236,14 @@ return array(
         ),
     ),
 
+    'balance_config' => array(
+        'i18n' => array(
+            'pt_BR' => array(
+                'locale' => 'pt_BR',
+            ),
+        ),
+    ),
+
     'controllers' => array(
         'invokables' => array(
             'Balance\Mvc\Controller\Home'    => 'Balance\Mvc\Controller\Home',
