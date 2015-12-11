@@ -3,7 +3,9 @@
 namespace Balance\Stdlib\Hydrator\Strategy;
 
 use ArrayObject;
+use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
+use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Hydrator;
 
 /**
@@ -15,8 +17,14 @@ class DatetimeTest extends TestCase
     {
         // Inicialização
         $hydrator = new Hydrator\ArraySerializable();
+        $datetime = new Datetime();
+        // Internacionalização
+        $serviceLocator = new ServiceManager();
+        $datetime->setServiceLocator($serviceLocator);
+        // I18n
+        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
         // Adicionar Estratégia de Filtro
-        $hydrator->addStrategy('datetime', new Datetime());
+        $hydrator->addStrategy('datetime', $datetime);
         // Apresentação
         return $hydrator;
     }

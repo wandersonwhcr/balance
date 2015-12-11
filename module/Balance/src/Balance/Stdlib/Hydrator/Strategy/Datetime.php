@@ -3,13 +3,17 @@
 namespace Balance\Stdlib\Hydrator\Strategy;
 
 use IntlDateFormatter;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 /**
  * Estratégia de Hidratador para Data e Hora
  */
-class Datetime implements StrategyInterface
+class Datetime implements StrategyInterface, ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * Formatador de Data
      * @type IntlDateFormatter
@@ -26,7 +30,8 @@ class Datetime implements StrategyInterface
         // Formatador Inicializado?
         if (! $this->formatter) {
             // Inicialização
-            $this->formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            $this->formatter = $this->getServiceLocator()->get('i18n')
+                ->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
         }
         // Apresentação
         return $this->formatter;
