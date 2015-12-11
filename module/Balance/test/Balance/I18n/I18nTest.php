@@ -2,6 +2,7 @@
 
 namespace Balance\I18n;
 
+use IntlDateFormatter;
 use NumberFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
 
@@ -26,6 +27,17 @@ class I18nTest extends TestCase
         $this->assertInstanceOf('NumberFormatter', $formatter);
 
         $anotherFormatter = $element->createNumberFormatter(NumberFormatter::DECIMAL);
+        $this->assertNotSame($formatter, $anotherFormatter);
+    }
+
+    public function testCreateDateFormatter()
+    {
+        $element = new I18n('pt_BR');
+
+        $formatter = $element->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        $this->assertInstanceOf('IntlDateFormatter', $formatter);
+
+        $anotherFormatter = $element->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
         $this->assertNotSame($formatter, $anotherFormatter);
     }
 }
