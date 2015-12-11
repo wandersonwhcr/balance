@@ -2,6 +2,14 @@
 
 O Balance é um pequeno sistema Web para controle de balancete contábil simples, com cadastro de contas, lançamentos e visualização do balancete.
 
+[![Build Status](https://travis-ci.org/wandersonwhcr/balance.svg?branch=master)](https://travis-ci.org/wandersonwhcr/balance)
+[![codecov.io](https://codecov.io/github/wandersonwhcr/balance/coverage.svg?branch=master)](https://codecov.io/github/wandersonwhcr/balance?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/wandersonwhcr/balance/v/stable)](https://packagist.org/packages/wandersonwhcr/balance)
+[![Latest Unstable Version](https://poser.pugx.org/wandersonwhcr/balance/v/unstable)](https://packagist.org/packages/wandersonwhcr/balance)
+[![Dependency Status](https://www.versioneye.com/user/projects/5669d59343cfea0028000180/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5669d59343cfea0028000180)
+[![Dependency Status](https://www.versioneye.com/user/projects/5669d59443cfea0031000172/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5669d59443cfea0031000172)
+[![License](https://poser.pugx.org/wandersonwhcr/balance/license)](https://packagist.org/packages/wandersonwhcr/balance)
+
 O funcionamento básico pode ser encontrado na [Wiki](//github.com/wandersonwhcr/balance/wiki) do projeto.
 
 ## Instalação Rápida: Vagrant
