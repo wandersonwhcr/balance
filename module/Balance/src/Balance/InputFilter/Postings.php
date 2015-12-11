@@ -58,10 +58,20 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
             ->attach(new Validator\InArray(array('haystack' => array_keys((new EntryType())->getDefinition()))));
         $filter->add($input, 'type');
 
+        // Capturar Todas as Possíveis Entradas de Contas
+        $options = array();
+        foreach ($pAccounts->getValueOptions() as $identifier => $option) {
+            if (is_array($option)) {
+                $options = array_merge($options, array_keys($option['options']));
+            } else {
+                $options = array_merge($options, array($identifier));
+            }
+        }
+
         // Entradas: Conta
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array_keys($pAccounts->getValueOptions()))))
+            ->attach(new Validator\InArray(array('haystack' => $options)))
             ->attach(new Validator\Callback(array(
                 'callback' => array($this, 'doValidateAccountId'),
                 'message'  => 'O valor de entrada foi configurado em outra entrada de lançamento',
