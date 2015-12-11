@@ -4,12 +4,16 @@ namespace Balance\Form\Element;
 
 use NumberFormatter;
 use Zend\Form\Element\Text;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Elemento de Formulário para Valores Monetários
  */
-class Currency extends Text
+class Currency extends Text implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +48,8 @@ class Currency extends Text
         // Parâmetro?
         if ($option === 'add-on-prepend' && ! $value) {
             // Valor Padrão
-            $value = (new NumberFormatter('pt_BR', NumberFormatter::CURRENCY))
+            $value = $this->getServiceLocator()->getServiceLocator()->get('i18n')
+                ->createNumberFormatter(NumberFormatter::CURRENCY)
                 ->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
             // Configuração
             $this->setOption($option, $value);

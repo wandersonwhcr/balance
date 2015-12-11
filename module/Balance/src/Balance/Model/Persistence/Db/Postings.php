@@ -167,7 +167,6 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL);
         $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::DECIMAL);
         // Configuração de Símbolo
         $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
@@ -231,7 +230,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 });
             });
             // Formatador de Números
-            $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+            $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::CURRENCY);
             // Configuração de Símbolo
             $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
             // Posicionamento

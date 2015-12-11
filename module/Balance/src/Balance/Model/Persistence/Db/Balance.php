@@ -42,7 +42,7 @@ class Balance implements ServiceLocatorAwareInterface
         }
 
         // Formatador de Moedas
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+        $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::CURRENCY);
         // Expressões
         $eValue = new Expression(
             'CASE'
