@@ -53,10 +53,12 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         if ($params['keywords']) {
             // Filtro
             $select->where(function ($where) use ($params) {
+                // Idioma
+                $language = $this->getServiceLocator()->get('i18n')->getLanguage();
                 // Documento
                 $document = new Expression(
-                    'TO_TSVECTOR(\'portuguese\', "a"."name")'
-                    . ' || TO_TSVECTOR(\'portuguese\', "a"."description")'
+                    'TO_TSVECTOR(\'' . $language . '\', "a"."name")'
+                    . ' || TO_TSVECTOR(\'' . $language . '\', "a"."description")'
                 );
                 // Construção do Documento
                 $search = (new Select())
@@ -66,9 +68,9 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 $subselect = (new Select())
                     ->from(array('search' => $search))
                     ->columns(array('account_id'))
-                    ->where(function ($where) use ($params) {
+                    ->where(function ($where) use ($params, $language) {
                         $where->expression(
-                            '"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)',
+                            '"search"."document" @@ TO_TSQUERY(\'' . $language . '\', ?)',
                             sprintf("'%s'", addslashes($params['keywords']))
                         );
                     });

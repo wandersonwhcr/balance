@@ -52,10 +52,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         if ($params['keywords']) {
             // Filtro
             $select->where(function ($where) use ($params) {
+                // Linguagem
+                $language = $this->getServiceLocator()->get('i18n')->getLanguage();
                 // Documento
                 $document = new Expression(
-                    'TO_TSVECTOR(\'portuguese\', STRING_AGG("a"."name", \' \'))'
-                    . ' || TO_TSVECTOR(\'portuguese\', STRING_AGG("p"."description", \' \'))'
+                    'TO_TSVECTOR(\'' . $language . '\', STRING_AGG("a"."name", \' \'))'
+                    . ' || TO_TSVECTOR(\'' . $language . '\', STRING_AGG("p"."description", \' \'))'
                 );
                 // Construção do Documento
                 $search = (new Select())
@@ -68,9 +70,9 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 $subselect = (new Select())
                     ->from(array('search' => $search))
                     ->columns(array('posting_id'))
-                    ->where(function ($where) use ($params) {
+                    ->where(function ($where) use ($params, $language) {
                         $where->expression(
-                            '"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)',
+                            '"search"."document" @@ TO_TSQUERY(\'' . $language . '\', ?)',
                             sprintf("'%s'", addslashes($params['keywords']))
                         );
                     });
