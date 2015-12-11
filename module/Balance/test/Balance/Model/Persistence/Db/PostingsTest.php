@@ -26,6 +26,9 @@ class PostingsTest extends TestCase
         // Configuração
         $serviceLocator->setService('db', $db);
 
+        // I18n
+        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
+
         // Tabelas
         $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
         $tbPostings = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Postings');

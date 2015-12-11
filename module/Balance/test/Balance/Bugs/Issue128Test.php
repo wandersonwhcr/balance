@@ -32,6 +32,7 @@ class Issue128Test extends TestCase
 
         // Configurações
         $serviceLocator
+            ->setService('i18n', $serviceManager->get('i18n'))
             ->setService('db', $serviceManager->get('db'))
             ->setService('Balance\Db\TableGateway\Postings', $tbPostings)
             ->setService('Balance\Db\TableGateway\Accounts', $tbAccounts)

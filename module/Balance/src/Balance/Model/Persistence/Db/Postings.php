@@ -168,6 +168,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
         $formatter = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL);
+        $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::DECIMAL);
         // Configuração de Símbolo
         $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
         // Número de Casas Decimais
