@@ -108,4 +108,33 @@ class Issue142Test extends TestCase
         // Precisa ser o B
         $this->assertEquals($this->data['B']['name'], $element['name']);
     }
+
+    public function testAccountOrderLastToFirstPosition()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Ordenar o C para a Primeira Posição (Ninguém Antes)
+        $persistence->order(new Parameters(array(
+            'id' => $this->data['C']['id'],
+        )));
+
+        // Consulta
+        $result = $persistence->fetch(new Parameters());
+
+        // Primeiro Elemento
+        $element = current($result);
+        // Precisa ser o A
+        $this->assertEquals($this->data['C']['name'], $element['name']);
+
+        // Segundo Elemento
+        $element = next($result);
+        // Precisa ser o C
+        $this->assertEquals($this->data['A']['name'], $element['name']);
+
+        // Terceiro Elemento
+        $element = next($result);
+        // Precisa ser o B
+        $this->assertEquals($this->data['B']['name'], $element['name']);
+    }
 }
