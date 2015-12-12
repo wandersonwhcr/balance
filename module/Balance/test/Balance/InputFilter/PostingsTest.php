@@ -23,8 +23,6 @@ class PostingsTest extends TestCase
             ->will($this->returnValue(array(1 => 'One', 2 => 'Two')));
         $serviceLocator->setService('Balance\Model\Persistence\Accounts', $persistence);
 
-        locale_set_default('pt_BR');
-
         $inputFilterPluginManager = new InputFilterPluginManager();
         $inputFilterPluginManager->setServiceLocator($serviceLocator);
         $inputFilter->setServiceLocator($inputFilterPluginManager);

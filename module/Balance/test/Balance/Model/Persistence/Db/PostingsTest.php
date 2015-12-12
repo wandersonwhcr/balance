@@ -27,9 +27,6 @@ class PostingsTest extends TestCase
         // Configuração
         $serviceLocator->setService('db', $db);
 
-        // I18n
-        locale_set_default('pt_BR');
-
         // Tabelas
         $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
         $tbPostings = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Postings');
