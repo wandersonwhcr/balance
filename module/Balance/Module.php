@@ -23,15 +23,14 @@ class Module
 
         // Tradução
         $translator = $serviceManager->get('MvcTranslator');
-        $locale     = $serviceManager->get('i18n')->getLocale();
         // Configuração
         $translator
-            ->setLocale($locale)
+            ->setLocale(locale_get_default())
             ->addTranslationFile(
                 'phpArray',
-                './vendor/zendframework/zend-i18n-resources/languages/' . $locale . '/Zend_Validate.php',
+                './vendor/zendframework/zend-i18n-resources/languages/' . locale_get_default() . '/Zend_Validate.php',
                 'default',
-                $locale
+                locale_get_default()
             );
         call_user_func(array('Zend\Validator\AbstractValidator', 'setDefaultTranslator'), $translator);
 

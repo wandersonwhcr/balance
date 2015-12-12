@@ -28,8 +28,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     protected function buildDateFormatter()
     {
-        return $this->getServiceLocator()->get('i18n')
-            ->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        return new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
     }
 
     /**
@@ -49,7 +48,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Filtro
             $select->where(function ($where) use ($params) {
                 // Linguagem
-                $language = $this->getServiceLocator()->get('i18n')->getLanguage();
+                $language = locale_get_display_language(null, 'en');
                 // Documento
                 $document = new Expression(
                     'TO_TSVECTOR(\'' . $language . '\', STRING_AGG("a"."name", \' \'))'
@@ -166,7 +165,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
-        $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::DECIMAL);
+        $formatter = new NumberFormatter(null, NumberFormatter::DECIMAL);
         // Configuração de Símbolo
         $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
         // Número de Casas Decimais
@@ -229,7 +228,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 });
             });
             // Formatador de Números
-            $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::CURRENCY);
+            $formatter = new NumberFormatter(null, NumberFormatter::CURRENCY);
             // Configuração de Símbolo
             $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
             // Posicionamento

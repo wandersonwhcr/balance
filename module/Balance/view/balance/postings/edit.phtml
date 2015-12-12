@@ -1,6 +1,6 @@
 <?php
     // Linguagem
-    $language = $this->getHelperPluginManager()->getServiceLocator()->get('i18n')->getLanguageLocale();
+    $language = strtolower(str_replace('_', '-', locale_get_default()));
     // Dependências
     $this->headLink()
         ->appendStylesheet($this->basePath('/assets/jQuery-Timepicker-Addon/dist/jquery-ui-timepicker-addon.min.css'));

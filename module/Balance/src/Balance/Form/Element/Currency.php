@@ -48,8 +48,7 @@ class Currency extends Text implements ServiceLocatorAwareInterface
         // Parâmetro?
         if ($option === 'add-on-prepend' && ! $value) {
             // Valor Padrão
-            $value = $this->getServiceLocator()->getServiceLocator()->get('i18n')
-                ->createNumberFormatter(NumberFormatter::CURRENCY)
+            $value = (new NumberFormatter(null, NumberFormatter::CURRENCY))
                 ->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
             // Configuração
             $this->setOption($option, $value);

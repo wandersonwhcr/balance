@@ -21,8 +21,6 @@ class DatetimeTest extends TestCase
         // Internacionalização
         $serviceLocator = new ServiceManager();
         $datetime->setServiceLocator($serviceLocator);
-        // I18n
-        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
         // Adicionar Estratégia de Filtro
         $hydrator->addStrategy('datetime', $datetime);
         // Apresentação

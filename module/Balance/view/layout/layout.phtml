@@ -1,6 +1,6 @@
 <?php
     // Linguagem
-    $language = $this->getHelperPluginManager()->getServiceLocator()->get('i18n')->getLanguageLocale();
+    $language = strtolower(str_replace('_', '-', locale_get_default()));
     // Navigation
     $navigation = $this->navigation('navigation');
 ?>

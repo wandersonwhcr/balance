@@ -36,14 +36,13 @@ class Balance implements ServiceLocatorAwareInterface
         // Enviado?
         if ($params['datetime']) {
             // Formatador
-            $formatter = $this->getServiceLocator()->get('i18n')
-                ->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            $formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
             // Captura
             $datetime = date('c', $formatter->parse($params['datetime']));
         }
 
         // Formatador de Moedas
-        $formatter = $this->getServiceLocator()->get('i18n')->createNumberFormatter(NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter(null, NumberFormatter::CURRENCY);
         // Expressões
         $eValue = new Expression(
             'CASE'

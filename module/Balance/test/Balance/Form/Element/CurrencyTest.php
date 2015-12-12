@@ -25,19 +25,8 @@ class CurrencyTest extends TestCase
     {
         $element = new Currency();
 
-        $i18n = Application::getApplication()->getServiceManager()->get('i18n');
-
-        $symbol = $i18n
-            ->createNumberFormatter(NumberFormatter::CURRENCY)
+        $symbol = (new NumberFormatter(null, NumberFormatter::CURRENCY))
             ->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
-
-        $formElementManager = new FormElementManager();
-        $element->setServiceLocator($formElementManager);
-
-        $serviceManager = new ServiceManager();
-        $formElementManager->setServiceLocator($serviceManager);
-
-        $serviceManager->setService('i18n', $i18n);
 
         $value = $element->getOption('add-on-prepend');
         $this->assertEquals($symbol, $value);

@@ -28,11 +28,7 @@ class PostingsTest extends TestCase
         $serviceLocator->setService('db', $db);
 
         // I18n
-        $i18n = Application::getApplication()->getServiceManager()->get('i18n');
-        // Configurar Localização
-        $i18n->setLocale('pt_BR');
-        // Configuração
-        $serviceLocator->setService('i18n', $i18n);
+        locale_set_default('pt_BR');
 
         // Tabelas
         $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
@@ -40,7 +36,7 @@ class PostingsTest extends TestCase
         $tbEntries  = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Entries');
 
         // Formatador de Datas
-        $formatter = $i18n->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        $formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
 
         // Configuração
         $serviceLocator

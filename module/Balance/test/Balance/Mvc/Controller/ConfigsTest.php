@@ -17,8 +17,6 @@ class ConfigsTest extends TestCase
         // Localizador de Serviços
         $serviceLocator = new ServiceManager();
         $element->setServiceLocator($serviceLocator);
-        // I18n
-        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
         // Configurar Parâmetros de Despacho
         $element->getEvent()->setRouteMatch(new Router\RouteMatch(array(
             'action' => 'index',

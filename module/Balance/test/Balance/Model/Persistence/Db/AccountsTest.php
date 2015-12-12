@@ -45,9 +45,6 @@ class AccountsTest extends TestCase
         // Configurações
         $serviceLocator->setService('db', $db);
 
-        // I18n
-        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
-
         // Tabela de Contas
         $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
         // Configurações

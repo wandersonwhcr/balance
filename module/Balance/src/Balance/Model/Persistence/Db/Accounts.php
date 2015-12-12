@@ -54,7 +54,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             // Filtro
             $select->where(function ($where) use ($params) {
                 // Idioma
-                $language = $this->getServiceLocator()->get('i18n')->getLanguage();
+                $language = locale_get_display_language(null, 'en');
                 // Documento
                 $document = new Expression(
                     'TO_TSVECTOR(\'' . $language . '\', "a"."name")'

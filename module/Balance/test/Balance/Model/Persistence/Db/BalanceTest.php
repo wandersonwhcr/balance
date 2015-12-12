@@ -27,9 +27,6 @@ class BalanceTest extends TestCase
         // Configurações
         $serviceLocator->setService('db', $db);
 
-        // I18n
-        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
-
         // Limpeza de Lançamentos
         $delete = (new Sql($db))->delete()
             ->from('postings');

@@ -236,11 +236,6 @@ return array(
         ),
     ),
 
-    'balance_i18n' => array(
-        'locale'   => 'pt_BR',
-        'timezone' => 'America/Sao_Paulo',
-    ),
-
     'controllers' => array(
         'invokables' => array(
             'Balance\Mvc\Controller\Home'    => 'Balance\Mvc\Controller\Home',
@@ -275,17 +270,6 @@ return array(
         'factories' => array(
             // Navegação
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-            // I18n
-            'i18n' => function ($serviceLocator) {
-                // Configurações
-                $config = $serviceLocator->get('Config')['balance_i18n'];
-                // Definição do Timezone no PHP
-                date_default_timezone_set($config['timezone']);
-                // Definição de Locale Padrão
-                locale_set_default($config['locale']);
-                // Inicialização
-                return new Balance\I18n\I18n($config['locale']);
-            },
         ),
     ),
 
