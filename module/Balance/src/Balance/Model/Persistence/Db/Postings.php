@@ -42,11 +42,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Seletor
         $select = (new Select())
             ->from(array('p' => 'postings'))
-            ->columns(array(
-                'id'          => 'id',
-                'datetime'    => new Expression('TO_CHAR("p"."datetime", \'YYYY-MM-DD HH24:MI:SS\')'),
-                'description' => 'description',
-            ))
+            ->columns(array('id', 'datetime', 'description'))
             ->order(array('p.datetime DESC'));
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
@@ -99,7 +95,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Inicial
         if ($params['datetime_begin']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', $formatter->parse($params['datetime_begin']));
+            $datetime = date('c', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->greaterThanOrEqualTo('p.datetime', $datetime);
@@ -108,7 +104,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Final
         if ($params['datetime_end']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', $formatter->parse($params['datetime_end']));
+            $datetime = date('c', $formatter->parse($params['datetime_end']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
@@ -198,7 +194,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
         $formatter = $this->buildDateFormatter();
-        $datetime  = date('Y-m-d H:i:s', $formatter->parse($data['datetime']));
+        $datetime  = date('c', $formatter->parse($data['datetime']));
 
         // Tratamento
         try {

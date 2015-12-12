@@ -50,6 +50,6 @@ class Datetime implements StrategyInterface, ServiceLocatorAwareInterface
      */
     public function hydrate($value)
     {
-        return date('Y-m-d H:i:s', $this->getFormatter()->parse($value));
+        return date('c', $this->getFormatter()->parse($value));
     }
 }

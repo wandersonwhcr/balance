@@ -18,9 +18,12 @@ class Module
 
     public function onBootstrap($event)
     {
+        // Gerenciador de Serviços
+        $serviceManager = $event->getApplication()->getServiceManager();
+
         // Tradução
-        $translator = $event->getApplication()->getServiceManager()->get('MvcTranslator');
-        $locale     = $event->getApplication()->getServiceManager()->get('i18n')->getLocale();
+        $translator = $serviceManager->get('MvcTranslator');
+        $locale     = $serviceManager->get('i18n')->getLocale();
         // Configuração
         $translator
             ->setLocale($locale)
@@ -31,5 +34,10 @@ class Module
                 $locale
             );
         call_user_func(array('Zend\Validator\AbstractValidator', 'setDefaultTranslator'), $translator);
+
+        // Banco de Dados e Time Zone
+        $serviceManager->get('db')
+            ->query(sprintf("SET TIME ZONE '%s'", date_default_timezone_get()))
+            ->execute();
     }
 }

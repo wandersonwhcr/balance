@@ -5,6 +5,7 @@ namespace Balance\Model\Persistence\Db;
 use Balance\Model\AccountType;
 use Balance\Model\EntryType;
 use Balance\Mvc\Application;
+use IntlDateFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
@@ -27,12 +28,17 @@ class PostingsTest extends TestCase
         $serviceLocator->setService('db', $db);
 
         // I18n
-        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
+        $i18n = Application::getApplication()->getServiceManager()->get('i18n');
+        // Configuração
+        $serviceLocator->setService('i18n', $i18n);
 
         // Tabelas
         $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
         $tbPostings = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Entries');
+
+        // Formatador de Datas
+        $formatter = $i18n->createDateFormatter(IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
 
         // Configuração
         $serviceLocator
@@ -74,7 +80,7 @@ class PostingsTest extends TestCase
 
         // Inserir Lançamento 1
         $tbPostings->insert(array(
-            'datetime'    => '2010-10-10 09:10:10',
+            'datetime'    => date('c', $formatter->parse('10/10/2010 09:10:10')),
             'description' => 'Posting XX',
         ));
         // Captura de Chave Primária
@@ -82,7 +88,7 @@ class PostingsTest extends TestCase
 
         // Inserir Lançamento 2
         $tbPostings->insert(array(
-            'datetime'    => '2010-10-10 10:10:10',
+            'datetime'    => date('c', $formatter->parse('10/10/2010 10:10:10')),
             'description' => 'Posting YY',
         ));
         // Captura de Chave Primária
@@ -143,13 +149,13 @@ class PostingsTest extends TestCase
         // Elemento
         $element = current($result);
         // Verificações
-        $this->assertEquals('2010-10-10 10:10:10', $element['datetime']);
+        $this->assertEquals('2010-10-10 10:10:10-03', $element['datetime']);
         $this->assertEquals('Posting YY', $element['description']);
 
         // Elemento
         $element = next($result);
         // Verificações
-        $this->assertEquals('2010-10-10 09:10:10', $element['datetime']);
+        $this->assertEquals('2010-10-10 09:10:10-03', $element['datetime']);
         $this->assertEquals('Posting XX', $element['description']);
     }
 

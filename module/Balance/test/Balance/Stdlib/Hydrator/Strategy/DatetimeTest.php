@@ -52,6 +52,6 @@ class DatetimeTest extends TestCase
             'datetime' => '31/10/1999 23:59:59',
         ), $element);
         // Testes
-        $this->assertEquals('1999-10-31 23:59:59', $element['datetime']);
+        $this->assertEquals('1999-10-31T23:59:59-02:00', $element['datetime']);
     }
 }

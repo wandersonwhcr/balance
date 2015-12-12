@@ -237,7 +237,8 @@ return array(
     ),
 
     'balance_i18n' => array(
-        'locale' => 'pt_BR',
+        'locale'   => 'pt_BR',
+        'timezone' => 'America/Sao_Paulo',
     ),
 
     'controllers' => array(
@@ -276,8 +277,12 @@ return array(
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
             // I18n
             'i18n' => function ($serviceLocator) {
+                // Configurações
+                $config = $serviceLocator->get('Config')['balance_i18n'];
+                // Definição do Timezone no PHP
+                date_default_timezone_set($config['timezone']);
                 // Inicialização
-                return new Balance\I18n\I18n($serviceLocator->get('Config')['balance_i18n']['locale']);
+                return new Balance\I18n\I18n($config['locale']);
             },
         ),
     ),
