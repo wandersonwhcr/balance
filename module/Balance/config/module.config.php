@@ -281,6 +281,8 @@ return array(
                 $config = $serviceLocator->get('Config')['balance_i18n'];
                 // Definição do Timezone no PHP
                 date_default_timezone_set($config['timezone']);
+                // Definição de Locale Padrão
+                locale_set_default($config['locale']);
                 // Inicialização
                 return new Balance\I18n\I18n($config['locale']);
             },

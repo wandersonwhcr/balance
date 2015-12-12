@@ -23,7 +23,9 @@ class PostingsTest extends TestCase
             ->will($this->returnValue(array(1 => 'One', 2 => 'Two')));
         $serviceLocator->setService('Balance\Model\Persistence\Accounts', $persistence);
 
-        $serviceLocator->setService('i18n', Application::getApplication()->getServiceManager()->get('i18n'));
+        $i18n = Application::getApplication()->getServiceManager()->get('i18n');
+        $i18n->setLocale('pt_BR');
+        $serviceLocator->setService('i18n', $i18n);
 
         $inputFilterPluginManager = new InputFilterPluginManager();
         $inputFilterPluginManager->setServiceLocator($serviceLocator);

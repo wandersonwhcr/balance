@@ -34,6 +34,7 @@ class I18n
      */
     public function setLocale($locale)
     {
+        locale_set_default($locale);
         $this->locale = $locale;
         return $this;
     }
@@ -58,7 +59,7 @@ class I18n
      */
     public function getLanguageLocale()
     {
-        return strtolower(str_replace('_', '-', $this->getLocale()));
+        return strtolower(str_replace('_', '-', locale_get_default()));
     }
 
     /**
@@ -71,7 +72,7 @@ class I18n
      */
     public function getLanguage()
     {
-        return call_user_func(array('Locale', 'getDisplayLanguage'), $this->getLocale(), 'en');
+        return call_user_func(array('Locale', 'getDisplayLanguage'), locale_get_default(), 'en');
     }
 
     /**
@@ -83,7 +84,7 @@ class I18n
     public function createNumberFormatter($style)
     {
         // Apresentação
-        return new NumberFormatter($this->getLocale(), $style);
+        return new NumberFormatter(null, $style);
     }
 
     /**
@@ -95,6 +96,6 @@ class I18n
      */
     public function createDateFormatter($datetype, $timetype)
     {
-        return new IntlDateFormatter($this->getLocale(), $datetype, $timetype);
+        return new IntlDateFormatter(null, $datetype, $timetype);
     }
 }

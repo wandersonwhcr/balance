@@ -29,6 +29,8 @@ class PostingsTest extends TestCase
 
         // I18n
         $i18n = Application::getApplication()->getServiceManager()->get('i18n');
+        // Configurar Localização
+        $i18n->setLocale('pt_BR');
         // Configuração
         $serviceLocator->setService('i18n', $i18n);
 
