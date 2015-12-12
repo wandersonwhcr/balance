@@ -170,6 +170,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $formatter = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL);
         // Configuração de Símbolo
         $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
+        // Número de Casas Decimais
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
         // Configurações
         foreach ($rowset as $row) {
             $element['entries'][] = array(
