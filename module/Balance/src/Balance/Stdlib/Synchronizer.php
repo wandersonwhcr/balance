@@ -19,6 +19,12 @@ class Synchronizer
     private $columns = array();
 
     /**
+     * Elementos Antigos
+     * @type array
+     */
+    private $oldElements = array();
+
+    /**
      * Configuração de Colunas para Comparação
      *
      * @param  string[]     $columns Valores para Configuração
@@ -46,5 +52,27 @@ class Synchronizer
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    /**
+     * Configuração de Elementos Antigos para Comparação
+     *
+     * @param  array        $elements Elementos para Configuração
+     * @return Synchronizer Próprio Objeto para Encadeamento
+     */
+    public function setOldElements(array $elements)
+    {
+        $this->oldElements = $elements;
+        return $this;
+    }
+
+    /**
+     * Apresentação de Elementos Antigos para Comparação
+     *
+     * @return array Elementos Configurados
+     */
+    public function getOldElements()
+    {
+        return $this->oldElements;
     }
 }

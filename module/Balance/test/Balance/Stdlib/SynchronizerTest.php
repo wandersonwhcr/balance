@@ -35,4 +35,17 @@ class SynchronizerTest extends TestCase
 
         $element->setColumns(array(new StdClass()));
     }
+
+    public function testOldElements()
+    {
+        $element = new Synchronizer();
+
+        $element->setColumns(array('one', 'two'));
+
+        $result = $element->setOldElements(array('one' => 'A', 'two' => 'B'));
+        $this->assertSame($element, $result);
+
+        $result = $element->getOldElements();
+        $this->assertEquals(array('one' => 'A', 'two' => 'B'), $result);
+    }
 }
