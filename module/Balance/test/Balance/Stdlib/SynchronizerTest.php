@@ -3,6 +3,7 @@
 namespace Balance\Stdlib;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use StdClass;
 
 class SynchronizerTest extends TestCase
 {
@@ -15,5 +16,23 @@ class SynchronizerTest extends TestCase
 
         $result = $element->getColumns();
         $this->assertEquals(array('one', 'two'), $result);
+    }
+
+    public function testColumnsWithInvalidArrayColumn()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'Invalid Column');
+
+        $element = new Synchronizer();
+
+        $element->setColumns(array(array()));
+    }
+
+    public function testColumnsWithInvalidObjectCOlumn()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'Invalid Column');
+
+        $element = new Synchronizer();
+
+        $element->setColumns(array(new StdClass()));
     }
 }

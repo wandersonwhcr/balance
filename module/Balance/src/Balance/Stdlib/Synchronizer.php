@@ -2,6 +2,8 @@
 
 namespace Balance\Stdlib;
 
+use InvalidArgumentException;
+
 /**
  * Estrutura para Sincronização de Elementos
  *
@@ -24,7 +26,15 @@ class Synchronizer
      */
     public function setColumns(array $columns)
     {
-        $this->columns = $columns;
+        // Verificar Tipos de Colunas
+        foreach ($columns as $column) {
+            if (!is_scalar($column)) {
+                throw new InvalidArgumentException('Invalid Column');
+            }
+        }
+        // Configurações
+        $this->columns = array_values($columns);
+        // Encadeamento
         return $this;
     }
 
