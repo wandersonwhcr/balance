@@ -13,9 +13,10 @@ use InvalidArgumentException;
 class Synchronizer
 {
     // Constantes
-    const INSERT = 'INSERT';
-    const UPDATE = 'UPDATE';
-    const DELETE = 'DELETE';
+    const INSERT    = 'INSERT';
+    const UPDATE    = 'UPDATE';
+    const DELETE    = 'DELETE';
+    const SEPARATOR = '.';
 
     /**
      * Colunas para Comparação
@@ -65,10 +66,46 @@ class Synchronizer
      */
     public function synchronize(array $old, array $new)
     {
-        return array(
+        // Resultado Inicial
+        $result = array(
             self::INSERT => array(),
             self::UPDATE => array(),
             self::DELETE => array(),
         );
+
+        // Inicialização
+        $columns = $this->getColumns();
+
+        // Processar Conjunto Antigo
+        $oldElements = array();
+        foreach ($old as $element) {
+            // Capturar Valores de Colunas
+            $values = array_intersect_key($element, array_flip($columns));
+            // Criação de Hash
+            $hash = md5(implode(self::SEPARATOR, $values));
+            // Configuração
+            $oldElements[$hash] = $element;
+        }
+
+        // Processar Conjunto Novo
+        $newElements = array();
+        foreach ($new as $element) {
+            // Capturar Valores de Colunas
+            $values = array_intersect_key($element, array_flip($columns));
+            // Criação de Hash
+            $hash = md5(implode(self::SEPARATOR, $values));
+            // Configuração
+            $newElements[$hash] = $element;
+        }
+
+        // Quais Elementos para Inserção?
+        $result[self::INSERT] = array_values(array_diff_key($newElements, $oldElements));
+        // Quais Elementos para Atualização?
+        $result[self::UPDATE] = array_values(array_intersect_key($newElements, $oldElements));
+        // Quais Elementos para Remoção?
+        $result[self::DELETE] = array_values(array_diff_key($oldElements, $newElements));
+
+        // Apresentar Resultado
+        return $result;
     }
 }
