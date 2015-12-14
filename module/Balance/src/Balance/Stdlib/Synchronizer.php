@@ -12,23 +12,16 @@ use InvalidArgumentException;
  */
 class Synchronizer
 {
+    // Constantes
+    const INSERT = 'INSERT';
+    const UPDATE = 'UPDATE';
+    const DELETE = 'DELETE';
+
     /**
      * Colunas para Comparação
      * @type string[]
      */
     private $columns = array();
-
-    /**
-     * Elementos Antigos
-     * @type array
-     */
-    private $oldElements = array();
-
-    /**
-     * Elementos Novos
-     * @type array
-     */
-    private $newElements = array();
 
     /**
      * Configuração de Colunas para Comparação
@@ -61,46 +54,21 @@ class Synchronizer
     }
 
     /**
-     * Configuração de Elementos Antigos para Comparação
+     * Sincronizar Conjuntos de Dados Antigos e Novos
      *
-     * @param  array        $elements Elementos para Configuração
-     * @return Synchronizer Próprio Objeto para Encadeamento
-     */
-    public function setOldElements(array $elements)
-    {
-        $this->oldElements = $elements;
-        return $this;
-    }
-
-    /**
-     * Apresentação de Elementos Antigos para Comparação
+     * Executa uma sincronização de dados, informando quais valores devem ser utilizados para inserção, atualização e
+     * remoção numa possível camada de persistência externa.
      *
-     * @return array Elementos Configurados
+     * @param  array $old Conjunto de Dados Entigos
+     * @param  array $new Conjunto de Dados Novos
+     * @return array Conjuntos de Dados para Sincronização
      */
-    public function getOldElements()
+    public function synchronize(array $old, array $new)
     {
-        return $this->oldElements;
-    }
-
-    /**
-     * Configuração de Elementos Novos para Comparação
-     *
-     * @param  array        $elements Elementos para Configuração
-     * @return Synchronizer Próprio Objeto para Encadeamento
-     */
-    public function setNewElements(array $elements)
-    {
-        $this->newElements = $elements;
-        return $this;
-    }
-
-    /**
-     * Apresentação de Elementos Novos para Comparação
-     *
-     * @return array Elementos Configurados
-     */
-    public function getNewElements()
-    {
-        return $this->newElements;
+        return array(
+            self::INSERT => array(),
+            self::UPDATE => array(),
+            self::DELETE => array(),
+        );
     }
 }

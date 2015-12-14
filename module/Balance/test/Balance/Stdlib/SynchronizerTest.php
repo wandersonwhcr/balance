@@ -36,43 +36,42 @@ class SynchronizerTest extends TestCase
         $element->setColumns(array(new StdClass()));
     }
 
-    public function testOldElements()
+    public function testSyncronize()
     {
         $element = new Synchronizer();
 
-        $element->setColumns(array('one', 'two'));
+        $element->setColumns(array('id'));
 
-        $result = $element->setOldElements(array('one' => 'A', 'two' => 'B'));
-        $this->assertSame($element, $result);
+        $old = array(
+            array('id' => 1, 'value' => 'A'),
+            array('id' => 2, 'value' => 'B'),
+        );
 
-        $result = $element->getOldElements();
-        $this->assertEquals(array('one' => 'A', 'two' => 'B'), $result);
-    }
+        $new = array(
+            array('id' => 2, 'value' => 'D'),
+            array('id' => 3, 'value' => 'C'),
+        );
 
-    public function testNewElements()
-    {
-        $element = new Synchronizer();
+        $result = $element->synchronize($old, $new);
 
-        $element->setColumns(array('one', 'two'));
+        $this->assertArrayHasKey(Synchronizer::INSERT, $result);
+        $this->assertArrayHasKey(Synchronizer::UPDATE, $result);
+        $this->assertArrayHasKey(Synchronizer::DELETE, $result);
 
-        $result = $element->setNewElements(array('one' => 'A', 'two' => 'B'));
-        $this->assertSame($element, $result);
+        $insert = array(
+            array('id' => 3, 'value' => 'C'),
+        );
 
-        $result = $element->getNewElements();
-        $this->assertEquals(array('one' => 'A', 'two' => 'B'), $result);
-    }
+        $update = array(
+            array('id' => 2, 'value' => 'D'),
+        );
 
-    public function testOldAndNewElements()
-    {
-        $element = new Synchronizer();
+        $delete = array(
+            array('id' => 1, 'value' => 'A'),
+        );
 
-        $element->setColumns(array('foo'));
-
-        $element->setOldElements(array('foo' => 'bar'));
-
-        $element->setNewElements(array('foo' => 'baz'));
-
-        $this->assertEquals(array('foo' => 'bar'), $element->getOldElements());
-        $this->assertEquals(array('foo' => 'baz'), $element->getNewElements());
+        $this->assertEquals($insert, $result[Synchronizer::INSERT]);
+        $this->assertEquals($update, $result[Synchronizer::UPDATE]);
+        $this->assertEquals($delete, $result[Synchronizer::DELETE]);
     }
 }
