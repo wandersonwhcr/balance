@@ -13,6 +13,16 @@ use Zend\View\Model\JsonModel;
 class Configs extends AbstractActionController
 {
     /**
+     * Captura de Localização para Javascript
+     *
+     * @return string Valor Solicitado
+     */
+    protected function getLocale()
+    {
+        return strtolower(str_replace('_', '-', locale_get_default()));
+    }
+
+    /**
      * Apresentar Configurações
      *
      * @return JsonModel Modelo de Visualização
@@ -31,6 +41,8 @@ class Configs extends AbstractActionController
         }
         // Configurar Caminho Base
         $view->setVariable('basePath', $this->getRequest()->getBaseUrl());
+        // Configurar Linguagem de Localização
+        $view->setVariable('locale', $this->getLocale());
         // Configurar Variável
         $view->setJsonpCallback('$.application.setConfigs');
         // Apresentação

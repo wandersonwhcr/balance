@@ -255,6 +255,8 @@ return array(
             'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
             'Balance\Model\Persistence\Balance'  => 'Balance\Model\Persistence\Db\Balance',
+            // Hydrators
+            'Balance\Stdlib\Hydrator\Strategy\Datetime' => 'Balance\Stdlib\Hydrator\Strategy\Datetime',
         ),
         'abstract_factories' => array(
             // Models
@@ -266,6 +268,7 @@ return array(
             'Balance\Db\TableGateway\Entries'  => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
         ),
         'factories' => array(
+            // Navegação
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
     ),

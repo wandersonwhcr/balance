@@ -1,9 +1,11 @@
 <?php
+    // Linguagem
+    $language = strtolower(str_replace('_', '-', locale_get_default()));
     // Navigation
     $navigation = $this->navigation('navigation');
 ?>
 <?php echo $this->doctype('HTML5') ?>
-<html lang="pt-br">
+<html lang="<?php echo $this->escapeHtml($language) ?>">
     <head>
         <?php
             $this->headMeta()

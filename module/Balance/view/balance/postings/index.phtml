@@ -17,9 +17,12 @@
         ->append('Lançamentos')
         ->append('Listar');
 
+    // I18n
+    $datetime = $this->getHelperPluginManager()->getServiceLocator()->get('Balance\Stdlib\Hydrator\Strategy\Datetime');
+
     // Hidratação das Linhas
     $hydrator = (new Hydrator\ArraySerializable())
-        ->addStrategy('datetime', new HydratorStrategy\Datetime());
+        ->addStrategy('datetime', $datetime);
 
     // Tabela
     $table = (new Table())

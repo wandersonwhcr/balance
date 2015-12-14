@@ -28,7 +28,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     protected function buildDateFormatter()
     {
-        return new IntlDateFormatter('pt_BR', IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        return new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
     }
 
     /**
@@ -41,20 +41,18 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Seletor
         $select = (new Select())
             ->from(array('p' => 'postings'))
-            ->columns(array(
-                'id'          => 'id',
-                'datetime'    => new Expression('TO_CHAR("p"."datetime", \'YYYY-MM-DD HH24:MI:SS\')'),
-                'description' => 'description',
-            ))
+            ->columns(array('id', 'datetime', 'description'))
             ->order(array('p.datetime DESC'));
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
             // Filtro
             $select->where(function ($where) use ($params) {
+                // Linguagem
+                $language = locale_get_display_language(null, 'en');
                 // Documento
                 $document = new Expression(
-                    'TO_TSVECTOR(\'portuguese\', STRING_AGG("a"."name", \' \'))'
-                    . ' || TO_TSVECTOR(\'portuguese\', STRING_AGG("p"."description", \' \'))'
+                    'TO_TSVECTOR(\'' . $language . '\', STRING_AGG("a"."name", \' \'))'
+                    . ' || TO_TSVECTOR(\'' . $language . '\', STRING_AGG("p"."description", \' \'))'
                 );
                 // Construção do Documento
                 $search = (new Select())
@@ -67,9 +65,9 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 $subselect = (new Select())
                     ->from(array('search' => $search))
                     ->columns(array('posting_id'))
-                    ->where(function ($where) use ($params) {
+                    ->where(function ($where) use ($params, $language) {
                         $where->expression(
-                            '"search"."document" @@ TO_TSQUERY(\'portuguese\', ?)',
+                            '"search"."document" @@ TO_TSQUERY(\'' . $language . '\', ?)',
                             sprintf("'%s'", addslashes($params['keywords']))
                         );
                     });
@@ -96,7 +94,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Inicial
         if ($params['datetime_begin']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', $formatter->parse($params['datetime_begin']));
+            $datetime = date('c', $formatter->parse($params['datetime_begin']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->greaterThanOrEqualTo('p.datetime', $datetime);
@@ -105,7 +103,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Pesquisa: Data e Hora Final
         if ($params['datetime_end']) {
             // Filtrar Valor
-            $datetime = date('Y-m-d H:i:s', $formatter->parse($params['datetime_end']));
+            $datetime = date('c', $formatter->parse($params['datetime_end']));
             // Filtro
             $select->where(function ($where) use ($datetime) {
                 $where->lessThanOrEqualTo('p.datetime', $datetime);
@@ -167,7 +165,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
-        $formatter = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL);
+        $formatter = new NumberFormatter(null, NumberFormatter::DECIMAL);
         // Configuração de Símbolo
         $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
         // Número de Casas Decimais
@@ -195,7 +193,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
         $formatter = $this->buildDateFormatter();
-        $datetime  = date('Y-m-d H:i:s', $formatter->parse($data['datetime']));
+        $datetime  = date('c', $formatter->parse($data['datetime']));
 
         // Tratamento
         try {
@@ -230,7 +228,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 });
             });
             // Formatador de Números
-            $formatter = new NumberFormatter('pt_BR', NumberFormatter::CURRENCY);
+            $formatter = new NumberFormatter(null, NumberFormatter::CURRENCY);
             // Configuração de Símbolo
             $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
             // Posicionamento

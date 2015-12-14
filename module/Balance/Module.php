@@ -18,17 +18,25 @@ class Module
 
     public function onBootstrap($event)
     {
+        // Gerenciador de Serviços
+        $serviceManager = $event->getApplication()->getServiceManager();
+
         // Tradução
-        $translator = $event->getApplication()->getServiceManager()->get('MvcTranslator');
+        $translator = $serviceManager->get('MvcTranslator');
         // Configuração
         $translator
-            ->setLocale('pt_BR')
+            ->setLocale(locale_get_default())
             ->addTranslationFile(
                 'phpArray',
-                './vendor/zendframework/zend-i18n-resources/languages/pt_BR/Zend_Validate.php',
+                './vendor/zendframework/zend-i18n-resources/languages/' . locale_get_default() . '/Zend_Validate.php',
                 'default',
-                'pt_BR'
+                locale_get_default()
             );
         call_user_func(array('Zend\Validator\AbstractValidator', 'setDefaultTranslator'), $translator);
+
+        // Banco de Dados e Time Zone
+        $serviceManager->get('db')
+            ->query(sprintf("SET TIME ZONE '%s'", date_default_timezone_get()))
+            ->execute();
     }
 }

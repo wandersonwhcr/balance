@@ -52,7 +52,7 @@ $(function () {
 
     (function () {
         // Configurações
-        numeral.language('pt-br');
+        numeral.language($.application.getConfig('locale'));
         // Inicialização
         var container = $('#entries .collection-container');
         // Editar Campo de Moeda

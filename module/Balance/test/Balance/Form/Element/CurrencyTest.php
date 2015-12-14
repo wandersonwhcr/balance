@@ -2,8 +2,11 @@
 
 namespace Balance\Form\Element;
 
+use Balance\Mvc\Application;
 use NumberFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
+use Zend\ServiceManager\ServiceManager;
+use Zend\Form\FormElementManager;
 
 class CurrencyTest extends TestCase
 {
@@ -22,7 +25,7 @@ class CurrencyTest extends TestCase
     {
         $element = new Currency();
 
-        $symbol = (new NumberFormatter('pt_BR', NumberFormatter::CURRENCY))
+        $symbol = (new NumberFormatter(null, NumberFormatter::CURRENCY))
             ->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
 
         $value = $element->getOption('add-on-prepend');
