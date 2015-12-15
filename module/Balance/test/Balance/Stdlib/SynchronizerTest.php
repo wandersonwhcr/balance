@@ -36,7 +36,7 @@ class SynchronizerTest extends TestCase
         $element->setColumns(array(new StdClass()));
     }
 
-    public function testSyncronize()
+    public function testSynchronize()
     {
         $element = new Synchronizer();
 
@@ -68,6 +68,51 @@ class SynchronizerTest extends TestCase
 
         $delete = array(
             array('id' => 1, 'value' => 'A'),
+        );
+
+        $this->assertEquals($insert, $result[Synchronizer::INSERT]);
+        $this->assertEquals($update, $result[Synchronizer::UPDATE]);
+        $this->assertEquals($delete, $result[Synchronizer::DELETE]);
+    }
+
+    public function testSynchronizeWithMultipleColumns()
+    {
+        $element = new Synchronizer();
+
+        $element->setColumns(array('foo_id', 'bar_id'));
+
+        $old = array(
+            array('foo_id' => 1, 'bar_id' => 1, 'value' => 'A'),
+            array('foo_id' => 1, 'bar_id' => 2, 'value' => 'B'),
+            array('foo_id' => 2, 'bar_id' => 1, 'value' => 'C'),
+            array('foo_id' => 2, 'bar_id' => 2, 'value' => 'D'),
+        );
+
+        $new = array(
+            array('foo_id' => 1, 'bar_id' => 1, 'value' => 'A'),
+            array('foo_id' => 1, 'bar_id' => 2, 'value' => 'C'),
+            array('foo_id' => 2, 'bar_id' => 2, 'value' => 'E'),
+            array('foo_id' => 2, 'bar_id' => 3, 'value' => 'B'),
+        );
+
+        $result = $element->synchronize($old, $new);
+
+        $this->assertArrayHasKey(Synchronizer::INSERT, $result);
+        $this->assertArrayHasKey(Synchronizer::UPDATE, $result);
+        $this->assertArrayHasKey(Synchronizer::DELETE, $result);
+
+        $insert = array(
+            array('foo_id' => 2, 'bar_id' => 3, 'value' => 'B'),
+        );
+
+        $update = array(
+            array('foo_id' => 1, 'bar_id' => 1, 'value' => 'A'),
+            array('foo_id' => 1, 'bar_id' => 2, 'value' => 'C'),
+            array('foo_id' => 2, 'bar_id' => 2, 'value' => 'E'),
+        );
+
+        $delete = array(
+            array('foo_id' => 2, 'bar_id' => 1, 'value' => 'C'),
         );
 
         $this->assertEquals($insert, $result[Synchronizer::INSERT]);
