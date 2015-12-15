@@ -240,7 +240,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             $newEntries = $data['entries'];
             // Colocar Posições
             $position = 0;
-            foreach ($newEntries as $i => $entry) {
+            foreach (array_keys($newEntries) as $i) {
                 $newEntries[$i]['position'] = $position++;
             }
             // Sincronização
