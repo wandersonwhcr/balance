@@ -34,7 +34,7 @@ class Synchronizer
     {
         // Verificar Tipos de Colunas
         foreach ($columns as $column) {
-            if (!is_scalar($column)) {
+            if (! is_scalar($column)) {
                 throw new InvalidArgumentException('Invalid Column');
             }
         }
