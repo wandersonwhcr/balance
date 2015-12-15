@@ -4,6 +4,7 @@ namespace Balance\Model\Persistence\Db;
 
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
+use Balance\Stdlib\Synchronizer;
 use Exception;
 use IntlDateFormatter;
 use NumberFormatter;
@@ -188,7 +189,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
     public function save(Parameters $data)
     {
         // Inicialização
-        $connection = $this->getServiceLocator()->get('db')->getDriver()->getConnection();
+        $db         = $this->getServiceLocator()->get('db');
+        $connection = $db->getDriver()->getConnection();
         $tbPostings = $this->getServiceLocator()->get('Balance\Db\TableGateway\Postings');
         $tbEntries  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Entries');
         // Conversão para Banco de Dados
@@ -221,28 +223,72 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 // Chave Primária
                 $data['id'] = (int) $tbPostings->getLastInsertValue();
             }
-            // Remover Entradas
-            $tbEntries->delete(function ($delete) use ($data) {
-                $delete->where(function ($where) use ($data) {
-                    $where->equalTo('posting_id', $data['id']);
+            // Seletor Entradas
+            $select = (new Select())
+                ->from(array('e' => 'entries'))
+                ->columns(array('account_id', 'position'))
+                ->where(function ($where) use ($data) {
+                    $where->equalTo('e.posting_id', $data['id']);
                 });
-            });
+            // Consulta de Entradas Antigas
+            $oldEntries = array();
+            $rowset     = $db->query($select->getSqlString($db->getPlatform()))->execute();
+            foreach ($rowset as $row) {
+                $oldEntries[] = $row;
+            }
+            // Captura de Novas Entradas
+            $newEntries = $data['entries'];
+            // Colocar Posições
+            $position = 0;
+            foreach ($newEntries as $i => $entry) {
+                $newEntries[$i]['position'] = $position++;
+            }
+            // Sincronização
+            $entries = (new Synchronizer())
+                ->setColumns(array('account_id', 'position'))
+                ->synchronize($oldEntries, $newEntries);
+            // Processar Remoções
+            foreach ($entries[Synchronizer::DELETE] as $subdata) {
+                // Remover Elemento
+                $tbEntries->delete(function ($delete) use ($data, $subdata) {
+                    $delete->where(function ($where) use ($data, $subdata) {
+                        $where
+                            ->equalTo('posting_id', $data['id'])
+                            ->equalTo('account_id', $subdata['account_id']);
+                    });
+                });
+            }
             // Formatador de Números
             $formatter = new NumberFormatter(null, NumberFormatter::CURRENCY);
             // Configuração de Símbolo
             $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
-            // Posicionamento
-            $position = 0;
             // Salvar Entradas
-            foreach ($data['entries'] as $subdata) {
+            foreach ($entries[Synchronizer::INSERT] as $subdata) {
                 // Salvar Entradas
                 $tbEntries->insert(array(
                     'posting_id' => $data['id'],
                     'account_id' => $subdata['account_id'],
                     'type'       => $subdata['type'],
                     'value'      => $formatter->parseCurrency($subdata['value'], $currency),
-                    'position'   => $position++,
+                    'position'   => $subdata['position'],
                 ));
+                // Limpeza PHPMD
+                unset($currency);
+            }
+            // Atualizar Entradas
+            foreach ($entries[Synchronizer::UPDATE] as $subdata) {
+                // Atualizar Entradas
+                $tbEntries->update(array(
+                    'posting_id' => $data['id'],
+                    'account_id' => $subdata['account_id'],
+                    'type'       => $subdata['type'],
+                    'value'      => $formatter->parseCurrency($subdata['value'], $currency),
+                    'position'   => $subdata['position'],
+                ), function ($where) use ($data, $subdata) {
+                    $where
+                        ->equalTo('posting_id', $data['id'])
+                        ->equalTo('account_id', $subdata['account_id']);
+                });
                 // Limpeza PHPMD
                 unset($currency);
             }
