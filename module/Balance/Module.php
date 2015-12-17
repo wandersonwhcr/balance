@@ -1,6 +1,8 @@
 <?php
 namespace Balance;
 
+use Zend\I18n\Translator\Resources as TranslatorResources;
+
 /**
  * Inicialização do Módulo
  */
@@ -26,11 +28,10 @@ class Module
         // Configuração
         $translator
             ->setLocale(locale_get_default())
-            ->addTranslationFile(
+            ->addTranslationFilePattern(
                 'phpArray',
-                './vendor/zendframework/zend-i18n-resources/languages/' . locale_get_default() . '/Zend_Validate.php',
-                'default',
-                locale_get_default()
+                call_user_func(array('Zend\I18n\Translator\Resources', 'getBasePath')),
+                call_user_func(array('Zend\I18n\Translator\Resources', 'getPatternForValidator'))
             );
         call_user_func(array('Zend\Validator\AbstractValidator', 'setDefaultTranslator'), $translator);
 
