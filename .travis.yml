@@ -16,7 +16,7 @@ install:
 
 script:
     - php vendor/bin/phinx migrate
-    - php vendor/bin/phpunit --coverage-text=php://stdout --coverage-clover=coverage.xml --whitelist module/Balance/src
+    - php vendor/bin/phpunit --coverage-text=php://stdout --coverage-clover=build/coverage.xml --whitelist module/Balance/src
     - php vendor/bin/phploc module/Balance/src
     - php vendor/bin/phpcpd module/Balance/src
     - php vendor/bin/parallel-lint module/Balance/src
