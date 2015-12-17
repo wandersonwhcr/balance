@@ -2,6 +2,8 @@
 
 namespace Balance\InputFilter\Search;
 
+use Balance\I18n;
+use IntlDateFormatter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator;
@@ -17,7 +19,10 @@ class Balance extends InputFilter
         $input = (new Input('datetime'))
             ->setRequired(false);
         $input->getValidatorChain()
-            ->attach(new Validator\Date(array('format' => 'd/m/Y H:i:s')));
+            ->attach(new I18n\Validator\DateTime(array(
+                'dateType' => IntlDateFormatter::MEDIUM,
+                'timeType' => IntlDateFormatter::MEDIUM,
+            )));
         $this->add($input);
     }
 }

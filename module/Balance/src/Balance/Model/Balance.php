@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use IntlDateFormatter;
 use Traversable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -56,8 +57,10 @@ class Balance implements ServiceLocatorAwareInterface
         $form = $this->getFormSearch();
         // Data Informada?
         if (! isset($params['datetime'])) {
+            // Formatador de Data e Hora
+            $formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
             // Colocar a Data Atual
-            $params['datetime'] = date('d/m/Y H:i:s', strtotime('first day of next month midnight -1 second'));
+            $params['datetime'] = $formatter->format(strtotime('first day of next month midnight -1 second'));
         }
         // Preencher Formulário
         $form->setData($params);
