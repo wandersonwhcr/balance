@@ -4,7 +4,7 @@ php:
     - 7.0
 
 addons:
-    postgresql: "9.4"
+    postgresql: 9.4
 
 before_install:
     - psql -c "CREATE ROLE balance LOGIN PASSWORD 'balance'" -U postgres
@@ -12,18 +12,15 @@ before_install:
     - npm install -g bower
 
 install:
-    - composer install
+    - make install
 
 script:
-    - php vendor/bin/phinx migrate
-    - php vendor/bin/phpunit --coverage-text=php://stdout --coverage-clover=build/coverage.xml --whitelist module/Balance/src
-    - php vendor/bin/phploc module/Balance/src
-    - php vendor/bin/phpcpd module/Balance
-    - php vendor/bin/parallel-lint module/Balance
-    - php vendor/bin/phpcs --standard=phpcs.xml --runtime-set ignore_warnings_on_exit true --encoding=utf-8 --extensions=php,phtml --colors module/Balance/src module/Balance/view
-    - php vendor/bin/php-cs-fixer fix --config-file=php-cs-fixer.php --dry-run --diff
-    - php vendor/bin/phpmd module/Balance text phpmd.xml
-    - php vendor/bin/phinx migrate -t0
+    - make tests
 
 after_success:
+    - make reports
     - bash <(curl -s https://codecov.io/bash)
+
+after_script:
+    - make uninstall
+    - make clean
