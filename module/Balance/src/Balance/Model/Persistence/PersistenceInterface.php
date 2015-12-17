@@ -12,8 +12,8 @@ interface PersistenceInterface
     /**
      * Consulta de Elementos
      *
-     * @param  Parameters $params Parâmetros de Execução
-     * @return array      Conjunto de Informações Encontradas
+     * @param  Parameters  $params Parâmetros de Execução
+     * @return Traversable Conjunto de Informações Encontradas
      */
     public function fetch(Parameters $params);
 

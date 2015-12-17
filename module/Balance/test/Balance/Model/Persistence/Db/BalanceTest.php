@@ -182,15 +182,15 @@ class BalanceTest extends TestCase
         $result = $persistence->fetch(new Parameters(array('datetime' => '10/10/2011 00:00:00')));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertArrayHasKey('ACTIVE', $result);
         $this->assertArrayHasKey('PASSIVE', $result);
         $this->assertArrayHasKey('ACCUMULATE', $result);
 
-        $this->assertInternalType('array', $result['ACTIVE']);
+        $this->assertInstanceOf('ArrayIterator', $result['ACTIVE']);
         $this->assertNotEmpty($result['ACTIVE']);
 
-        $element = array_shift($result['ACTIVE']);
+        $element = current($result['ACTIVE']);
         $this->assertInternalType('array', $element);
         $this->assertArrayHasKey('name', $element);
         $this->assertEquals('Banco', $element['name']);
@@ -199,7 +199,7 @@ class BalanceTest extends TestCase
         $this->assertArrayHasKey('currency', $element);
         $this->assertEquals('R$500,00', $element['currency']);
 
-        $element = array_shift($result['ACTIVE']);
+        $element = next($result['ACTIVE']);
         $this->assertInternalType('array', $element);
         $this->assertArrayHasKey('name', $element);
         $this->assertEquals('Caixa', $element['name']);
@@ -208,10 +208,10 @@ class BalanceTest extends TestCase
         $this->assertArrayHasKey('currency', $element);
         $this->assertEquals('R$300,00', $element['currency']);
 
-        $this->assertInternalType('array', $result['PASSIVE']);
+        $this->assertInstanceOf('Traversable', $result['PASSIVE']);
         $this->assertEmpty($result['PASSIVE']);
 
-        $this->assertInternalType('array', $result['ACCUMULATE']);
+        $this->assertInstanceOf('ArrayObject', $result['ACCUMULATE']);
         $this->assertArrayHasKey('name', $result['ACCUMULATE']);
         $this->assertEquals('Lucro', $result['ACCUMULATE']['name']);
         $this->assertArrayHasKey('value', $result['ACCUMULATE']);

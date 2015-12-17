@@ -109,10 +109,10 @@ class AccountsTest extends TestCase
         $result = $persistence->fetch(new Parameters());
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(2, $result);
         // Capturar Primeira Posição
-        $element = array_shift($result);
+        $element = $result->current();
         // Verificações
         $this->assertInternalType('array', $element);
         $this->assertArrayHasKey('id', $element);
@@ -121,8 +121,10 @@ class AccountsTest extends TestCase
         $this->assertEquals('AA Account Test', $element['name']);
         $this->assertArrayHasKey('type', $element);
         $this->assertEquals($accountTypeDefinition[AccountType::ACTIVE], $element['type']);
+        // Próximo Elemento
+        $result->next();
         // Capturar Segunda Posição
-        $element = array_shift($result);
+        $element = $result->current();
         // Verificações
         $this->assertInternalType('array', $element);
         $this->assertArrayHasKey('id', $element);
@@ -142,14 +144,14 @@ class AccountsTest extends TestCase
         $result = $persistence->fetch(new Parameters(array('type' => AccountType::ACTIVE)));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(2, $result);
 
         // Consulta
         $result = $persistence->fetch(new Parameters(array('type' => AccountType::PASSIVE)));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(0, $result);
     }
 
@@ -162,28 +164,28 @@ class AccountsTest extends TestCase
         $result = $persistence->fetch(new Parameters(array('keywords' => 'AA')));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(1, $result);
 
         // Consulta
         $result = $persistence->fetch(new Parameters(array('keywords' => 'Account Test')));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(2, $result);
 
         // Consulta
         $result = $persistence->fetch(new Parameters(array('keywords' => 'FOOBAR')));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(0, $result);
 
         // Consulta
         $result = $persistence->fetch(new Parameters(array('keywords' => 'Description')));
 
         // Verificações
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(2, $result);
     }
 
@@ -537,7 +539,7 @@ class AccountsTest extends TestCase
         $result = $persistence->fetch(new Parameters());
 
         // Capturar Primeiro Elemento
-        $element = array_shift($result);
+        $element = $result->current();
 
         // Verificações
         $this->assertEquals($elementA['id'], $element['id']);
@@ -552,7 +554,7 @@ class AccountsTest extends TestCase
         $result = $persistence->fetch(new Parameters());
 
         // Capturar Primeiro Elemento
-        $element = array_shift($result);
+        $element = $result->current();
 
         // Verificações
         $this->assertEquals($elementA['id'], $element['id']);
@@ -644,17 +646,21 @@ class AccountsTest extends TestCase
         $result = $persistence->fetch(new Parameters());
 
         // Capturar Elemento
-        $element = array_shift($result);
+        $element = $result->current();
         // Verificações
         $this->assertEquals($elementB['name'], $element['name']);
 
+        // Próximo Elemento
+        $result->next();
         // Capturar Elemento
-        $element = array_shift($result);
+        $element = $result->current();
         // Verificações
         $this->assertEquals($data['name'], $element['name']);
 
+        // Próximo Elemento
+        $result->next();
         // Capturar Elemento
-        $element = array_shift($result);
+        $element = $result->current();
         // Verificações
         $this->assertEquals($elementA['name'], $element['name']);
     }

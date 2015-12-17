@@ -2,6 +2,7 @@
 
 namespace Balance\Model\Persistence\Db;
 
+use ArrayIterator;
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
@@ -91,7 +92,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             );
         }
         // Apresentação
-        return $result;
+        return new ArrayIterator($result);
     }
 
     /**

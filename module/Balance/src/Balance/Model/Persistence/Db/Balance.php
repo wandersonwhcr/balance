@@ -2,6 +2,8 @@
 
 namespace Balance\Model\Persistence\Db;
 
+use ArrayIterator;
+use ArrayObject;
 use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Expression;
@@ -19,16 +21,16 @@ class Balance implements ServiceLocatorAwareInterface
     /**
      * Consultar o Balanço Completo
      *
-     * @param  Parameters $params Parâmetros de Execução
-     * @return array      Conjunto de Valores Encontrados
+     * @param  Parameters  $params Parâmetros de Execução
+     * @return Traversable Conjunto de Valores Encontrados
      */
     public function fetch(Parameters $params)
     {
         // Inicialização
         $db     = $this->getServiceLocator()->get('db');
         $result = array(
-            'ACTIVE'  => array(),
-            'PASSIVE' => array(),
+            'ACTIVE'  => new ArrayIterator(),
+            'PASSIVE' => new ArrayIterator(),
         );
 
         // Data e Hora Limite
@@ -90,12 +92,12 @@ class Balance implements ServiceLocatorAwareInterface
             // Tipagem
             $type = $row['type'];
             // Adicionar Entrada
-            $result[$type][] = array(
+            $result[$type]->append(array(
                 'id'       => (int) $row['id'],
                 'name'     => $row['name'],
                 'value'    => (float) $row['value'],
                 'currency' => $formatter->format($row['value']),
-            );
+            ));
         }
 
         // Seletor de Acumuladores
@@ -111,12 +113,14 @@ class Balance implements ServiceLocatorAwareInterface
         // Consulta
         $value = (float) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['value'];
         // Captura
-        return array_merge($result, array(
-            'ACCUMULATE' => array(
+        $result = array_merge($result, array(
+            'ACCUMULATE' => new ArrayObject(array(
                 'name'     => $value < 0 ? 'Prejuízo' : 'Lucro',
                 'value'    => (float) $value,
                 'currency' => $formatter->format($value),
-            ),
+            )),
         ));
+        // Apresentação
+        return new ArrayIterator($result);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use ArrayIterator;
 use Balance\Form\Element\DateTime;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Form;
@@ -47,7 +48,7 @@ class BalanceTest extends TestCase
 
         $model->setServiceLocator($serviceLocator);
 
-        $data = array(
+        $data = new ArrayIterator(array(
             array(
                 'id'   => 1,
                 'name' => 'one',
@@ -56,7 +57,7 @@ class BalanceTest extends TestCase
                 'id'   => 2,
                 'name' => 'two',
             ),
-        );
+        ));
 
         $persistence = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
         $persistence
@@ -69,11 +70,13 @@ class BalanceTest extends TestCase
             'datetime' => '10/10/2010 10:10:10',
         )));
 
-        $this->assertEquals($data, $result);
+        $this->assertSame($data, $result);
     }
 
-    public function testFetchWithoutDatetime()
+    public function testFetchWithoutTraversable()
     {
+        $this->setExpectedException('Balance\Model\ModelException', 'Persistence Result is not Traversable');
+
         $model = new Balance();
 
         $formElementManager = new FormElementManager();
@@ -92,13 +95,41 @@ class BalanceTest extends TestCase
         $persistence
             ->expects($this->atLeastOnce())
             ->method('fetch')
-            ->will($this->returnCallback(function ($params) {
-                return isset($params['datetime']) ? array(array('one' => 'two')) : array();
+            ->will($this->returnValue(array()));
+        $serviceLocator->setService('Balance\Model\Persistence\Balance', $persistence);
+
+        $model->fetch(new Parameters());
+    }
+
+    public function testFetchWithoutDatetime()
+    {
+        $model = new Balance();
+
+        $formElementManager = new FormElementManager();
+        $inputFilterManager = new InputFilterPluginManager();
+
+        $formElementManager->setService('datetime', new DateTime());
+
+        $serviceLocator = new ServiceManager();
+        $serviceLocator
+            ->setService('FormElementManager', $formElementManager)
+            ->setService('InputFilterManager', $inputFilterManager);
+
+        $model->setServiceLocator($serviceLocator);
+
+        $data = new ArrayIterator(array(array('one' => 'two')));
+
+        $persistence = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
+        $persistence
+            ->expects($this->atLeastOnce())
+            ->method('fetch')
+            ->will($this->returnCallback(function ($params) use ($data) {
+                return isset($params['datetime']) ? $data : new ArrayIterator();
             }));
         $serviceLocator->setService('Balance\Model\Persistence\Balance', $persistence);
 
         $result = $model->fetch(new Parameters());
 
-        $this->assertEquals(array(array('one' => 'two')), $result);
+        $this->assertSame($data, $result);
     }
 }
