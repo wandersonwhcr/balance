@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use Traversable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
@@ -46,8 +47,8 @@ class Balance implements ServiceLocatorAwareInterface
     /**
      * Consultar Elementos
      *
-     * @param  Parameters $params Parâmetros de Execução
-     * @return array      Conjunto de Valores Encontrados
+     * @param  Parameters  $params Parâmetros de Execução
+     * @return Traversable Conjunto de Valores Encontrados
      */
     public function fetch(Parameters $params)
     {
@@ -69,6 +70,13 @@ class Balance implements ServiceLocatorAwareInterface
             $params[$identifier] = $input->getValue();
         }
         // Consulta
-        return $this->getServiceLocator()->get('Balance\Model\Persistence\Balance')->fetch($params);
+        $result = $this->getServiceLocator()->get('Balance\Model\Persistence\Balance')->fetch($params);
+        // Tipagem Correta?
+        if (! $result instanceof Traversable) {
+            // Erro Encontrado!
+            throw new ModelException('Persistence Result is not Traversable');
+        }
+        // Resultado
+        return $result;
     }
 }
