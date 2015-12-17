@@ -425,4 +425,40 @@ class PostingsTest extends TestCase
         // Salvar Lançamento
         $persistence->save(new Parameters(array('id' => $id)));
     }
+
+    public function testSaveWithSynchronizedEntries()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+
+        // Tabela de Contas
+        $tbAccounts = $persistence->getServiceLocator()->get('Balance\Db\TableGateway\Accounts');
+        // Adicionar uma Nova Conta
+        $tbAccounts->insert(array(
+            'name'        => 'Account XYZ',
+            'type'        => AccountType::ACTIVE,
+            'description' => 'Account XYZ Description',
+            'position'    => 2,
+            'accumulate'  => 0,
+        ));
+        // Chave Primária
+        $pkAccount = $tbAccounts->getLastInsertValue();
+
+        // Carregar Dados Salvos
+        $data = $persistence->find(new Parameters(array('id' => $this->primaries['postings']['xx'])));
+
+        // Posição Atual
+        $position = key($data['entries']);
+        // Trocar Conta
+        $data['entries'][$position]['account_id'] = $pkAccount;
+
+        // Salvar Dados
+        $persistence->save(new Parameters($data));
+
+        // Carregá-los Novamente
+        $result = $persistence->find(new Parameters(array('id' => $this->primaries['postings']['xx'])));
+
+        // Dados Idênticos!
+        $this->assertEquals($data, $result);
+    }
 }
