@@ -16,36 +16,36 @@ class Accounts extends Form
     public function init()
     {
         // Chave Primária
-        $this->add(array(
+        $this->add([
             'type' => 'Hidden',
             'name' => 'id',
-        ));
+        ]);
 
         // Tipo
-        $this->add(array(
+        $this->add([
             'type'    => 'Select',
             'name'    => 'type',
-            'options' => array(
+            'options' => [
                 'value_options' => (new AccountType())->getDefinition(),
-            ),
-        ));
+            ],
+        ]);
 
         // Acumular Valores?
-        $this->add(array(
+        $this->add([
             'type' => 'Boolean',
             'name' => 'accumulate',
-        ));
+        ]);
 
         // Nome
-        $this->add(array(
+        $this->add([
             'type' => 'Text',
             'name' => 'name',
-        ));
+        ]);
 
         // Descrição
-        $this->add(array(
+        $this->add([
             'type' => 'Textarea',
             'name' => 'description',
-        ));
+        ]);
     }
 }

@@ -39,23 +39,23 @@ class AbstractModelFactoryTest extends TestCase
             ->setService('InputFilterManager', $serviceLocator);
 
         // Configurar Elemento
-        $serviceLocator->setService('Config', array(
+        $serviceLocator->setService('Config', [
             // Balance
-            'balance_manager' => array(
-                'factories' => array(
-                    'Balance\Model\Model' => array(
+            'balance_manager' => [
+                'factories' => [
+                    'Balance\Model\Model' => [
                         'factory' => 'Balance\Model\AbstractModelFactory',
-                        'params'  => array(
+                        'params'  => [
                             'form'                => 'Balance\Form\Form',
                             'input_filter'        => 'Balance\InputFilter\InputFilter',
                             'form_search'         => 'Balance\Form\Search\Form',
                             'input_filter_search' => 'Balance\InputFilter\Search\InputFilter',
                             'persistence'         => 'Balance\Model\Persistence\Model',
-                        ),
-                    ),
-                ),
-            ),
-        ));
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
         // Fábrica de Componentes
         $factory = new AbstractModelFactory();

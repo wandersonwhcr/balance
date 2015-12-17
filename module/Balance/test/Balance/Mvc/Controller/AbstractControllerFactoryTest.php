@@ -37,20 +37,20 @@ class AbstractControllerFactoryTest extends TestCase
         $serviceLocator->setService('Balance\Model\Model', $model);
 
         // Configurar Elemento
-        $serviceLocator->setService('Config', array(
+        $serviceLocator->setService('Config', [
             // Balance
-            'balance_manager' => array(
-                'factories' => array(
-                    'Balance\Mvc\Controller\Controller' => array(
+            'balance_manager' => [
+                'factories' => [
+                    'Balance\Mvc\Controller\Controller' => [
                         'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
-                        'params'  => array(
+                        'params'  => [
                             'model'               => 'Balance\Model\Model',
                             'redirect_route_name' => 'controller',
-                        ),
-                    ),
-                ),
-            ),
-        ));
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
         // Fábrica de Componentes
         $factory = new AbstractControllerFactory();

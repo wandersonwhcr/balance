@@ -48,16 +48,16 @@ class BalanceTest extends TestCase
 
         $model->setServiceLocator($serviceLocator);
 
-        $data = new ArrayIterator(array(
-            array(
+        $data = new ArrayIterator([
+            [
                 'id'   => 1,
                 'name' => 'one',
-            ),
-            array(
+            ],
+            [
                 'id'   => 2,
                 'name' => 'two',
-            ),
-        ));
+            ],
+        ]);
 
         $persistence = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
         $persistence
@@ -66,9 +66,9 @@ class BalanceTest extends TestCase
             ->will($this->returnValue($data));
         $serviceLocator->setService('Balance\Model\Persistence\Balance', $persistence);
 
-        $result = $model->fetch(new Parameters(array(
+        $result = $model->fetch(new Parameters([
             'datetime' => '10/10/2010 10:10:10',
-        )));
+        ]));
 
         $this->assertSame($data, $result);
     }
@@ -95,7 +95,7 @@ class BalanceTest extends TestCase
         $persistence
             ->expects($this->atLeastOnce())
             ->method('fetch')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $serviceLocator->setService('Balance\Model\Persistence\Balance', $persistence);
 
         $model->fetch(new Parameters());
@@ -117,7 +117,7 @@ class BalanceTest extends TestCase
 
         $model->setServiceLocator($serviceLocator);
 
-        $data = new ArrayIterator(array(array('one' => 'two')));
+        $data = new ArrayIterator([['one' => 'two']]);
 
         $persistence = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
         $persistence

@@ -40,41 +40,41 @@ class Issue142Test extends TestCase
         $tbAccounts->delete(function () {});
 
         // Conta A
-        $accountA = new Parameters(array(
+        $accountA = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'A',
             'description' => '',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $persistence->save($accountA);
 
         // Conta B
-        $accountB = new Parameters(array(
+        $accountB = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'B',
             'description' => '',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $persistence->save($accountB);
 
         // Conta C
-        $accountC = new Parameters(array(
+        $accountC = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'C',
             'description' => '',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $persistence->save($accountC);
 
         // Salvamento
-        $this->data = array(
+        $this->data = [
             'A' => $accountA,
             'B' => $accountB,
             'C' => $accountC,
-        );
+        ];
 
         // Apresentação
         return $persistence;
@@ -86,10 +86,10 @@ class Issue142Test extends TestCase
         $persistence = $this->getPersistence();
 
         // Ordenar o C para B (Então Coloca C com A antes dele)
-        $persistence->order(new Parameters(array(
+        $persistence->order(new Parameters([
             'id'       => $this->data['C']['id'],
             'previous' => $this->data['A']['id'],
-        )));
+        ]));
 
         // Consulta
         $result = $persistence->fetch(new Parameters());
@@ -116,9 +116,9 @@ class Issue142Test extends TestCase
         $persistence = $this->getPersistence();
 
         // Ordenar o C para a Primeira Posição (Ninguém Antes)
-        $persistence->order(new Parameters(array(
+        $persistence->order(new Parameters([
             'id' => $this->data['C']['id'],
-        )));
+        ]));
 
         // Consulta
         $result = $persistence->fetch(new Parameters());
@@ -144,17 +144,17 @@ class Issue142Test extends TestCase
         // Seletor
         $select = (new Sql($db))->select()
             ->from('accounts')
-            ->columns(array('position'))
-            ->order(array('position'));
+            ->columns(['position'])
+            ->order(['position']);
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Processamento
-        $result = array();
+        $result = [];
         foreach ($rowset as $row) {
             $result[] = (int) $row['position'];
         }
 
         // As Posições devem estar com NÙMEROS CORRETOS!
-        $this->assertEquals(array(0, 1, 2), $result);
+        $this->assertEquals([0, 1, 2], $result);
     }
 }

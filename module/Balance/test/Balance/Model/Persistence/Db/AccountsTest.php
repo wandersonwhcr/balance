@@ -19,21 +19,21 @@ class AccountsTest extends TestCase
         $persistence = new Accounts();
 
         // Conta ZZ
-        $elementZZ = array(
+        $elementZZ = [
             'name'        => 'ZZ Account Test',
             'type'        => AccountType::ACTIVE,
             'description' => 'Description',
             'position'    => 1,
             'accumulate'  => 0,
-        );
+        ];
         // Conta AA
-        $elementAA = array(
+        $elementAA = [
             'name'        => 'AA Account Test',
             'type'        => AccountType::ACTIVE,
             'description' => 'Description',
             'position'    => 0,
             'accumulate'  => 0,
-        );
+        ];
 
         // Localizador de Serviços
         $serviceLocator = new ServiceManager();
@@ -64,7 +64,7 @@ class AccountsTest extends TestCase
         // Preparar Inserção
         $insert = (new Sql($db))->insert()
             ->into('accounts')
-            ->columns(array('name', 'type', 'description', 'position', 'accumulate'));
+            ->columns(['name', 'type', 'description', 'position', 'accumulate']);
 
         // Adicionar Conta ZZ
         $insert->values($elementZZ);
@@ -79,7 +79,7 @@ class AccountsTest extends TestCase
         // Consultar as Duas Chaves Primárias
         $select = (new Sql($db))->select()
             ->from('accounts')
-            ->columns(array('id', 'name'));
+            ->columns(['id', 'name']);
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Consulta
         foreach ($rowset as $row) {
@@ -93,7 +93,7 @@ class AccountsTest extends TestCase
             }
         }
         // Configurar Elementos
-        $this->data = array($elementAA, $elementZZ);
+        $this->data = [$elementAA, $elementZZ];
 
         // Apresentação
         return $persistence;
@@ -141,14 +141,14 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('type' => AccountType::ACTIVE)));
+        $result = $persistence->fetch(new Parameters(['type' => AccountType::ACTIVE]));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(2, $result);
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('type' => AccountType::PASSIVE)));
+        $result = $persistence->fetch(new Parameters(['type' => AccountType::PASSIVE]));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);
@@ -161,28 +161,28 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('keywords' => 'AA')));
+        $result = $persistence->fetch(new Parameters(['keywords' => 'AA']));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(1, $result);
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('keywords' => 'Account Test')));
+        $result = $persistence->fetch(new Parameters(['keywords' => 'Account Test']));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(2, $result);
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('keywords' => 'FOOBAR')));
+        $result = $persistence->fetch(new Parameters(['keywords' => 'FOOBAR']));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);
         $this->assertCount(0, $result);
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('keywords' => 'Description')));
+        $result = $persistence->fetch(new Parameters(['keywords' => 'Description']));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);
@@ -198,7 +198,7 @@ class AccountsTest extends TestCase
         $element = array_shift($this->data);
 
         // Consulta
-        $result = $persistence->find(new Parameters(array('id' => $element['id'])));
+        $result = $persistence->find(new Parameters(['id' => $element['id']]));
 
         // Verificações
         $this->assertInternalType('array', $result);
@@ -217,7 +217,7 @@ class AccountsTest extends TestCase
         $element = array_shift($this->data);
 
         // Consulta
-        $result = $persistence->find(new Parameters(array('id' => $element['id'])));
+        $result = $persistence->find(new Parameters(['id' => $element['id']]));
 
         // Verificações
         $this->assertInternalType('array', $result);
@@ -263,7 +263,7 @@ class AccountsTest extends TestCase
         } while ($id == $elementA['id'] || $id == $elementB['id']);
 
         // Consulta
-        $persistence->find(new Parameters(array('id' => $id)));
+        $persistence->find(new Parameters(['id' => $id]));
     }
 
     public function testSaveWithInsert()
@@ -272,12 +272,12 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Dados
-        $data = new Parameters(array(
+        $data = new Parameters([
             'type'        => AccountType::PASSIVE,
             'name'        => 'FB Account Test',
             'description' => 'Description of the Account',
             'accumulate'  => BooleanType::YES,
-        ));
+        ]);
 
         // Salvar Informações
         $result = $persistence->save($data);
@@ -287,7 +287,7 @@ class AccountsTest extends TestCase
         $this->assertInternalType('int', $data['id']);
 
         // Consulta
-        $result = $persistence->find(new Parameters(array('id' => $data['id'])));
+        $result = $persistence->find(new Parameters(['id' => $data['id']]));
 
         // Verificação
         $this->assertNotEmpty($result);
@@ -302,12 +302,12 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Dados
-        $data = new Parameters(array(
+        $data = new Parameters([
             'type'        => 'UNKNOWN',
             'name'        => 'FB Account Test',
             'description' => 'Description of the Account',
             'accumulate'  => BooleanType::YES,
-        ));
+        ]);
 
         $persistence->save($data);
     }
@@ -321,13 +321,13 @@ class AccountsTest extends TestCase
         $element = array_shift($this->data);
 
         // Dados
-        $data = new Parameters(array(
+        $data = new Parameters([
             'id'          => $element['id'],
             'type'        => AccountType::PASSIVE,
             'name'        => 'Another Name',
             'description' => 'Another Description',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
 
         // Salvar Informações
         $result = $persistence->save($data);
@@ -336,7 +336,7 @@ class AccountsTest extends TestCase
         $this->assertSame($persistence, $result);
 
         // Consulta
-        $result = $persistence->find(new Parameters(array('id' => $data['id'])));
+        $result = $persistence->find(new Parameters(['id' => $data['id']]));
 
         // Verificação
         $this->assertNotEmpty($result);
@@ -356,7 +356,7 @@ class AccountsTest extends TestCase
         $elementB = array_shift($this->data);
 
         // Remoção
-        $result = $persistence->remove(new Parameters(array('id' => $elementA['id'])));
+        $result = $persistence->remove(new Parameters(['id' => $elementA['id']]));
 
         // Verificação
         $this->assertSame($persistence, $result);
@@ -368,7 +368,7 @@ class AccountsTest extends TestCase
         $this->assertCount(1, $result);
 
         // Remoção
-        $persistence->remove(new Parameters(array('id' => $elementB['id'])));
+        $persistence->remove(new Parameters(['id' => $elementB['id']]));
 
         // Consulta
         $result = $persistence->fetch(new Parameters());
@@ -407,7 +407,7 @@ class AccountsTest extends TestCase
         } while ($id == $elementA['id'] || $id == $elementB['id']);
 
         // Remoção
-        $persistence->remove(new Parameters(array('id' => $id)));
+        $persistence->remove(new Parameters(['id' => $id]));
     }
 
     public function testGetValueOptions()
@@ -442,22 +442,22 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Conta NN Passiva
-        $data = new Parameters(array(
+        $data = new Parameters([
             'type'        => AccountType::PASSIVE,
             'name'        => 'MM Account Test',
             'description' => '',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $persistence->save($data);
 
         // Conta MM Ativa
-        $data = new Parameters(array(
+        $data = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'NN Account Test',
             'description' => '',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $persistence->save($data);
 
@@ -474,17 +474,17 @@ class AccountsTest extends TestCase
         $element = current($result);
         // Verificações
         $this->assertEquals($definition[AccountType::ACTIVE], $element['label']);
-        $this->assertEquals(array(
+        $this->assertEquals([
             'AA Account Test',
             'NN Account Test',
             'ZZ Account Test',
-        ), array_values($element['options']));
+        ], array_values($element['options']));
 
         // Capturar Segundo Elemento
         $element = next($result);
         // Verificações
         $this->assertEquals($definition[AccountType::PASSIVE], $element['label']);
-        $this->assertEquals(array('MM Account Test'), array_values($element['options']));
+        $this->assertEquals(['MM Account Test'], array_values($element['options']));
     }
 
     public function testOrderToBegin()
@@ -497,26 +497,26 @@ class AccountsTest extends TestCase
         $elementB = array_shift($this->data);
 
         // Colocar na Primeira Posição
-        $result = $persistence->order(new Parameters(array(
+        $result = $persistence->order(new Parameters([
             'id' => $elementB['id'],
-        )));
+        ]));
 
         // Verificações
         $this->assertSame($persistence, $result);
 
         // Consulta
-        $element = $persistence->find(new Parameters(array('id' => $elementB['id'])));
+        $element = $persistence->find(new Parameters(['id' => $elementB['id']]));
 
         // Verificações
         $this->assertEquals($elementB['id'], $element['id']);
 
         // Colocar na Primeira Posição
-        $result = $persistence->order(new Parameters(array(
+        $result = $persistence->order(new Parameters([
             'id' => $elementA['id'],
-        )));
+        ]));
 
         // Consulta
-        $element = $persistence->find(new Parameters(array('id' => $elementA['id'])));
+        $element = $persistence->find(new Parameters(['id' => $elementA['id']]));
 
         // Verificações
         $this->assertEquals($elementA['id'], $element['id']);
@@ -531,9 +531,9 @@ class AccountsTest extends TestCase
         $elementA = array_shift($this->data);
 
         // Colocar no Início (já está)
-        $persistence->order(new Parameters(array(
+        $persistence->order(new Parameters([
             'id' => $elementA['id'],
-        )));
+        ]));
 
         // Consulta
         $result = $persistence->fetch(new Parameters());
@@ -545,10 +545,10 @@ class AccountsTest extends TestCase
         $this->assertEquals($elementA['id'], $element['id']);
 
         // Colocar o A no mesmo Lugar
-        $persistence->order(new Parameters(array(
+        $persistence->order(new Parameters([
             'id'       => $elementA['id'],
             'previous' => $elementA['id'],
-        )));
+        ]));
 
         // Consulta
         $result = $persistence->fetch(new Parameters());
@@ -578,7 +578,7 @@ class AccountsTest extends TestCase
         } while ($id == $elementA['id'] || $id == $elementB['id']);
 
         // Colocar no Início
-        $persistence->order(new Parameters(array('id' => $id)));
+        $persistence->order(new Parameters(['id' => $id]));
     }
 
     public function testOrderWithDatabaseError()
@@ -610,10 +610,10 @@ class AccountsTest extends TestCase
         $elementB = array_shift($this->data);
 
         // Ordenar Elementos
-        $persistence->order(new Parameters(array(
+        $persistence->order(new Parameters([
             'id'       => $elementA['id'],
             'previous' => $elementB['id'],
-        )));
+        ]));
     }
 
     public function testOrderWithThreeElements()
@@ -622,12 +622,12 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Novo Elemento
-        $data = new Parameters(array(
+        $data = new Parameters([
             'type'        => AccountType::PASSIVE,
             'name'        => 'Another Name',
             'description' => 'Another Description',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
 
         // Salvar
         $persistence->save($data);
@@ -637,10 +637,10 @@ class AccountsTest extends TestCase
         $elementB = array_shift($this->data);
 
         // Trocar Posições
-        $persistence->order(new Parameters(array(
+        $persistence->order(new Parameters([
             'id'       => $elementA['id'],
             'previous' => $data['id'],
-        )));
+        ]));
 
         // Consulta
         $result = $persistence->fetch(new Parameters());

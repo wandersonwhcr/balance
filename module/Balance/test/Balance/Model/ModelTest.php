@@ -40,20 +40,20 @@ class ModelTest extends TestCase
     {
         // Inicialização
         $model   = $this->getModel();
-        $dataset = array(array('one'), array('two'));
+        $dataset = [['one'], ['two']];
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Consulta
         $persistence->expects($this->once())->method('fetch')->will($this->returnCallback(function ($params) {
-            $result = array();
+            $result = [];
             if ($params['keywords'] == 'foo bar') {
-                $result[] = array('one');
-                $result[] = array('two');
+                $result[] = ['one'];
+                $result[] = ['two'];
             }
             return new ArrayIterator($result);
         }));
         // Consulta
-        $result = $model->fetch(new Parameters(array('keywords' => 'foo bar')));
+        $result = $model->fetch(new Parameters(['keywords' => 'foo bar']));
         // Verificações
         $this->assertInstanceOf('ArrayIterator', $result);
         $this->assertEquals($dataset, $result->getArrayCopy());
@@ -65,12 +65,12 @@ class ModelTest extends TestCase
         $this->setExpectedException('Balance\Model\ModelException', 'Persistence Result is not Traversable');
         // Inicialização
         $model   = $this->getModel();
-        $dataset = array();
+        $dataset = [];
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Consulta
         $persistence->expects($this->once())->method('fetch')->will($this->returnCallback(function () {
-            return array();
+            return [];
         }));
         // Consulta
         $model->fetch(new Parameters());
@@ -80,19 +80,19 @@ class ModelTest extends TestCase
     {
         // Inicialização
         $model   = $this->getModel();
-        $element = array('foo' => 'bar');
+        $element = ['foo' => 'bar'];
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Carregamento
         $persistence->expects($this->once())->method('find')->will($this->returnCallback(function ($params) {
-            $element = array();
+            $element = [];
             if ($params['id'] == 'foobar') {
                 $element['foo'] = 'bar';
             }
             return $element;
         }));
         // Consulta
-        $result = $model->load(new Parameters(array('id' => 'foobar')));
+        $result = $model->load(new Parameters(['id' => 'foobar']));
         // Verificações
         $this->assertEquals($element, $result);
         $this->assertEquals('bar', $model->getForm()->get('foo')->getValue());
@@ -109,14 +109,14 @@ class ModelTest extends TestCase
         // Mock: Carregamento
         $persistence->expects($this->once())->method('find')->will($this->returnValue(false));
         // Consulta
-        $model->load(new Parameters(array('id' => 'foobar')));
+        $model->load(new Parameters(['id' => 'foobar']));
     }
 
     public function testSave()
     {
         // Inicialização
         $model   = $this->getModel();
-        $element = array('foo' => 'bar');
+        $element = ['foo' => 'bar'];
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Salvar
@@ -129,7 +129,7 @@ class ModelTest extends TestCase
             }
         }));
         // Consulta
-        $result = $model->save(new Parameters(array('id' => 'foobar', 'foo' => 'bar')));
+        $result = $model->save(new Parameters(['id' => 'foobar', 'foo' => 'bar']));
         // Verificações
         $this->assertSame($model, $result);
         $this->assertEquals('foobar', $model->getForm()->get('id')->getValue());
@@ -145,7 +145,7 @@ class ModelTest extends TestCase
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Consulta
-        $model->save(new Parameters(array()));
+        $model->save(new Parameters());
     }
 
     public function testRemove()
@@ -161,7 +161,7 @@ class ModelTest extends TestCase
             }
         }));
         // Remover
-        $result = $model->remove(new Parameters(array('id' => 'foobar')));
+        $result = $model->remove(new Parameters(['id' => 'foobar']));
         // Verificações
         $this->assertSame($result, $model);
     }

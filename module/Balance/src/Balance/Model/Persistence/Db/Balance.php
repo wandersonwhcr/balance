@@ -28,10 +28,10 @@ class Balance implements ServiceLocatorAwareInterface
     {
         // Inicialização
         $db     = $this->getServiceLocator()->get('db');
-        $result = array(
+        $result = [
             'ACTIVE'  => new ArrayIterator(),
             'PASSIVE' => new ArrayIterator(),
-        );
+        ];
 
         // Data e Hora Limite
         $datetime = false;
@@ -58,10 +58,10 @@ class Balance implements ServiceLocatorAwareInterface
 
         // Seletor de Balanço
         $balanceSelect = (new Select())
-            ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'value' => $eValue))
-            ->join(array('e' => 'entries'), 'a.id = e.account_id', array())
-            ->join(array('p' => 'postings'), 'p.id = e.posting_id', array());
+            ->from(['a' => 'accounts'])
+            ->columns(['id', 'value' => $eValue])
+            ->join(['e' => 'entries'], 'a.id = e.account_id', [])
+            ->join(['p' => 'postings'], 'p.id = e.posting_id', []);
         // Captura
         $subselect = clone($balanceSelect);
         // Filtro de Não Acumulados
@@ -77,11 +77,11 @@ class Balance implements ServiceLocatorAwareInterface
         }
         // Seletor
         $select = (new Select())
-            ->from(array('b' => $subselect))
-            ->columns(array('value' => new Expression('SUM("b"."value")')))
-            ->join(array('a' => 'accounts'), 'a.id = b.id', array('type', 'id', 'name'))
-            ->group(array('a.id'))
-            ->order(array('a.type', 'a.position'))
+            ->from(['b' => $subselect])
+            ->columns(['value' => new Expression('SUM("b"."value")')])
+            ->join(['a' => 'accounts'], 'a.id = b.id', ['type', 'id', 'name'])
+            ->group(['a.id'])
+            ->order(['a.type', 'a.position'])
             ->having(function ($where) {
                 $where->notEqualTo(new Expression('SUM("b"."value")'), 0);
             });
@@ -92,12 +92,12 @@ class Balance implements ServiceLocatorAwareInterface
             // Tipagem
             $type = $row['type'];
             // Adicionar Entrada
-            $result[$type]->append(array(
+            $result[$type]->append([
                 'id'       => (int) $row['id'],
                 'name'     => $row['name'],
                 'value'    => (float) $row['value'],
                 'currency' => $formatter->format($row['value']),
-            ));
+            ]);
         }
 
         // Seletor de Acumuladores
@@ -108,18 +108,18 @@ class Balance implements ServiceLocatorAwareInterface
         });
         // Seletor
         $select = (new Select())
-            ->from(array('b' => $subselect))
-            ->columns(array('value' => new Expression('SUM("b"."value")')));
+            ->from(['b' => $subselect])
+            ->columns(['value' => new Expression('SUM("b"."value")')]);
         // Consulta
         $value = (float) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['value'];
         // Captura
-        $result = array_merge($result, array(
-            'ACCUMULATE' => new ArrayObject(array(
+        $result = array_merge($result, [
+            'ACCUMULATE' => new ArrayObject([
                 'name'     => $value < 0 ? 'Prejuízo' : 'Lucro',
                 'value'    => (float) $value,
                 'currency' => $formatter->format($value),
-            )),
-        ));
+            ]),
+        ]);
         // Apresentação
         return new ArrayIterator($result);
     }

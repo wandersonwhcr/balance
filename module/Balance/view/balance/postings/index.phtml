@@ -28,20 +28,20 @@
     $table = (new Table())
         ->setForm($form)
         ->setTitle('Listar Lançamentos')
-        ->setColumn('datetime', array('label' => 'Data e Hora', 'class' => 'col-md-2'))
-        ->setColumn('description', array('label' => 'Descrição', 'class' => 'col-md-8'))
+        ->setColumn('datetime', ['label' => 'Data e Hora', 'class' => 'col-md-2'])
+        ->setColumn('description', ['label' => 'Descrição', 'class' => 'col-md-8'])
         ->setElements($this->elements)
         ->setHydrator($hydrator);
     // Ação: Adicionar
-    $table->setAction('add', array('route' => 'postings/add'));
+    $table->setAction('add', ['route' => 'postings/add']);
     // Ação: Elemento - Editar
-    $table->setElementAction('edit', array('route' => 'postings/edit'));
+    $table->setElementAction('edit', ['route' => 'postings/edit']);
     // Ação: Elemento - Remover
-    $table->setElementAction('remove', array('route' => 'postings/remove'));
+    $table->setElementAction('remove', ['route' => 'postings/remove']);
     // Cabeçalho
-    echo $this->partial('layout/page-header', array(
+    echo $this->partial('layout/page-header', [
         'title'    => 'Lançamentos',
         'subtitle' => 'Listar',
-    ));
+    ]);
     // Renderização
-    echo $this->partial('layout/table', array('table' => $table, 'params' => $params));
+    echo $this->partial('layout/table', ['table' => $table, 'params' => $params]);

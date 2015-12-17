@@ -28,7 +28,7 @@ class Table
      * Colunas Configuradas
      * @type array[]
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * Elementos para Renderização
@@ -40,13 +40,13 @@ class Table
      * Ações Configuradas
      * @type string[][]
      */
-    protected $actions = array();
+    protected $actions = [];
 
     /**
      * Ações de Elementos Configuradas
      * @type string[][]
      */
-    protected $elementActions = array();
+    protected $elementActions = [];
 
     /**
      * Hidratador de Linhas
@@ -105,7 +105,7 @@ class Table
      * @param  array  $params     Parâmetros para Coluna
      * @return Table  Próprio Objeto para Encadeamento
      */
-    public function setColumn($identifier, array $params = array())
+    public function setColumn($identifier, array $params = [])
     {
         $this->columns[$identifier] = $params;
         return $this;
@@ -143,7 +143,7 @@ class Table
         // Elementos Configurados?
         if ($this->elements === null) {
             // Inicializar Elementos Vazios
-            $this->setElements(new ArrayIterator(array()));
+            $this->setElements(new ArrayIterator());
         }
         // Apresentação
         return $this->elements;
@@ -179,7 +179,7 @@ class Table
      * @param  string[] $params     Parâmetros para Captura em Ação
      * @return Table    Próprio Objeto para Encadeamento
      */
-    public function setElementAction($identifier, array $params = array())
+    public function setElementAction($identifier, array $params = [])
     {
         $this->elementActions[$identifier] = $params;
         return $this;

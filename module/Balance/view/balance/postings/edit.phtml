@@ -21,10 +21,10 @@
     endif;
 ?>
 <?php
-    echo $this->partial('layout/page-header', array(
+    echo $this->partial('layout/page-header', [
         'title'    => 'Lançamentos',
         'subtitle' => ($this->type == 'add' ? 'Adicionar' : 'Editar'),
-    ))
+    ])
 ?>
 <?php $this->form->get('entries')->setShouldCreateTemplate(true) ?>
 <?php $this->form->prepare() ?>

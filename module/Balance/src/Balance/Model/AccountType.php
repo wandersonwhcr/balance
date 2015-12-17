@@ -17,9 +17,9 @@ class AccountType
      */
     public function getDefinition()
     {
-        return array(
+        return [
             self::ACTIVE  => 'Ativo',
             self::PASSIVE => 'Passivo',
-        );
+        ];
     }
 }

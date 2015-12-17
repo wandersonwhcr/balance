@@ -21,22 +21,22 @@ class Issue151Test extends TestCase
         $mAccounts = $serviceLocator->get('Balance\Model\Persistence\Accounts');
 
         // Conta A
-        $accountA = new Parameters(array(
+        $accountA = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'Issue 151 A',
             'description' => 'Account A',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $mAccounts->save($accountA);
 
         // Conta B
-        $accountB = new Parameters(array(
+        $accountB = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'Issue 151 B',
             'description' => 'Account B',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
         // Salvar
         $mAccounts->save($accountB);
 
@@ -44,7 +44,7 @@ class Issue151Test extends TestCase
         $mPostings = $serviceLocator->get('Balance\Model\Postings');
 
         // Lançamento
-        $posting = new Parameters(array(
+        $posting = new Parameters([
             'id'          => '',
             'datetime'    => '10/10/2010 10:10:10',
             'description' => 'Issue 151 Posting A',
@@ -60,7 +60,7 @@ class Issue151Test extends TestCase
                     'value'      => '100,00',
                 ),
             ),
-        ));
+        ]);
 
         try {
             // Salvar

@@ -38,10 +38,10 @@ trait IndexActionTrait
         $this->getServiceLocator()->get('ViewManager')
             ->getInjectTemplateListener()->setPreferRouteMatchController(true);
         // Camada de Visualização
-        return new ViewModel(array(
+        return new ViewModel([
             'elements' => $elements,
             'form'     => $model->getFormSearch(),
             'params'   => $params,
-        ));
+        ]);
     }
 }

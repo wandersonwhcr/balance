@@ -30,12 +30,12 @@ class Accounts extends AbstractActionController implements ModelAwareInterface, 
         // Solicitar Ordenação
         $pAccounts->order($this->getRequest()->getPost());
         // Apresentação
-        return new JsonModel(array(
-            array(
+        return new JsonModel([
+            [
                 'type'    => 'success',
                 'message' => 'Ordenação de elementos efetuada com sucesso.',
-                'payload' => array(),
-            ),
-        ));
+                'payload' => [],
+            ],
+        ]);
     }
 }

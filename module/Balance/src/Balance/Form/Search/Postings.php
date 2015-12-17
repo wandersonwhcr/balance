@@ -29,40 +29,40 @@ class Postings extends Form implements ServiceLocatorAwareInterface
         }
 
         // Palavras-Chave
-        $this->add(array(
+        $this->add([
             'type'    => 'Text',
             'name'    => 'keywords',
-            'options' => array(
+            'options' => [
                 'label' => 'Palavras-Chave',
-            ),
-        ));
+            ],
+        ]);
 
         // Conta
-        $this->add(array(
+        $this->add([
             'type'    => 'Select',
             'name'    => 'account_id',
-            'options' => array(
+            'options' => [
                 'label'         => 'Conta',
                 'value_options' => $pAccounts->getValueOptions(),
-            ),
-        ));
+            ],
+        ]);
 
         // Data e Hora Inicial
-        $this->add(array(
+        $this->add([
             'type'    => 'DateTime',
             'name'    => 'datetime_begin',
-            'options' => array(
+            'options' => [
                 'label' => 'Data e Hora Inicial',
-            ),
-        ));
+            ],
+        ]);
 
         // Data e Hora Final
-        $this->add(array(
+        $this->add([
             'type'    => 'DateTime',
             'name'    => 'datetime_end',
-            'options' => array(
+            'options' => [
                 'label' => 'Data e Hora Final',
-            ),
-        ));
+            ],
+        ]);
     }
 }

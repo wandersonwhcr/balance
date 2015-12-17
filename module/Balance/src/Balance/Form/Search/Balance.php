@@ -15,9 +15,9 @@ class Balance extends Form
     public function init()
     {
         // Data e Hora
-        $this->add(array(
+        $this->add([
             'type' => 'DateTime',
             'name' => 'datetime',
-        ));
+        ]);
     }
 }

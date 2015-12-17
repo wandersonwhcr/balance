@@ -1,12 +1,12 @@
 <?php
-    echo $this->partial('layout/page-header', array(
+    echo $this->partial('layout/page-header', [
         'title'    => 'Erro Encontrado',
         'subtitle' => 'Problema Interno',
-    ));
+    ]);
 ?>
 
 <p class="lead"><?php echo $this->escapeHtml($this->message) ?></p>
 
 <?php if ($this->display_exceptions) : ?>
-    <?php echo $this->partial('layout/exceptions', array('exception' => $this->exception)) ?>
+    <?php echo $this->partial('layout/exceptions', ['exception' => $this->exception]) ?>
 <?php endif ?>

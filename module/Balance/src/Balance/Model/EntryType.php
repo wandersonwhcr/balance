@@ -17,9 +17,9 @@ class EntryType
      */
     public function getDefinition()
     {
-        return array(
+        return [
             self::CREDIT => 'Crédito',
             self::DEBIT  => 'Débito',
-        );
+        ];
     }
 }

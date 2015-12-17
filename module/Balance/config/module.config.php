@@ -1,254 +1,254 @@
 <?php
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'home' => array(
+return [
+    'router' => [
+        'routes' => [
+            'home' => [
                 'type'    => 'literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Balance\Mvc\Controller\Home',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
-            'configs' => array(
+                    ],
+                ],
+            ],
+            'configs' => [
                 'type'    => 'literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/configs',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Balance\Mvc\Controller\Configs',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
-            'accounts' => array(
+                    ],
+                ],
+            ],
+            'accounts' => [
                 'type'    => 'literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/accounts',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Balance\Mvc\Controller\Accounts',
                         'action'     => 'index',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes'  => array(
-                    'add' => array(
+                'child_routes'  => [
+                    'add' => [
                         'type'    => 'literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/add',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'edit',
-                            ),
-                        ),
-                    ),
-                    'edit' => array(
+                            ],
+                        ],
+                    ],
+                    'edit' => [
                         'type'    => 'segment',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/edit/:id',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'edit',
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'id' => '[0-9]+',
-                            ),
-                        ),
-                    ),
-                    'remove' => array(
+                            ],
+                        ],
+                    ],
+                    'remove' => [
                         'type'    => 'segment',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/remove/:id',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'remove',
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'id' => '[0-9]+',
-                            ),
-                        ),
-                    ),
-                    'order' => array(
+                            ],
+                        ],
+                    ],
+                    'order' => [
                         'type'    => 'literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/order',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'order',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-            'postings' => array(
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'postings' => [
                 'type'    => 'literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/postings',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Balance\Mvc\Controller\Postings',
                         'action'     => 'index',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes'  => array(
-                    'add' => array(
+                'child_routes'  => [
+                    'add' => [
                         'type'    => 'literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/add',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'edit',
-                            ),
-                        ),
-                    ),
-                    'edit' => array(
+                            ],
+                        ],
+                    ],
+                    'edit' => [
                         'type'    => 'segment',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/edit/:id',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'edit',
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'id' => '[0-9]+',
-                            ),
-                        ),
-                    ),
-                    'remove' => array(
+                            ],
+                        ],
+                    ],
+                    'remove' => [
                         'type'    => 'segment',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/remove/:id',
-                            'defaults' => array(
+                            'defaults' => [
                                 'action' => 'remove',
-                            ),
-                            'constraints' => array(
+                            ],
+                            'constraints' => [
                                 'id' => '[0-9]+',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
 
-    'navigation' => array(
-        'default' => array(
-            array(
+    'navigation' => [
+        'default' => [
+            [
                 'label' => 'Balance',
                 'route' => 'home',
-                'pages' => array(
-                    array(
+                'pages' => [
+                    [
                         'label' => 'Home',
                         'route' => 'home',
-                    ),
-                    array(
+                    ],
+                    [
                         'label' => 'Contas',
                         'route' => 'accounts',
-                        'pages' => array(
-                            array(
+                        'pages' => [
+                            [
                                 'label' => 'Adicionar',
                                 'route' => 'accounts/add',
-                            ),
-                            array(
+                            ],
+                            [
                                 'label' => 'Editar',
                                 'route' => 'accounts/edit',
-                            ),
-                        ),
-                    ),
-                    array(
+                            ],
+                        ],
+                    ],
+                    [
                         'label' => 'Lançamentos',
                         'route' => 'postings',
-                        'pages' => array(
-                            array(
+                        'pages' => [
+                            [
                                 'label' => 'Adicionar',
                                 'route' => 'postings/add',
-                            ),
-                            array(
+                            ],
+                            [
                                 'label' => 'Editar',
                                 'route' => 'postings/edit',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
 
-    'balance_manager' => array(
-        'factories' => array(
+    'balance_manager' => [
+        'factories' => [
             // Controllers
-            'Balance\Mvc\Controller\Accounts' => array(
+            'Balance\Mvc\Controller\Accounts' => [
                 'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
-                'params'  => array(
+                'params'  => [
                     'model'               => 'Balance\Model\Accounts',
                     'redirect_route_name' => 'accounts',
-                ),
-            ),
-            'Balance\Mvc\Controller\Postings' => array(
+                ],
+            ],
+            'Balance\Mvc\Controller\Postings' => [
                 'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
-                'params'  => array(
+                'params'  => [
                     'model'               => 'Balance\Model\Postings',
                     'redirect_route_name' => 'postings',
-                ),
-            ),
+                ],
+            ],
 
             // Models
-            'Balance\Model\Accounts' => array(
+            'Balance\Model\Accounts' => [
                 'factory' => 'Balance\Model\AbstractModelFactory',
-                'params'  => array(
+                'params'  => [
                     'form'                => 'Balance\Form\Accounts',
                     'input_filter'        => 'Balance\InputFilter\Accounts',
                     'form_search'         => 'Balance\Form\Search\Accounts',
                     'input_filter_search' => 'Balance\InputFilter\Search\Accounts',
                     'persistence'         => 'Balance\Model\Persistence\Accounts',
-                ),
-            ),
-            'Balance\Model\Postings' => array(
+                ],
+            ],
+            'Balance\Model\Postings' => [
                 'factory' => 'Balance\Model\AbstractModelFactory',
-                'params'  => array(
+                'params'  => [
                     'form'                => 'Balance\Form\Postings',
                     'input_filter'        => 'Balance\InputFilter\Postings',
                     'form_search'         => 'Balance\Form\Search\Postings',
                     'input_filter_search' => 'Balance\InputFilter\Search\Postings',
                     'persistence'         => 'Balance\Model\Persistence\Postings',
-                ),
-            ),
+                ],
+            ],
 
             // TableGateway
-            'Balance\Db\TableGateway\Accounts' => array(
+            'Balance\Db\TableGateway\Accounts' => [
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
-                'params'  => array(
+                'params'  => [
                     'table'       => 'accounts',
                     'primary_key' => 'id',
                     'sequence'    => 'accounts_id_seq',
-                ),
-            ),
-            'Balance\Db\TableGateway\Postings' => array(
+                ],
+            ],
+            'Balance\Db\TableGateway\Postings' => [
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
-                'params'  => array(
+                'params'  => [
                     'table'       => 'postings',
                     'primary_key' => 'id',
                     'sequence'    => 'postings_id_seq',
-                ),
-            ),
-            'Balance\Db\TableGateway\Entries' => array(
+                ],
+            ],
+            'Balance\Db\TableGateway\Entries' => [
                 'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
-                'params'  => array(
+                'params'  => [
                     'table' => 'entries',
-                ),
-            ),
-        ),
-    ),
+                ],
+            ],
+        ],
+    ],
 
-    'controllers' => array(
-        'invokables' => array(
+    'controllers' => [
+        'invokables' => [
             'Balance\Mvc\Controller\Home'    => 'Balance\Mvc\Controller\Home',
             'Balance\Mvc\Controller\Configs' => 'Balance\Mvc\Controller\Configs',
-        ),
-        'abstract_factories' => array(
+        ],
+        'abstract_factories' => [
             'Balance\Mvc\Controller\Accounts' => 'Balance\Mvc\Controller\AbstractControllerFactory',
             'Balance\Mvc\Controller\Postings' => 'Balance\Mvc\Controller\AbstractControllerFactory',
-        ),
-    ),
+        ],
+    ],
 
-    'service_manager' => array(
-        'invokables' => array(
+    'service_manager' => [
+        'invokables' => [
             // Models
             'Balance\Model\Balance' => 'Balance\Model\Balance',
             // Persistences
@@ -257,8 +257,8 @@ return array(
             'Balance\Model\Persistence\Balance'  => 'Balance\Model\Persistence\Db\Balance',
             // Hydrators
             'Balance\Stdlib\Hydrator\Strategy\Datetime' => 'Balance\Stdlib\Hydrator\Strategy\Datetime',
-        ),
-        'abstract_factories' => array(
+        ],
+        'abstract_factories' => [
             // Models
             'Balance\Model\Accounts' => 'Balance\Model\AbstractModelFactory',
             'Balance\Model\Postings' => 'Balance\Model\AbstractModelFactory',
@@ -266,14 +266,14 @@ return array(
             'Balance\Db\TableGateway\Accounts' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
             'Balance\Db\TableGateway\Postings' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
             'Balance\Db\TableGateway\Entries'  => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
-        ),
-        'factories' => array(
+        ],
+        'factories' => [
             // Navegação
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-        ),
-    ),
+        ],
+    ],
 
-    'view_manager' => array(
+    'view_manager' => [
         'doctype' => 'HTML5',
 
         'display_exceptions'       => true,
@@ -282,27 +282,27 @@ return array(
         'not_found_template' => 'error/404',
         'exception_template' => 'error/500',
 
-        'template_map' => array(
+        'template_map' => [
             'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'error/404'     => __DIR__ . '/../view/error/404.phtml',
             'error/500'     => __DIR__ . '/../view/error/500.phtml',
-        ),
+        ],
 
-        'template_path_stack' => array(
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
+        ],
 
-        'strategies' => array(
+        'strategies' => [
             'ViewJsonStrategy',
-        ),
-    ),
+        ],
+    ],
 
-    'form_elements' => array(
-        'invokables' => array(
+    'form_elements' => [
+        'invokables' => [
             'select'   => 'Balance\Form\Element\Select',
             'boolean'  => 'Balance\Form\Element\Boolean',
             'datetime' => 'Balance\Form\Element\DateTime',
             'currency' => 'Balance\Form\Element\Currency',
-        ),
-    ),
-);
+        ],
+    ],
+];

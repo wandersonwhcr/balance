@@ -18,9 +18,9 @@ class ConfigsTest extends TestCase
         $serviceLocator = new ServiceManager();
         $element->setServiceLocator($serviceLocator);
         // Configurar Parâmetros de Despacho
-        $element->getEvent()->setRouteMatch(new Router\RouteMatch(array(
+        $element->getEvent()->setRouteMatch(new Router\RouteMatch([
             'action' => 'index',
-        )));
+        ]));
         // Execução
         $result = $element->dispatch(new Http\PhpEnvironment\Request());
         // Verificações
@@ -35,9 +35,9 @@ class ConfigsTest extends TestCase
         // Inicialização
         $element = new Configs();
         // Configurar Parâmetros de Despacho
-        $element->getEvent()->setRouteMatch(new Router\RouteMatch(array(
+        $element->getEvent()->setRouteMatch(new Router\RouteMatch([
             'action' => 'index',
-        )));
+        ]));
         // Execução
         $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
     }

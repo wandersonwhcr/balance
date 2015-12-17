@@ -45,129 +45,129 @@ class BalanceTest extends TestCase
         $tbEntries  = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Entries');
 
         // Chaves Primárias
-        $primaries = array(
-            'accounts' => array(),
-            'postings' => array(),
-        );
+        $primaries = [
+            'accounts' => [],
+            'postings' => [],
+        ];
 
         // Receitas
-        $tbAccounts->insert(array(
+        $tbAccounts->insert([
             'name'        => 'Receitas',
             'type'        => AccountType::PASSIVE,
             'description' => 'Descrição de Receitas',
             'position'    => 0,
             'accumulate'  => 1,
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['accounts']['receitas'] = (int) $tbAccounts->getLastInsertValue();
 
         // Despesas
-        $tbAccounts->insert(array(
+        $tbAccounts->insert([
             'name'        => 'Despesas',
             'type'        => AccountType::PASSIVE,
             'description' => 'Descrição de Despesas',
             'position'    => 1,
             'accumulate'  => 1,
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['accounts']['despesas'] = (int) $tbAccounts->getLastInsertValue();
 
         // Banco
-        $tbAccounts->insert(array(
+        $tbAccounts->insert([
             'name'        => 'Banco',
             'type'        => AccountType::ACTIVE,
             'description' => 'Descrição de Banco',
             'position'    => 2,
             'accumulate'  => 0,
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['accounts']['banco'] = (int) $tbAccounts->getLastInsertValue();
 
         // Caixa
-        $tbAccounts->insert(array(
+        $tbAccounts->insert([
             'name'        => 'Caixa',
             'type'        => AccountType::ACTIVE,
             'description' => 'Descrição de Caixa',
             'position'    => 3,
             'accumulate'  => 0,
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['accounts']['caixa'] = (int) $tbAccounts->getLastInsertValue();
 
         // Inicializar Banco
-        $tbPostings->insert(array(
+        $tbPostings->insert([
             'datetime'    => '2010-10-10 10:00:00',
             'description' => 'Inicialização de Banco',
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['postings']['banco_init'] = (int) $tbPostings->getLastInsertValue();
 
         // Sacar Dinheiro do Banco
-        $tbPostings->insert(array(
+        $tbPostings->insert([
             'datetime'    => '2010-10-10 10:05:00',
             'description' => 'Saque de Valores do Banco',
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['postings']['banco_remove'] = (int) $tbPostings->getLastInsertValue();
 
         // Pagar uma Conta
-        $tbPostings->insert(array(
+        $tbPostings->insert([
             'datetime'    => '2010-10-10 10:05:00',
             'description' => 'Pagamento de Conta',
-        ));
+        ]);
         // Captura de Chave Primária
         $primaries['postings']['caixa_remove'] = (int) $tbPostings->getLastInsertValue();
 
         // Entrada: Inicializar Banco
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $primaries['postings']['banco_init'],
             'account_id' => $primaries['accounts']['banco'],
             'type'       => EntryType::DEBIT,
             'value'      => 1000,
             'position'   => 0,
-        ));
+        ]);
         // Entrada: Inicializar Banco
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $primaries['postings']['banco_init'],
             'account_id' => $primaries['accounts']['receitas'],
             'type'       => EntryType::CREDIT,
             'value'      => 1000,
             'position'   => 1,
-        ));
+        ]);
 
         // Entrada: Sacar Dinheiro do Banco
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $primaries['postings']['banco_remove'],
             'account_id' => $primaries['accounts']['banco'],
             'type'       => EntryType::CREDIT,
             'value'      => 500,
             'position'   => 0,
-        ));
+        ]);
         // Entrada: Sacar Dinheiro do Banco
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $primaries['postings']['banco_remove'],
             'account_id' => $primaries['accounts']['caixa'],
             'type'       => EntryType::DEBIT,
             'value'      => 500,
             'position'   => 1,
-        ));
+        ]);
 
         // Entrada: Pagar uma Conta
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $primaries['postings']['caixa_remove'],
             'account_id' => $primaries['accounts']['caixa'],
             'type'       => EntryType::CREDIT,
             'value'      => 200,
             'position'   => 0,
-        ));
+        ]);
         // Entrada: Pagar uma Conta
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $primaries['postings']['caixa_remove'],
             'account_id' => $primaries['accounts']['despesas'],
             'type'       => EntryType::DEBIT,
             'value'      => 200,
             'position'   => 1,
-        ));
+        ]);
 
         // Apresentação
         return $persistence;
@@ -179,7 +179,7 @@ class BalanceTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Consulta
-        $result = $persistence->fetch(new Parameters(array('datetime' => '10/10/2011 00:00:00')));
+        $result = $persistence->fetch(new Parameters(['datetime' => '10/10/2011 00:00:00']));
 
         // Verificações
         $this->assertInstanceOf('Traversable', $result);

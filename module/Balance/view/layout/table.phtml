@@ -7,7 +7,7 @@
     $elementActions = $this->table->getElementActions();
     $hydrator       = $this->table->getHydrator();
     // Parâmetros de Paginação
-    $filters        = $this->params ? $this->params->toArray() : array();
+    $filters        = $this->params ? $this->params->toArray() : [];
 ?>
 
 <?php $form->prepare() ?>
@@ -15,7 +15,7 @@
     <div class="balance-toolbar">
         <div class="btn-group">
             <?php foreach ($actions as $identifier => $params) : ?>
-                <?php echo $this->partial('layout/table-action', array('identifier' => $identifier, 'params' => $params)) ?>
+                <?php echo $this->partial('layout/table-action', ['identifier' => $identifier, 'params' => $params]) ?>
             <?php endforeach ?>
         </div><!-- btn-group -->
         <div class="btn-group">
@@ -66,7 +66,7 @@
                                 <?php endforeach ?>
                                 <td class="text-center">
                                     <?php foreach ($elementActions as $identifier => $params) : ?>
-                                        <?php echo $this->partial('layout/table-action', array('identifier' => $identifier, 'element' => $element, 'params' => $params)) ?>
+                                        <?php echo $this->partial('layout/table-action', ['identifier' => $identifier, 'element' => $element, 'params' => $params]) ?>
                                     <?php endforeach ?>
                                 </td>
                             </tr>
@@ -87,5 +87,5 @@
 </div>
 
 <?php if ($elements instanceof Zend\Paginator\Paginator) : ?>
-    <?php echo $this->paginationControl($elements, 'Sliding', 'layout/pagination', array('params' => $filters)) ?>
+    <?php echo $this->paginationControl($elements, 'Sliding', 'layout/pagination', ['params' => $filters]) ?>
 <?php endif ?>

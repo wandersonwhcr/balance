@@ -45,10 +45,10 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Data e Hora
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new I18n\Validator\DateTime(array(
+            ->attach(new I18n\Validator\DateTime([
                 'dateType' => IntlDateFormatter::MEDIUM,
                 'timeType' => IntlDateFormatter::MEDIUM,
-            )));
+            ]));
         $this->add($input, 'datetime');
 
         // Descrição
@@ -60,27 +60,27 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Entradas: Tipo
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array_keys((new EntryType())->getDefinition()))));
+            ->attach(new Validator\InArray(['haystack' => array_keys((new EntryType())->getDefinition())]));
         $filter->add($input, 'type');
 
         // Capturar Todas as Possíveis Entradas de Contas
-        $options = array();
+        $options = [];
         foreach ($pAccounts->getValueOptions() as $identifier => $option) {
             if (is_array($option)) {
                 $options = array_merge($options, array_keys($option['options']));
             } else {
-                $options = array_merge($options, array($identifier));
+                $options = array_merge($options, [$identifier]);
             }
         }
 
         // Entradas: Conta
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => $options)))
-            ->attach(new Validator\Callback(array(
-                'callback' => array($this, 'doValidateAccountId'),
+            ->attach(new Validator\InArray(['haystack' => $options]))
+            ->attach(new Validator\Callback([
+                'callback' => [$this, 'doValidateAccountId'],
                 'message'  => 'O valor de entrada foi configurado em outra entrada de lançamento',
-            )));
+            ]));
         $input->getFilterChain()
             ->attach(new Filter\ToInt());
         $filter->add($input, 'account_id');
@@ -88,14 +88,14 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
         // Entradas: Valor
         $input = new Input();
         $input->getValidatorChain()
-            ->attach(new Validator\Regex(array(
+            ->attach(new Validator\Regex([
                 'pattern' => '/^[1-9]*[0-9]+,[0-9]{2}$/',
                 'message' => 'O valor informado não está no formato esperado',
-            )))
-            ->attach(new Validator\Callback(array(
-                'callback' => array($this, 'doValidateValue'),
+            ]))
+            ->attach(new Validator\Callback([
+                'callback' => [$this, 'doValidateValue'],
                 'message'  => 'O valor de entrada não está balanceado',
-            )));
+            ]));
         $filter->add($input, 'value');
 
         // Coleção: Entradas
@@ -114,7 +114,7 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
     public function doValidateAccountId($value)
     {
         // Inicialização
-        $accounts = array();
+        $accounts = [];
         // Entradas
         if (isset($this->data['entries']) && is_array($this->data['entries'])) {
             foreach ($this->data['entries'] as $entry) {

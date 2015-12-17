@@ -31,9 +31,9 @@ class DatetimeTest extends TestCase
     {
         // Inicialização
         $hydrator = $this->buildHydrator();
-        $element  = new ArrayObject(array(
+        $element  = new ArrayObject([
             'datetime' => '1999-10-31 23:59:59',
-        ));
+        ]);
         // Dados para Expansão
         $element = $hydrator->extract($element);
         // Testes
@@ -44,11 +44,11 @@ class DatetimeTest extends TestCase
     {
         // Inicialização
         $hydrator = $this->buildHydrator();
-        $element  = new ArrayObject(array());
+        $element  = new ArrayObject();
         // Dados para Hidratação
-        $hydrator->hydrate(array(
+        $hydrator->hydrate([
             'datetime' => '31/10/1999 23:59:59',
-        ), $element);
+        ], $element);
         // Testes
         $this->assertEquals('1999-10-31T23:59:59-02:00', $element['datetime']);
     }

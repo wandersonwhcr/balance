@@ -39,7 +39,7 @@ trait RemoveActionTrait
         // Chave Primária
         $params = $this->params()->fromRoute();
         // Remover Controladora e Ação
-        $params = array_diff_key($params, array_flip(array('controller', 'action')));
+        $params = array_diff_key($params, array_flip(['controller', 'action']));
         // Tratamento
         try {
             // Remover Elemento

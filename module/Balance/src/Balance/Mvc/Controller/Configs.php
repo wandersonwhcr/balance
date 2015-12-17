@@ -30,7 +30,7 @@ class Configs extends AbstractActionController
     public function indexAction()
     {
         // Capturar Configurações
-        $configs = array();
+        $configs = [];
         // Inicialização
         $view = new JsonModel($configs);
         // Requisição

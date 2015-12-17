@@ -18,7 +18,7 @@ class Accounts extends InputFilter
         $input = (new Input('type'))
             ->setRequired(false);
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array_keys((new AccountType())->getDefinition()))));
+            ->attach(new Validator\InArray(['haystack' => array_keys((new AccountType())->getDefinition())]));
         $this->add($input);
 
         // Palavras Chave

@@ -28,13 +28,13 @@ class Accounts extends InputFilter
         // Tipo
         $input = new Input('type');
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array_keys((new AccountType())->getDefinition()))));
+            ->attach(new Validator\InArray(['haystack' => array_keys((new AccountType())->getDefinition())]));
         $this->add($input);
 
         // Acúmulo de Conta
         $input = new Input('accumulate');
         $input->getValidatorChain()
-            ->attach(new Validator\InArray(array('haystack' => array_keys((new BooleanType())->getDefinition()))));
+            ->attach(new Validator\InArray(['haystack' => array_keys((new BooleanType())->getDefinition())]));
         $this->add($input);
 
         // Nome

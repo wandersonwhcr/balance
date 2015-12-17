@@ -68,7 +68,7 @@ class IndexActionTraitTest extends TestCase
         // Pesquisa
         $model
             ->method('fetch')
-            ->will($this->returnValue(array(array('one' => 'two'))));
+            ->will($this->returnValue([['one' => 'two']]));
 
         // Controladora
         switch ($type) {
@@ -98,20 +98,20 @@ class IndexActionTraitTest extends TestCase
         $controller = $this->getController('index-action-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'index',
-        )));
+        ]));
 
         // Requisição
         $request = (new Request())
-            ->setQuery(new Parameters(array('one' => 'two')));
+            ->setQuery(new Parameters(['one' => 'two']));
 
         // Execução
         $result = $controller->dispatch($request);
 
         // Verificações
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
-        $this->assertEquals(array(array('one' => 'two')), $result->elements);
+        $this->assertEquals([['one' => 'two']], $result->elements);
         $this->assertSame($controller->getModel()->getFormSearch(), $result->form);
         $this->assertInstanceOf('Zend\Stdlib\Parameters', $result->params);
         $this->assertEquals('two', $result->params['one']);
@@ -138,9 +138,9 @@ class IndexActionTraitTest extends TestCase
         $controller = $this->getController('index-action-without-model-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'index',
-        )));
+        ]));
 
         // Execução
         $result = $controller->dispatch(new Request());

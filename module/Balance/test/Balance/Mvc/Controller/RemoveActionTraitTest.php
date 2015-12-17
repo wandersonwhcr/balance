@@ -73,7 +73,7 @@ class RemoveActionTraitTest extends TestCase
         // Pesquisa
         $model
             ->method('fetch')
-            ->will($this->returnValue(array(array('one' => 'two'))));
+            ->will($this->returnValue([['one' => 'two']]));
 
         // Controladora
         switch ($type) {
@@ -107,9 +107,9 @@ class RemoveActionTraitTest extends TestCase
                 $controller->getPluginManager()->setService('redirect', $redirect);
 
                 // Configurar Parâmetros de Despacho
-                $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+                $controller->getEvent()->setRouteMatch(new RouteMatch([
                     'action' => 'remove',
-                )));
+                ]));
                 break;
         }
 
