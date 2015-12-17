@@ -4,7 +4,7 @@ php:
     - 7.0
 
 addons:
-    postgresql: "9.4"
+    postgresql: 9.4
 
 before_install:
     - psql -c "CREATE ROLE balance LOGIN PASSWORD 'balance'" -U postgres
@@ -12,12 +12,15 @@ before_install:
     - npm install -g bower
 
 install:
-    - composer install
+    - make install
 
 script:
-    - php vendor/bin/phinx migrate
     - make tests
-    - php vendor/bin/phinx migrate -t0
 
 after_success:
+    - make reports
     - bash <(curl -s https://codecov.io/bash)
+
+after_script:
+    - make uninstall
+    - make clean

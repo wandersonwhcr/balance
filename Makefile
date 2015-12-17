@@ -1,6 +1,11 @@
 all:
 
-tests:
+install: dependencies database
+
+uninstall: dependencies
+	php vendor/bin/phinx migrate -t0
+
+tests: dependencies database
 	php vendor/bin/phpunit --coverage-text=php://stdout --coverage-clover=build/coverage.xml --whitelist module/Balance/src
 	php vendor/bin/phpcpd module/Balance
 	php vendor/bin/parallel-lint module/Balance
@@ -8,5 +13,17 @@ tests:
 	php vendor/bin/php-cs-fixer fix --config-file=php-cs-fixer.php --dry-run --diff
 	php vendor/bin/phpmd module/Balance text phpmd.xml
 
-reports:
+reports: dependencies
 	php vendor/bin/phploc --log-xml=build/phploc.xml module/Balance/src
+
+clean:
+	rm -rf build
+
+# Dependências
+
+dependencies:
+	composer install
+	bower install
+
+database:
+	php vendor/bin/phinx migrate
