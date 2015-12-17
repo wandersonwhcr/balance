@@ -2,6 +2,8 @@
 
 namespace Balance\View\Table;
 
+use ArrayIterator;
+use Traversable;
 use Zend\Form\Form;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
@@ -30,9 +32,9 @@ class Table
 
     /**
      * Elementos para Renderização
-     * @type mixed
+     * @type Traversable
      */
-    protected $elements = array();
+    protected $elements = null;
 
     /**
      * Ações Configuradas
@@ -122,10 +124,10 @@ class Table
     /**
      * Configuração de Elementos
      *
-     * @param  mixed $elements Conjunto de Elementos
-     * @return Table Próprio Objeto para Encadeamento
+     * @param  Traversable $elements Conjunto de Elementos
+     * @return Table       Próprio Objeto para Encadeamento
      */
-    public function setElements($elements)
+    public function setElements(Traversable $elements)
     {
         $this->elements = $elements;
         return $this;
@@ -134,10 +136,16 @@ class Table
     /**
      * Apresentação de Elementos
      *
-     * @return mixed Conjunto de Elementos Solicitados
+     * @return Traversable Conjunto de Elementos Solicitados
      */
     public function getElements()
     {
+        // Elementos Configurados?
+        if ($this->elements === null) {
+            // Inicializar Elementos Vazios
+            $this->setElements(new ArrayIterator(array()));
+        }
+        // Apresentação
         return $this->elements;
     }
 

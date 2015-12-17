@@ -2,6 +2,7 @@
 
 namespace Balance\View\Table;
 
+use ArrayIterator;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Form;
 use Zend\Paginator;
@@ -54,13 +55,14 @@ class TableTest extends TestCase
         $table = new Table();
 
         $result = $table->getElements();
-        $this->assertEquals(array(), $result);
+        $this->assertInstanceOf('ArrayIterator', $result);
+        $this->assertEquals(array(), $result->getArrayCopy());
 
-        $result = $table->setElements(array(array('foo' => 'bar'), array('one' => 'two')));
+        $result = $table->setElements(new ArrayIterator(array(array('foo' => 'bar'), array('one' => 'two'))));
         $this->assertSame($table, $result);
 
         $result = $table->getElements();
-        $this->assertEquals(array(array('foo' => 'bar'), array('one' => 'two')), $result);
+        $this->assertEquals(array(array('foo' => 'bar'), array('one' => 'two')), $result->getArrayCopy());
     }
 
     public function testElementsAsPaginator()
