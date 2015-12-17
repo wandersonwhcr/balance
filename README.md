@@ -35,7 +35,7 @@ O Balance é um sistema que utliza um servidor Web, PHP e banco de dados Postgre
 * PHP 5.6 ou superior (inclusive PHP 7);
 * PHP com Extensões `pgsql` e `intl`;
 * PostgreSQL 9.4 ou superior; e
-* Composer e Bower.
+* Make, Composer e Bower.
 
 
 ### Criação da Estrutura
@@ -76,16 +76,10 @@ return [
 ];
 ```
 
-O próximo passo é executar o `phinx` para que seja possível a criação da estrutura inicial do banco de dados.
+O próximo passo é executar o `make` para que seja possível a instalação das dependências.
 
 ```bash
-php vendor/bin/phinx migrate
-```
-
-A instalação das dependências de visualização deverão ser feitas através do `bower` com o seguinte comando.
-
-```bash
-bower install
+make install
 ```
 
 Para acesso ao sistema utilizando o servidor Web, precisamos criar um _alias_ de diretório no _virtualhost_ correspondente, direcionando todas os acessos que possuem o padrão `^/module/([a-zA-Z0-9]+)/(.*)$` para o diretório `/module/$1/public/$2`. Por exemplo, no Nginx, isto pode ser feito da seguinte forma:
