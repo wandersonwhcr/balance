@@ -30,59 +30,59 @@ class Postings extends Form implements ServiceLocatorAwareInterface
         }
 
         // Chave Primária
-        $this->add(array(
+        $this->add([
             'type' => 'Hidden',
             'name' => 'id',
-        ));
+        ]);
 
         // Data e Hora
-        $this->add(array(
+        $this->add([
             'type' => 'DateTime',
             'name' => 'datetime',
-        ));
+        ]);
 
         // Descrição
-        $this->add(array(
+        $this->add([
             'type' => 'Textarea',
             'name' => 'description',
-        ));
+        ]);
 
         // Subformulário: Entrada de Lançamento
         $subform = $this->getServiceLocator()->get('Fieldset');
 
         // Tipo de Entrada
-        $subform->add(array(
+        $subform->add([
             'type'    => 'Select',
             'name'    => 'type',
-            'options' => array(
+            'options' => [
                 'value_options' => (new EntryType())->getDefinition(),
-            ),
-        ));
+            ],
+        ]);
 
         // Conta
-        $subform->add(array(
+        $subform->add([
             'type'    => 'Select',
             'name'    => 'account_id',
-            'options' => array(
+            'options' => [
                 'value_options' => $pAccounts->getValueOptions(),
-            ),
-        ));
+            ],
+        ]);
 
         // Valor
-        $subform->add(array(
+        $subform->add([
             'type' => 'Currency',
             'name' => 'value',
-        ));
+        ]);
 
         // Coleção de Entradas de Lançamentos
-        $this->add(array(
+        $this->add([
             'type'    => 'Collection',
             'name'    => 'entries',
-            'options' => array(
+            'options' => [
                 'target_element' => $subform,
                 'allow_add'      => true,
                 'count'          => 2,
-            ),
-        ));
+            ],
+        ]);
     }
 }

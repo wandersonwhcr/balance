@@ -28,7 +28,7 @@ class HomeTest extends TestCase
         $mBalance
             ->expects($this->once())
             ->method('fetch')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         // Formulário de Perquisa
         $mBalance
@@ -37,16 +37,16 @@ class HomeTest extends TestCase
             ->will($this->returnValue($form));
 
         // Configurar Parâmetros de Despacho
-        $element->getEvent()->setRouteMatch(new Router\RouteMatch(array(
+        $element->getEvent()->setRouteMatch(new Router\RouteMatch([
             'action' => 'index',
-        )));
+        ]));
 
         // Execução
         $result = $element->dispatch(new Request());
 
         // Verificações
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
-        $this->assertEquals(array(), $result->elements);
+        $this->assertEquals([], $result->elements);
         $this->assertSame($form, $result->form);
     }
 
@@ -67,11 +67,11 @@ class HomeTest extends TestCase
         $serviceLocator->setService('Balance\Model\Balance', $mBalance);
 
         // Configurar Parâmetros de Despacho
-        $element->getEvent()->setRouteMatch(new Router\RouteMatch(array(
+        $element->getEvent()->setRouteMatch(new Router\RouteMatch([
             'action' => 'index',
-        )));
+        ]));
 
         // Execução
-        $result = $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
+        $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
     }
 }

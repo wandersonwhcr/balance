@@ -4,8 +4,8 @@ date_default_timezone_set('America/Sao_Paulo');
 // Definição de Locale Padrão
 locale_set_default('pt_BR');
 // Apresentação
-return array(
-    'db' => array(
+return [
+    'db' => [
         'driver'   => 'pgsql',
         'database' => 'balance',
         'username' => 'balance',
@@ -13,5 +13,5 @@ return array(
         'hostname' => 'localhost',
         'port'     => '5432',
         'charset'  => 'UTF8',
-    ),
-);
+    ],
+];

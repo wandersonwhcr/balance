@@ -26,7 +26,7 @@ class PostingsTest extends TestCase
         // Carregar Valores
         $persistence->expects($this->atLeastOnce())
             ->method('getValueOptions')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         // Camada de Modelo de Contas
         $serviceLocator->setService('Balance\Model\Persistence\Accounts', $persistence);

@@ -21,7 +21,7 @@
         ?>
         <?php
             $this->headLink()
-                ->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath('/images/favicon.ico'), 'type' => 'image/x-icon'))
+                ->headLink(['rel' => 'shortcut icon', 'href' => $this->basePath('/images/favicon.ico'), 'type' => 'image/x-icon'])
                 ->prependStylesheet($this->basePath('/module/Balance/assets/default/css/default.css'))
                 ->prependStylesheet($this->basePath('/assets/jqueryui/themes/smoothness/jquery-ui.min.css'))
                 ->prependStylesheet($this->basePath('/assets/bootstrap/dist/css/bootstrap-theme.min.css'))

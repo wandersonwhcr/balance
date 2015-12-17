@@ -42,52 +42,52 @@ class Issue128Test extends TestCase
         $tbAccounts->delete(function ($delete) {});
 
         // Criar um Lançamento
-        $tbPostings->insert(array(
+        $tbPostings->insert([
             'datetime'    => '2010-10-10 10:10:10',
             'description' => 'Posting Description',
-        ));
+        ]);
         // Chave Primária
         $this->primary = (int) $tbPostings->getLastInsertValue();
 
         // Inserir Conta A
-        $tbAccounts->insert(array(
+        $tbAccounts->insert([
             'name'        => 'Account A',
             'type'        => AccountType::ACTIVE,
             'description' => 'Account A Description',
             'position'    => 0,
             'accumulate'  => 0,
-        ));
+        ]);
         // Chave Primária
         $accountA = (int) $tbAccounts->getLastInsertValue();
 
         // Inserir Conta B
-        $tbAccounts->insert(array(
+        $tbAccounts->insert([
             'name'        => 'Account B',
             'type'        => AccountType::ACTIVE,
             'description' => 'Account B Description',
             'position'    => 1,
             'accumulate'  => 0,
-        ));
+        ]);
         // Chave Primária
         $accountB = (int) $tbAccounts->getLastInsertValue();
 
         // Entrada 0
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $this->primary,
             'account_id' => $accountA,
             'type'       => EntryType::CREDIT,
             'value'      => 9999999.99,
             'position'   => 0,
-        ));
+        ]);
 
         // Entrada 1
-        $tbEntries->insert(array(
+        $tbEntries->insert([
             'posting_id' => $this->primary,
             'account_id' => $accountB,
             'type'       => EntryType::DEBIT,
             'value'      => 9999999.99,
             'position'   => 1,
-        ));
+        ]);
 
         // Apresentação
         return $persistence;
@@ -99,7 +99,7 @@ class Issue128Test extends TestCase
         $persistence = $this->getPersistence();
 
         // Consulta
-        $result = $persistence->find(new Parameters(array('id' => $this->primary)));
+        $result = $persistence->find(new Parameters(['id' => $this->primary]));
 
         // Capturar Entrada
         $element = current($result['entries']);

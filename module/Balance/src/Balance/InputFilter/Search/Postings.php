@@ -33,20 +33,20 @@ class Postings extends InputFilter
         $input = (new Input('datetime_begin'))
             ->setRequired(false);
         $input->getValidatorChain()
-            ->attach(new I18n\Validator\DateTime(array(
+            ->attach(new I18n\Validator\DateTime([
                 'dateType' => IntlDateFormatter::MEDIUM,
                 'timeType' => IntlDateFormatter::MEDIUM,
-            )));
+            ]));
         $this->add($input);
 
         // Data e Hora Final
         $input = (new Input('datetime_end'))
             ->setRequired(false);
         $input->getValidatorChain()
-            ->attach(new I18n\Validator\DateTime(array(
+            ->attach(new I18n\Validator\DateTime([
                 'dateType' => IntlDateFormatter::MEDIUM,
                 'timeType' => IntlDateFormatter::MEDIUM,
-            )));
+            ]));
         $this->add($input);
     }
 }

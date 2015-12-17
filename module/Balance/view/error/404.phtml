@@ -2,11 +2,11 @@
     // Adicionar Migalha
     $navigation = $this->getHelperPluginManager()->getServiceLocator()->get('navigation');
     // Adicionar Página Desconhecida Ativa
-    $navigation->findBy('route', 'home')->addPage(array(
+    $navigation->findBy('route', 'home')->addPage([
         'label'  => 'Página Desconhecida',
         'uri'    => '',
         'active' => true,
-    ));
+    ]);
     // Mensagens
     switch ($this->reason) :
         case 'error-controller-cannot-dispatch':
@@ -27,10 +27,10 @@
 ?>
 
 <?php
-    echo $this->partial('layout/page-header', array(
+    echo $this->partial('layout/page-header', [
         'title'    => 'Erro Encontrado',
         'subtitle' => 'Página Desconhecida',
-    ));
+    ]);
 ?>
 
 <p class="lead"><?php echo $this->escapeHtml($this->message) ?></p>
@@ -49,5 +49,5 @@
 <?php endif ?>
 
 <?php if ($this->display_exceptions) : ?>
-    <?php echo $this->partial('layout/exceptions', array('exception' => $this->exception)) ?>
+    <?php echo $this->partial('layout/exceptions', ['exception' => $this->exception]) ?>
 <?php endif ?>

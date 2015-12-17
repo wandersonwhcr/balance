@@ -2,11 +2,20 @@
 <ruleset name="Balance">
     <rule ref="PSR2"/>
 
+    <rule ref="Generic.Commenting.Todo"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+
     <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
         <properties>
             <property name="ignoreBlankLines" value="false"/>
         </properties>
     </rule>
 
-    <rule ref="Generic.Commenting.Todo"/>
+    <rule ref="Generic.Files.LineLength">
+        <exclude-pattern>\.phtml$</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <exclude-pattern>\.phtml$</exclude-pattern>
+    </rule>
 </ruleset>

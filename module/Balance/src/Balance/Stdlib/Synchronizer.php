@@ -22,7 +22,7 @@ class Synchronizer
      * Colunas para Comparação
      * @type string[]
      */
-    private $columns = array();
+    private $columns = [];
 
     /**
      * Configuração de Colunas para Comparação
@@ -67,17 +67,17 @@ class Synchronizer
     public function synchronize(array $old, array $new)
     {
         // Resultado Inicial
-        $result = array(
-            self::INSERT => array(),
-            self::UPDATE => array(),
-            self::DELETE => array(),
-        );
+        $result = [
+            self::INSERT => [],
+            self::UPDATE => [],
+            self::DELETE => [],
+        ];
 
         // Inicialização
         $columns = $this->getColumns();
 
         // Processar Conjunto Antigo
-        $oldElements = array();
+        $oldElements = [];
         foreach ($old as $element) {
             // Capturar Valores de Colunas
             $values = array_intersect_key($element, array_flip($columns));
@@ -88,7 +88,7 @@ class Synchronizer
         }
 
         // Processar Conjunto Novo
-        $newElements = array();
+        $newElements = [];
         foreach ($new as $element) {
             // Capturar Valores de Colunas
             $values = array_intersect_key($element, array_flip($columns));

@@ -28,7 +28,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
     public function fetch(Parameters $params)
     {
         // Resultado Inicial
-        $result = array();
+        $result = [];
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
         // Expressão: Tipo
@@ -42,8 +42,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         $eType = new Expression($expression);
         // Seletor
         $select = (new Select())
-            ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'name', 'type' => $eType));
+            ->from(['a' => 'accounts'])
+            ->columns(['id', 'name', 'type' => $eType]);
         // Pesquisa: Tipo
         if ($params['type']) {
             $select->where(function ($where) use ($params) {
@@ -63,12 +63,12 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 );
                 // Construção do Documento
                 $search = (new Select())
-                    ->from(array('a' => 'accounts'))
-                    ->columns(array('account_id' => 'id', 'document' => $document));
+                    ->from(['a' => 'accounts'])
+                    ->columns(['account_id' => 'id', 'document' => $document]);
                 // Pesquisa Interna
                 $subselect = (new Select())
-                    ->from(array('search' => $search))
-                    ->columns(array('account_id'))
+                    ->from(['search' => $search])
+                    ->columns(['account_id'])
                     ->where(function ($where) use ($params, $language) {
                         $where->expression(
                             '"search"."document" @@ TO_TSQUERY(\'' . $language . '\', ?)',
@@ -80,16 +80,16 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             });
         }
         // Ordenação
-        $select->order(array('a.position'));
+        $select->order(['a.position']);
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
         foreach ($rowset as $row) {
-            $result[] = array(
+            $result[] = [
                 'id'   => (int) $row['id'],
                 'name' => $row['name'],
                 'type' => $row['type'],
-            );
+            ];
         }
         // Apresentação
         return new ArrayIterator($result);
@@ -108,8 +108,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         $db = $this->getServiceLocator()->get('db');
         // Seletor
         $select = (new Select())
-            ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'name', 'type', 'description', 'accumulate'))
+            ->from(['a' => 'accounts'])
+            ->columns(['id', 'name', 'type', 'description', 'accumulate'])
             ->where(function ($where) use ($params) {
                 $where->equalTo('a.id', (int) $params['id']);
             });
@@ -120,13 +120,13 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             throw new ModelException('Unknown Element');
         }
         // Configurações
-        $element = array(
+        $element = [
             'id'          => (int) $row['id'],
             'type'        => $row['type'],
             'name'        => $row['name'],
             'description' => $row['description'],
             'accumulate'  => $row['accumulate'] === 't' ? BooleanType::YES : BooleanType::NO,
-        );
+        ];
         // Apresentação
         return $element;
     }
@@ -147,30 +147,30 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
-                $tbAccounts->update(array(
+                $tbAccounts->update([
                     'type'        => $data['type'],
                     'name'        => $data['name'],
                     'description' => $data['description'],
                     'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
-                ), function ($where) use ($data) {
+                ], function ($where) use ($data) {
                     $where->equalTo('id', $data['id']);
                 });
             } else {
                 // Consultar Última Posição
                 $select = (new Select())
-                    ->from(array('a' => 'accounts'))
-                    ->columns(array('position' => new Expression('MAX("a"."position") + 1')));
+                    ->from(['a' => 'accounts'])
+                    ->columns(['position' => new Expression('MAX("a"."position") + 1')]);
                 // Consulta
                 $position = (int) $db->query($select->getSqlString($db->getPlatform()))->execute()
                     ->current()['position'];
                 // Inserir Elemento
-                $tbAccounts->insert(array(
+                $tbAccounts->insert([
                     'type'        => $data['type'],
                     'name'        => $data['name'],
                     'description' => $data['description'],
                     'position'    => $position,
                     'accumulate'  => $data['accumulate'] === BooleanType::YES ? 't' : 'f',
-                ));
+                ]);
                 // Chave Primária
                 $data['id'] = (int) $tbAccounts->getLastInsertValue();
             }
@@ -205,8 +205,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             $connection->beginTransaction();
             // Seletor
             $select = (new Select())
-                ->from(array('a' => 'accounts'))
-                ->columns(array('position'))
+                ->from(['a' => 'accounts'])
+                ->columns(['position'])
                 ->where(function ($where) use ($params) {
                     $where->equalTo('a.id', $params['id']);
                 });
@@ -223,9 +223,9 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 });
             });
             // Reordenar Contas
-            $tbAccounts->update(array(
+            $tbAccounts->update([
                 'position' => new Expression('"position" - 1'),
-            ), function ($where) use ($row) {
+            ], function ($where) use ($row) {
                 $where->greaterThan('position', $row['position']);
             });
             // Confirmação
@@ -248,23 +248,23 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         // Definições de Nomeclatura
         $definition = (new AccountType())->getDefinition();
         // Resultado Inicial
-        $result = array(
-            AccountType::ACTIVE  => array(
+        $result = [
+            AccountType::ACTIVE  => [
                 'label'   => $definition[AccountType::ACTIVE],
-                'options' => array(),
-            ),
-            AccountType::PASSIVE => array(
+                'options' => [],
+            ],
+            AccountType::PASSIVE => [
                 'label'   => $definition[AccountType::PASSIVE],
-                'options' => array(),
-            ),
-        );
+                'options' => [],
+            ],
+        ];
         // Adaptador de Banco de Dados
         $db = $this->getServiceLocator()->get('db');
         // Seletor
         $select = (new Select())
-            ->from(array('a' => 'accounts'))
-            ->columns(array('id', 'type', 'name'))
-            ->order(array('a.type', 'a.name'));
+            ->from(['a' => 'accounts'])
+            ->columns(['id', 'type', 'name'])
+            ->order(['a.type', 'a.name']);
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
@@ -296,8 +296,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         $db = $this->getServiceLocator()->get('db');
         // Capturador de Posições
         $select = (new Select())
-            ->from(array('a' => 'accounts'))
-            ->columns(array('position'))
+            ->from(['a' => 'accounts'])
+            ->columns(['position'])
             ->where(function ($where) use ($id) {
                 $where->equalTo('a.id', $id);
             });
@@ -356,14 +356,14 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             $connection->beginTransaction();
 
             // Parâmetros (Antes === Depois) Não Existe Aqui!
-            $parameters = array($positionBefore, $positionAfter, ($positionBefore < $positionAfter ? '-1' : '+1'));
+            $parameters = [$positionBefore, $positionAfter, ($positionBefore < $positionAfter ? '-1' : '+1')];
             // Expressão
             $expression = new Expression('(CASE WHEN "position" = ? THEN ? ELSE "position" + ? END)', $parameters);
 
             // Atualização para Frente
-            $tbAccounts->update(array(
+            $tbAccounts->update([
                 'position' => $expression,
-            ), function ($where) use ($positionBefore, $positionAfter) {
+            ], function ($where) use ($positionBefore, $positionAfter) {
                 $where->between(
                     'position',
                     min($positionBefore, $positionAfter),

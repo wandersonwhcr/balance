@@ -17,9 +17,9 @@ class BooleanType
      */
     public function getDefinition()
     {
-        return array(
+        return [
             self::YES => 'Sim',
             self::NO  => 'Não',
-        );
+        ];
     }
 }

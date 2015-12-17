@@ -33,9 +33,9 @@ class Home extends AbstractActionController
         // Consulta de Balancete
         $elements = $mBalance->fetch($params);
         // Camada de Visualização
-        return new ViewModel(array(
+        return new ViewModel([
             'elements' => $elements,
             'form'     => $mBalance->getFormSearch(),
-        ));
+        ]);
     }
 }

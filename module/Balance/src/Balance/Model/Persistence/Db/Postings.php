@@ -41,9 +41,9 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $db = $this->getServiceLocator()->get('db');
         // Seletor
         $select = (new Select())
-            ->from(array('p' => 'postings'))
-            ->columns(array('id', 'datetime', 'description'))
-            ->order(array('p.datetime DESC'));
+            ->from(['p' => 'postings'])
+            ->columns(['id', 'datetime', 'description'])
+            ->order(['p.datetime DESC']);
         // Pesquisa: Palavras-Chave
         if ($params['keywords']) {
             // Filtro
@@ -57,15 +57,15 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 );
                 // Construção do Documento
                 $search = (new Select())
-                    ->from(array('p' => 'postings'))
-                    ->columns(array('posting_id' => 'id', 'document' => $document))
-                    ->join(array('e' => 'entries'), 'p.id = e.posting_id', array())
-                    ->join(array('a' => 'accounts'), 'a.id = e.account_id', array())
-                    ->group(array('p.id'));
+                    ->from(['p' => 'postings'])
+                    ->columns(['posting_id' => 'id', 'document' => $document])
+                    ->join(['e' => 'entries'], 'p.id = e.posting_id', [])
+                    ->join(['a' => 'accounts'], 'a.id = e.account_id', [])
+                    ->group(['p.id']);
                 // Pesquisa Interna
                 $subselect = (new Select())
-                    ->from(array('search' => $search))
-                    ->columns(array('posting_id'))
+                    ->from(['search' => $search])
+                    ->columns(['posting_id'])
                     ->where(function ($where) use ($params, $language) {
                         $where->expression(
                             '"search"."document" @@ TO_TSQUERY(\'' . $language . '\', ?)',
@@ -80,8 +80,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         if ($params['account_id']) {
             // Consulta Interna
             $subselect = (new Select())
-                ->from(array('e' => 'entries'))
-                ->columns(array('posting_id'))
+                ->from(['e' => 'entries'])
+                ->columns(['posting_id'])
                 ->where(function ($where) use ($params) {
                     $where->equalTo('e.account_id', $params['account_id']);
                 });
@@ -134,8 +134,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $db = $this->getServiceLocator()->get('db');
         // Seletor
         $select = (new Select())
-            ->from(array('p' => 'postings'))
-            ->columns(array('id', 'datetime', 'description'))
+            ->from(['p' => 'postings'])
+            ->columns(['id', 'datetime', 'description'])
             ->where(function ($where) use ($params) {
                 $where->equalTo('p.id', (int) $params['id']);
             });
@@ -148,21 +148,21 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Conversão para Banco de Dados
         $formatter = $this->buildDateFormatter();
         // Configurações
-        $element = array(
+        $element = [
             'id'          => (int) $row['id'],
             'datetime'    => $formatter->format(strtotime($row['datetime'])),
             'description' => $row['description'],
-            'entries'     => array(),
-        );
+            'entries'     => [],
+        ];
         // Carregar Entradas
         // Seletor
         $select = (new Select())
-            ->from(array('e' => 'entries'))
-            ->columns(array('type', 'account_id', 'value'))
+            ->from(['e' => 'entries'])
+            ->columns(['type', 'account_id', 'value'])
             ->where(function ($where) use ($element) {
                 $where->equalTo('e.posting_id', $element['id']);
             })
-            ->order(array('e.position'));
+            ->order(['e.position']);
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Formatador de Números
@@ -173,11 +173,11 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
         // Configurações
         foreach ($rowset as $row) {
-            $element['entries'][] = array(
+            $element['entries'][] = [
                 'type'       => $row['type'],
                 'account_id' => $row['account_id'],
                 'value'      => $formatter->format($row['value']),
-            );
+            ];
         }
         // Apresentação
         return $element;
@@ -204,10 +204,10 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
-                $count = $tbPostings->update(array(
+                $count = $tbPostings->update([
                     'datetime'    => $datetime,
                     'description' => $data['description'],
-                ), function ($where) use ($data) {
+                ], function ($where) use ($data) {
                     $where->equalTo('id', $data['id']);
                 });
                 // Verificações
@@ -216,22 +216,22 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 }
             } else {
                 // Inserir Elemento
-                $tbPostings->insert(array(
+                $tbPostings->insert([
                     'datetime'    => $datetime,
                     'description' => $data['description'],
-                ));
+                ]);
                 // Chave Primária
                 $data['id'] = (int) $tbPostings->getLastInsertValue();
             }
             // Seletor Entradas
             $select = (new Select())
-                ->from(array('e' => 'entries'))
-                ->columns(array('account_id', 'position'))
+                ->from(['e' => 'entries'])
+                ->columns(['account_id', 'position'])
                 ->where(function ($where) use ($data) {
                     $where->equalTo('e.posting_id', $data['id']);
                 });
             // Consulta de Entradas Antigas
-            $oldEntries = array();
+            $oldEntries = [];
             $rowset     = $db->query($select->getSqlString($db->getPlatform()))->execute();
             foreach ($rowset as $row) {
                 $oldEntries[] = $row;
@@ -245,7 +245,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             }
             // Sincronização
             $entries = (new Synchronizer())
-                ->setColumns(array('account_id', 'position'))
+                ->setColumns(['account_id', 'position'])
                 ->synchronize($oldEntries, $newEntries);
             // Processar Remoções
             foreach ($entries[Synchronizer::DELETE] as $subdata) {
@@ -265,26 +265,26 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Salvar Entradas
             foreach ($entries[Synchronizer::INSERT] as $subdata) {
                 // Salvar Entradas
-                $tbEntries->insert(array(
+                $tbEntries->insert([
                     'posting_id' => $data['id'],
                     'account_id' => $subdata['account_id'],
                     'type'       => $subdata['type'],
                     'value'      => $formatter->parseCurrency($subdata['value'], $currency),
                     'position'   => $subdata['position'],
-                ));
+                ]);
                 // Limpeza PHPMD
                 unset($currency);
             }
             // Atualizar Entradas
             foreach ($entries[Synchronizer::UPDATE] as $subdata) {
                 // Atualizar Entradas
-                $tbEntries->update(array(
+                $tbEntries->update([
                     'posting_id' => $data['id'],
                     'account_id' => $subdata['account_id'],
                     'type'       => $subdata['type'],
                     'value'      => $formatter->parseCurrency($subdata['value'], $currency),
                     'position'   => $subdata['position'],
-                ), function ($where) use ($data, $subdata) {
+                ], function ($where) use ($data, $subdata) {
                     $where
                         ->equalTo('posting_id', $data['id'])
                         ->equalTo('account_id', $subdata['account_id']);

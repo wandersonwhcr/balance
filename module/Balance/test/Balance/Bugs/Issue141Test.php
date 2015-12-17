@@ -34,12 +34,12 @@ class Issue141Test extends TestCase
             ->setService('Balance\Db\TableGateway\Accounts', $serviceManager->get('Balance\Db\TableGateway\Accounts'));
 
         // Conta para Inserção
-        $data = new Parameters(array(
+        $data = new Parameters([
             'type'        => AccountType::ACTIVE,
             'name'        => 'Account A',
             'description' => 'Description',
             'accumulate'  => BooleanType::NO,
-        ));
+        ]);
 
         // Salvar Dados
         $persistence->save($data);

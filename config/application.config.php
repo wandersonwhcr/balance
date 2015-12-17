@@ -1,20 +1,20 @@
 <?php
-return array(
-    'modules' => array(
+return [
+    'modules' => [
         'Balance',
         'TwbBundle',
-    ),
-    'service_manager' => array(
-        'factories' => array(
+    ],
+    'service_manager' => [
+        'factories' => [
             'db' => 'Zend\Db\Adapter\AdapterServiceFactory',
-        ),
-    ),
-    'module_listener_options' => array(
-        'config_glob_paths' => array(
+        ],
+    ],
+    'module_listener_options' => [
+        'config_glob_paths' => [
             'config/autoload/{,*.}{global,local}.php',
-        ),
-        'module_paths' => array(
+        ],
+        'module_paths' => [
             'module',
-        ),
-    ),
-);
+        ],
+    ],
+];

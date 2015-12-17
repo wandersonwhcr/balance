@@ -15,22 +15,21 @@
     $table = (new Table())
         ->setForm($form)
         ->setTitle('Listagem')
-        ->setColumn('name', array('label' => 'Nome', 'class' => 'col-md-8'))
-        ->setColumn('type', array('label' => 'Tipo', 'class' => 'col-md-2'))
+        ->setColumn('name', ['label' => 'Nome', 'class' => 'col-md-8'])
+        ->setColumn('type', ['label' => 'Tipo', 'class' => 'col-md-2'])
         ->setElements($this->elements);
     // Ação: Adicionar
-    $table->setAction('add', array('route' => 'accounts/add'));
+    $table->setAction('add', ['route' => 'accounts/add']);
     // Ação: Elemento - Mover
     $table->setElementAction('move');
     // Ação: Elemento - Editar
-    $table->setElementAction('edit', array('route' => 'accounts/edit'));
+    $table->setElementAction('edit', ['route' => 'accounts/edit']);
     // Ação: Elemento - Remover
-    $table->setElementAction('remove', array('route' => 'accounts/remove'));
+    $table->setElementAction('remove', ['route' => 'accounts/remove']);
     // Cabeçalho
-    echo $this->partial('layout/page-header', array(
+    echo $this->partial('layout/page-header', [
         'title'    => 'Contas',
         'subtitle' => 'Listar',
-    ));
+    ]);
     // Renderização
-    echo $this->partial('layout/table', array('table' => $table));
-?>
+    echo $this->partial('layout/table', ['table' => $table]);

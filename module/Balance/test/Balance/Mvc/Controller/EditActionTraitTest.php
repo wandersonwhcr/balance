@@ -110,9 +110,9 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
-        )));
+        ]));
 
         // Execução
         $result = $controller->dispatch(new Request());
@@ -129,10 +129,10 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
             'one'    => 'two',
-        )));
+        ]));
 
         // Execução
         $result = $controller->dispatch(new Request());
@@ -149,10 +149,10 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
             'one'    => 'two',
-        )));
+        ]));
 
         // Plugin de Redirecionamento
         $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
@@ -177,9 +177,9 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
-        )));
+        ]));
 
         // Plugin de Redirecionamento
         $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
@@ -189,7 +189,7 @@ class EditActionTraitTest extends TestCase
         // Requisição
         $request = (new Request())
             ->setMethod('POST')
-            ->setPost(new Parameters(array('one' => 'two')));
+            ->setPost(new Parameters(['one' => 'two']));
 
         // Execução
         $result = $controller->dispatch($request);
@@ -204,9 +204,9 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
-        )));
+        ]));
 
         // Plugin de Redirecionamento
         $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
@@ -221,7 +221,7 @@ class EditActionTraitTest extends TestCase
         // Requisição
         $request = (new Request())
             ->setMethod('POST')
-            ->setPost(new Parameters(array('one' => 'two')));
+            ->setPost(new Parameters(['one' => 'two']));
 
         // Execução
         $result = $controller->dispatch($request);
@@ -251,9 +251,9 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-without-model-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
-        )));
+        ]));
 
         // Execução
         $controller->dispatch(new Request());
@@ -268,9 +268,9 @@ class EditActionTraitTest extends TestCase
         $controller = $this->getController('edit-action-without-redirect-route-name-controller');
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'edit',
-        )));
+        ]));
 
         // Execução
         $controller->dispatch(new Request());

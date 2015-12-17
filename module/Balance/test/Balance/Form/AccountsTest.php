@@ -2,8 +2,8 @@
 
 namespace Balance\Form;
 
-use Balance\Model\AccountType;
 use Balance\Form\Element\Boolean;
+use Balance\Model\AccountType;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\FormElementManager;
 

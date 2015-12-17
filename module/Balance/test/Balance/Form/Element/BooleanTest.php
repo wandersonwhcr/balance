@@ -14,9 +14,9 @@ class BooleanTest extends TestCase
         $values = $element->getValueOptions();
 
         $this->assertCount(2, $values);
-        $this->assertEquals(array(
+        $this->assertEquals([
             BooleanType::YES => 'Sim',
             BooleanType::NO  => 'Não',
-        ), $values);
+        ], $values);
     }
 }

@@ -14,20 +14,20 @@ class AbstractTableGatewayFactoryTest extends TestCase
         // Serviço Dependente: Banco de Dados
         $serviceLocator->setService('db', $this->getMock('Zend\Db\Adapter\AdapterInterface'));
         // Configurar Elemento
-        $serviceLocator->setService('Config', array(
-            'balance_manager' => array(
-                'factories' => array(
-                    'Balance\Db\TableGateway\Table' => array(
+        $serviceLocator->setService('Config', [
+            'balance_manager' => [
+                'factories' => [
+                    'Balance\Db\TableGateway\Table' => [
                         'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
-                        'params'  => array(
+                        'params'  => [
                             'table'       => 'table',
                             'primary_key' => 'id',
                             'sequence'    => 'table_id_seq',
-                        ),
-                    ),
-                ),
-            ),
-        ));
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
         // Fábrica de Componentes
         $factory = new AbstractTableGatewayFactory();

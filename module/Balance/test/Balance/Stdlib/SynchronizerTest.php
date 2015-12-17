@@ -11,11 +11,11 @@ class SynchronizerTest extends TestCase
     {
         $element = new Synchronizer();
 
-        $result = $element->setColumns(array('one', 'two'));
+        $result = $element->setColumns(['one', 'two']);
         $this->assertSame($element, $result);
 
         $result = $element->getColumns();
-        $this->assertEquals(array('one', 'two'), $result);
+        $this->assertEquals(['one', 'two'], $result);
     }
 
     public function testColumnsWithInvalidArrayColumn()
@@ -24,7 +24,7 @@ class SynchronizerTest extends TestCase
 
         $element = new Synchronizer();
 
-        $element->setColumns(array(array()));
+        $element->setColumns([[]]);
     }
 
     public function testColumnsWithInvalidObjectCOlumn()
@@ -33,24 +33,24 @@ class SynchronizerTest extends TestCase
 
         $element = new Synchronizer();
 
-        $element->setColumns(array(new StdClass()));
+        $element->setColumns([new StdClass()]);
     }
 
     public function testSynchronize()
     {
         $element = new Synchronizer();
 
-        $element->setColumns(array('id'));
+        $element->setColumns(['id']);
 
-        $old = array(
-            array('id' => 1, 'value' => 'A'),
-            array('id' => 2, 'value' => 'B'),
-        );
+        $old = [
+            ['id' => 1, 'value' => 'A'],
+            ['id' => 2, 'value' => 'B'],
+        ];
 
-        $new = array(
-            array('id' => 2, 'value' => 'D'),
-            array('id' => 3, 'value' => 'C'),
-        );
+        $new = [
+            ['id' => 2, 'value' => 'D'],
+            ['id' => 3, 'value' => 'C'],
+        ];
 
         $result = $element->synchronize($old, $new);
 
@@ -58,17 +58,17 @@ class SynchronizerTest extends TestCase
         $this->assertArrayHasKey(Synchronizer::UPDATE, $result);
         $this->assertArrayHasKey(Synchronizer::DELETE, $result);
 
-        $insert = array(
-            array('id' => 3, 'value' => 'C'),
-        );
+        $insert = [
+            ['id' => 3, 'value' => 'C'],
+        ];
 
-        $update = array(
-            array('id' => 2, 'value' => 'D'),
-        );
+        $update = [
+            ['id' => 2, 'value' => 'D'],
+        ];
 
-        $delete = array(
-            array('id' => 1, 'value' => 'A'),
-        );
+        $delete = [
+            ['id' => 1, 'value' => 'A'],
+        ];
 
         $this->assertEquals($insert, $result[Synchronizer::INSERT]);
         $this->assertEquals($update, $result[Synchronizer::UPDATE]);
@@ -79,21 +79,21 @@ class SynchronizerTest extends TestCase
     {
         $element = new Synchronizer();
 
-        $element->setColumns(array('foo_id', 'bar_id'));
+        $element->setColumns(['foo_id', 'bar_id']);
 
-        $old = array(
-            array('foo_id' => 1, 'bar_id' => 1, 'value' => 'A'),
-            array('foo_id' => 1, 'bar_id' => 2, 'value' => 'B'),
-            array('foo_id' => 2, 'bar_id' => 1, 'value' => 'C'),
-            array('foo_id' => 2, 'bar_id' => 2, 'value' => 'D'),
-        );
+        $old = [
+            ['foo_id' => 1, 'bar_id' => 1, 'value' => 'A'],
+            ['foo_id' => 1, 'bar_id' => 2, 'value' => 'B'],
+            ['foo_id' => 2, 'bar_id' => 1, 'value' => 'C'],
+            ['foo_id' => 2, 'bar_id' => 2, 'value' => 'D'],
+        ];
 
-        $new = array(
-            array('foo_id' => 1, 'bar_id' => 1, 'value' => 'A'),
-            array('foo_id' => 1, 'bar_id' => 2, 'value' => 'C'),
-            array('foo_id' => 2, 'bar_id' => 2, 'value' => 'E'),
-            array('foo_id' => 2, 'bar_id' => 3, 'value' => 'B'),
-        );
+        $new = [
+            ['foo_id' => 1, 'bar_id' => 1, 'value' => 'A'],
+            ['foo_id' => 1, 'bar_id' => 2, 'value' => 'C'],
+            ['foo_id' => 2, 'bar_id' => 2, 'value' => 'E'],
+            ['foo_id' => 2, 'bar_id' => 3, 'value' => 'B'],
+        ];
 
         $result = $element->synchronize($old, $new);
 
@@ -101,19 +101,19 @@ class SynchronizerTest extends TestCase
         $this->assertArrayHasKey(Synchronizer::UPDATE, $result);
         $this->assertArrayHasKey(Synchronizer::DELETE, $result);
 
-        $insert = array(
-            array('foo_id' => 2, 'bar_id' => 3, 'value' => 'B'),
-        );
+        $insert = [
+            ['foo_id' => 2, 'bar_id' => 3, 'value' => 'B'],
+        ];
 
-        $update = array(
-            array('foo_id' => 1, 'bar_id' => 1, 'value' => 'A'),
-            array('foo_id' => 1, 'bar_id' => 2, 'value' => 'C'),
-            array('foo_id' => 2, 'bar_id' => 2, 'value' => 'E'),
-        );
+        $update = [
+            ['foo_id' => 1, 'bar_id' => 1, 'value' => 'A'],
+            ['foo_id' => 1, 'bar_id' => 2, 'value' => 'C'],
+            ['foo_id' => 2, 'bar_id' => 2, 'value' => 'E'],
+        ];
 
-        $delete = array(
-            array('foo_id' => 2, 'bar_id' => 1, 'value' => 'C'),
-        );
+        $delete = [
+            ['foo_id' => 2, 'bar_id' => 1, 'value' => 'C'],
+        ];
 
         $this->assertEquals($insert, $result[Synchronizer::INSERT]);
         $this->assertEquals($update, $result[Synchronizer::UPDATE]);

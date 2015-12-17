@@ -16,22 +16,22 @@ class Accounts extends Form
     public function init()
     {
         // Tipo
-        $this->add(array(
+        $this->add([
             'type'    => 'Select',
             'name'    => 'type',
-            'options' => array(
+            'options' => [
                 'label'         => 'Tipo',
                 'value_options' => (new AccountType())->getDefinition(),
-            ),
-        ));
+            ],
+        ]);
 
         // Palavras-Chave
-        $this->add(array(
+        $this->add([
             'type'    => 'Text',
             'name'    => 'keywords',
-            'options' => array(
+            'options' => [
                 'label' => 'Palavras-Chave',
-            ),
-        ));
+            ],
+        ]);
     }
 }

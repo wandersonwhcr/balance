@@ -18,12 +18,12 @@ class AccountsTest extends TestCase
         $serviceLocator = new ServiceManager();
 
         // Configurar Parâmetros de Despacho
-        $controller->getEvent()->setRouteMatch(new RouteMatch(array(
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
             'action' => 'order',
-        )));
+        ]));
 
         // Camada de Persistência
-        $persistence = $this->getMock('Balance\Model\Persistence\OrderableInterface', array('order'));
+        $persistence = $this->getMock('Balance\Model\Persistence\OrderableInterface', ['order']);
         // Configuração
         $serviceLocator->setService('Balance\Model\Persistence\Accounts', $persistence);
 

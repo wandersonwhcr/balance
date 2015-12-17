@@ -40,7 +40,7 @@ trait EditActionTrait
         // Chave Primária
         $params = $this->params()->fromRoute();
         // Remover Controladora e Ação
-        $params = array_diff_key($params, array_flip(array('controller', 'action')));
+        $params = array_diff_key($params, array_flip(['controller', 'action']));
         // Dados Enviados?
         if ($this->getRequest()->isPost()) {
             // Captura de Dados
@@ -76,9 +76,9 @@ trait EditActionTrait
         $this->getServiceLocator()->get('ViewManager')
             ->getInjectTemplateListener()->setPreferRouteMatchController(true);
         // Visualização
-        return new ViewModel(array(
+        return new ViewModel([
             'type' => ($params ? 'edit' : 'add'),
             'form' => $model->getForm(),
-        ));
+        ]);
     }
 }

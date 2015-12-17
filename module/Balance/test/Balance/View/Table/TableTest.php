@@ -37,17 +37,17 @@ class TableTest extends TestCase
         $table = new Table();
 
         $result = $table->getColumns();
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
 
-        $result = $table->setColumn('one', array('foo' => 'bar'));
+        $result = $table->setColumn('one', ['foo' => 'bar']);
         $this->assertSame($table, $result);
 
         $result = $table->getColumns();
-        $this->assertEquals(array('one' => array('foo' => 'bar')), $result);
+        $this->assertEquals(['one' => ['foo' => 'bar']], $result);
 
-        $table->setColumn('two', array('one' => 'two'));
+        $table->setColumn('two', ['one' => 'two']);
         $result = $table->getColumns();
-        $this->assertEquals(array('one' => array('foo' => 'bar'), 'two' => array('one' => 'two')), $result);
+        $this->assertEquals(['one' => ['foo' => 'bar'], 'two' => ['one' => 'two']], $result);
     }
 
     public function testElementsAsArray()
@@ -56,13 +56,13 @@ class TableTest extends TestCase
 
         $result = $table->getElements();
         $this->assertInstanceOf('ArrayIterator', $result);
-        $this->assertEquals(array(), $result->getArrayCopy());
+        $this->assertEquals([], $result->getArrayCopy());
 
-        $result = $table->setElements(new ArrayIterator(array(array('foo' => 'bar'), array('one' => 'two'))));
+        $result = $table->setElements(new ArrayIterator([['foo' => 'bar'], ['one' => 'two']]));
         $this->assertSame($table, $result);
 
         $result = $table->getElements();
-        $this->assertEquals(array(array('foo' => 'bar'), array('one' => 'two')), $result->getArrayCopy());
+        $this->assertEquals([['foo' => 'bar'], ['one' => 'two']], $result->getArrayCopy());
     }
 
     public function testElementsAsPaginator()
@@ -84,17 +84,17 @@ class TableTest extends TestCase
         $table = new Table();
 
         $result = $table->getActions();
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
 
-        $result = $table->setAction('one', array('foo' => 'bar'));
+        $result = $table->setAction('one', ['foo' => 'bar']);
         $this->assertEquals($table, $result);
 
         $result = $table->getActions();
-        $this->assertEquals(array('one' => array('foo' => 'bar')), $result);
+        $this->assertEquals(['one' => ['foo' => 'bar']], $result);
 
-        $table->setAction('foo', array('one' => 'two'));
+        $table->setAction('foo', ['one' => 'two']);
         $result = $table->getActions();
-        $this->assertEquals(array('one' => array('foo' => 'bar'), 'foo' => array('one' => 'two')), $result);
+        $this->assertEquals(['one' => ['foo' => 'bar'], 'foo' => ['one' => 'two']], $result);
     }
 
     public function testElementActionEncapsulation()
@@ -102,17 +102,17 @@ class TableTest extends TestCase
         $table = new Table();
 
         $result = $table->getElementActions();
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
 
-        $result = $table->setElementAction('one', array('foo' => 'bar'));
+        $result = $table->setElementAction('one', ['foo' => 'bar']);
         $this->assertEquals($table, $result);
 
         $result = $table->getElementActions();
-        $this->assertEquals(array('one' => array('foo' => 'bar')), $result);
+        $this->assertEquals(['one' => ['foo' => 'bar']], $result);
 
-        $table->setElementAction('foo', array('one' => 'two'));
+        $table->setElementAction('foo', ['one' => 'two']);
         $result = $table->getElementActions();
-        $this->assertEquals(array('one' => array('foo' => 'bar'), 'foo' => array('one' => 'two')), $result);
+        $this->assertEquals(['one' => ['foo' => 'bar'], 'foo' => ['one' => 'two']], $result);
     }
 
     public function testHydratorEncapsulation()

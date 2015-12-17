@@ -63,8 +63,8 @@ Após, edite o arquivo `config/autload/config.local.php`, informando as configur
 
 ```php
 <?php
-return array(
-    'db' => array(
+return [
+    'db' => [
         'driver'   => 'pgsql',
         'database' => 'balance',
         'username' => 'balance',
@@ -72,8 +72,8 @@ return array(
         'hostname' => 'localhost',
         'port'     => '5432',
         'charset'  => 'UTF8',
-    ),
-);
+    ],
+];
 ```
 
 O próximo passo é executar o `phinx` para que seja possível a criação da estrutura inicial do banco de dados.

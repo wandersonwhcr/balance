@@ -20,7 +20,7 @@ class PostingsTest extends TestCase
         $persistence
             ->expects($this->atLeastOnce())
             ->method('getValueOptions')
-            ->will($this->returnValue(array(1 => 'One', 2 => 'Two')));
+            ->will($this->returnValue([1 => 'One', 2 => 'Two']));
         $serviceLocator->setService('Balance\Model\Persistence\Accounts', $persistence);
 
         $inputFilterPluginManager = new InputFilterPluginManager();
@@ -62,69 +62,69 @@ class PostingsTest extends TestCase
         $input = $subInputFilter->get('value');
         $this->assertTrue($input->isRequired());
 
-        $inputFilter->setData(array(
+        $inputFilter->setData([
             // Dados Básicos
             'id'          => '',
             'datetime'    => '10/10/2010 10:10:10',
             'description' => 'Foo bar.',
             // Entradas
-            'entries' => array(
-                array(
+            'entries' => [
+                [
                     'type'       => EntryType::CREDIT,
                     'account_id' => '1',
                     'value'      => '0,01',
-                ),
-                array(
+                ],
+                [
                     'type'       => EntryType::DEBIT,
                     'account_id' => '2',
                     'value'      => '0,01',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $this->assertTrue($inputFilter->isValid());
 
-        $inputFilter->setData(array(
+        $inputFilter->setData([
             // Dados Básicos
             'id'          => '',
             'datetime'    => '10/10/2010 10:10:10',
             'description' => 'Foo bar.',
             // Entradas
-            'entries' => array(
-                array(
+            'entries' => [
+                [
                     'type'       => EntryType::CREDIT,
                     'account_id' => '1',
                     'value'      => '0,00',
-                ),
-                array(
+                ],
+                [
                     'type'       => EntryType::DEBIT,
                     'account_id' => '2',
                     'value'      => '0,00',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $this->assertFalse($inputFilter->isValid());
 
-        $inputFilter->setData(array(
+        $inputFilter->setData([
             // Dados Básicos
             'id'          => '',
             'datetime'    => '10/10/2010 10:10:10',
             'description' => 'Foo bar.',
             // Entradas
-            'entries' => array(
-                array(
+            'entries' => [
+                [
                     'type'       => EntryType::CREDIT,
                     'account_id' => '1',
                     'value'      => '0,01',
-                ),
-                array(
+                ],
+                [
                     'type'       => EntryType::DEBIT,
                     'account_id' => '1',
                     'value'      => '0,01',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $this->assertFalse($inputFilter->isValid());
     }

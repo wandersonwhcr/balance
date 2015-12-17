@@ -1,4 +1,5 @@
 <?php
+
 namespace Balance\Test;
 
 use PHPUnit_Framework_TestCase as TestCase;
