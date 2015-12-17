@@ -5,8 +5,8 @@ namespace Balance\Form\Element;
 use Balance\Mvc\Application;
 use NumberFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\ServiceManager\ServiceManager;
 use Zend\Form\FormElementManager;
+use Zend\ServiceManager\ServiceManager;
 
 class CurrencyTest extends TestCase
 {

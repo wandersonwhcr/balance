@@ -274,7 +274,7 @@ class PostingsTest extends TestCase
         do {
             // Gerar Nova Chave Randômica
             $id = rand();
-        } while ($id == $this->primaries['postings']['xx'] || $id == $this->primaries['postings']['yy']);
+        } while ($id === $this->primaries['postings']['xx'] || $id === $this->primaries['postings']['yy']);
 
         // Consultar Elemento
         $persistence->find(new Parameters(['id' => $id]));
@@ -328,7 +328,7 @@ class PostingsTest extends TestCase
         do {
             // Gerar Nova Chave Randômica
             $id = rand();
-        } while ($id == $this->primaries['postings']['xx'] || $id == $this->primaries['postings']['yy']);
+        } while ($id === $this->primaries['postings']['xx'] || $id === $this->primaries['postings']['yy']);
 
         // Remover Lançamento
         $persistence->remove(new Parameters(['id' => $id]));
@@ -420,7 +420,7 @@ class PostingsTest extends TestCase
         do {
             // Gerar Nova Chave Randômica
             $id = rand();
-        } while ($id == $this->primaries['postings']['xx'] || $id == $this->primaries['postings']['yy']);
+        } while ($id === $this->primaries['postings']['xx'] || $id === $this->primaries['postings']['yy']);
 
         // Salvar Lançamento
         $persistence->save(new Parameters(['id' => $id]));

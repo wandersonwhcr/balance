@@ -48,18 +48,18 @@ class Issue151Test extends TestCase
             'id'          => '',
             'datetime'    => '10/10/2010 10:10:10',
             'description' => 'Issue 151 Posting A',
-            'entries'     => array(
-                array(
+            'entries'     => [
+                [
                     'account_id' => (string) $accountA['id'],
                     'type'       => EntryType::CREDIT,
                     'value'      => '100,00',
-                ),
-                array(
+                ],
+                [
                     'account_id' => (string) $accountB['id'],
                     'type'       => EntryType::DEBIT,
                     'value'      => '100,00',
-                ),
-            ),
+                ],
+            ],
         ]);
 
         try {

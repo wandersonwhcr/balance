@@ -31,7 +31,7 @@ class CreateTableEntries extends AbstractMigration
             ->addColumn('account_id', 'integer')
             ->addColumn('posting_id', 'integer')
             ->addColumn('type', 'text')
-            ->addColumn('value', 'decimal', array('scale' => 2, 'precision' => 15))
+            ->addColumn('value', 'decimal', ['scale' => 2, 'precision' => 15])
             ->create();
 
         $this->execute('ALTER TABLE entries ALTER COLUMN type SET DATA TYPE operation USING type::operation');

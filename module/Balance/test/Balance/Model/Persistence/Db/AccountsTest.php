@@ -260,7 +260,7 @@ class AccountsTest extends TestCase
         do {
             // Chave Randômica
             $id = rand();
-        } while ($id == $elementA['id'] || $id == $elementB['id']);
+        } while ($id === $elementA['id'] || $id === $elementB['id']);
 
         // Consulta
         $persistence->find(new Parameters(['id' => $id]));
@@ -404,7 +404,7 @@ class AccountsTest extends TestCase
         do {
             // Chave Randômica
             $id = rand();
-        } while ($id == $elementA['id'] || $id == $elementB['id']);
+        } while ($id === $elementA['id'] || $id === $elementB['id']);
 
         // Remoção
         $persistence->remove(new Parameters(['id' => $id]));
@@ -575,7 +575,7 @@ class AccountsTest extends TestCase
         do {
             // Chave Randômica
             $id = rand();
-        } while ($id == $elementA['id'] || $id == $elementB['id']);
+        } while ($id === $elementA['id'] || $id === $elementB['id']);
 
         // Colocar no Início
         $persistence->order(new Parameters(['id' => $id]));

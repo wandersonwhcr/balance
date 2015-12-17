@@ -1,4 +1,5 @@
 <?php
+
 namespace Balance;
 
 use Zend\I18n\Translator\Resources as TranslatorResources;
@@ -30,10 +31,10 @@ class Module
             ->setLocale(locale_get_default())
             ->addTranslationFilePattern(
                 'phpArray',
-                call_user_func(array('Zend\I18n\Translator\Resources', 'getBasePath')),
-                call_user_func(array('Zend\I18n\Translator\Resources', 'getPatternForValidator'))
+                call_user_func(['Zend\I18n\Translator\Resources', 'getBasePath']),
+                call_user_func(['Zend\I18n\Translator\Resources', 'getPatternForValidator'])
             );
-        call_user_func(array('Zend\Validator\AbstractValidator', 'setDefaultTranslator'), $translator);
+        call_user_func(['Zend\Validator\AbstractValidator', 'setDefaultTranslator'], $translator);
 
         // Banco de Dados e Time Zone
         $serviceManager->get('db')

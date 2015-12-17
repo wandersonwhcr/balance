@@ -46,7 +46,7 @@ class ModelTest extends TestCase
         // Mock: Consulta
         $persistence->expects($this->once())->method('fetch')->will($this->returnCallback(function ($params) {
             $result = [];
-            if ($params['keywords'] == 'foo bar') {
+            if ($params['keywords'] === 'foo bar') {
                 $result[] = ['one'];
                 $result[] = ['two'];
             }
@@ -86,7 +86,7 @@ class ModelTest extends TestCase
         // Mock: Carregamento
         $persistence->expects($this->once())->method('find')->will($this->returnCallback(function ($params) {
             $element = [];
-            if ($params['id'] == 'foobar') {
+            if ($params['id'] === 'foobar') {
                 $element['foo'] = 'bar';
             }
             return $element;
