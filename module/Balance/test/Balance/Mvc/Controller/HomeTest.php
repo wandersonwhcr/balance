@@ -72,6 +72,6 @@ class HomeTest extends TestCase
         ]));
 
         // Execução
-        $result = $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
+        $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
     }
 }

@@ -143,6 +143,6 @@ class IndexActionTraitTest extends TestCase
         ]));
 
         // Execução
-        $result = $controller->dispatch(new Request());
+        $controller->dispatch(new Request());
     }
 }

@@ -12,33 +12,8 @@ use Zend\Stdlib\Parameters;
 
 class BalanceTest extends TestCase
 {
-    public function getPersistence()
+    protected function initDatabase()
     {
-        // Inicialização
-        $persistence = new Balance();
-
-        // Localizador de Serviço
-        $serviceLocator = new ServiceManager();
-        // Configurações
-        $persistence->setServiceLocator($serviceLocator);
-
-        // Banco de Dados
-        $db = Application::getApplication()->getServiceManager()->get('db');
-        // Configurações
-        $serviceLocator->setService('db', $db);
-
-        // Limpeza de Lançamentos
-        $delete = (new Sql($db))->delete()
-            ->from('postings');
-        // Execução
-        $db->query($delete->getSqlString($db->getPlatform()))->execute();
-
-        // Limpeza de Contas
-        $delete = (new Sql($db))->delete()
-            ->from('accounts');
-        // Execução
-        $db->query($delete->getSqlString($db->getPlatform()))->execute();
-
         // Tabelas
         $tbAccounts = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Accounts');
         $tbPostings = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Postings');
@@ -168,6 +143,40 @@ class BalanceTest extends TestCase
             'value'      => 200,
             'position'   => 1,
         ]);
+
+        // Encadeamento
+        return $this;
+    }
+
+    protected function getPersistence()
+    {
+        // Inicialização
+        $persistence = new Balance();
+
+        // Localizador de Serviço
+        $serviceLocator = new ServiceManager();
+        // Configurações
+        $persistence->setServiceLocator($serviceLocator);
+
+        // Banco de Dados
+        $db = Application::getApplication()->getServiceManager()->get('db');
+        // Configurações
+        $serviceLocator->setService('db', $db);
+
+        // Limpeza de Lançamentos
+        $delete = (new Sql($db))->delete()
+            ->from('postings');
+        // Execução
+        $db->query($delete->getSqlString($db->getPlatform()))->execute();
+
+        // Limpeza de Contas
+        $delete = (new Sql($db))->delete()
+            ->from('accounts');
+        // Execução
+        $db->query($delete->getSqlString($db->getPlatform()))->execute();
+
+        // Inicializar Banco de Dados
+        $this->initDatabase();
 
         // Apresentação
         return $persistence;

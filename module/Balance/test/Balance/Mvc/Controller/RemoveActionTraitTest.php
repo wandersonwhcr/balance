@@ -132,7 +132,7 @@ class RemoveActionTraitTest extends TestCase
         $controller = $this->getController('remove-action-controller');
 
         // Camada de Modelo
-        $model = $controller->getModel()
+        $controller->getModel()
             ->method('remove')
             ->will($this->throwException(new ModelException('Invalid Element')));
 

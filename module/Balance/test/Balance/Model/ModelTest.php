@@ -64,8 +64,7 @@ class ModelTest extends TestCase
         // Erro Esperado
         $this->setExpectedException('Balance\Model\ModelException', 'Persistence Result is not Traversable');
         // Inicialização
-        $model   = $this->getModel();
-        $dataset = [];
+        $model = $this->getModel();
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Consulta
@@ -115,8 +114,7 @@ class ModelTest extends TestCase
     public function testSave()
     {
         // Inicialização
-        $model   = $this->getModel();
-        $element = ['foo' => 'bar'];
+        $model = $this->getModel();
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Salvar
@@ -142,8 +140,6 @@ class ModelTest extends TestCase
         $this->setExpectedException('Balance\Model\ModelException', 'Invalid Data');
         // Inicialização
         $model = $this->getModel();
-        // Camada de Persistência
-        $persistence = $model->getPersistence();
         // Consulta
         $model->save(new Parameters());
     }

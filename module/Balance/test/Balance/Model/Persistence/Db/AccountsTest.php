@@ -195,42 +195,27 @@ class AccountsTest extends TestCase
         $persistence = $this->getPersistence();
 
         // Primeiro Elemento
-        $element = array_shift($this->data);
+        $elementA = array_shift($this->data);
+        $elementB = array_shift($this->data);
 
-        // Consulta
-        $result = $persistence->find(new Parameters(['id' => $element['id']]));
+        // Processamento
+        foreach ([$elementA, $elementB] as $element) {
+            // Consulta
+            $result = $persistence->find(new Parameters(['id' => $element['id']]));
 
-        // Verificações
-        $this->assertInternalType('array', $result);
-        $this->assertArrayHasKey('id', $result);
-        $this->assertEquals($element['id'], $result['id']);
-        $this->assertArrayHasKey('type', $result);
-        $this->assertEquals($element['type'], $result['type']);
-        $this->assertArrayHasKey('name', $result);
-        $this->assertEquals($element['name'], $result['name']);
-        $this->assertArrayHasKey('description', $result);
-        $this->assertEquals($element['description'], $result['description']);
-        $this->assertArrayHasKey('accumulate', $result);
-        $this->assertEquals(BooleanType::NO, $result['accumulate']);
-
-        // Segundo Elemento
-        $element = array_shift($this->data);
-
-        // Consulta
-        $result = $persistence->find(new Parameters(['id' => $element['id']]));
-
-        // Verificações
-        $this->assertInternalType('array', $result);
-        $this->assertArrayHasKey('id', $result);
-        $this->assertEquals($element['id'], $result['id']);
-        $this->assertArrayHasKey('type', $result);
-        $this->assertEquals($element['type'], $result['type']);
-        $this->assertArrayHasKey('name', $result);
-        $this->assertEquals($element['name'], $result['name']);
-        $this->assertArrayHasKey('description', $result);
-        $this->assertEquals($element['description'], $result['description']);
-        $this->assertArrayHasKey('accumulate', $result);
-        $this->assertEquals(BooleanType::NO, $result['accumulate']);
+            // Verificações
+            $this->assertInternalType('array', $result);
+            $this->assertArrayHasKey('id', $result);
+            $this->assertEquals($element['id'], $result['id']);
+            $this->assertArrayHasKey('type', $result);
+            $this->assertEquals($element['type'], $result['type']);
+            $this->assertArrayHasKey('name', $result);
+            $this->assertEquals($element['name'], $result['name']);
+            $this->assertArrayHasKey('description', $result);
+            $this->assertEquals($element['description'], $result['description']);
+            $this->assertArrayHasKey('accumulate', $result);
+            $this->assertEquals(BooleanType::NO, $result['accumulate']);
+        }
     }
 
     public function testFindWithoutPrimaryKey()
