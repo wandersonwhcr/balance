@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use ArrayIterator;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Element\Text;
 use Zend\Form\Form;
@@ -49,12 +50,30 @@ class ModelTest extends TestCase
                 $result[] = array('one');
                 $result[] = array('two');
             }
-            return $result;
+            return new ArrayIterator($result);
         }));
         // Consulta
         $result = $model->fetch(new Parameters(array('keywords' => 'foo bar')));
         // Verificações
-        $this->assertEquals($dataset, $result);
+        $this->assertInstanceOf('ArrayIterator', $result);
+        $this->assertEquals($dataset, $result->getArrayCopy());
+    }
+
+    public function testFetchWithoutTraversable()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Persistence Result is not Traversable');
+        // Inicialização
+        $model   = $this->getModel();
+        $dataset = array();
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Consulta
+        $persistence->expects($this->once())->method('fetch')->will($this->returnCallback(function () {
+            return array();
+        }));
+        // Consulta
+        $model->fetch(new Parameters());
     }
 
     public function testLoad()

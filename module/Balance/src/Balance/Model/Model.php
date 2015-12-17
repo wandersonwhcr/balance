@@ -3,6 +3,7 @@
 namespace Balance\Model;
 
 use Balance\Model\Persistence\PersistenceInterface;
+use Traversable;
 use Zend\Form\Form;
 use Zend\Stdlib\Parameters;
 
@@ -116,8 +117,8 @@ class Model
     /**
      * Consulta de Elementos
      *
-     * @param  Parameters $params Parâmetros de Execução
-     * @return array      Conjunto de Informações Encontradas
+     * @param  Parameters  $params Parâmetros de Execução
+     * @return Traversable Conjunto de Informações Encontradas
      */
     public function fetch(Parameters $params)
     {
@@ -134,7 +135,14 @@ class Model
             $params[$identifier] = $input->getValue();
         }
         // Consulta de Elementos
-        return $this->getPersistence()->fetch($params);
+        $result = $this->getPersistence()->fetch($params);
+        // Sucesso?
+        if (! $result instanceof Traversable) {
+            // Impossível Continuar!
+            throw new ModelException('Persistence Result is not Traversable');
+        }
+        // Apresentação
+        return $result;
     }
 
     /**
