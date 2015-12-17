@@ -123,4 +123,4 @@ Decidindo reescrevê-lo, no ano de 2015 eu resolvi adicionar todas as tecnologia
 
 ## Licença
 
-Este projeto é _opensource_ e utiliza a Licença MIT, descrita no arquivo [LICENSE](//github.com/wandersonwhcr/balance/blob/master/LICENSE).
+Este projeto é _opensource_ e utiliza a Licença MIT, descrita no arquivo [`LICENSE`](//github.com/wandersonwhcr/balance/blob/master/LICENSE).
