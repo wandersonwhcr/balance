@@ -71,7 +71,7 @@ return array(
         'password' => 'balance',
         'hostname' => 'localhost',
         'port'     => '5432',
-        'charset'  => 'UNICODE',
+        'charset'  => 'UTF8',
     ),
 );
 ```
