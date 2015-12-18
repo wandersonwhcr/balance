@@ -7,7 +7,6 @@ use IntlDateFormatter;
 use Zend\Filter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
-use Zend\Validator;
 
 /**
  * Filtro de Pesquisa para Contas

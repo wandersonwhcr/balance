@@ -5,7 +5,6 @@ namespace Balance\Mvc\Controller;
 use Exception;
 use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\Parameters;
 use Zend\View\Model\ViewModel;
 
 /**

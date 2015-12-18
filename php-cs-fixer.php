@@ -11,5 +11,6 @@ return Symfony\CS\Config\Config::create()
         '-php_unit_strict',
         'multiline_array_trailing_comma',
         'single_array_no_trailing_comma',
+        'unused_use',
     ))
     ->finder($finder);
