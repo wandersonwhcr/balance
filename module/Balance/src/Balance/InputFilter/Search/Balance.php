@@ -6,7 +6,6 @@ use Balance\I18n;
 use IntlDateFormatter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
-use Zend\Validator;
 
 /**
  * Filtro de Pesquisa para Contas

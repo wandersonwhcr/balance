@@ -6,7 +6,6 @@ use ArrayIterator;
 use Balance\Form\Element\DateTime;
 use Balance\Model\Balance;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Form\Form;
 use Zend\Form\FormElementManager;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\ServiceManager\ServiceManager;

@@ -3,17 +3,9 @@
 namespace BalanceTest\Mvc\Controller;
 
 use Balance\Model\ModelException;
-use Balance\Mvc\Controller\ModelAwareInterface;
-use Balance\Mvc\Controller\ModelAwareTrait;
-use Balance\Mvc\Controller\RedirectRouteNameAwareInterface;
-use Balance\Mvc\Controller\RedirectRouteNameAwareTrait;
-use Balance\Mvc\Controller\RemoveActionTrait;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Router\RouteMatch;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 
 class RemoveActionTraitTest extends TestCase

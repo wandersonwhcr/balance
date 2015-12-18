@@ -3,11 +3,8 @@
 namespace BalanceTest\Form\Element;
 
 use Balance\Form\Element\Currency;
-use Balance\Mvc\Application;
 use NumberFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Form\FormElementManager;
-use Zend\ServiceManager\ServiceManager;
 
 class CurrencyTest extends TestCase
 {

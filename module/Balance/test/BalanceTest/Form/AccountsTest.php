@@ -6,7 +6,6 @@ use Balance\Form\Accounts;
 use Balance\Form\Element\Boolean;
 use Balance\Model\AccountType;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Form\FormElementManager;
 
 class AccountsTest extends TestCase
 {

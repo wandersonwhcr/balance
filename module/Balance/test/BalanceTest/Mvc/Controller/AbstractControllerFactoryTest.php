@@ -5,7 +5,6 @@ namespace BalanceTest\Mvc\Controller;
 use Balance\Model\Model;
 use Balance\Mvc\Controller\AbstractControllerFactory;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Db;
 use Zend\Form\Form;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;

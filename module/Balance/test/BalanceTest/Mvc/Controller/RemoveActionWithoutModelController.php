@@ -2,7 +2,6 @@
 
 namespace BalanceTest\Mvc\Controller;
 
-use Balance\Mvc\Controller\ModelAwareInterface;
 use Balance\Mvc\Controller\ModelAwareTrait;
 use Balance\Mvc\Controller\RedirectRouteNameAwareInterface;
 use Balance\Mvc\Controller\RedirectRouteNameAwareTrait;

@@ -2,16 +2,10 @@
 
 namespace BalanceTest\Mvc\Controller;
 
-use Balance\Mvc\Controller\IndexActionTrait;
-use Balance\Mvc\Controller\ModelAwareInterface;
-use Balance\Mvc\Controller\ModelAwareTrait;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Form;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Router\RouteMatch;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
 

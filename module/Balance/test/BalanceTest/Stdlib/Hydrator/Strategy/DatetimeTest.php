@@ -3,7 +3,6 @@
 namespace BalanceTest\Stdlib\Hydrator\Strategy;
 
 use ArrayObject;
-use Balance\Mvc\Application;
 use Balance\Stdlib\Hydrator\Strategy\Datetime;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;

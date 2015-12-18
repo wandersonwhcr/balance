@@ -2,8 +2,6 @@
 
 namespace Balance;
 
-use Zend\I18n\Translator\Resources as TranslatorResources;
-
 /**
  * Inicialização do Módulo
  */

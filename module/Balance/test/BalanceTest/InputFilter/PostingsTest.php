@@ -4,7 +4,6 @@ namespace BalanceTest\InputFilter;
 
 use Balance\InputFilter\Postings;
 use Balance\Model\EntryType;
-use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\ServiceManager\ServiceManager;
