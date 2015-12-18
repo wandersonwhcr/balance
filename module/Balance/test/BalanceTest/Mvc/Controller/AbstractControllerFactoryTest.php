@@ -4,21 +4,11 @@ namespace BalanceTest\Mvc\Controller;
 
 use Balance\Model\Model;
 use Balance\Mvc\Controller\AbstractControllerFactory;
-use Balance\Mvc\Controller\ModelAwareInterface;
-use Balance\Mvc\Controller\ModelAwareTrait;
-use Balance\Mvc\Controller\RedirectRouteNameAwareInterface;
-use Balance\Mvc\Controller\RedirectRouteNameAwareTrait;
 use PHPUnit_Framework_TestCase as TestCase;
+use Zend\Db;
 use Zend\Form\Form;
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceManager;
-
-class Controller extends AbstractActionController implements ModelAwareInterface, RedirectRouteNameAwareInterface
-{
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-}
 
 class AbstractControllerFactoryTest extends TestCase
 {

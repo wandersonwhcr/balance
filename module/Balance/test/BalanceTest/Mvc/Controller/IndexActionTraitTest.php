@@ -15,29 +15,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
 
-class IndexActionController
-    extends AbstractActionController
-    implements ModelAwareInterface
-{
-    use IndexActionTrait;
-    use ModelAwareTrait;
-}
-
-class IndexActionWithoutControllerController
-    implements ModelAwareInterface, ServiceLocatorAwareInterface
-{
-    use IndexActionTrait;
-    use ModelAwareTrait;
-    use ServiceLocatorAwareTrait;
-}
-
-class IndexActionWithoutModelController
-    extends AbstractActionController
-{
-    use IndexActionTrait;
-    use ModelAwareTrait;
-}
-
 class IndexActionTraitTest extends TestCase
 {
     protected function getController($type)

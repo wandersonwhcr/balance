@@ -38,8 +38,12 @@ class Issue128Test extends TestCase
             ->setService('Balance\Db\TableGateway\Entries', $tbEntries);
 
         // Limpeza
-        $tbPostings->delete(function ($delete) {});
-        $tbAccounts->delete(function ($delete) {});
+        $tbPostings->delete(function () {
+            // Remover Todos
+        });
+        $tbAccounts->delete(function () {
+            // Remover Todos
+        });
 
         // Criar um Lançamento
         $tbPostings->insert([

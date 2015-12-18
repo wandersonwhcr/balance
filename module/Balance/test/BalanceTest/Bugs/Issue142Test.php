@@ -36,8 +36,12 @@ class Issue142Test extends TestCase
             ->setService('Balance\Db\TableGateway\Accounts', $tbAccounts);
 
         // Limpeza
-        $tbPostings->delete(function () {});
-        $tbAccounts->delete(function () {});
+        $tbPostings->delete(function () {
+            // Remover Todos
+        });
+        $tbAccounts->delete(function () {
+            // Remover Todos
+        });
 
         // Conta A
         $accountA = new Parameters([

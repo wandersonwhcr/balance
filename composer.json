@@ -21,6 +21,11 @@
             "Balance\\": "module/Balance/src/Balance/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "BalanceTest\\": "module/Balance/test/BalanceTest/"
+        }
+    },
     "repositories": [
         {
             "type": "composer",

@@ -18,42 +18,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
 
-class EditActionController
-    extends AbstractActionController
-    implements ModelAwareInterface, RedirectRouteNameAwareInterface
-{
-    use EditActionTrait;
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-}
-
-class EditActionWithoutControllerController
-    implements ModelAwareInterface, RedirectRouteNameAwareInterface, ServiceLocatorAwareInterface
-{
-    use EditActionTrait;
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-    use ServiceLocatorAwareTrait;
-}
-
-class EditActionWithoutModelController
-    extends AbstractActionController
-    implements RedirectRouteNameAwareInterface
-{
-    use EditActionTrait;
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-}
-
-class EditActionWithoutRedirectRouteNameController
-    extends AbstractActionController
-    implements ModelAwareInterface
-{
-    use EditActionTrait;
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-}
-
 class EditActionTraitTest extends TestCase
 {
     protected function getController($type)

@@ -16,42 +16,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 
-class RemoveActionController
-    extends AbstractActionController
-    implements ModelAwareInterface, RedirectRouteNameAwareInterface
-{
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-    use RemoveActionTrait;
-}
-
-class RemoveActionWithoutControllerController
-    implements ModelAwareInterface, RedirectRouteNameAwareInterface, ServiceLocatorAwareInterface
-{
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-    use RemoveActionTrait;
-    use ServiceLocatorAwareTrait;
-}
-
-class RemoveActionWithoutModelController
-    extends AbstractActionController
-    implements RedirectRouteNameAwareInterface
-{
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-    use RemoveActionTrait;
-}
-
-class RemoveActionWithoutRedirectRouteNameController
-    extends AbstractActionController
-    implements ModelAwareInterface
-{
-    use ModelAwareTrait;
-    use RedirectRouteNameAwareTrait;
-    use RemoveActionTrait;
-}
-
 class RemoveActionTraitTest extends TestCase
 {
     protected function getController($type)
