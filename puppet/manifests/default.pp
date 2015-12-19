@@ -255,6 +255,14 @@ exec { "composer : update":
     ],
 }
 
+# apigen
+
+exec { "apigen":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    creates => "/usr/bin/apigen",
+    command => "curl http://www.apigen.org/apigen.phar -o /usr/bin/apigen && chmod +x /usr/bin/apigen"
+}
+
 # nodejs
 
 file { "nodejs : list":
