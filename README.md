@@ -12,7 +12,7 @@ O Balance é um pequeno sistema Web para controle de balancete contábil simples
 
 O funcionamento básico pode ser encontrado na [Wiki](//github.com/wandersonwhcr/balance/wiki) do projeto.
 
-Você pode contribuir com este projeto! Acesse o arquivo [`CONTRIBUTING.md`](//github.com/wandersonwhcr/balance/blob/master/CONTRIBUTING.md) e saiba mais.
+Você pode contribuir com este projeto! Acesse o arquivo [`CONTRIBUTING.md`](//github.com/wandersonwhcr/balance/blob/master/CONTRIBUTING.md) e saiba mais. Para auxiliar no desenvolvimento, disponibilizamos a [API do Balance](//wandersonwhcr.github.io/balance/api/latest).
 
 ## Instalação Rápida: Vagrant
 
