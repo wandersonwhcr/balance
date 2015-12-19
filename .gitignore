@@ -2,11 +2,9 @@
 /.cache
 /.config
 /.vagrant
-/build/*
+/build
 /config/autoload/*.local.php
 /public/assets
 /public/coverage
 /Vagrantfile
 /vendor
-
-!/build/gh-pages

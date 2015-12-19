@@ -17,7 +17,7 @@ reports: dependencies
 	php vendor/bin/phploc --log-xml=build/phploc.xml module/Balance/src
 
 api:
-	apigen generate --source module/Balance/src --destination build/gh-pages/api/latest --template-theme bootstrap --title 'Balance' --tree
+	apigen generate --source module/Balance/src --destination module/Balance/docs/gh-pages/api/latest --template-theme bootstrap --title 'Balance' --tree
 
 clean:
 	rm -rf build
