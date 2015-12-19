@@ -21,7 +21,7 @@ file { "nginx : list":
 exec { "nginx : key":
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     unless  => "apt-key list | grep nginx",
-    command => "wget -O - http://nginx.org/keys/nginx_signing.key | apt-key add -",
+    command => "curl http://nginx.org/keys/nginx_signing.key | apt-key add -",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -100,7 +100,7 @@ file { "postgresql : list":
 exec { "postgresql : key":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     unless  => "apt-key list | grep PostgreSQL",
-    command => "wget -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -",
+    command => "curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -",
 }
 
 package { "postgresql":
@@ -127,7 +127,7 @@ file { "php : list":
 exec { "php : key":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     unless  => "apt-key list | grep dotdeb",
-    command => "wget -O - http://www.dotdeb.org/dotdeb.gpg | apt-key add -",
+    command => "curl http://www.dotdeb.org/dotdeb.gpg | apt-key add -",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -240,7 +240,7 @@ package { "php : xdebug":
 exec { "composer":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     creates => "/usr/bin/composer",
-    command => "wget -O /usr/bin/composer  https://getcomposer.org/composer.phar && chmod +x /usr/bin/composer"
+    command => "curl https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer"
 }
 
 exec { "composer : update":
@@ -279,7 +279,7 @@ file { "nodejs : list":
 exec { "nodejs : key":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     unless  => "apt-key list | grep nodesource",
-    command => "wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -",
+    command => "curl https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -",
     notify  => [
         Exec["apt-get : update"],
     ]
