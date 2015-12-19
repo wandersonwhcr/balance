@@ -43,6 +43,10 @@ Todo o projeto será inicializado e estará pronto para execução, acessível n
 
 Caso o Vagrant encontrar estas portas ocupadas, ele irá informá-lo quais são as novas portas definidas.
 
+## API
+
+Se você possui algumas dúvidas com relação ao código-fonte e estrutura de classes, a [API do Balance](//wandersonwhcr.github.io/balance/api/latest) está disponível.
+
 ## Patch Requests (PR)
 
 YEAH! Patch Request! Vamos lá!
