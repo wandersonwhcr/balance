@@ -1,0 +1,4 @@
+[submodule "build/gh-pages"]
+	path = build/gh-pages
+	url = https://github.com/wandersonwhcr/balance
+	branch = gh-pages
