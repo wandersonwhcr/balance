@@ -18,9 +18,24 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="nav navbar-nav">
                 <?php foreach ($root as $page) : ?>
-                <li>
-                    <?php echo $this->navigation()->menu()->htmlify($page) ?>
-                </li>
+                    <?php if ($subpages = $page->findAllByVisible(true)) : ?>
+                        <li class="dropdown">
+                            <a href="<?php echo $page->getHref() ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <?php echo $page->getLabel() ?> <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <?php foreach ($subpages as $subpage) : ?>
+                                    <li>
+                                        <?php echo $this->navigation()->menu()->htmlify($subpage) ?>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
+                        </li>
+                    <?php else : ?>
+                        <li>
+                            <?php echo $this->navigation()->menu()->htmlify($page) ?>
+                        </li>
+                    <?php endif ?>
                 <?php endforeach ?>
             </ul>
         </div>

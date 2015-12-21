@@ -142,12 +142,17 @@ return [
                         'route' => 'accounts',
                         'pages' => [
                             [
+                                'label' => 'Listar',
+                                'route' => 'accounts',
+                            ],
+                            [
                                 'label' => 'Adicionar',
                                 'route' => 'accounts/add',
                             ],
                             [
-                                'label' => 'Editar',
-                                'route' => 'accounts/edit',
+                                'label'   => 'Editar',
+                                'route'   => 'accounts/edit',
+                                'visible' => false,
                             ],
                         ],
                     ],
@@ -156,12 +161,17 @@ return [
                         'route' => 'postings',
                         'pages' => [
                             [
+                                'label' => 'Listar',
+                                'route' => 'postings',
+                            ],
+                            [
                                 'label' => 'Adicionar',
                                 'route' => 'postings/add',
                             ],
                             [
-                                'label' => 'Editar',
-                                'route' => 'postings/edit',
+                                'label'   => 'Editar',
+                                'route'   => 'postings/edit',
+                                'visible' => false,
                             ],
                         ],
                     ],
