@@ -136,10 +136,12 @@ return [
                     [
                         'label' => 'Home',
                         'route' => 'home',
+                        'order' => 0,
                     ],
                     [
                         'label' => 'Contas',
                         'route' => 'accounts',
+                        'order' => 100,
                         'pages' => [
                             [
                                 'label' => 'Listar',
@@ -159,6 +161,7 @@ return [
                     [
                         'label' => 'Lançamentos',
                         'route' => 'postings',
+                        'order' => 200,
                         'pages' => [
                             [
                                 'label' => 'Listar',
