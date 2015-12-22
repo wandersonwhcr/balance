@@ -20,7 +20,7 @@ class Modules implements ServiceLocatorAwareInterface
      * Apresentação de Elementos
      *
      * Captura informações do projeto, verificando quais os módulos que estão disponíveis e apresentando informações
-     * sobre o mesmo. Módulos instalados e não instalados podem ser filtrados, bem como módulos pertencentes ao sistema.
+     * sobre o mesmo. Módulos instalados e não instalados podem ser filtrados.
      *
      * @param  Parameters  $params Parâmetros de Execução
      * @return Traversable Conjunto de Elementos Solicitados
@@ -75,5 +75,16 @@ class Modules implements ServiceLocatorAwareInterface
         $modules = $this->getServiceLocator()->get('Config')['balance_modules'];
         // Apresentação
         return in_array($module->getIdentifier(), $modules, true);
+    }
+
+    /**
+     * Salvar Dados de Módulos
+     *
+     * @param  Parameters $data Dados para Salvamento
+     * @return Modules    Próprio Objeto para Encadeamento
+     */
+    public function save(Parameters $data)
+    {
+        return $this;
     }
 }

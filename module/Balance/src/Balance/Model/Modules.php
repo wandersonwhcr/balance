@@ -36,4 +36,48 @@ class Modules implements ServiceLocatorAwareInterface
         // Apresentação
         return $result;
     }
+
+    /**
+     * Salvar Informações
+     *
+     * Recebe os módulos que devem ser considerados como habilitados no sistema. Estes módulos devem ser executados
+     * durante a execução do Balance. Não esquecer que todos os módulos estão instalados, porém nem todos os módulos
+     * estão habilitados, necessitando da configuração do usuário.
+     *
+     * @param  Parameters $data Dados para Salvamento
+     * @return Modules    Próprio Objeto para Encadeamento
+     */
+    public function save(Parameters $data)
+    {
+        // Camada de Persistência
+        $persistence = $this->getServiceLocator()->get('Balance\Model\Persistence\Modules');
+
+        // Módulos Informados?
+        if (! (array_key_exists('modules', $data) && is_array($data['modules']))) {
+            // Configurar um Conjunto Vazio
+            $data['modules'] = [];
+        }
+
+        // Capturar Módulos
+        $dataset = $persistence->fetch(new Parameters());
+        $modules = [];
+        foreach ($dataset as $element) {
+            $modules[] = $element['identifier'];
+        }
+
+        // Processar Módulos Informados
+        foreach ($data['modules'] as $module) {
+            // Existente?
+            if (! in_array($module, $modules, true)) {
+                // Impossível Continuar!
+                throw new ModelException('Invalid Module');
+            }
+        }
+
+        // Salvar Informações
+        $persistence->save($data);
+
+        // Encadeamento
+        return $this;
+    }
 }

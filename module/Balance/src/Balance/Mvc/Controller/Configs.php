@@ -2,6 +2,7 @@
 
 namespace Balance\Mvc\Controller;
 
+use Balance\Model\ModelException;
 use Exception;
 use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -60,6 +61,21 @@ class Configs extends AbstractActionController
     {
         // Camada de Modelo
         $mModules = $this->getServiceLocator()->get('Balance\Model\Modules');
+        // Dados Enviados?
+        if ($this->getRequest()->isPost()) {
+            // Capturar Dados
+            $data = $this->getRequest()->getPost();
+            // Tratamento
+            try {
+                // Salvar Dados
+                $mModules->save($data);
+                // Sucesso!
+                $this->flashMessenger()->addSuccessMessage('Os dados foram salvos com sucesso.');
+            } catch (ModelException $e) {
+                // Erro Encontrado
+                $this->flashMessenger()->addWarningMessage('Erro ao persistir as informações enviadas.');
+            }
+        }
         // Consultar Informações
         $elements = $mModules->fetch(new Parameters());
         // Camada de Visualização
