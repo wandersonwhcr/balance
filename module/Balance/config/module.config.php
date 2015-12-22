@@ -300,6 +300,7 @@ return [
             'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
             'Balance\Model\Persistence\Balance'  => 'Balance\Model\Persistence\Db\Balance',
+            'Balance\Model\Persistence\Modules'  => 'Balance\Model\Persistence\File\Modules',
             // Hydrators
             'Balance\Stdlib\Hydrator\Strategy\Datetime' => 'Balance\Stdlib\Hydrator\Strategy\Datetime',
         ],
