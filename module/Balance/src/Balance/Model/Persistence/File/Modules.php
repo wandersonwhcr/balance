@@ -39,26 +39,12 @@ class Modules implements ServiceLocatorAwareInterface
                     'identifier'  => get_class($module),
                     'name'        => $module->getName(),
                     'description' => $module->getDescription(),
-                    'core'        => $this->isCore($module),
                     'enabled'     => $this->isEnabled($module),
                 ];
             }
         }
         // Apresentação
         return new ArrayIterator($result);
-    }
-
-    /**
-     * Módulo do Sistema?
-     *
-     * Verifica se o módulo apresentado pertence ao conjunto de módulos que fazem parte da raiz do projeto. Sem módulos
-     * de núcleo, o Balance possivelmente não existiria.
-     *
-     * @return bool Confirmação Solicitada
-     */
-    public function isCore(ModuleInterface $module)
-    {
-        return true;
     }
 
     /**
@@ -71,11 +57,6 @@ class Modules implements ServiceLocatorAwareInterface
      */
     public function isEnabled(ModuleInterface $module)
     {
-        // Módulo de Núcleo?
-        if ($this->isCore($module)) {
-            // Sempre Habilitado
-            return true;
-        }
         // Capturar Configurações
         $modules = $this->getServiceLocator()->get('Config')['balance_modules'];
         // Apresentação
