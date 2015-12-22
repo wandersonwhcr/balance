@@ -8,6 +8,17 @@ namespace Balance\Module;
 interface ModuleInterface
 {
     /**
+     * Apresentação de Identificador
+     *
+     * Valor que será utilizado como identificador único do módulo durante a execução do Balance. Este método pode
+     * retornar o nome da classe do módulo. Todavia, não está fixo porque precisamos de métodos genéricos para melhoria
+     * de encapsulamento e testes.
+     *
+     * @return string Valor Solicitado
+     */
+    public function getIdentifier();
+
+    /**
      * Apresentação de Título
      *
      * Nome que será utilizado para exibição do módulo.

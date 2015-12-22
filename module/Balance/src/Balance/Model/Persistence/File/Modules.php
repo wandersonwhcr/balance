@@ -36,7 +36,7 @@ class Modules implements ServiceLocatorAwareInterface
             if ($module instanceof ModuleInterface) {
                 // Capturar Informações
                 $result[] = [
-                    'identifier'  => get_class($module),
+                    'identifier'  => $module->getIdentifier(),
                     'name'        => $module->getName(),
                     'description' => $module->getDescription(),
                     'enabled'     => $this->isEnabled($module),
@@ -60,6 +60,6 @@ class Modules implements ServiceLocatorAwareInterface
         // Capturar Configurações
         $modules = $this->getServiceLocator()->get('Config')['balance_modules'];
         // Apresentação
-        return in_array(get_class($module), $modules, true);
+        return in_array($module->getIdentifier(), $modules, true);
     }
 }
