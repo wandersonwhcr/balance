@@ -22,54 +22,22 @@
     </div><!-- balance-toolbar -->
 
     <div class="row">
-
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Módulo Padrão
-                    <div class="pull-right">
-                        <div class="checkbox">
-                            <input type="checkbox" value="balance" checked disabled>
+        <?php foreach ($modules as $module) : ?>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?php echo $this->escapeHtml($module['title']) ?>
+                        <div class="pull-right">
+                            <div class="checkbox">
+                                <input type="checkbox" value="balance" <?php echo $module['installed'] ? 'checked' : '' ?> <?php echo $module['core'] ? 'disabled' : '' ?>>
+                            </div>
                         </div>
-                    </div>
-                </div><!-- panel-heading -->
-                <div class="panel-body">
-                    Este módulo representa todos os recursos básicos do Balance, incluindo o gerenciamento de contas e lançamentos, bem como o cálculo do balance na página principal do sistema.
-                </div><!-- panel-body -->
-            </div><!-- panel -->
-        </div><!-- col -->
-
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Relatórios
-                    <div class="pull-right">
-                        <div class="checkbox">
-                            <input type="checkbox" value="balance-reports">
-                        </div>
-                    </div>
-                </div><!-- panel-heading -->
-                <div class="panel-body">
-                    Módulo responsável pela apresentação de relatórios, utilizando os dados cadastrados no módulo básico do Balance. Informando uma conta na filtragem, podemos visualizar uma listagem com valores e tipos de entradas de lançamentos e sua descrição.
-                </div><!-- panel-body -->
-            </div><!-- panel -->
-        </div><!-- col -->
-
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Etiquetas
-                    <div class="pull-right">
-                        <div class="checkbox">
-                            <input type="checkbox" value="balance-tags">
-                        </div>
-                    </div>
-                </div><!-- panel-heading -->
-                <div class="panel-body">
-                    Etiquetas identificam e catalogam lançamentos. Estes poderão receber múltiplas etiquetas, representando assim a sua finalidade de lançamento. Com isto, podemos utilizar a consulta de lançamentos, filtrando as informações conforme as etiquetas utilizadas.
-                </div><!-- panel-body -->
-            </div><!-- panel -->
-        </div><!-- col -->
-
+                    </div><!-- panel-heading -->
+                    <div class="panel-body">
+                        <?php echo $this->escapeHtml($module['description']) ?>
+                    </div><!-- panel-body -->
+                </div><!-- panel -->
+            </div><!-- col -->
+        <?php endforeach ?>
     </div><!-- row -->
 </form>

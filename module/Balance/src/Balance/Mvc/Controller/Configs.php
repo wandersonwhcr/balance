@@ -57,7 +57,13 @@ class Configs extends AbstractActionController
      */
     public function modulesAction()
     {
+        // Camada de Modelo
+        $mConfigs = $this->getServiceLocator()->get('Balance\Model\Configs');
+        // Consultar Informações
+        $modules = $mConfigs->fetchModules();
         // Camada de Visualização
-        return new ViewModel();
+        return new ViewModel([
+            'modules' => $modules,
+        ]);
     }
 }

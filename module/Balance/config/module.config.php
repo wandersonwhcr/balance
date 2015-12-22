@@ -295,6 +295,7 @@ return [
         'invokables' => [
             // Models
             'Balance\Model\Balance' => 'Balance\Model\Balance',
+            'Balance\Model\Configs' => 'Balance\Model\Configs',
             // Persistences
             'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
