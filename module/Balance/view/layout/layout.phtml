@@ -40,9 +40,9 @@
         ?>
     </head>
     <body>
-        <?php echo $navigation->menu()->setPartial('layout/navigation') ?>
+        <?php echo $navigation->menu()->setRenderInvisible(false)->setPartial('layout/navigation') ?>
         <div class="container-fluid">
-            <?php echo $navigation->breadcrumbs()->setPartial('layout/breadcrumbs') ?>
+            <?php echo $navigation->breadcrumbs()->setRenderInvisible(true)->setPartial('layout/breadcrumbs') ?>
             <?php echo $this->partial('layout/flashmessenger') ?>
             <?php echo $this->content ?>
         </div>

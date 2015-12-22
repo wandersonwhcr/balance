@@ -136,32 +136,45 @@ return [
                     [
                         'label' => 'Home',
                         'route' => 'home',
+                        'order' => 0,
                     ],
                     [
                         'label' => 'Contas',
                         'route' => 'accounts',
+                        'order' => 100,
                         'pages' => [
+                            [
+                                'label' => 'Listar',
+                                'route' => 'accounts',
+                            ],
                             [
                                 'label' => 'Adicionar',
                                 'route' => 'accounts/add',
                             ],
                             [
-                                'label' => 'Editar',
-                                'route' => 'accounts/edit',
+                                'label'   => 'Editar',
+                                'route'   => 'accounts/edit',
+                                'visible' => false,
                             ],
                         ],
                     ],
                     [
                         'label' => 'Lançamentos',
                         'route' => 'postings',
+                        'order' => 200,
                         'pages' => [
+                            [
+                                'label' => 'Listar',
+                                'route' => 'postings',
+                            ],
                             [
                                 'label' => 'Adicionar',
                                 'route' => 'postings/add',
                             ],
                             [
-                                'label' => 'Editar',
-                                'route' => 'postings/edit',
+                                'label'   => 'Editar',
+                                'route'   => 'postings/edit',
+                                'visible' => false,
                             ],
                         ],
                     ],
