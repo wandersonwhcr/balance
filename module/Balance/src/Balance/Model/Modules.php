@@ -5,9 +5,9 @@ namespace Balance\Model;
 use Zend\Stdlib\Parameters;
 
 /**
- * Camada de Modelo para Configurações
+ * Camada de Modelo para Módulos
  */
-class Configs
+class Modules
 {
     /**
      * Consulta de Módulos
@@ -20,7 +20,7 @@ class Configs
      * @param  Parameters    $params Parâmetros de Consulta
      * @return ArrayIterator Conjunto de Elementos Encontrados
      */
-    public function fetchModules(Parameters $params)
+    public function fetch(Parameters $params)
     {
         return [
             [

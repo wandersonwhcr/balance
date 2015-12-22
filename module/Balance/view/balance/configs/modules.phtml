@@ -22,19 +22,19 @@
     </div><!-- balance-toolbar -->
 
     <div class="row">
-        <?php foreach ($modules as $module) : ?>
+        <?php foreach ($elements as $element) : ?>
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <?php echo $this->escapeHtml($module['title']) ?>
+                        <?php echo $this->escapeHtml($element['title']) ?>
                         <div class="pull-right">
                             <div class="checkbox">
-                                <input type="checkbox" value="balance" <?php echo $module['installed'] ? 'checked' : '' ?> <?php echo $module['core'] ? 'disabled' : '' ?>>
+                                <input type="checkbox" value="balance" <?php echo $element['installed'] ? 'checked' : '' ?> <?php echo $element['core'] ? 'disabled' : '' ?>>
                             </div>
                         </div>
                     </div><!-- panel-heading -->
                     <div class="panel-body">
-                        <?php echo $this->escapeHtml($module['description']) ?>
+                        <?php echo $this->escapeHtml($element['description']) ?>
                     </div><!-- panel-body -->
                 </div><!-- panel -->
             </div><!-- col -->
