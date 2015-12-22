@@ -3,6 +3,9 @@
     $this->headTitle()
         ->append('Configurações')
         ->append('Módulos');
+    // Dependências
+    $this->headScript()
+        ->appendFile($this->basePath('/module/Balance/assets/default/js/configs-modules.js'));
     // Cabeçalho
     echo $this->partial('layout/page-header', [
         'title'    => 'Configurações',
@@ -10,7 +13,7 @@
     ]);
 ?>
 
-<form action="<?php echo $this->url() ?>" method="POST">
+<form id="form-modules" action="<?php echo $this->url() ?>" method="POST">
     <div class="row">
 
         <div class="col-md-3">
