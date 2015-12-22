@@ -2,10 +2,12 @@
 
 namespace Balance;
 
+use Balance\Module\ModuleInterface;
+
 /**
  * Inicialização do Módulo
  */
-class Module
+class Module implements ModuleInterface
 {
     /**
      * Carregar Configurações
@@ -38,5 +40,23 @@ class Module
         $serviceManager->get('db')
             ->query(sprintf("SET TIME ZONE '%s'", date_default_timezone_get()))
             ->execute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIdentifier()
+    {
+        return 'Balance';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescription()
+    {
+        return
+            'Este módulo representa todos os recursos básicos do Balance, incluindo o gerenciamento de contas e'
+            . ' lançamentos, bem como o cálculo do balance na página principal do sistema.';
     }
 }
