@@ -5,6 +5,7 @@ namespace Balance\Mvc\Controller;
 use Exception;
 use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Parameters;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
@@ -60,7 +61,7 @@ class Configs extends AbstractActionController
         // Camada de Modelo
         $mConfigs = $this->getServiceLocator()->get('Balance\Model\Configs');
         // Consultar Informações
-        $modules = $mConfigs->fetchModules();
+        $modules = $mConfigs->fetchModules(new Parameters());
         // Camada de Visualização
         return new ViewModel([
             'modules' => $modules,

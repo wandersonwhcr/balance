@@ -2,6 +2,8 @@
 
 namespace Balance\Model;
 
+use Zend\Stdlib\Parameters;
+
 /**
  * Camada de Modelo para Configurações
  */
@@ -12,11 +14,13 @@ class Configs
      *
      * Responsável pela consulta de módulos disponíveis, estejam eles instalados ou não. Apresenta o identificador do
      * módulo, título, descrição, um estado informando se está instalado ou não e outro se ele é padrão do sistema. As
-     * informações dos módulos são retornadas na ordem em que devem ser apresentados.
+     * informações dos módulos são retornadas na ordem em que devem ser apresentados. Ainda existe a possibilidade de
+     * filtrar módulos instalados ou não instalados.
      *
+     * @param  Parameters    $params Parâmetros de Consulta
      * @return ArrayIterator Conjunto de Elementos Encontrados
      */
-    public function fetchModules()
+    public function fetchModules(Parameters $params)
     {
         return [
             [
