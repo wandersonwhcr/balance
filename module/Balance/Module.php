@@ -45,14 +45,6 @@ class Module implements ModuleInterface
     /**
      * {@inheritdoc}
      */
-    public function getIdentifier()
-    {
-        return 'Balance';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getTitle()
     {
         return 'Módulo Padrão';

@@ -8,15 +8,6 @@ namespace Balance\Module;
 interface ModuleInterface
 {
     /**
-     * Apresentação do Identificador
-     *
-     * Representa o identificador único do módulo dentro do projeto de módulos do Balance.
-     *
-     * @return string Valor Solicitado
-     */
-    public function getIdentifier();
-
-    /**
      * Apresentação de Título
      *
      * Nome que será utilizado para exibição do módulo.

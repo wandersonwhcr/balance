@@ -36,16 +36,29 @@ class Modules implements ServiceLocatorAwareInterface
             if ($module instanceof ModuleInterface) {
                 // Capturar Informações
                 $result[] = [
-                    'identifier'  => $module->getIdentifier(),
+                    'identifier'  => get_class($module),
                     'title'       => $module->getTitle(),
                     'description' => $module->getDescription(),
-                    'core'        => true,
+                    'core'        => $this->isCore($module),
                     'enabled'     => $this->isEnabled($module),
                 ];
             }
         }
         // Apresentação
         return new ArrayIterator($result);
+    }
+
+    /**
+     * Módulo do Sistema?
+     *
+     * Verifica se o módulo apresentado pertence ao conjunto de módulos que fazem parte da raiz do projeto. Sem módulos
+     * de núcleo, o Balance possivelmente não existiria.
+     *
+     * @return bool Confirmação Solicitada
+     */
+    public function isCore(ModuleInterface $module)
+    {
+        return true;
     }
 
     /**
