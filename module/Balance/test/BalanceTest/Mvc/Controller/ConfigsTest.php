@@ -42,4 +42,28 @@ class ConfigsTest extends TestCase
         // Execução
         $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
     }
+
+    public function testModules()
+    {
+        // Inicialização
+        $element = new Configs();
+        // Localizador de Serviços
+        $serviceLocator = new ServiceManager();
+        $element->setServiceLocator($serviceLocator);
+        // Camada de Modelo
+        $mModules = $this->getMock('Balance\Model\Modules');
+        // Método: Consultar Módulos
+        $mModules->method('fetch')->will($this->returnValue([]));
+        // Serviço
+        $serviceLocator->setService('Balance\Model\Modules', $mModules);
+        // Configurar Parâmetros de Despacho
+        $element->getEvent()->setRouteMatch(new Router\RouteMatch([
+            'action' => 'modules',
+        ]));
+        // Execução
+        $result = $element->dispatch($this->getMock('Zend\Stdlib\RequestInterface'));
+        // Verificações
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
+        $this->assertEquals([], $result->elements);
+    }
 }
