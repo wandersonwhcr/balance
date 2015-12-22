@@ -214,6 +214,10 @@ return [
         ],
     ],
 
+    'balance_modules' => [
+        'Balance\Module',
+    ],
+
     'balance_manager' => [
         'factories' => [
             // Controllers

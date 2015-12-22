@@ -71,6 +71,14 @@ class Modules implements ServiceLocatorAwareInterface
      */
     public function isEnabled(ModuleInterface $module)
     {
-        return true;
+        // Módulo de Núcleo?
+        if ($this->isCore($module)) {
+            // Sempre Habilitado
+            return true;
+        }
+        // Capturar Configurações
+        $modules = $this->getServiceLocator()->get('Config')['balance_modules'];
+        // Apresentação
+        return in_array(get_class($module), $modules, true);
     }
 }
