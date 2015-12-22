@@ -22,6 +22,19 @@ return [
                         'action'     => 'index',
                     ],
                 ],
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'js' => [
+                        'type'    => 'literal',
+                        'options' => [
+                            'route'    => '/configs.js',
+                            'defaults' => [
+                                'controller' => 'Balance\Mvc\Controller\Configs',
+                                'action'     => 'js',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'accounts' => [
                 'type'    => 'literal',

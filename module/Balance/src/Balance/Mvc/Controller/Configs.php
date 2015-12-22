@@ -27,7 +27,7 @@ class Configs extends AbstractActionController
      *
      * @return JsonModel Modelo de Visualização
      */
-    public function indexAction()
+    public function jsAction()
     {
         // Capturar Configurações
         $configs = [];
