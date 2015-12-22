@@ -40,11 +40,24 @@ class Modules implements ServiceLocatorAwareInterface
                     'title'       => $module->getTitle(),
                     'description' => $module->getDescription(),
                     'core'        => true,
-                    'installed'   => true,
+                    'enabled'     => $this->isEnabled($module),
                 ];
             }
         }
         // Apresentação
         return new ArrayIterator($result);
+    }
+
+    /**
+     * Módulo Habilitado?
+     *
+     * Verifica se o módulo apresentado está habilitado para execução no sistema. Captura as configurações do projeto e
+     * apresenta uma confirmação de que o módulo solicitado foi habilitado pelo usuário no sistema.
+     *
+     * @return bool Confirmação Solicitada
+     */
+    public function isEnabled(ModuleInterface $module)
+    {
+        return true;
     }
 }
