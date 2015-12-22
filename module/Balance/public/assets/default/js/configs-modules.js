@@ -15,20 +15,32 @@ $(function () {
             // Panel Primário?
             panel[installed ? 'addClass' : 'removeClass']('panel-success');
         });
+        // Evento: Atualizar Todos Painéis
+        form.on('update-all.panel', function () {
+            // Executar Atualização em Todos os Painéis
+            form.find('.panel').each(function () {
+                // Inicialização
+                var panel = $(this);
+                // Execução
+                panel.trigger('update.panel');
+            });
+        });
         // Evento: Marcar Checkbox
-        form.on('click', ':checkbox', function () {
+        form.on('change', ':checkbox', function () {
             // Inicialização
             var element = $(this);
             // Atualizar Painel
             element.closest('.panel').trigger('update.panel');
         });
-        // Executar Atualização em Todos os Painéis
-        form.find('.panel').each(function () {
-            // Inicialização
-            var panel = $(this);
-            // Execução
-            panel.trigger('update.panel');
+        // Evento: Limpar Formulário
+        form.on('click', '.btn-reset', function () {
+            // Limpar Formulário
+            form.trigger('reset');
+            // Atualizar Todos Painéis
+            form.trigger('update-all.panel');
         });
+        // Atualizar Todos Painéis
+        form.trigger('update-all.panel');
     })();
 
 });
