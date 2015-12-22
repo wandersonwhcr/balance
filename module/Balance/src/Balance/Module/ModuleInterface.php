@@ -14,7 +14,7 @@ interface ModuleInterface
      *
      * @return string Valor Solicitado
      */
-    public function getTitle();
+    public function getName();
 
     /**
      * Apresentação da Descrição do Módulo

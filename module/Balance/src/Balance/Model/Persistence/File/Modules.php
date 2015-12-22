@@ -37,7 +37,7 @@ class Modules implements ServiceLocatorAwareInterface
                 // Capturar Informações
                 $result[] = [
                     'identifier'  => get_class($module),
-                    'title'       => $module->getTitle(),
+                    'name'        => $module->getName(),
                     'description' => $module->getDescription(),
                     'core'        => $this->isCore($module),
                     'enabled'     => $this->isEnabled($module),
