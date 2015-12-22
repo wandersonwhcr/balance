@@ -53,6 +53,14 @@ class Module implements ModuleInterface
     /**
      * {@inheritdoc}
      */
+    public function getTitle()
+    {
+        return 'Módulo Padrão';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getDescription()
     {
         return

@@ -3,13 +3,18 @@
 namespace Balance\Model\Persistence\File;
 
 use ArrayIterator;
+use Balance\Module\ModuleInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**
  * Camada de Persistência para Módu
  */
-class Modules
+class Modules implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /**
      * Apresentação de Elementos
      *
@@ -21,30 +26,24 @@ class Modules
      */
     public function fetch(Parameters $params)
     {
-        // Resultado Inicial
-        $result = [
-            [
-                'identifier'  => 'Balance',
-                'title'       => 'Módulo Padrão',
-                'description' => 'Este módulo representa todos os recursos básicos do Balance, incluindo o gerenciamento de contas e lançamentos, bem como o cálculo do balance na página principal do sistema.',
-                'core'        => true,
-                'installed'   => true,
-            ],
-            [
-                'identifier'  => 'BalanceReports',
-                'title'       => 'Relatórios',
-                'description' => 'Módulo responsável pela apresentação de relatórios, utilizando os dados cadastrados no módulo básico do Balance. Informando uma conta na filtragem, podemos visualizar uma listagem com valores e tipos de entradas de lançamentos e sua descrição.',
-                'core'        => false,
-                'installed'   => false,
-            ],
-            [
-                'identifier'  => 'BalanceTags',
-                'title'       => 'Etiquetas',
-                'description' => 'Etiquetas identificam e catalogam lançamentos. Estes poderão receber múltiplas etiquetas, representando assim a sua finalidade de lançamento. Com isto, podemos utilizar a consulta de lançamentos, filtrando as informações conforme as etiquetas utilizadas.',
-                'core'        => false,
-                'installed'   => false,
-            ],
-        ];
+        // Inicialização
+        $result = [];
+        // Gerenciador de Módulos
+        $modules = $this->getServiceLocator()->get('ModuleManager')->getLoadedModules();
+        // Captura
+        foreach ($modules as $module) {
+            // Tipagem Correta?
+            if ($module instanceof ModuleInterface) {
+                // Capturar Informações
+                $result[] = [
+                    'identifier'  => $module->getIdentifier(),
+                    'title'       => $module->getTitle(),
+                    'description' => $module->getDescription(),
+                    'core'        => true,
+                    'installed'   => true,
+                ];
+            }
+        }
         // Apresentação
         return new ArrayIterator($result);
     }

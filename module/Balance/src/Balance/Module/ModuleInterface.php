@@ -17,6 +17,15 @@ interface ModuleInterface
     public function getIdentifier();
 
     /**
+     * Apresentação de Título
+     *
+     * Nome que será utilizado para exibição do módulo.
+     *
+     * @return string Valor Solicitado
+     */
+    public function getTitle();
+
+    /**
      * Apresentação da Descrição do Módulo
      *
      * A descrição do módulo é utilizada para apresentar ao usuário as funcionalidades e recursos que o módulo irá
