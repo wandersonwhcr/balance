@@ -6,6 +6,7 @@ use Exception;
 use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 /**
  * Controladora de Configurações
@@ -47,5 +48,16 @@ class Configs extends AbstractActionController
         $view->setJsonpCallback('$.application.setConfigs');
         // Apresentação
         return $view;
+    }
+
+    /**
+     * Configurações de Módulo
+     *
+     * @return ViewModel
+     */
+    public function modulesAction()
+    {
+        // Camada de Visualização
+        return new ViewModel();
     }
 }

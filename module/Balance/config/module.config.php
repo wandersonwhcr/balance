@@ -19,18 +19,25 @@ return [
                     'route'    => '/configs',
                     'defaults' => [
                         'controller' => 'Balance\Mvc\Controller\Configs',
-                        'action'     => 'index',
                     ],
                 ],
-                'may_terminate' => true,
+                'may_terminate' => false,
                 'child_routes'  => [
                     'js' => [
                         'type'    => 'literal',
                         'options' => [
                             'route'    => '/configs.js',
                             'defaults' => [
-                                'controller' => 'Balance\Mvc\Controller\Configs',
-                                'action'     => 'js',
+                                'action' => 'js',
+                            ],
+                        ],
+                    ],
+                    'modules' => [
+                        'type'    => 'literal',
+                        'options' => [
+                            'route'    => '/modules',
+                            'defaults' => [
+                                'action' => 'modules',
                             ],
                         ],
                     ],
@@ -188,6 +195,17 @@ return [
                                 'label'   => 'Editar',
                                 'route'   => 'postings/edit',
                                 'visible' => false,
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Configurações',
+                        'route' => 'configs/modules',
+                        'order' => 300,
+                        'pages' => [
+                            [
+                                'label' => 'Módulos',
+                                'route' => 'configs/modules',
                             ],
                         ],
                     ],
