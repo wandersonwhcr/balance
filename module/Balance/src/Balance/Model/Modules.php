@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use Traversable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
@@ -17,9 +18,9 @@ class Modules implements ServiceLocatorAwareInterface
      * Consulta de Módulos
      *
      * Responsável pela consulta de módulos disponíveis, estejam eles instalados ou não. Apresenta o identificador do
-     * módulo, título, descrição, um estado informando se está instalado ou não e outro se ele é padrão do sistema. As
-     * informações dos módulos são retornadas na ordem em que devem ser apresentados. Ainda existe a possibilidade de
-     * filtrar módulos instalados ou não instalados.
+     * módulo, título, descrição, um estado informando se está instalado ou não. As informações dos módulos são
+     * retornadas na ordem em que devem ser apresentados. Ainda existe a possibilidade de filtrar módulos instalados ou
+     * não instalados.
      *
      * @param  Parameters  $params Parâmetros de Consulta
      * @return Traversable Conjunto de Elementos Encontrados
@@ -27,6 +28,12 @@ class Modules implements ServiceLocatorAwareInterface
     public function fetch(Parameters $params)
     {
         // Apresentação
-        return $this->getServiceLocator()->get('Balance\Model\Persistence\Modules')->fetch($params);
+        $result = $this->getServiceLocator()->get('Balance\Model\Persistence\Modules')->fetch($params);
+        // Tipagem Correta?
+        if (! $result instanceof Traversable) {
+            throw new ModelException('Persistence Result is not Traversable');
+        }
+        // Apresentação
+        return $result;
     }
 }
