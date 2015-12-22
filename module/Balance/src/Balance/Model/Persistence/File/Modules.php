@@ -3,13 +3,14 @@
 namespace Balance\Model\Persistence\File;
 
 use ArrayIterator;
+use Balance\Model\BooleanType;
 use Balance\Module\ModuleInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
 
 /**
- * Camada de Persistência para Módu
+ * Camada de Persistência para Módulos
  */
 class Modules implements ServiceLocatorAwareInterface
 {
@@ -34,13 +35,26 @@ class Modules implements ServiceLocatorAwareInterface
         foreach ($modules as $module) {
             // Tipagem Correta?
             if ($module instanceof ModuleInterface) {
-                // Capturar Informações
-                $result[] = [
-                    'identifier'  => $module->getIdentifier(),
-                    'name'        => $module->getName(),
-                    'description' => $module->getDescription(),
-                    'enabled'     => $this->isEnabled($module),
-                ];
+                // Verificar Habilitado
+                $enabled = $this->isEnabled($module);
+                $capture = true;
+                // Filtro de Habilitado?
+                if ($params['enabled']) {
+                    // Capturar Elemento?
+                    $capture =
+                        BooleanType::YES === $params['enabled'] && $enabled
+                        || BooleanType::NO === $params['enabled'] && ! $enabled;
+                }
+                // Capturar?
+                if ($capture) {
+                    // Capturar Informações
+                    $result[] = [
+                        'identifier'  => $module->getIdentifier(),
+                        'name'        => $module->getName(),
+                        'description' => $module->getDescription(),
+                        'enabled'     => $enabled,
+                    ];
+                }
             }
         }
         // Apresentação
