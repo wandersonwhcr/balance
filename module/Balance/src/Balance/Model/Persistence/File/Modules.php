@@ -4,6 +4,7 @@ namespace Balance\Model\Persistence\File;
 
 use ArrayIterator;
 use Balance\Model\BooleanType;
+use Balance\Model\ModelException;
 use Balance\Module\ModuleInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -15,6 +16,40 @@ use Zend\Stdlib\Parameters;
 class Modules implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
+
+    /**
+     * Nome do Arquivo de Configuração
+     * @type string
+     */
+    protected $filename;
+
+    /**
+     * Configurar Nome do Arquivo de Configuração
+     *
+     * @param  string  $filename Valor para Configuração
+     * @return Modules Próprio Objeto para Encadeamento
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    /**
+     * Apresentar Nome do Arquivo de Configuração
+     *
+     * @return string Valor Configurado
+     */
+    public function getFilename()
+    {
+        // Configurado?
+        if ($this->filename === null) {
+            // Configurar Valor Padrão
+            $this->setFilename('./config/autoload/balance_modules.local.php');
+        }
+        // Apresentação
+        return $this->filename;
+    }
 
     /**
      * Apresentação de Elementos
@@ -85,6 +120,21 @@ class Modules implements ServiceLocatorAwareInterface
      */
     public function save(Parameters $data)
     {
+        // Podemos Gravar?
+        if (! is_writable($this->getFilename())) {
+            // Problema Encontrado
+            throw new ModelException('File is not Writable');
+        }
+        // Conteúdo do Arquivo
+        $content = '<?php return ' . var_export($data['modules'], true) . ';';
+        // Salvar Informações
+        $result = @file_put_contents($this->getFilename(), $content);
+        // Sucesso?
+        if (! $result) {
+            // Problema Encontrado
+            throw new ModelException('Internal Error');
+        }
+        // Encadeamento
         return $this;
     }
 }

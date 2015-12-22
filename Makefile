@@ -1,11 +1,15 @@
 all:
 
-install: dependencies database
+config/autoload/balance_modules.local.php:
+	echo '<?php return [];' > config/autoload/balance_modules.local.php
+	chmod 666 config/autoload/balance_modules.local.php
+
+install: config/autoload/balance_modules.local.php dependencies database
 
 uninstall: dependencies
 	php vendor/bin/phinx migrate -t0
 
-tests: dependencies database
+tests: install
 	php vendor/bin/phpunit --coverage-text=php://stdout --coverage-clover=build/coverage.xml --whitelist module/Balance/src
 	php vendor/bin/phpcpd module/Balance
 	php vendor/bin/parallel-lint module/Balance
