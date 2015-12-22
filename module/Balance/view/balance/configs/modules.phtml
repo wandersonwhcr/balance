@@ -1,0 +1,10 @@
+<?php
+    // Título
+    $this->headTitle()
+        ->append('Configurações')
+        ->append('Módulos');
+    // Cabeçalho
+    echo $this->partial('layout/page-header', [
+        'title'    => 'Configurações',
+        'subtitle' => 'Módulos',
+    ]);
