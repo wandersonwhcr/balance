@@ -16,3 +16,9 @@ body {
 .panel .panel-heading .btn-group.pull-right {
     margin-top: -3px;
 }
+.panel .panel-heading .pull-right .checkbox {
+    margin-top: 0;
+}
+.panel .panel-heading .pull-right .checkbox input {
+    margin-left: -15px;
+}

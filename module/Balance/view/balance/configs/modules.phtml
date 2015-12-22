@@ -8,3 +8,24 @@
         'title'    => 'Configurações',
         'subtitle' => 'Módulos',
     ]);
+?>
+
+<form action="<?php echo $this->url() ?>" method="POST">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Módulo Padrão
+                    <div class="pull-right">
+                        <div class="checkbox">
+                            <input type="checkbox" value="balance" checked disabled>
+                        </div>
+                    </div>
+                </div><!-- panel-heading -->
+                <div class="panel-body">
+                    Este módulo representa todos os recursos básicos do Balance, incluindo o gerenciamento de contas e lançamentos, bem como o cálculo do balance na página principal do sistema.
+                </div><!-- panel-body -->
+            </div><!-- panel -->
+        </div><!-- col -->
+    </div><!-- row -->
+</form>
