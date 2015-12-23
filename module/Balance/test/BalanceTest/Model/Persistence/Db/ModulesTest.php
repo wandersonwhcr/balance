@@ -165,15 +165,12 @@ class ModulesTest extends TestCase
 
     public function testSave()
     {
-        // Recurso Incompleto
-        $this->markTestIncomplete('Not Implemented Yet');
-
         // Salvar Módulos Habilitados
         $this->component->save(new Parameters([
             'modules' => [
-                $this->moduleA->getIdentifier(),
-                $this->moduleB->getIdentifier(),
-                $this->moduleC->getIdentifier(),
+                'ModuleA',
+                'ModuleB',
+                'ModuleC',
             ],
         ]));
 
@@ -185,5 +182,39 @@ class ModulesTest extends TestCase
         $this->assertTrue($this->component->isEnabled($this->moduleA));
         $this->assertTrue($this->component->isEnabled($this->moduleB));
         $this->assertTrue($this->component->isEnabled($this->moduleC));
+    }
+
+    public function testSaveAndEnableOneDisabled()
+    {
+        // Salvar Módulos Habilitados
+        $this->component->save(new Parameters([
+            'modules' => ['ModuleB'],
+        ]));
+
+        // Consulta de Módulos
+        $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::YES]));
+
+        // Verificações
+        $this->assertCount(1, $result);
+        $this->assertFalse($this->component->isEnabled($this->moduleA));
+        $this->assertTrue($this->component->isEnabled($this->moduleB));
+        $this->assertFalse($this->component->isEnabled($this->moduleC));
+    }
+
+    public function testSaveAndDisableAllModules()
+    {
+        // Desabilitar Módulos
+        $this->component->save(new Parameters([
+            'modules' => [],
+        ]));
+
+        // Consulta
+        $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::YES]));
+
+        // Verificações
+        $this->assertCount(0, $result);
+        $this->assertFalse($this->component->isEnabled($this->moduleA));
+        $this->assertFalse($this->component->isEnabled($this->moduleB));
+        $this->assertFalse($this->component->isEnabled($this->moduleC));
     }
 }

@@ -7,6 +7,7 @@ use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
 use Balance\Module\ModuleInterface;
 use Balance\Stdlib\Synchronizer;
+use Exception;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -144,6 +145,9 @@ class Modules implements ServiceLocatorAwareInterface
      */
     public function isEnabled(ModuleInterface $module)
     {
+        // Sincronizar Módulos
+        $this->synchronize();
+
         // Camada de Persistência
         $db = $this->getServiceLocator()->get('db');
         // Seletor
@@ -155,18 +159,53 @@ class Modules implements ServiceLocatorAwareInterface
                     ->equalTo('identifier', $module->getIdentifier())
                     ->equalTo('enabled', 1);
             });
+
         // Consulta
         return (bool) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['count'];
     }
 
     /**
-     * Salvar Módulos Habilitados
+     * Habilitar Módulos
      *
      * @param  Parameters $data Dados para Salvamento
      * @return Modules    Próprio Objeto para Encadeamento
      */
     public function save(Parameters $data)
     {
+        // Sincronizar Módulos
+        $this->synchronize();
+
+        // Banco de Dados
+        $db         = $this->getServiceLocator()->get('db');
+        $connection = $db->getDriver()->getConnection();
+        $tbModules  = $this->getServiceLocator()->get('Balance\Db\TableGateway\Modules');
+
+        // Tratamento
+        try {
+            // Transação
+            $connection->beginTransaction();
+            // Desabilitar Todos
+            $tbModules->update([
+                'enabled' => 0,
+            ]);
+            // Processamento
+            foreach ($data['modules'] as $identifier) {
+                // Habilitar Módulo
+                $tbModules->update([
+                    'enabled' => 1,
+                ], function ($where) use ($identifier) {
+                    $where->equalTo('identifier', $identifier);
+                });
+            }
+            // Finalização
+            $connection->commit();
+        } catch (Exception $e) {
+            // Retorno
+            $connection->rollback();
+            // Apresentar Erro
+            throw new ModelException('Database Error');
+        }
+
         // Encadeamento
         return $this;
     }
