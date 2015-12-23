@@ -1,0 +1,60 @@
+<?php
+    // Título
+    $this->headTitle()
+        ->append('Configurações')
+        ->append('Módulos');
+    // Dependências
+    $this->headScript()
+        ->appendFile($this->basePath('/module/Balance/assets/default/js/configs-modules.js'));
+    // Cabeçalho
+    echo $this->partial('layout/page-header', [
+        'title'    => 'Configurações',
+        'subtitle' => 'Módulos',
+    ]);
+?>
+
+<form id="form-modules" action="<?php echo $this->url() ?>" method="POST">
+    <div class="balance-toolbar">
+        <div class="btn-group" role="group" aria-label="Ferramentas">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-warning btn-reset">Cancelar</button>
+        </div><!-- btn-group -->
+    </div><!-- balance-toolbar -->
+
+    <div class="row">
+        <!-- Módulo Estático -->
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Módulo Padrão
+                    <div class="pull-right">
+                        <div class="checkbox">
+                            <input name="modules[]" type="checkbox" value="Balance\Module" checked disabled>
+                        </div>
+                    </div>
+                </div><!-- panel-heading -->
+                <div class="panel-body">
+                    Este módulo representa todos os recursos básicos do Balance, incluindo o gerenciamento de contas e lançamentos, bem como o cálculo do balance na página principal do sistema.
+                </div><!-- panel-body -->
+            </div><!-- panel -->
+        </div><!-- col -->
+
+        <?php foreach ($elements as $element) : ?>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?php echo $this->escapeHtml($element['name']) ?>
+                        <div class="pull-right">
+                            <div class="checkbox">
+                                <input name="modules[]" type="checkbox" value="<?php echo $this->escapeHtml($element['identifier']) ?>" <?php echo $element['enabled'] ? '' : 'disabled' ?>>
+                            </div>
+                        </div>
+                    </div><!-- panel-heading -->
+                    <div class="panel-body">
+                        <?php echo $this->escapeHtml($element['description']) ?>
+                    </div><!-- panel-body -->
+                </div><!-- panel -->
+            </div><!-- col -->
+        <?php endforeach ?>
+    </div><!-- row -->
+</form>

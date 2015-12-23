@@ -2,10 +2,13 @@
 
 namespace Balance\Mvc\Controller;
 
+use Balance\Model\ModelException;
 use Exception;
 use Zend\Http;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\Parameters;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 /**
  * Controladora de Configurações
@@ -27,7 +30,7 @@ class Configs extends AbstractActionController
      *
      * @return JsonModel Modelo de Visualização
      */
-    public function indexAction()
+    public function jsAction()
     {
         // Capturar Configurações
         $configs = [];
@@ -47,5 +50,37 @@ class Configs extends AbstractActionController
         $view->setJsonpCallback('$.application.setConfigs');
         // Apresentação
         return $view;
+    }
+
+    /**
+     * Configurações de Módulo
+     *
+     * @return ViewModel
+     */
+    public function modulesAction()
+    {
+        // Camada de Modelo
+        $mModules = $this->getServiceLocator()->get('Balance\Model\Modules');
+        // Dados Enviados?
+        if ($this->getRequest()->isPost()) {
+            // Capturar Dados
+            $data = $this->getRequest()->getPost();
+            // Tratamento
+            try {
+                // Salvar Dados
+                $mModules->save($data);
+                // Sucesso!
+                $this->flashMessenger()->addSuccessMessage('Os dados foram salvos com sucesso.');
+            } catch (ModelException $e) {
+                // Erro Encontrado
+                $this->flashMessenger()->addWarningMessage('Erro ao persistir as informações enviadas.');
+            }
+        }
+        // Consultar Informações
+        $elements = $mModules->fetch(new Parameters());
+        // Camada de Visualização
+        return new ViewModel([
+            'elements' => $elements,
+        ]);
     }
 }
