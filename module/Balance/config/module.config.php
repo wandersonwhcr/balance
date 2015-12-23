@@ -149,61 +149,61 @@ return [
 
     'navigation' => [
         'default' => [
-            [
+            'balance' => [
                 'label' => 'Balance',
                 'route' => 'home',
                 'pages' => [
-                    [
+                    'home' => [
                         'label' => 'Home',
                         'route' => 'home',
                         'order' => 0,
                     ],
-                    [
+                    'accounts' => [
                         'label' => 'Contas',
                         'route' => 'accounts',
                         'order' => 100,
                         'pages' => [
-                            [
+                            'accounts' => [
                                 'label' => 'Listar',
                                 'route' => 'accounts',
                             ],
-                            [
+                            'add' => [
                                 'label' => 'Adicionar',
                                 'route' => 'accounts/add',
                             ],
-                            [
+                            'edit' => [
                                 'label'   => 'Editar',
                                 'route'   => 'accounts/edit',
                                 'visible' => false,
                             ],
                         ],
                     ],
-                    [
+                    'postings' => [
                         'label' => 'Lançamentos',
                         'route' => 'postings',
                         'order' => 200,
                         'pages' => [
-                            [
+                            'postings' => [
                                 'label' => 'Listar',
                                 'route' => 'postings',
                             ],
-                            [
+                            'add' => [
                                 'label' => 'Adicionar',
                                 'route' => 'postings/add',
                             ],
-                            [
+                            'edit' => [
                                 'label'   => 'Editar',
                                 'route'   => 'postings/edit',
                                 'visible' => false,
                             ],
                         ],
                     ],
-                    [
+                    'configs' => [
                         'label' => 'Configurações',
                         'route' => 'configs/modules',
                         'order' => 300,
                         'pages' => [
-                            [
+                            'modules' => [
                                 'label' => 'Módulos',
                                 'route' => 'configs/modules',
                             ],
