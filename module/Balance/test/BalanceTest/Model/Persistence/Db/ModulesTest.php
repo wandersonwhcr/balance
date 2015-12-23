@@ -77,14 +77,14 @@ class ModulesTest extends TestCase
         });
 
         // Habilitar Módulos no Banco
-        $tbModules->insert(array(
+        $tbModules->insert([
             'identifier' => 'ModuleA',
             'enabled'    => 1,
-        ));
-        $tbModules->insert(array(
+        ]);
+        $tbModules->insert([
             'identifier' => 'ModuleC',
             'enabled'    => 1,
-        ));
+        ]);
 
         // Configurações
 

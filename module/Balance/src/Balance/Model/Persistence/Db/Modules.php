@@ -90,9 +90,9 @@ class Modules implements ServiceLocatorAwareInterface
 
         // Inserir Novos
         foreach ($dataset[Synchronizer::INSERT] as $data) {
-            $tbModules->insert(array(
+            $tbModules->insert([
                 'identifier' => $data['identifier'],
-            ));
+            ]);
         }
 
         // Sincronzizado!
