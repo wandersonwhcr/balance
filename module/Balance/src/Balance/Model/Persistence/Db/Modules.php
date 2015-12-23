@@ -22,6 +22,12 @@ class Modules implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * Sincronizado?
+     * @type bool
+     */
+    private $synchronized = false;
+
+    /**
      * Sincronizar Módulos no Banco de Dados
      *
      * Efetua a consulta de todos os módulos que estão instalados no projeto e sincroniza-os no banco de dados. Isto
@@ -30,8 +36,14 @@ class Modules implements ServiceLocatorAwareInterface
      *
      * @return Modules Próprio Objeto para Encadeamento
      */
-    protected function synchronize()
+    public function synchronize($force = false)
     {
+        // Sincronizado e não forçar?
+        if ($this->synchronized && ! $force) {
+            // Não precisamos sincronizar agora!
+            return $this;
+        }
+
         // Capturar Módulos Instalados
         // Gerenciador de Módulos
         $modules = $this->getServiceLocator()->get('ModuleManager')->getLoadedModules();
@@ -82,6 +94,9 @@ class Modules implements ServiceLocatorAwareInterface
                 'identifier' => $data['identifier'],
             ));
         }
+
+        // Sincronzizado!
+        $this->synchronized = true;
 
         // Encadeamento
         return $this;
