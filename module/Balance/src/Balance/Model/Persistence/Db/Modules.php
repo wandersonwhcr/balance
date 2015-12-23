@@ -1,11 +1,13 @@
 <?php
 
-namespace Balance\Model\Persistence\File;
+namespace Balance\Model\Persistence\Db;
 
 use ArrayIterator;
 use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
 use Balance\Module\ModuleInterface;
+use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
@@ -16,40 +18,6 @@ use Zend\Stdlib\Parameters;
 class Modules implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
-
-    /**
-     * Nome do Arquivo de Configuração
-     * @type string
-     */
-    protected $filename;
-
-    /**
-     * Configurar Nome do Arquivo de Configuração
-     *
-     * @param  string  $filename Valor para Configuração
-     * @return Modules Próprio Objeto para Encadeamento
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
-        return $this;
-    }
-
-    /**
-     * Apresentar Nome do Arquivo de Configuração
-     *
-     * @return string Valor Configurado
-     */
-    public function getFilename()
-    {
-        // Configurado?
-        if ($this->filename === null) {
-            // Configurar Valor Padrão
-            $this->setFilename('./config/autoload/balance_modules.local.php');
-        }
-        // Apresentação
-        return $this->filename;
-    }
 
     /**
      * Apresentação de Elementos
@@ -106,34 +74,27 @@ class Modules implements ServiceLocatorAwareInterface
      */
     public function isEnabled(ModuleInterface $module)
     {
-        // Capturar Configurações
-        $modules = $this->getServiceLocator()->get('Config')['balance_modules'];
-        // Apresentação
-        return in_array($module->getIdentifier(), $modules, true);
+        // Camada de Persistência
+        $db = $this->getServiceLocator()->get('db');
+        // Seletor
+        $select = (new Select())
+            ->from(['m' => 'modules'])
+            ->columns(['count' => new Expression('COUNT(1)')])
+            ->where(function ($where) use ($module) {
+                $where->equalTo('identifier', $module->getIdentifier());
+            });
+        // Consulta
+        return (bool) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['count'];
     }
 
     /**
-     * Salvar Dados de Módulos
+     * Salvar Módulos Habilitados
      *
      * @param  Parameters $data Dados para Salvamento
      * @return Modules    Próprio Objeto para Encadeamento
      */
     public function save(Parameters $data)
     {
-        // Podemos Gravar?
-        if (! is_writable($this->getFilename())) {
-            // Problema Encontrado
-            throw new ModelException('File is not Writable');
-        }
-        // Conteúdo do Arquivo
-        $content = '<?php return ' . var_export($data['modules'], true) . ';';
-        // Salvar Informações
-        $result = @file_put_contents($this->getFilename(), $content);
-        // Sucesso?
-        if (! $result) {
-            // Problema Encontrado
-            throw new ModelException('Internal Error');
-        }
         // Encadeamento
         return $this;
     }

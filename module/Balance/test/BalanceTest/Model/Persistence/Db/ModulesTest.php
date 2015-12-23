@@ -1,9 +1,10 @@
 <?php
 
-namespace BalanceTest\Model\Persistence\File;
+namespace BalanceTest\Model\Persistence\Db;
 
 use Balance\Model\BooleanType;
-use Balance\Model\Persistence\File\Modules;
+use Balance\Model\Persistence\Db\Modules;
+use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
@@ -62,12 +63,27 @@ class ModulesTest extends TestCase
 
         $serviceLocator->setService('ModuleManager', $manager);
 
-        $serviceLocator->setService('Config', [
-            'balance_modules' => [
-                'ModuleA',
-                'ModuleC',
-            ],
-        ]);
+        // Banco de Dados
+        $db = Application::getApplication()->getServiceManager()->get('db');
+        $serviceLocator->setService('db', $db);
+
+        // Tabela de Módulos
+        $tbModules = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Modules');
+
+        // Remover Todos os Módulos
+        $tbModules->delete(function () {
+            // Todos os Módulos
+        });
+
+        // Adicionar Módulos Habilitados
+        $tbModules->insert(array(
+            'identifier' => $moduleA->getIdentifier(),
+        ));
+        $tbModules->insert(array(
+            'identifier' => $moduleC->getIdentifier(),
+        ));
+
+        // Configurações
 
         $this->component = $component;
 

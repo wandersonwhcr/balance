@@ -214,10 +214,6 @@ return [
         ],
     ],
 
-    'balance_modules' => [
-        'Balance\Module',
-    ],
-
     'balance_manager' => [
         'factories' => [
             // Controllers
@@ -281,6 +277,12 @@ return [
                     'table' => 'entries',
                 ],
             ],
+            'Balance\Db\TableGateway\Modules' => [
+                'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+                'params'  => [
+                    'table' => 'modules',
+                ],
+            ],
         ],
     ],
 
@@ -304,7 +306,7 @@ return [
             'Balance\Model\Persistence\Accounts' => 'Balance\Model\Persistence\Db\Accounts',
             'Balance\Model\Persistence\Postings' => 'Balance\Model\Persistence\Db\Postings',
             'Balance\Model\Persistence\Balance'  => 'Balance\Model\Persistence\Db\Balance',
-            'Balance\Model\Persistence\Modules'  => 'Balance\Model\Persistence\File\Modules',
+            'Balance\Model\Persistence\Modules'  => 'Balance\Model\Persistence\Db\Modules',
             // Hydrators
             'Balance\Stdlib\Hydrator\Strategy\Datetime' => 'Balance\Stdlib\Hydrator\Strategy\Datetime',
         ],
