@@ -29,7 +29,7 @@
                     Módulo Padrão
                     <div class="pull-right">
                         <div class="checkbox">
-                            <input name="modules[]" type="checkbox" value="Balance\Module" checked disabled>
+                            <input name="modules[]" type="checkbox" value="Balance" checked disabled>
                         </div>
                     </div>
                 </div><!-- panel-heading -->
@@ -46,7 +46,7 @@
                         <?php echo $this->escapeHtml($element['name']) ?>
                         <div class="pull-right">
                             <div class="checkbox">
-                                <input name="modules[]" type="checkbox" value="<?php echo $this->escapeHtml($element['identifier']) ?>" <?php echo $element['enabled'] ? '' : 'disabled' ?>>
+                                <input name="modules[]" type="checkbox" value="<?php echo $this->escapeHtml($element['identifier']) ?>" <?php echo $element['enabled'] ? 'checked' : '' ?>>
                             </div>
                         </div>
                     </div><!-- panel-heading -->
