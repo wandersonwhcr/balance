@@ -5,6 +5,7 @@ namespace BalanceTest\Model\Persistence\Db;
 use Balance\Model\BooleanType;
 use Balance\Model\Persistence\Db\Modules;
 use Balance\Mvc\Application;
+use Exception;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
@@ -216,5 +217,88 @@ class ModulesTest extends TestCase
         $this->assertFalse($this->component->isEnabled($this->moduleA));
         $this->assertFalse($this->component->isEnabled($this->moduleB));
         $this->assertFalse($this->component->isEnabled($this->moduleC));
+    }
+
+    public function testSynchronize()
+    {
+        // Novo Módulo
+        $moduleD = $this->getMock('Balance\Module\ModuleInterface');
+        $moduleD->method('getIdentifier')
+            ->will($this->returnValue('ModuleD'));
+        $moduleD->method('getName')
+            ->will($this->returnValue('Testing Module D'));
+        $moduleD->method('getDescription')
+            ->will($this->returnValue('Description of Module D'));
+
+        // Adicionar Novo Módulo no Gerenciador
+        // Remover Módulo Antigo no Gerenciador
+        $manager = $this->getMockBuilder('FooBar')
+            ->setMethods(['getLoadedModules'])
+            ->getMock();
+        $manager
+            ->method('getLoadedModules')
+            ->will($this->returnValue([
+                'ModuleB' => $this->moduleB,
+                'ModuleC' => $this->moduleC,
+                'ModuleD' => $moduleD,
+            ]));
+        $this->component->getServiceLocator()
+            ->setAllowOverride(true)
+            ->setService('ModuleManager', $manager)
+            ->setAllowOverride(false);
+
+        // Sincronizar
+        $result = $this->component->synchronize(true /* force */);
+
+        // Verificações
+        $this->assertSame($this->component, $result);
+
+        // Consultar Módulos
+        $result = $this->component->fetch(new Parameters());
+
+        // Verificações
+        $this->assertCount(3, $result);
+
+        $module = $result->current();
+        $this->assertEquals('ModuleB', $module['identifier']);
+
+        $result->next();
+        $module = $result->current();
+        $this->assertEquals('ModuleC', $module['identifier']);
+
+        $result->next();
+        $module = $result->current();
+        $this->assertEquals('ModuleD', $module['identifier']);
+
+        $this->assertFalse($this->component->isEnabled($this->moduleB));
+        $this->assertTrue($this->component->isEnabled($this->moduleC));
+        $this->assertFalse($this->component->isEnabled($moduleD));
+    }
+
+    public function testSaveWithErrors()
+    {
+        $this->setExpectedException('Balance\Model\ModelException');
+
+        // Sincronizar Antes por Causa do MOCK
+        $this->component->synchronize();
+
+        $tbModules = $this->getMockBuilder('FooBar')
+            ->setMethods(['update'])
+            ->getMock();
+        $tbModules
+            ->method('update')
+            ->will($this->throwException(new Exception()));
+        $this->component->getServiceLocator()
+            ->setAllowOverride(true)
+            ->setService('Balance\Db\TableGateway\Modules', $tbModules)
+            ->setAllowOverride(false);
+
+        $this->component->save(new Parameters([
+            'modules' => [
+                'ModuleA',
+                'ModuleB',
+                'ModuleC',
+            ],
+        ]));
     }
 }
