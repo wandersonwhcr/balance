@@ -2,6 +2,7 @@
 return [
     'modules' => [
         'Balance',
+        'BalanceTags',
         'TwbBundle',
     ],
     'service_manager' => [
