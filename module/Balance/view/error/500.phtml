@@ -3,6 +3,10 @@
         'title'    => 'Erro Encontrado',
         'subtitle' => 'Problema Interno',
     ]);
+    // Título
+    $this->headTitle()
+        ->append('Erro Encontrado')
+        ->append('Problema Interno');
 ?>
 
 <p class="lead"><?php echo $this->escapeHtml($this->message) ?></p>
