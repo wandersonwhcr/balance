@@ -8,6 +8,7 @@ class CreateTableModules extends AbstractMigration
     {
         $this->table('modules', array('id' => false, 'primary_key' => 'identifier'))
             ->addColumn('identifier', 'string', array('limit' => 20))
+            ->addColumn('enabled', 'boolean', array('default' => 'FALSE'))
             ->create();
     }
 }

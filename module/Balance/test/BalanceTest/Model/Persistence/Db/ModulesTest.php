@@ -159,4 +159,28 @@ class ModulesTest extends TestCase
         $this->assertFalse($this->component->isEnabled($this->moduleB));
         $this->assertTrue($this->component->isEnabled($this->moduleC));
     }
+
+    public function testSave()
+    {
+        // Recurso Incompleto
+        $this->markTestIncomplete('Not Implemented Yet');
+
+        // Salvar Módulos Habilitados
+        $this->component->save(new Parameters([
+            'modules' => [
+                $this->moduleA->getIdentifier(),
+                $this->moduleB->getIdentifier(),
+                $this->moduleC->getIdentifier(),
+            ],
+        ]));
+
+        // Consulta de Módulos
+        $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::YES]));
+
+        // Verificações
+        $this->assertCount(3, $result);
+        $this->assertTrue($this->component->isEnabled($this->moduleA));
+        $this->assertTrue($this->component->isEnabled($this->moduleB));
+        $this->assertTrue($this->component->isEnabled($this->moduleC));
+    }
 }
