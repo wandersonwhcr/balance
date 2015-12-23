@@ -2,8 +2,8 @@
 
 namespace Balance\Bugs;
 
-use DOMDocument;
 use PHPUnit_Framework_TestCase as TestCase;
+use Zend\Dom\Query;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Resolver\TemplateMapResolver;
@@ -59,73 +59,29 @@ class Issue179Test extends TestCase
         // Renderização
         $content = $renderer->render($view);
 
-        // Estrutura HTML
-        $document = new DOMDocument();
-        // Carregar Resultado
-        $result = $document->loadHTML($content);
-        // Conseguiu?
-        if (! $result) {
-            $this->markTestSkipped('Unable to Load HTML Result');
-        }
+        // Execução
+        $query = new Query($content);
+        // Captura
+        $elements = $query->execute('#form-modules .panel .panel-heading input[type="checkbox"]');
 
-        // Capturar Formulário
-        $form = $document->getElementById('form-modules');
-        // Caixa Solicitada
-        $checkboxM = null;
-        $checkboxA = null;
-        $checkboxB = null;
-        // Capturar Painéis
-        foreach ($form->getElementsByTagName('div') as $element) {
-            // É um "panel"?
-            if ($element->getAttribute('class') == 'panel panel-default') {
-                // Capturar Título
-                foreach ($element->getElementsByTagName('div') as $subelement) {
-                    // É um Título?
-                    if ($subelement->getAttribute('class') == 'panel-heading') {
-                        // Consultar Checkboxes
-                        foreach ($subelement->getElementsByTagName('input') as $subsubelement) {
-                            // É um Checkbox?
-                            if ($subsubelement->getAttribute('type') == 'checkbox') {
-                                // Tipo?
-                                switch ($subsubelement->getAttribute('value')) {
-                                    case 'Balance':
-                                        $checkboxM = $subsubelement;
-                                        break;
-                                    case 'ModuleA':
-                                        // Capturar!
-                                        $checkboxA = $subsubelement;
-                                        break;
-                                    case 'ModuleB':
-                                        // Capturar!
-                                        $checkboxB = $subsubelement;
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // Verificações
+        $this->assertCount(3, $elements);
 
-        // Precisamos do Checkbox do Módulo
-        $this->assertNotNull($checkboxM);
+        $element = $elements->current();
+        $this->assertEquals('Balance', $element->getAttribute('value'));
+        $this->assertTrue($element->hasAttribute('checked'));
+        $this->assertTrue($element->hasAttribute('disabled'));
 
-        // Há Checkbox?
-        if (! $checkboxA) {
-            $this->markTestSkipped('Unknown Checkbox A');
-        }
-        // Há Checkbox?
-        if (! $checkboxB) {
-            $this->markTestSkipped('Unknown Checkbox B');
-        }
+        $elements->next();
+        $element = $elements->current();
+        $this->assertEquals('ModuleA', $element->getAttribute('value'));
+        $this->assertFalse($element->hasAttribute('checked'));
+        $this->assertFalse($element->hasAttribute('disabled'));
 
-        $this->assertTrue($checkboxM->hasAttribute('disabled'));
-        $this->assertTrue($checkboxM->hasAttribute('checked'));
-
-        $this->assertFalse($checkboxA->hasAttribute('disabled'));
-        $this->assertFalse($checkboxA->hasAttribute('checked'));
-
-        $this->assertFalse($checkboxB->hasAttribute('disabled'));
-        $this->assertTrue($checkboxB->hasAttribute('checked'));
+        $elements->next();
+        $element = $elements->current();
+        $this->assertEquals('ModuleB', $element->getAttribute('value'));
+        $this->assertTrue($element->hasAttribute('checked'));
+        $this->assertFalse($element->hasAttribute('disabled'));
     }
 }
