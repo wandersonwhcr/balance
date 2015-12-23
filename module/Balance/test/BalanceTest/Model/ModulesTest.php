@@ -45,4 +45,85 @@ class ModulesTest extends TestCase
 
         $this->getComponent()->fetch(new Parameters());
     }
+
+    public function testSave()
+    {
+        $element = $this->getComponent();
+
+        $data = new ArrayIterator([
+            ['identifier' => 'ModuleA'],
+            ['identifier' => 'ModuleB'],
+        ]);
+
+        $params = new Parameters([
+            'modules' => [
+                'ModuleA',
+                'ModuleB',
+            ],
+        ]);
+
+        $persistence = $element->getServiceLocator()->get('Balance\Model\Persistence\Modules');
+
+        $persistence
+            ->method('fetch')
+            ->will($this->returnValue($data));
+
+        $persistence
+            ->expects($this->atLeastOnce())
+            ->method('save')
+            ->with($this->equalTo($params));
+
+        $result = $element->save($params);
+
+        $this->assertSame($element, $result);
+    }
+
+    public function testSaveWithoutModules()
+    {
+        $element = $this->getComponent();
+
+        $data = new ArrayIterator([
+            ['identifier' => 'ModuleA'],
+            ['identifier' => 'ModuleB'],
+        ]);
+
+        $params = new Parameters();
+
+        $modifiedParams = new Parameters(['modules' => []]);
+
+        $persistence = $element->getServiceLocator()->get('Balance\Model\Persistence\Modules');
+
+        $persistence
+            ->method('fetch')
+            ->will($this->returnValue($data));
+
+        $persistence
+            ->expects($this->atLeastOnce())
+            ->method('save')
+            ->with($this->equalTo($modifiedParams));
+
+        $element->save(new Parameters());
+    }
+
+    public function testSaveWithUnknownModule()
+    {
+        $this->setExpectedException('Balance\Model\ModelException', 'Invalid Module');
+
+        $element = $this->getComponent();
+
+        $data = new ArrayIterator([
+            ['identifier' => 'ModuleA'],
+            ['identifier' => 'ModuleB'],
+        ]);
+
+        $params = new Parameters(['modules' => ['ModuleC']]);
+
+        $persistence = $element->getServiceLocator()->get('Balance\Model\Persistence\Modules');
+
+        $persistence
+            ->method('fetch')
+            ->will($this->returnValue($data));
+
+        $element->save($params);
+    }
 }
