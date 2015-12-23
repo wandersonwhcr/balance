@@ -6,6 +6,7 @@ use ArrayIterator;
 use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
 use Balance\Module\ModuleInterface;
+use Balance\Stdlib\Synchronizer;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -20,6 +21,72 @@ class Modules implements ServiceLocatorAwareInterface
     use ServiceLocatorAwareTrait;
 
     /**
+     * Sincronizar Módulos no Banco de Dados
+     *
+     * Efetua a consulta de todos os módulos que estão instalados no projeto e sincroniza-os no banco de dados. Isto
+     * possibilita que sejam criados outros recursos sobre os módulos, como configurações ou listas de controle de
+     * acesso.
+     *
+     * @return Modules Próprio Objeto para Encadeamento
+     */
+    protected function synchronize()
+    {
+        // Capturar Módulos Instalados
+        // Gerenciador de Módulos
+        $modules = $this->getServiceLocator()->get('ModuleManager')->getLoadedModules();
+        // Captura
+        $installed = [];
+        foreach ($modules as $module) {
+            if ($module instanceof ModuleInterface) {
+                // Instalado!
+                $installed[] = ['identifier' => $module->getIdentifier()];
+            }
+        }
+
+        // Capturar Módulos no Banco de Dados
+        // Banco de Dados
+        $db = $this->getServiceLocator()->get('db');
+        // Seletor
+        $select = (new Select())
+            ->from(['m' => 'modules'])
+            ->columns(['identifier']);
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Captura
+        $persisted = [];
+        foreach ($rowset as $row) {
+            $persisted[] = ['identifier' => $row['identifier']];
+        }
+
+        // Sincronizar Informações
+        $dataset = (new Synchronizer())
+            ->setColumns(['identifier'])
+            ->synchronize($persisted, $installed);
+
+        // Tabela de Módulos
+        $tbModules = $this->getServiceLocator()->get('Balance\Db\TableGateway\Modules');
+
+        // Remover Antigos
+        foreach ($dataset[Synchronizer::DELETE] as $data) {
+            $tbModules->delete(function ($delete) use ($data) {
+                $delete->where(function ($where) use ($data) {
+                    $where->equalTo('identifier', $data['identifier']);
+                });
+            });
+        }
+
+        // Inserir Novos
+        foreach ($dataset[Synchronizer::INSERT] as $data) {
+            $tbModules->insert(array(
+                'identifier' => $data['identifier'],
+            ));
+        }
+
+        // Encadeamento
+        return $this;
+    }
+
+    /**
      * Apresentação de Elementos
      *
      * Captura informações do projeto, verificando quais os módulos que estão disponíveis e apresentando informações
@@ -30,6 +97,9 @@ class Modules implements ServiceLocatorAwareInterface
      */
     public function fetch(Parameters $params)
     {
+        // Sincronizar Módulos
+        $this->synchronize();
+
         // Inicialização
         $result = [];
         // Gerenciador de Módulos
@@ -81,7 +151,9 @@ class Modules implements ServiceLocatorAwareInterface
             ->from(['m' => 'modules'])
             ->columns(['count' => new Expression('COUNT(1)')])
             ->where(function ($where) use ($module) {
-                $where->equalTo('identifier', $module->getIdentifier());
+                $where
+                    ->equalTo('identifier', $module->getIdentifier())
+                    ->equalTo('enabled', 1);
             });
         // Consulta
         return (bool) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['count'];

@@ -69,18 +69,21 @@ class ModulesTest extends TestCase
 
         // Tabela de Módulos
         $tbModules = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Modules');
+        $serviceLocator->setService('Balance\Db\TableGateway\Modules', $tbModules);
 
-        // Remover Todos os Módulos
+        // Limpar Módulos
         $tbModules->delete(function () {
-            // Todos os Módulos
+            // Remover Todos
         });
 
-        // Adicionar Módulos Habilitados
+        // Habilitar Módulos no Banco
         $tbModules->insert(array(
-            'identifier' => $moduleA->getIdentifier(),
+            'identifier' => 'ModuleA',
+            'enabled'    => 1,
         ));
         $tbModules->insert(array(
-            'identifier' => $moduleC->getIdentifier(),
+            'identifier' => 'ModuleC',
+            'enabled'    => 1,
         ));
 
         // Configurações
