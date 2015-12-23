@@ -87,8 +87,6 @@ class ModulesTest extends TestCase
             ['identifier' => 'ModuleB'],
         ]);
 
-        $params = new Parameters();
-
         $modifiedParams = new Parameters(['modules' => []]);
 
         $persistence = $element->getServiceLocator()->get('Balance\Model\Persistence\Modules');

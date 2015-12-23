@@ -248,7 +248,7 @@ class ModulesTest extends TestCase
             ->setAllowOverride(false);
 
         // Sincronizar
-        $result = $this->component->synchronize(true /* force */);
+        $result = $this->component->markToSynchronize();
 
         // Verificações
         $this->assertSame($this->component, $result);

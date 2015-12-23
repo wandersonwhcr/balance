@@ -28,6 +28,19 @@ class Modules implements ServiceLocatorAwareInterface
     private $synchronized = false;
 
     /**
+     * Marcar Para Sincronização
+     *
+     * Força que a próxima execução de sincronização seja executada, independente de outras sincronizações anteriores.
+     *
+     * @return Modules Próprio Objeto para Encadeamento
+     */
+    public function markToSynchronize()
+    {
+        $this->synchronized = false;
+        return $this;
+    }
+
+    /**
      * Sincronizar Módulos no Banco de Dados
      *
      * Efetua a consulta de todos os módulos que estão instalados no projeto e sincroniza-os no banco de dados. Isto
@@ -36,10 +49,10 @@ class Modules implements ServiceLocatorAwareInterface
      *
      * @return Modules Próprio Objeto para Encadeamento
      */
-    public function synchronize($force = false)
+    public function synchronize()
     {
         // Sincronizado e não forçar?
-        if ($this->synchronized && ! $force) {
+        if ($this->synchronized) {
             // Não precisamos sincronizar agora!
             return $this;
         }
