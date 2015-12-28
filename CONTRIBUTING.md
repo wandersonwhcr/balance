@@ -63,7 +63,7 @@ php vendor/bin/phpunit
 
 Se sua alterações forem para novos recursos, os famosos _enhancements_, crie um teste unitário com o mesmo _namespace_ de suas novas classes. Por exemplo, se você criar uma classe nova chamada `Balance\Model\Persistence\FooBar`, crie um novo arquivo na estrutura de testes chamado `module/Balance/test/Balance/Model/Persistence/FooBarTest.php` com uma classe chamada `Balance\Model\Persistence\FooBarTest`.
 
-Todavia, se você está corrigindo um _bug_ que está descrito na _issue_ 42, crie um arquivo na estrutura de testes chamado `module/Balance/test/Balance/Bugs/Issue42Test.php` com uma classe chamada `Balance\Bugs\Issue42Test`, que force a execução do _bug_ informado. Altere o código até que este _bug_ seja solucionado.
+Todavia, se você está corrigindo um _bug_ que está descrito na _issue_ 42, crie um arquivo na estrutura de testes chamado `module/Balance/test/Balance/Bug/Issue42Test.php` com uma classe chamada `Balance\Bug\Issue42Test`, que force a execução do _bug_ informado. Altere o código até que este _bug_ seja solucionado.
 
 ### Estrutura de Banco de Dados
 
