@@ -3,9 +3,10 @@
     $navigation = $this->getHelperPluginManager()->getServiceLocator()->get('navigation');
     // Adicionar Página Desconhecida Ativa
     $navigation->findOneByLabel('Balance')->addPage([
-        'label'  => 'Página Desconhecida',
-        'uri'    => '',
-        'active' => true,
+        'label'   => 'Página Desconhecida',
+        'uri'     => '',
+        'active'  => true,
+        'visible' => false,
     ]);
     // Mensagens
     switch ($this->reason) :

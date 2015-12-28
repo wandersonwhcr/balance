@@ -3,6 +3,16 @@
     $root = $this->navigation()->findOneByLabel('Balance');
     // Configuração de Classe
     $root->setClass('navbar-brand');
+    // Filtro de Páginas Ativas
+    $filter = function ($page) {
+        $visible = [];
+        foreach ($page as $subpage) {
+            if ($subpage->isVisible()) {
+                $visible[] = $subpage;
+            }
+        }
+        return $visible;
+    };
 ?>
 <nav class="nav navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -17,8 +27,10 @@
         </div>
         <div class="collapse navbar-collapse" id="menu">
             <ul class="nav navbar-nav">
-                <?php foreach ($root as $page) : ?>
-                    <?php if ($subpages = $page->findAllByVisible(true)) : ?>
+                <?php $pages = $filter($root) ?>
+                <?php foreach ($pages as $page) : ?>
+                    <?php $subpages = $filter($page) ?>
+                    <?php if ($subpages) : ?>
                         <li class="dropdown">
                             <a href="<?php echo $page->getHref() ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <?php echo $page->getLabel() ?> <span class="caret"></span>
