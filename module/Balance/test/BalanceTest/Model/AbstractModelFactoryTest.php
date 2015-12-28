@@ -101,4 +101,45 @@ class AbstractModelFactoryTest extends TestCase
         $this->assertSame($this->inputFilterSearch, $element->getFormSearch()->getInputFilter());
         $this->assertSame($this->persistence, $element->getPersistence());
     }
+
+    public function testTriggerDoCreateForm()
+    {
+        // Adicionar Atributo: Elemento
+        $this->form->setAttribute('role', 'form');
+        // Adicionar Atributo: Pesquisa
+        $this->formSearch->setAttribute('role', 'search');
+
+        // Evento: Inicializar Formulário (Elemento)
+        $this->eventManager->attach('Balance\Model\AbstractModelFactory::doCreateForm', function ($event) {
+            // Formulário
+            $form = $event->getTarget();
+            // Formulário de Elemento?
+            if ($form->getAttribute('role') === 'form') {
+                // Adicionar Campo de Chave Primária
+                $form->add(['type' => 'hidden', 'name' => 'id']);
+            }
+        });
+
+        // Evento: Inicializar Formulário (Pesquisa)
+        $this->eventManager->attach('Balance\Model\AbstractModelFactory::doCreateForm', function ($event) {
+            // Formulário
+            $form = $event->getTarget();
+            // Formulário de Pesquisa?
+            if ($form->getAttribute('role') === 'search') {
+                // Adicionar Campo de Pesquisa
+                $form->add(['type' => 'text', 'name' => 'keywords']);
+            }
+        });
+
+        // Fábrica de Componentes
+        $factory = new AbstractModelFactory();
+        // Construir Elemento
+        $factory->createServiceWithName($this->serviceLocator, 'model', 'Balance\Model\Model');
+
+        // Verificações
+        $this->assertTrue($this->form->has('id'));
+        $this->assertFalse($this->form->has('keywords'));
+        $this->assertFalse($this->formSearch->has('id'));
+        $this->assertTrue($this->formSearch->has('keywords'));
+    }
 }
