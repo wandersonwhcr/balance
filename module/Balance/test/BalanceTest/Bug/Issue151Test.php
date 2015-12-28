@@ -6,7 +6,7 @@ use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\EntryType;
 use Balance\Model\ModelException;
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Stdlib\Parameters;
 
