@@ -98,4 +98,10 @@ return [
             'BalanceTags\Mvc\Controller\Tags' => 'Balance\Mvc\Controller\AbstractControllerFactory',
         ],
     ],
+
+    'view_manager' => [
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+    ],
 ];
