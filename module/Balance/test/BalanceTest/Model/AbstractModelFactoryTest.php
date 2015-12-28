@@ -8,10 +8,11 @@ use Zend\Form\Form;
 use Zend\Form\FormElementManager;
 use Zend\InputFilter\InputFilter;
 use Zend\ServiceManager\ServiceManager;
+use Zend\EventManager\EventManager;
 
 class AbstractModelFactoryTest extends TestCase
 {
-    public function testCreateService()
+    protected function setUp()
     {
         // Inicializar Localizador de Serviço
         $serviceLocator = new ServiceManager();
@@ -39,6 +40,11 @@ class AbstractModelFactoryTest extends TestCase
             ->setService('FormElementManager', $serviceLocator)
             ->setService('InputFilterManager', $serviceLocator);
 
+        // Gerenciador de Eventos
+        $eventManager = new EventManager();
+        // Configuração
+        $serviceLocator->setService('EventManager', $eventManager);
+
         // Configurar Elemento
         $serviceLocator->setService('Config', [
             // Balance
@@ -58,17 +64,41 @@ class AbstractModelFactoryTest extends TestCase
             ],
         ]);
 
+        // Configurações
+        $this->serviceLocator    = $serviceLocator;
+        $this->eventManager      = $eventManager;
+        $this->form              = $form;
+        $this->inputFilter       = $inputFilter;
+        $this->formSearch        = $formSearch;
+        $this->inputFilterSearch = $inputFilterSearch;
+        $this->persistence       = $persistence;
+    }
+
+    protected function tearDown()
+    {
+        // Limpeza
+        unset($this->serviceLocator);
+        unset($this->eventManager);
+        unset($this->form);
+        unset($this->inputFilter);
+        unset($this->formSearch);
+        unset($this->inputFilterSearch);
+        unset($this->persistence);
+    }
+
+    public function testCreateService()
+    {
         // Fábrica de Componentes
         $factory = new AbstractModelFactory();
-        $result  = $factory->canCreateServiceWithName($serviceLocator, 'model', 'Balance\Model\Model');
+        $result  = $factory->canCreateServiceWithName($this->serviceLocator, 'model', 'Balance\Model\Model');
         $this->assertTrue($result);
         // Construir Elemento
-        $element = $factory->createServiceWithName($serviceLocator, 'table', 'Balance\Model\Model');
+        $element = $factory->createServiceWithName($this->serviceLocator, 'table', 'Balance\Model\Model');
         $this->assertInstanceOf('Balance\Model\Model', $element);
-        $this->assertSame($form, $element->getForm());
-        $this->assertSame($inputFilter, $element->getForm()->getInputFilter());
-        $this->assertSame($formSearch, $element->getFormSearch());
-        $this->assertSame($inputFilterSearch, $element->getFormSearch()->getInputFilter());
-        $this->assertSame($persistence, $element->getPersistence());
+        $this->assertSame($this->form, $element->getForm());
+        $this->assertSame($this->inputFilter, $element->getForm()->getInputFilter());
+        $this->assertSame($this->formSearch, $element->getFormSearch());
+        $this->assertSame($this->inputFilterSearch, $element->getFormSearch()->getInputFilter());
+        $this->assertSame($this->persistence, $element->getPersistence());
     }
 }
