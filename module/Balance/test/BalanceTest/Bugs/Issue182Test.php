@@ -2,7 +2,6 @@
 
 namespace BalanceTest\Bugs;
 
-use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Dom\Query;
 use Zend\Navigation\Navigation;
