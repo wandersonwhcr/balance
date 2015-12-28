@@ -4,11 +4,11 @@ namespace BalanceTest\Model;
 
 use Balance\Model\AbstractModelFactory;
 use PHPUnit_Framework_TestCase as TestCase;
+use Zend\EventManager\EventManager;
 use Zend\Form\Form;
 use Zend\Form\FormElementManager;
 use Zend\InputFilter\InputFilter;
 use Zend\ServiceManager\ServiceManager;
-use Zend\EventManager\EventManager;
 
 class AbstractModelFactoryTest extends TestCase
 {
