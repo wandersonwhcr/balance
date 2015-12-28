@@ -86,8 +86,28 @@ return [
             'BalanceTags\Mvc\Controller\Tags' => [
                 'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
                 'params'  => [
-                    'model'               => 'Balance\Model\Accounts',
-                    'redirect_route_name' => 'accounts',
+                    'model'               => 'BalanceTags\Model\Tags',
+                    'redirect_route_name' => 'tags',
+                ],
+            ],
+            // Models
+            'BalanceTags\Model\Tags' => [
+                'factory' => 'Balance\Model\AbstractModelFactory',
+                'params'  => [
+                    'form'                => 'BalanceTags\Form\Tags',
+                    'input_filter'        => 'BalanceTags\InputFilter\Tags',
+                    'form_search'         => 'BalanceTags\Form\Search\Tags',
+                    'input_filter_search' => 'BalanceTags\InputFilter\Search\Tags',
+                    'persistence'         => 'BalanceTags\Model\Persistence\Tags',
+                ],
+            ],
+            // TableGateway
+            'BalanceTags\Db\TableGateway\Tags' => [
+                'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+                'params'  => [
+                    'table'       => 'tags',
+                    'primary_key' => 'id',
+                    'sequence'    => 'tags_id_seq',
                 ],
             ],
         ],
@@ -96,6 +116,19 @@ return [
     'controllers' => [
         'abstract_factories' => [
             'BalanceTags\Mvc\Controller\Tags' => 'Balance\Mvc\Controller\AbstractControllerFactory',
+        ],
+    ],
+
+    'service_manager' => [
+        'invokables' => [
+            // Persistences
+            'BalanceTags\Model\Persistence\Tags' => 'BalanceTags\Model\Persistence\Db\Tags',
+        ],
+        'abstract_factories' => [
+            // Models
+            'BalanceTags\Model\Tags' => 'Balance\Model\AbstractModelFactory',
+            // TableGateways
+            'BalanceTags\Db\TableGateway\Tags' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
         ],
     ],
 
