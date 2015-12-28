@@ -123,6 +123,32 @@ class ModelTest extends TestCase
         $model->load(new Parameters());
     }
 
+    public function testLoadWithPostLoadEvent()
+    {
+        // Inicialização
+        $model = $this->getModel();
+
+        // Evento: Carregar Elemento com Dados Adicionais
+        $model->getEventManager()->attach('Balance\Model\Model::doPostLoad', function ($event) {
+            // Adicionar Parâmetros
+            $event->getTarget()['one'] = 'two';
+        });
+
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Consulta
+        $persistence->expects($this->once())->method('find')->will($this->returnCallback(function () {
+            return new ArrayObject();
+        }));
+
+        // Consulta
+        $element = $model->load(new Parameters());
+
+        // Verificações
+        $this->assertArrayHasKey('one', $element);
+        $this->assertEquals('two', $element['one']);
+    }
+
     public function testLoadWithUnknownElement()
     {
         // Expectativas
