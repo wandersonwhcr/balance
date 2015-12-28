@@ -98,6 +98,22 @@ class ModelTest extends TestCase
         $this->assertEquals('bar', $model->getForm()->get('foo')->getValue());
     }
 
+    public function testLoadWithoutArrayAccess()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Persistence Result is not Array Accessible');
+        // Inicialização
+        $model = $this->getModel();
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Consulta
+        $persistence->expects($this->once())->method('find')->will($this->returnCallback(function () {
+            return ['one' => 'two'];
+        }));
+        // Consulta
+        $model->load(new Parameters());
+    }
+
     public function testLoadWithUnknownElement()
     {
         // Expectativas

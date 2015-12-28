@@ -247,11 +247,13 @@ class PostingsTest extends TestCase
         // Consulta de Elemento
         $element = $persistence->find(new Parameters(['id' => $this->primaries['postings']['xx']]));
         // Verificações
+        $this->assertInstanceOf('ArrayAccess', $element);
         $this->assertEquals('Posting XX', $element['description']);
 
         // Consulta de Elemento
         $element = $persistence->find(new Parameters(['id' => $this->primaries['postings']['yy']]));
         // Verificações
+        $this->assertInstanceOf('ArrayAccess', $element);
         $this->assertEquals('Posting YY', $element['description']);
     }
 
