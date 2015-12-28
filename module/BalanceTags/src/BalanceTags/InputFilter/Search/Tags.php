@@ -2,6 +2,7 @@
 
 namespace BalanceTags\InputFilter\Search;
 
+use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 
 /**
@@ -9,4 +10,14 @@ use Zend\InputFilter\InputFilter;
  */
 class Tags extends InputFilter
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        // Palavras Chave
+        $input = (new Input('keywords'))
+            ->setRequired(false);
+        $this->add($input);
+    }
 }

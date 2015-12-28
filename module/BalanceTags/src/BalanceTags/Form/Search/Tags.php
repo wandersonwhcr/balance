@@ -9,4 +9,18 @@ use Zend\Form\Form;
  */
 class Tags extends Form
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        // Palavras-Chave
+        $this->add([
+            'type'    => 'Text',
+            'name'    => 'keywords',
+            'options' => [
+                'label' => 'Palavras-Chave',
+            ],
+        ]);
+    }
 }

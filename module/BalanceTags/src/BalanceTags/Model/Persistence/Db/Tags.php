@@ -6,6 +6,7 @@ use ArrayIterator;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Exception as BaseException;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -32,6 +33,32 @@ class Tags implements ServiceLocatorAwareInterface, PersistenceInterface
             ->from(['t' => 'tags'])
             ->columns(['id', 'name'])
             ->order('name');
+        // Pesquisa: Palavras-Chave
+        if ($params['keywords']) {
+            // Filtro
+            $select->where(function ($where) use ($params) {
+                // Idioma
+                $language = locale_get_display_language(null, 'en');
+                // Documento
+                $document = new Expression('TO_TSVECTOR(\'' . $language . '\', "t"."name")');
+                // Construção de Documento
+                $search = (new Select())
+                    ->from(['t' => 'tags'])
+                    ->columns(['tag_id' => 'id', 'document' => $document]);
+                // Pesquisa Interna
+                $subselect = (new Select())
+                    ->from(['search' => $search])
+                    ->columns(['tag_id'])
+                    ->where(function ($where) use ($params, $language) {
+                        $where->expression(
+                            '"search"."document" @@ TO_TSQUERY(\'' . $language . '\', ?)',
+                            sprintf("'%s'", addslashes($params['keywords']))
+                        );
+                    });
+                // Aplicação do Filtro
+                $where->in('t.id', $subselect);
+            });
+        }
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura
