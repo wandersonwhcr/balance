@@ -19,7 +19,7 @@
     "autoload": {
         "psr-4": {
             "Balance\\": "module/Balance/src/Balance/",
-            "BalanceTags\\": "module/Balance/src/BalanceTags/"
+            "BalanceTags\\": "module/BalanceTags/src/BalanceTags/"
         }
     },
     "autoload-dev": {

@@ -79,4 +79,23 @@ return [
             ],
         ],
     ],
+
+    'balance_manager' => [
+        'factories' => [
+            // Controllers
+            'BalanceTags\Mvc\Controller\Tags' => [
+                'factory' => 'Balance\Mvc\Controller\AbstractControllerFactory',
+                'params'  => [
+                    'model'               => 'Balance\Model\Accounts',
+                    'redirect_route_name' => 'accounts',
+                ],
+            ],
+        ],
+    ],
+
+    'controllers' => [
+        'abstract_factories' => [
+            'BalanceTags\Mvc\Controller\Tags' => 'Balance\Mvc\Controller\AbstractControllerFactory',
+        ],
+    ],
 ];
