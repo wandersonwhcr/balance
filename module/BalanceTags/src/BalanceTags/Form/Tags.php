@@ -9,4 +9,21 @@ use Zend\Form\Form;
  */
 class Tags extends Form
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        // Chave Primária
+        $this->add([
+            'type' => 'Hidden',
+            'name' => 'id',
+        ]);
+
+        // Nome
+        $this->add([
+            'type' => 'Text',
+            'name' => 'name',
+        ]);
+    }
 }

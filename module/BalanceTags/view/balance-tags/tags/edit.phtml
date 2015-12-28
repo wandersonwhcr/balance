@@ -1,0 +1,43 @@
+<?php
+    $this->headTitle()->append('Etiquetas');
+    if ($this->type == 'add') :
+        $this->headTitle()->append('Adicionar');
+    endif;
+    if ($this->type == 'edit') :
+        $this->headTitle()->append('Editar');
+    endif;
+?>
+
+<?php
+    echo $this->partial('layout/page-header', [
+        'title'    => 'Etiquetas',
+        'subtitle' => ($this->type == 'add' ? 'Adicionar' : 'Editar'),
+    ])
+?>
+
+<?php $this->form->prepare() ?>
+<?php echo $this->form(null, null)->openTag($this->form) ?>
+    <div class="balance-toolbar">
+        <div class="btn-group" role="group" aria-label="Ferramentas">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a class="btn btn-warning" href="<?php echo $this->url('tags') ?>">Cancelar</a>
+        </div><!-- btn-group -->
+    </div><!-- balance-toolbar -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">Informações Básicas</div>
+        </div><!-- panel-heading -->
+        <div class="panel-body">
+            <?php echo $this->formHidden($this->form->get('id')) ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                        $element = $this->form->get('name');
+                        $element->setLabel('Nome');
+                        echo $this->formRow($element);
+                    ?>
+                </div><!-- col -->
+            </div><!-- row -->
+        </div><!-- panel-body -->
+    </div><!-- panel -->
+<?php echo $this->form()->closeTag() ?>
