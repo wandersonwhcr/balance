@@ -5,7 +5,7 @@ namespace BalanceTest\Model\Persistence\Db;
 use Balance\Model\AccountType;
 use Balance\Model\EntryType;
 use Balance\Model\Persistence\Db\Postings;
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use IntlDateFormatter;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;

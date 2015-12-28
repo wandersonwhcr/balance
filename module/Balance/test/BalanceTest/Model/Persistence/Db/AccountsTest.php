@@ -5,7 +5,7 @@ namespace BalanceTest\Model\Persistence\Db;
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\Persistence\Db\Accounts;
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use Exception as BaseException;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Db\Sql\Sql;

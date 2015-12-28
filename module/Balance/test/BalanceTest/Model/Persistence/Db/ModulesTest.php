@@ -4,7 +4,7 @@ namespace BalanceTest\Model\Persistence\Db;
 
 use Balance\Model\BooleanType;
 use Balance\Model\Persistence\Db\Modules;
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use Exception;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;

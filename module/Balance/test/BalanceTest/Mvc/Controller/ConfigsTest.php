@@ -3,8 +3,8 @@
 namespace BalanceTest\Mvc\Controller;
 
 use Balance\Model\ModelException;
-use Balance\Mvc\Application;
 use Balance\Mvc\Controller\Configs;
+use BalanceTest\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http;
 use Zend\Mvc\Router;

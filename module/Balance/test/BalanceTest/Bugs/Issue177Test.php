@@ -2,7 +2,7 @@
 
 namespace BalanceTest\Bugs;
 
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;

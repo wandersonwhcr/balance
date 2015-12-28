@@ -2,7 +2,7 @@
 
 namespace Balance\Bugs;
 
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Dom\Document;
 use Zend\View\Model\ViewModel;

@@ -5,7 +5,7 @@ namespace BalanceTest\Bugs;
 use Balance\Model\AccountType;
 use Balance\Model\EntryType;
 use Balance\Model\Persistence\Db\Postings;
-use Balance\Mvc\Application;
+use BalanceTest\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
