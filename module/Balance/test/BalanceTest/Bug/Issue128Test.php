@@ -1,6 +1,6 @@
 <?php
 
-namespace BalanceTest\Bugs;
+namespace BalanceTest\Bug;
 
 use Balance\Model\AccountType;
 use Balance\Model\EntryType;

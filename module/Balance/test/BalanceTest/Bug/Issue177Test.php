@@ -1,6 +1,6 @@
 <?php
 
-namespace BalanceTest\Bugs;
+namespace BalanceTest\Bug;
 
 use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;

@@ -1,20 +1,19 @@
 <?php
 
-namespace BalanceTest\Bugs;
+namespace BalanceTest\Bug;
 
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\EntryType;
-use Balance\Model\ModelException;
 use Balance\Mvc\Application;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Stdlib\Parameters;
 
-class Issue151Test extends TestCase
+class Issue152Test extends TestCase
 {
-    public function testSimpleSavePosting()
+    public function testEntryValueFormat()
     {
-        // Localizador de Serviços
+        // Gerenciador de Serviços
         $serviceLocator = Application::getApplication()->getServiceManager();
 
         // Camada de Modelo
@@ -23,8 +22,8 @@ class Issue151Test extends TestCase
         // Conta A
         $accountA = new Parameters([
             'type'        => AccountType::ACTIVE,
-            'name'        => 'Issue 151 A',
-            'description' => 'Account A',
+            'name'        => 'A',
+            'description' => 'Issue 152 Account',
             'accumulate'  => BooleanType::NO,
         ]);
         // Salvar
@@ -33,50 +32,47 @@ class Issue151Test extends TestCase
         // Conta B
         $accountB = new Parameters([
             'type'        => AccountType::ACTIVE,
-            'name'        => 'Issue 151 B',
-            'description' => 'Account B',
+            'name'        => 'B',
+            'description' => 'Issue 152 Account',
             'accumulate'  => BooleanType::NO,
         ]);
         // Salvar
         $mAccounts->save($accountB);
 
         // Camada de Modelo
-        $mPostings = $serviceLocator->get('Balance\Model\Postings');
+        $mPostings = $serviceLocator->get('Balance\Model\Persistence\Postings');
 
         // Lançamento
         $posting = new Parameters([
-            'id'          => '',
             'datetime'    => '10/10/2010 10:10:10',
-            'description' => 'Issue 151 Posting A',
+            'description' => 'Issue 152 Posting',
             'entries'     => [
                 [
-                    'account_id' => (string) $accountA['id'],
                     'type'       => EntryType::CREDIT,
+                    'account_id' => $accountA['id'],
                     'value'      => '100,00',
                 ],
                 [
-                    'account_id' => (string) $accountB['id'],
                     'type'       => EntryType::DEBIT,
+                    'account_id' => $accountB['id'],
                     'value'      => '100,00',
                 ],
             ],
         ]);
+        // Salvar
+        $mPostings->save($posting);
 
-        try {
-            // Salvar
-            $mPostings->save($posting);
-        } catch (ModelException $e) {
-            // Capturar Formulário
-            $form = $mPostings->getForm();
-            // Formulário Válido?
-            if ($form->isValid()) {
-                // Erro em outro lugar!
-                throw $e;
-            }
-            // Capturar Mensagens do Formulário
-            $messages = $form->getMessages();
-            // Erro Encontrado
-            $this->fail('Invalid Form ' . json_encode($messages));
-        }
+        // Carregar Informações
+        $result = $mPostings->find(new Parameters(['id' => $posting['id']]));
+
+        // Capturar Primeira Entrada
+        $element = current($result['entries']);
+        // Verificações
+        $this->assertEquals('100,00', $element['value']);
+
+        // Capturar Segunda Entrada
+        $element = next($result['entries']);
+        // Verificações
+        $this->assertEquals('100,00', $element['value']);
     }
 }

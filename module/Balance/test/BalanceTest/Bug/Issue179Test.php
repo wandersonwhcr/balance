@@ -1,6 +1,6 @@
 <?php
 
-namespace Balance\Bugs;
+namespace Balance\Bug;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Dom\Query;
