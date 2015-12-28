@@ -2,6 +2,7 @@
 
 namespace Balance\Model\Persistence\Db;
 
+use ArrayObject;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Balance\Stdlib\Synchronizer;
@@ -180,7 +181,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             ];
         }
         // Apresentação
-        return $element;
+        return new ArrayObject($element);
     }
 
     /**

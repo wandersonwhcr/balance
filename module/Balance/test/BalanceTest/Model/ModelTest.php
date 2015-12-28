@@ -3,6 +3,7 @@
 namespace BalanceTest\Model;
 
 use ArrayIterator;
+use ArrayObject;
 use Balance\Model\Model;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Element\Text;
@@ -80,7 +81,7 @@ class ModelTest extends TestCase
     {
         // Inicialização
         $model   = $this->getModel();
-        $element = ['foo' => 'bar'];
+        $element = new ArrayObject(['foo' => 'bar']);
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Carregamento
@@ -89,7 +90,7 @@ class ModelTest extends TestCase
             if ($params['id'] === 'foobar') {
                 $element['foo'] = 'bar';
             }
-            return $element;
+            return new ArrayObject($element);
         }));
         // Consulta
         $result = $model->load(new Parameters(['id' => 'foobar']));

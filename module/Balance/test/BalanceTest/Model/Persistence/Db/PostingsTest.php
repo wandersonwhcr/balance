@@ -460,7 +460,7 @@ class PostingsTest extends TestCase
         $data['entries'][$position]['account_id'] = $pkAccount;
 
         // Salvar Dados
-        $persistence->save(new Parameters($data));
+        $persistence->save(new Parameters($data->getArrayCopy()));
 
         // Carregá-los Novamente
         $result = $persistence->find(new Parameters(['id' => $this->primaries['postings']['xx']]));

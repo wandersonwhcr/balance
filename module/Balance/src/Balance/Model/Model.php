@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use ArrayAccess;
 use Balance\Model\Persistence\PersistenceInterface;
 use Traversable;
 use Zend\Form\Form;
@@ -158,6 +159,11 @@ class Model
         // Encontrado?
         if (! $element) {
             throw new ModelException('Unknown Element');
+        }
+        // Sucesso?
+        if (! $element instanceof ArrayAccess) {
+            // Impossível Continuar
+            throw new ModelException('Persistence Result is not Array Accessible');
         }
         // Preencher Formulário
         $this->getForm()->setData($element);
