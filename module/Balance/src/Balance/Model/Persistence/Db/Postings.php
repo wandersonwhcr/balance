@@ -11,6 +11,7 @@ use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -21,6 +22,7 @@ use Zend\Stdlib\Parameters;
  */
 class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
 {
+    use EventManagerAwareTrait;
     use ServiceLocatorAwareTrait;
 
     /**

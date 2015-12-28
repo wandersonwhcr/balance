@@ -12,6 +12,7 @@ use Balance\Model\Persistence\ValueOptionsInterface;
 use Exception;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
@@ -21,6 +22,7 @@ use Zend\Stdlib\Parameters;
  */
 class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, ValueOptionsInterface
 {
+    use EventManagerAwareTrait;
     use ServiceLocatorAwareTrait;
 
     /**
