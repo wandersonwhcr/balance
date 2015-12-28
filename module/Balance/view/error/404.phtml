@@ -2,7 +2,7 @@
     // Adicionar Migalha
     $navigation = $this->getHelperPluginManager()->getServiceLocator()->get('navigation');
     // Adicionar Página Desconhecida Ativa
-    $navigation->findBy('route', 'home')->addPage([
+    $navigation->findOneByLabel('Balance')->addPage([
         'label'  => 'Página Desconhecida',
         'uri'    => '',
         'active' => true,
