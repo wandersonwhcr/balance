@@ -38,6 +38,14 @@ class ModelTest extends TestCase
         return new Model($form, $formSearch, $persistence);
     }
 
+    public function testEventManagerAware()
+    {
+        // Inicialização
+        $model = $this->getModel();
+        // Verificações
+        $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $model);
+    }
+
     public function testFetch()
     {
         // Inicialização
