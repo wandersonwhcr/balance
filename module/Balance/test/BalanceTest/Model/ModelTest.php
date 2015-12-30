@@ -3,6 +3,7 @@
 namespace BalanceTest\Model;
 
 use ArrayIterator;
+use ArrayObject;
 use Balance\Model\Model;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Form\Element\Text;
@@ -35,6 +36,14 @@ class ModelTest extends TestCase
         $formSearch->setInputFilter($inputFilterSearch);
         // Inicialização
         return new Model($form, $formSearch, $persistence);
+    }
+
+    public function testEventManagerAware()
+    {
+        // Inicialização
+        $model = $this->getModel();
+        // Verificações
+        $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $model);
     }
 
     public function testFetch()
@@ -80,7 +89,7 @@ class ModelTest extends TestCase
     {
         // Inicialização
         $model   = $this->getModel();
-        $element = ['foo' => 'bar'];
+        $element = new ArrayObject(['foo' => 'bar']);
         // Camada de Persistência
         $persistence = $model->getPersistence();
         // Mock: Carregamento
@@ -89,13 +98,55 @@ class ModelTest extends TestCase
             if ($params['id'] === 'foobar') {
                 $element['foo'] = 'bar';
             }
-            return $element;
+            return new ArrayObject($element);
         }));
         // Consulta
         $result = $model->load(new Parameters(['id' => 'foobar']));
         // Verificações
         $this->assertEquals($element, $result);
         $this->assertEquals('bar', $model->getForm()->get('foo')->getValue());
+    }
+
+    public function testLoadWithoutArrayAccess()
+    {
+        // Erro Esperado
+        $this->setExpectedException('Balance\Model\ModelException', 'Persistence Result is not Array Accessible');
+        // Inicialização
+        $model = $this->getModel();
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Consulta
+        $persistence->expects($this->once())->method('find')->will($this->returnCallback(function () {
+            return ['one' => 'two'];
+        }));
+        // Consulta
+        $model->load(new Parameters());
+    }
+
+    public function testLoadWithPostLoadEvent()
+    {
+        // Inicialização
+        $model = $this->getModel();
+
+        // Evento: Carregar Elemento com Dados Adicionais
+        $model->getEventManager()->attach('Balance\Model\Model::doPostLoad', function ($event) {
+            // Adicionar Parâmetros
+            $event->getTarget()['one'] = 'two';
+        });
+
+        // Camada de Persistência
+        $persistence = $model->getPersistence();
+        // Mock: Consulta
+        $persistence->expects($this->once())->method('find')->will($this->returnCallback(function () {
+            return new ArrayObject();
+        }));
+
+        // Consulta
+        $element = $model->load(new Parameters());
+
+        // Verificações
+        $this->assertArrayHasKey('one', $element);
+        $this->assertEquals('two', $element['one']);
     }
 
     public function testLoadWithUnknownElement()

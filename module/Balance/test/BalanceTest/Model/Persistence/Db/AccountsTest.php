@@ -205,7 +205,7 @@ class AccountsTest extends TestCase
             $result = $persistence->find(new Parameters(['id' => $element['id']]));
 
             // Verificações
-            $this->assertInternalType('array', $result);
+            $this->assertInstanceOf('ArrayAccess', $result);
             $this->assertArrayHasKey('id', $result);
             $this->assertEquals($element['id'], $result['id']);
             $this->assertArrayHasKey('type', $result);

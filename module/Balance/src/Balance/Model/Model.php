@@ -2,8 +2,11 @@
 
 namespace Balance\Model;
 
+use ArrayAccess;
 use Balance\Model\Persistence\PersistenceInterface;
 use Traversable;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\Form;
 use Zend\Stdlib\Parameters;
 
@@ -13,8 +16,10 @@ use Zend\Stdlib\Parameters;
  * Estrutura utilizada como padrão para processamento de informações apresentadas pela camada de controle durante o
  * fluxo de processamento do aplicativo. Centraliza a configuração de objetos de formulário e persistência de dados.
  */
-class Model
+class Model implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     /**
      * Formulário
      * @type Form
@@ -159,8 +164,15 @@ class Model
         if (! $element) {
             throw new ModelException('Unknown Element');
         }
+        // Sucesso?
+        if (! $element instanceof ArrayAccess) {
+            // Impossível Continuar
+            throw new ModelException('Persistence Result is not Array Accessible');
+        }
         // Preencher Formulário
         $this->getForm()->setData($element);
+        // Evento: Pós-Carregar Elemento
+        $this->getEventManager()->trigger('Balance\Model\Model::doPostLoad', $element);
         // Apresentação
         return $element;
     }

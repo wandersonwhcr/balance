@@ -3,6 +3,7 @@
 namespace Balance\Model\Persistence\Db;
 
 use ArrayIterator;
+use ArrayObject;
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\ModelException;
@@ -128,7 +129,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             'accumulate'  => $row['accumulate'] === 't' ? BooleanType::YES : BooleanType::NO,
         ];
         // Apresentação
-        return $element;
+        return new ArrayObject($element);
     }
 
     /**
