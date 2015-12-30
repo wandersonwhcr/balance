@@ -468,4 +468,50 @@ class PostingsTest extends TestCase
         // Dados Idênticos!
         $this->assertEquals($data, $result);
     }
+
+    public function testTriggerSave()
+    {
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Gerenciador de Eventos
+        $eventManager = $persistence->getEventManager();
+
+        // Dados
+        $data = new Parameters([
+            'counter'     => 0,
+            'datetime'    => '10/10/2010 11:10:10',
+            'description' => 'Posting ZZ',
+            'entries'     => [
+                [
+                    'account_id' => $this->primaries['accounts']['aa'],
+                    'type'       => EntryType::CREDIT,
+                    'value'      => 'R$10,10',
+                ],
+                [
+                    'account_id' => $this->primaries['accounts']['bb'],
+                    'type'       => EntryType::DEBIT,
+                    'value'      => 'R$10,10',
+                ],
+            ],
+        ]);
+
+        // Evento: Antes de Salvar
+        $eventManager->attach('Balance\Model\Persistence\Db\Postings::beforeSave', function ($event) {
+            // Atualizar Contador
+            $event->getTarget()['counter'] += 10;
+        });
+
+        // Evento: Depois de Salvar
+        $eventManager->attach('Balance\Model\Persistence\Db\Postings::afterSave', function ($event) {
+            // Atualizar Contador
+            $event->getTarget()['counter'] *= 10;
+        });
+
+        // Salvar Elemento
+        $persistence->save($data);
+
+        // Verificações
+        $this->assertEquals(100, $data['counter']);
+    }
 }
