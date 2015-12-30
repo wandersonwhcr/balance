@@ -516,7 +516,7 @@ class PostingsTest extends TestCase
         $this->assertEquals(100, $data['counter']);
     }
 
-    public function testTriggerQuery()
+    public function testTriggerFilters()
     {
         // Inicialização
         $persistence = $this->getPersistence();
