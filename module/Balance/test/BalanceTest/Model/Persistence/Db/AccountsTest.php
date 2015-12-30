@@ -2,6 +2,7 @@
 
 namespace BalanceTest\Model\Persistence\Db;
 
+use ArrayObject;
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\Persistence\Db\Accounts;
@@ -685,5 +686,29 @@ class AccountsTest extends TestCase
 
         // Verificações
         $this->assertEquals(100, $data['counter']);
+    }
+
+    public function testTriggerQuery()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+        $counter     = new ArrayObject();
+
+        // Atualizar Contador
+        $counter['total'] = 1;
+
+        // Evento: Antes de Efetuar a Consulta
+        $persistence->getEventManager()
+            ->attach('Balance\Model\Persistence\Db\Accounts::beforeQuery', function ($event) use ($counter) {
+                // Atualizar Contator
+                $counter['total'] *= 10;;
+            });
+
+        // Efetuar Consultas
+        $persistence->fetch(new Parameters());
+        $persistence->fetch(new Parameters());
+
+        // Verificações
+        $this->assertEquals(100, $counter['total']);
     }
 }
