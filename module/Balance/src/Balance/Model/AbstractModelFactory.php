@@ -48,6 +48,8 @@ class AbstractModelFactory implements AbstractFactoryInterface
         $formSearch->setInputFilter($inputFilterSearch);
         // Camada de Modelo
         $model = new Model($persistence);
+        // Gerenciador de Eventos
+        $model->setEventManager($serviceLocator->get('EventManager'));
         // Formulários
         $model->setForm($form);
         $model->setFormSearch($formSearch);
