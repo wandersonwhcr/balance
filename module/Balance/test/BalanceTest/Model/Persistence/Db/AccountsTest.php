@@ -2,7 +2,6 @@
 
 namespace BalanceTest\Model\Persistence\Db;
 
-use ArrayObject;
 use Balance\Model\AccountType;
 use Balance\Model\BooleanType;
 use Balance\Model\Persistence\Db\Accounts;
@@ -650,65 +649,5 @@ class AccountsTest extends TestCase
         $element = $result->current();
         // Verificações
         $this->assertEquals($elementA['name'], $element['name']);
-    }
-
-    public function testTriggerSave()
-    {
-        // Camada de Persistência
-        $persistence = $this->getPersistence();
-
-        // Gerenciador de Eventos
-        $eventManager = $persistence->getEventManager();
-
-        // Dados
-        $data = new Parameters([
-            'type'        => AccountType::PASSIVE,
-            'name'        => 'FB Account Test',
-            'description' => 'Description of the Account',
-            'accumulate'  => BooleanType::YES,
-            'counter'     => 0,
-        ]);
-
-        // Evento: Antes de Salvar
-        $eventManager->attach('Balance\Model\Persistence\Db\Accounts::beforeSave', function ($event) {
-            // Atualizar Contador
-            $event->getTarget()['counter'] += 10;
-        });
-
-        // Evento: Depois de Salvar
-        $eventManager->attach('Balance\Model\Persistence\Db\Accounts::afterSave', function ($event) {
-            // Atualizar Contador
-            $event->getTarget()['counter'] *= 10;
-        });
-
-        // Salvar Elemento
-        $persistence->save($data);
-
-        // Verificações
-        $this->assertEquals(100, $data['counter']);
-    }
-
-    public function testTriggerFilters()
-    {
-        // Inicialização
-        $persistence = $this->getPersistence();
-        $counter     = new ArrayObject();
-
-        // Atualizar Contador
-        $counter['total'] = 1;
-
-        // Evento: Antes de Efetuar a Consulta
-        $persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Accounts::afterFilters', function () use ($counter) {
-                // Atualizar Contator
-                $counter['total'] *= 10;
-            });
-
-        // Efetuar Consultas
-        $persistence->fetch(new Parameters());
-        $persistence->fetch(new Parameters());
-
-        // Verificações
-        $this->assertEquals(100, $counter['total']);
     }
 }
