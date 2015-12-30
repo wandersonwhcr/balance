@@ -35,7 +35,11 @@ class ModelTest extends TestCase
         $form->setInputFilter($inputFilter);
         $formSearch->setInputFilter($inputFilterSearch);
         // Inicialização
-        return new Model($form, $formSearch, $persistence);
+        $model = new Model($persistence);
+        // Formulários
+        $model->setForm($form)->setFormSearch($formSearch);
+        // Apresentação
+        return $model;
     }
 
     public function testEventManagerAware()

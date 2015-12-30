@@ -43,10 +43,15 @@ class AbstractModelFactory implements AbstractFactoryInterface
         $formSearch        = $serviceLocator->get('FormElementManager')->get($config['params']['form_search']);
         $inputFilterSearch = $serviceLocator->get('InputFilterManager')->get($config['params']['input_filter_search']);
         $persistence       = $serviceLocator->get($config['params']['persistence']);
-        // Configurações
+        // Filtros de Dados
         $form->setInputFilter($inputFilter);
         $formSearch->setInputFilter($inputFilterSearch);
+        // Camada de Modelo
+        $model = new Model($persistence);
+        // Formulários
+        $model->setForm($form);
+        $model->setFormSearch($formSearch);
         // Apresentação
-        return new Model($form, $formSearch, $persistence);
+        return $model;
     }
 }

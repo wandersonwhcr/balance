@@ -41,16 +41,11 @@ class Model implements EventManagerAwareInterface
     /**
      * Construtor Padrão
      *
-     * @param Form                 $form        Formulário
-     * @param Form                 $formSearch  Formulário de Pesquisa
      * @param PersistenceInterface $persistence Persistência de Dados
      */
-    public function __construct(Form $form, Form $formSearch, PersistenceInterface $persistence)
+    public function __construct(PersistenceInterface $persistence)
     {
-        $this
-            ->setForm($form)
-            ->setFormSearch($formSearch)
-            ->setPersistence($persistence);
+        $this->setPersistence($persistence);
     }
 
     /**
@@ -59,7 +54,7 @@ class Model implements EventManagerAwareInterface
      * @param  Form  $form Elemento para Configuração
      * @return Model Próprio Objeto para Encadeamento
      */
-    protected function setForm(Form $form)
+    public function setForm(Form $form)
     {
         $this->form = $form;
         return $this;
@@ -81,7 +76,7 @@ class Model implements EventManagerAwareInterface
      * @param  Form  $formSearch Elemento para Configuração
      * @return Model Próprio Objeto para Encadeamento
      */
-    protected function setFormSearch(Form $formSearch)
+    public function setFormSearch(Form $formSearch)
     {
         $this->formSearch = $formSearch;
         return $this;
