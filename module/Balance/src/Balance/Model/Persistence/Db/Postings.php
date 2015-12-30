@@ -11,6 +11,7 @@ use IntlDateFormatter;
 use NumberFormatter;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Paginator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -21,6 +22,7 @@ use Zend\Stdlib\Parameters;
  */
 class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
 {
+    use EventManagerAwareTrait;
     use ServiceLocatorAwareTrait;
 
     /**
@@ -202,6 +204,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         try {
             // Transação
             $connection->beginTransaction();
+            // Evento: Antes de Salvar
+            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::beforeSave', $data);
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
@@ -293,6 +297,8 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 // Limpeza PHPMD
                 unset($currency);
             }
+            // Evento: Depois de Salvar
+            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterSave', $data);
             // Finalização
             $connection->commit();
         } catch (Exception $e) {

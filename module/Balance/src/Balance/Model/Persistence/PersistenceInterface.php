@@ -2,12 +2,13 @@
 
 namespace Balance\Model\Persistence;
 
+use Zend\EventManager\EventManagerAwareInterface;
 use Zend\Stdlib\Parameters;
 
 /**
  * Estrutura para Persistência de Dados
  */
-interface PersistenceInterface
+interface PersistenceInterface extends EventManagerAwareInterface
 {
     /**
      * Consulta de Elementos

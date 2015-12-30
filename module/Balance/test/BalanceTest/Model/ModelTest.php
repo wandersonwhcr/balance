@@ -133,7 +133,7 @@ class ModelTest extends TestCase
         $model = $this->getModel();
 
         // Evento: Carregar Elemento com Dados Adicionais
-        $model->getEventManager()->attach('Balance\Model\Model::doPostLoad', function ($event) {
+        $model->getEventManager()->attach('Balance\Model\Model::afterLoad', function ($event) {
             // Adicionar Parâmetros
             $event->getTarget()['one'] = 'two';
         });

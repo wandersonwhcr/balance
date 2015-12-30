@@ -12,6 +12,7 @@ use Balance\Model\Persistence\ValueOptionsInterface;
 use Exception;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
@@ -21,6 +22,7 @@ use Zend\Stdlib\Parameters;
  */
 class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, ValueOptionsInterface
 {
+    use EventManagerAwareTrait;
     use ServiceLocatorAwareTrait;
 
     /**
@@ -145,6 +147,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         try {
             // Inicializar Transação
             $connection->beginTransaction();
+            // Evento: Antes de Salvar
+            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::beforeSave', $data);
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
@@ -175,6 +179,8 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 // Chave Primária
                 $data['id'] = (int) $tbAccounts->getLastInsertValue();
             }
+            // Evento: Depois de Salvar
+            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::afterSave', $data);
             // Finalização
             $connection->commit();
         } catch (Exception $e) {

@@ -650,4 +650,40 @@ class AccountsTest extends TestCase
         // Verificações
         $this->assertEquals($elementA['name'], $element['name']);
     }
+
+    public function testTriggerSave()
+    {
+        // Camada de Persistência
+        $persistence = $this->getPersistence();
+
+        // Gerenciador de Eventos
+        $eventManager = $persistence->getEventManager();
+
+        // Dados
+        $data = new Parameters([
+            'type'        => AccountType::PASSIVE,
+            'name'        => 'FB Account Test',
+            'description' => 'Description of the Account',
+            'accumulate'  => BooleanType::YES,
+            'counter'     => 0,
+        ]);
+
+        // Evento: Antes de Salvar
+        $eventManager->attach('Balance\Model\Persistence\Db\Accounts::beforeSave', function ($event) {
+            // Atualizar Contador
+            $event->getTarget()['counter'] += 10;
+        });
+
+        // Evento: Depois de Salvar
+        $eventManager->attach('Balance\Model\Persistence\Db\Accounts::afterSave', function ($event) {
+            // Atualizar Contador
+            $event->getTarget()['counter'] *= 10;
+        });
+
+        // Salvar Elemento
+        $persistence->save($data);
+
+        // Verificações
+        $this->assertEquals(100, $data['counter']);
+    }
 }
