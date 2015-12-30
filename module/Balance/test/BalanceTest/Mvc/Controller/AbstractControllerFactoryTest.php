@@ -21,7 +21,10 @@ class AbstractControllerFactoryTest extends TestCase
         $form        = new Form();
         $formSearch  = new Form();
         $persistence = $this->getMock('Balance\Model\Persistence\PersistenceInterface');
-        $model       = new Model($form, $formSearch, $persistence);
+        $model       = new Model($persistence);
+
+        // Configurações
+        $model->setForm($form)->setFormSearch($formSearch);
 
         // Camada de Modelo
         $serviceLocator->setService('Balance\Model\Model', $model);
