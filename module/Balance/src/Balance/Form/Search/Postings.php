@@ -64,5 +64,12 @@ class Postings extends Form implements ServiceLocatorAwareInterface
                 'label' => 'Data e Hora Final',
             ],
         ]);
+
+        // Configurar Posições dos Elementos
+        $this
+            ->setPriority('keywords', 200)
+            ->setPriority('account_id', 150)
+            ->setPriority('datetime_begin', 100)
+            ->setPriority('datetime_end', 50);
     }
 }

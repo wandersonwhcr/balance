@@ -38,6 +38,8 @@ class Postings implements ServiceLocatorAwareInterface
                     'value_options' => $pTags->getValueOptions(),
                 ],
             ]);
+            // Prioridade do Campo
+            $form->setPriority('tag_id', 101);
         }
     }
 
