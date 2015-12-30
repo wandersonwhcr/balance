@@ -114,8 +114,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             });
         }
         // Evento: Antes de Consultar
-        $this->getEventManager()
-            ->trigger('Balance\Model\Persistence\Db\Postings::beforeQuery', $select);
+        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterFilters', $select);
         // Paginação
         $result = new Paginator\Paginator(new Paginator\Adapter\DbSelect($select, $db));
         // Página?

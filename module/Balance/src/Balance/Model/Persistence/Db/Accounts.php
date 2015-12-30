@@ -82,11 +82,10 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 $where->in('a.id', $subselect);
             });
         }
+        // Evento: Depois dos Filtros
+        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::afterFilters', $select);
         // Ordenação
         $select->order(['a.position']);
-        // Evento: Antes de Consultar
-        $this->getEventManager()
-            ->trigger('Balance\Model\Persistence\Db\Accounts::beforeQuery', $select);
         // Consulta
         $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
         // Captura

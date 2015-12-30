@@ -699,7 +699,7 @@ class AccountsTest extends TestCase
 
         // Evento: Antes de Efetuar a Consulta
         $persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Accounts::beforeQuery', function ($event) use ($counter) {
+            ->attach('Balance\Model\Persistence\Db\Accounts::afterFilters', function ($event) use ($counter) {
                 // Atualizar Contator
                 $counter['total'] *= 10;;
             });
