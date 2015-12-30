@@ -3,11 +3,13 @@
 namespace BalanceTags\Model\Persistence\Db;
 
 use ArrayIterator;
+use ArrayObject;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
 use Exception as BaseException;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Parameters;
@@ -17,6 +19,7 @@ use Zend\Stdlib\Parameters;
  */
 class Tags implements ServiceLocatorAwareInterface, PersistenceInterface
 {
+    use EventManagerAwareTrait;
     use ServiceLocatorAwareTrait;
 
     /**
@@ -102,7 +105,7 @@ class Tags implements ServiceLocatorAwareInterface, PersistenceInterface
             'name' => $row['name'],
         ];
         // Apresentação
-        return $element;
+        return new ArrayObject($element);
     }
 
     /**
