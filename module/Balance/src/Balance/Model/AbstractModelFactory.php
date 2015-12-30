@@ -46,14 +46,10 @@ class AbstractModelFactory implements AbstractFactoryInterface
         // Filtros de Dados
         $form->setInputFilter($inputFilter);
         $formSearch->setInputFilter($inputFilterSearch);
-        // Evento: Inicializar Formulário (Elemento)
-        $serviceLocator->get('EventManager')
-            ->trigger('Balance\Model\AbstractModelFactory::doCreateForm', $form);
-        // Evento: Inicializar Formulário (Pesquisa)
-        $serviceLocator->get('EventManager')
-            ->trigger('Balance\Model\AbstractModelFactory::doCreateForm', $formSearch);
         // Camada de Modelo
         $model = new Model($persistence);
+        // Gerenciador de Eventos
+        $model->setEventManager($serviceLocator->get('EventManager'));
         // Formulários
         $model->setForm($form);
         $model->setFormSearch($formSearch);

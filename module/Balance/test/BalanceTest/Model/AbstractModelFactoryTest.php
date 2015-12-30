@@ -38,12 +38,8 @@ class AbstractModelFactoryTest extends TestCase
         // Gerenciadores
         $serviceLocator
             ->setService('FormElementManager', $serviceLocator)
-            ->setService('InputFilterManager', $serviceLocator);
-
-        // Gerenciador de Eventos
-        $eventManager = new EventManager();
-        // Configuração
-        $serviceLocator->setService('EventManager', $eventManager);
+            ->setService('InputFilterManager', $serviceLocator)
+            ->setService('EventManager', new EventManager());
 
         // Configurar Elemento
         $serviceLocator->setService('Config', [
@@ -66,7 +62,6 @@ class AbstractModelFactoryTest extends TestCase
 
         // Configurações
         $this->serviceLocator    = $serviceLocator;
-        $this->eventManager      = $eventManager;
         $this->form              = $form;
         $this->inputFilter       = $inputFilter;
         $this->formSearch        = $formSearch;
@@ -78,7 +73,6 @@ class AbstractModelFactoryTest extends TestCase
     {
         // Limpeza
         unset($this->serviceLocator);
-        unset($this->eventManager);
         unset($this->form);
         unset($this->inputFilter);
         unset($this->formSearch);
@@ -100,46 +94,5 @@ class AbstractModelFactoryTest extends TestCase
         $this->assertSame($this->formSearch, $element->getFormSearch());
         $this->assertSame($this->inputFilterSearch, $element->getFormSearch()->getInputFilter());
         $this->assertSame($this->persistence, $element->getPersistence());
-    }
-
-    public function testTriggerDoCreateForm()
-    {
-        // Adicionar Atributo: Elemento
-        $this->form->setAttribute('role', 'form');
-        // Adicionar Atributo: Pesquisa
-        $this->formSearch->setAttribute('role', 'search');
-
-        // Evento: Inicializar Formulário (Elemento)
-        $this->eventManager->attach('Balance\Model\AbstractModelFactory::doCreateForm', function ($event) {
-            // Formulário
-            $form = $event->getTarget();
-            // Formulário de Elemento?
-            if ($form->getAttribute('role') === 'form') {
-                // Adicionar Campo de Chave Primária
-                $form->add(['type' => 'hidden', 'name' => 'id']);
-            }
-        });
-
-        // Evento: Inicializar Formulário (Pesquisa)
-        $this->eventManager->attach('Balance\Model\AbstractModelFactory::doCreateForm', function ($event) {
-            // Formulário
-            $form = $event->getTarget();
-            // Formulário de Pesquisa?
-            if ($form->getAttribute('role') === 'search') {
-                // Adicionar Campo de Pesquisa
-                $form->add(['type' => 'text', 'name' => 'keywords']);
-            }
-        });
-
-        // Fábrica de Componentes
-        $factory = new AbstractModelFactory();
-        // Construir Elemento
-        $factory->createServiceWithName($this->serviceLocator, 'model', 'Balance\Model\Model');
-
-        // Verificações
-        $this->assertTrue($this->form->has('id'));
-        $this->assertFalse($this->form->has('keywords'));
-        $this->assertFalse($this->formSearch->has('id'));
-        $this->assertTrue($this->formSearch->has('keywords'));
     }
 }

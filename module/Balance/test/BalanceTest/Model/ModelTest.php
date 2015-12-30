@@ -217,4 +217,37 @@ class ModelTest extends TestCase
         // Verificações
         $this->assertSame($result, $model);
     }
+
+    public function testTriggerSetForm()
+    {
+        // Camada de Modelo
+        $model = $this->getModel();
+
+        // Formulários
+        $form       = $model->getForm();
+        $formSearch = $model->getFormSearch();
+
+        // Evento: Inicializar Formulário (Elemento)
+        $model->getEventManager()->attach('Balance\Model\Model::setForm', function ($event) {
+            // Adicionar Campo de Chave Primária
+            $event->getTarget()->add(['type' => 'hidden', 'name' => 'id']);
+        });
+
+        // Evento: Inicializar Formulário (Pesquisa)
+        $model->getEventManager()->attach('Balance\Model\Model::setFormSearch', function ($event) {
+            // Adicionar Campo de Pesquisa
+            $event->getTarget()->add(['type' => 'text', 'name' => 'keywords']);
+        });
+
+        // Reconfigurar Formulários
+        $model
+            ->setForm($form)
+            ->setFormSearch($formSearch);
+
+        // Verificações
+        $this->assertTrue($form->has('id'));
+        $this->assertFalse($form->has('keywords'));
+        $this->assertFalse($formSearch->has('id'));
+        $this->assertTrue($formSearch->has('keywords'));
+    }
 }
