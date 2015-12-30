@@ -6,6 +6,7 @@ use ArrayIterator;
 use ArrayObject;
 use Balance\Model\ModelException;
 use Balance\Model\Persistence\PersistenceInterface;
+use Balance\Model\Persistence\ValueOptionsInterface;
 use Exception as BaseException;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
@@ -17,7 +18,7 @@ use Zend\Stdlib\Parameters;
 /**
  * Camada de Persistência de Etiquetas
  */
-class Tags implements ServiceLocatorAwareInterface, PersistenceInterface
+class Tags implements ServiceLocatorAwareInterface, PersistenceInterface, ValueOptionsInterface
 {
     use EventManagerAwareTrait;
     use ServiceLocatorAwareTrait;
@@ -182,5 +183,28 @@ class Tags implements ServiceLocatorAwareInterface, PersistenceInterface
         }
         // Encadeamento
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getValueOptions()
+    {
+        // Inicialização
+        $db = $this->getServiceLocator()->get('db');
+        // Seletor
+        $select = (new Select())
+            ->from(['t' => 'tags'])
+            ->columns(['id', 'name'])
+            ->order(['t.name']);
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Processamento
+        $result = [];
+        foreach ($rowset as $row) {
+            $result[$row['id']] = $row['name'];
+        }
+        // Apresentação
+        return $result;;
     }
 }

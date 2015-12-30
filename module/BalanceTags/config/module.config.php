@@ -123,6 +123,8 @@ return [
         'invokables' => [
             // Persistences
             'BalanceTags\Model\Persistence\Tags' => 'BalanceTags\Model\Persistence\Db\Tags',
+            // Gerenciador de Eventos
+            'BalanceTags\EventManager\Postings' => 'BalanceTags\EventManager\Postings',
         ],
         'abstract_factories' => [
             // Models
