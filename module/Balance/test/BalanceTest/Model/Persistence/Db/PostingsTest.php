@@ -529,7 +529,7 @@ class PostingsTest extends TestCase
         $persistence->getEventManager()
             ->attach('Balance\Model\Persistence\Db\Postings::afterFilters', function ($event) use ($counter) {
                 // Atualizar Contator
-                $counter['total'] *= 10;;
+                $counter['total'] *= 10;
             });
 
         // Efetuar Consultas
