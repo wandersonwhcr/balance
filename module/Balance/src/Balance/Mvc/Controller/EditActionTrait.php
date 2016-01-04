@@ -76,9 +76,13 @@ trait EditActionTrait
         $this->getServiceLocator()->get('ViewManager')
             ->getInjectTemplateListener()->setPreferRouteMatchController(true);
         // Visualização
-        return new ViewModel([
+        $viewModel = new ViewModel([
             'type' => ($params ? 'edit' : 'add'),
             'form' => $model->getForm(),
         ]);
+        // Evento: Após Inicializaçã
+        $this->getEventManager()->trigger('Balance\Mvc\Controller\EditActionTrait::afterViewModel', $viewModel);
+        // Apresentação
+        return $viewModel;
     }
 }
