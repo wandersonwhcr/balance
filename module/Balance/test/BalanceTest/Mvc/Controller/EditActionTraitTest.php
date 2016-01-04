@@ -251,7 +251,7 @@ class EditActionTraitTest extends TestCase
 
         // Evento: Após o ViewModel
         $controller->getEventManager()
-            ->attach('Balance\Mvc\Controller\EditActionTrait::afterViewModel', function ($event) use ($handler) {
+            ->attach('Balance\Mvc\Controller\EditAction::afterViewModel', function ($event) use ($handler) {
                 $handler['target'] = $event->getTarget();
             });
 
