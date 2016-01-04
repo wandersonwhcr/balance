@@ -38,10 +38,10 @@ class EditTest extends TestCase
                 'layout/page-header'    => './module/Balance/view/layout/page-header.phtml',
                 'balance/postings/edit' => './module/Balance/view/balance/postings/edit.phtml',
                 // Páginas Internas
-                'tests/postings/before-entries-collection-a'
-                    => './module/Balance/test/BalanceTest/View/Scripts/postings-before-entries-collection-a.phtml',
-                'tests/postings/before-entries-collection-b'
-                    => './module/Balance/test/BalanceTest/View/Scripts/postings-before-entries-collection-b.phtml',
+                'tests/postings/before-entries-a'
+                    => './module/Balance/test/BalanceTest/View/Scripts/postings-before-entries-a.phtml',
+                'tests/postings/before-entries-b'
+                    => './module/Balance/test/BalanceTest/View/Scripts/postings-before-entries-b.phtml',
             ]));
 
             $helpers = $renderer->getHelperPluginManager();
@@ -82,9 +82,9 @@ class EditTest extends TestCase
         unset($this->model);
     }
 
-    public function testRenderBeforeEntriesCollection()
+    public function testRenderBeforeEntries()
     {
-        $this->model->setVariable('beforeEntriesCollection', '<div id="before-entries-container">foobar</div>');
+        $this->model->setVariable('beforeEntries', '<div id="before-entries-container">foobar</div>');
 
         $content = $this->view->render($this->model);
 
@@ -97,23 +97,23 @@ class EditTest extends TestCase
         $this->assertEquals('foobar', $element->textContent);
     }
 
-    public function testRenderBeforeEntriesCollectionWithAppend()
+    public function testRenderBeforeEntriesWithAppend()
     {
         $submodelA = (new ViewModel())
-            ->setTemplate('tests/postings/before-entries-collection-a')
+            ->setTemplate('tests/postings/before-entries-a')
             ->setAppend(true);
 
         $submodelB = (new ViewModel())
-            ->setTemplate('tests/postings/before-entries-collection-b')
+            ->setTemplate('tests/postings/before-entries-b')
             ->setAppend(true);
 
         $this->model
-            ->addChild($submodelA, 'beforeEntriesCollection')
-            ->addChild($submodelB, 'beforeEntriesCollection');
+            ->addChild($submodelA, 'beforeEntries')
+            ->addChild($submodelB, 'beforeEntries');
 
         $content = $this->view->render($this->model);
 
-        $result = (new Query($content))->execute('.before-entries-collection');
+        $result = (new Query($content))->execute('.before-entries');
         $this->assertCount(2, $result);
 
         $element = $result->current();
