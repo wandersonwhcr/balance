@@ -236,4 +236,30 @@ class EditActionTraitTest extends TestCase
         // Execução
         $controller->dispatch(new Request());
     }
+
+    public function testAfterViewModel()
+    {
+        $controller = $this->getController('edit-action-controller');
+
+        // Configurar Parâmetros de Despacho
+        $controller->getEvent()->setRouteMatch(new RouteMatch([
+            'action' => 'edit',
+        ]));
+
+        // Criar um Capturador
+        $handler = new Parameters();
+
+        // Evento: Após o ViewModel
+        $controller->getEventManager()
+            ->attach('Balance\Mvc\Controller\EditAction::afterViewModel', function ($event) use ($handler) {
+                $handler['target'] = $event->getTarget();
+            });
+
+        // Execução
+        $result = $controller->dispatch(new Request());
+
+        // Verificações
+        $this->assertArrayHasKey('target', $handler);
+        $this->assertSame($result, $handler['target']);
+    }
 }
