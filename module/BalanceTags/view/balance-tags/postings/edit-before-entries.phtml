@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Etiquetas</div>
+    </div><!-- panel-heading -->
+    <div class="panel-body">
+        <?php
+            $element = $this->form->get('tags');
+            $element->setLabel('Etiquetas');
+            echo $this->formRow($element);
+        ?>
+    </div>
+</div><!-- panel -->

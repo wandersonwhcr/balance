@@ -74,5 +74,30 @@ DESCRIPTION;
             // Executar Evento
             $emPostings->setInputFilterSearch($event);
         });
+
+        // Evento: Configurar Formulário de Lançamentos
+        $eventManager->attach('*', 'Balance\Model\Model::setForm', function ($event) use ($serviceLocator) {
+            // Capturar Gerenciador de Eventos para Lançamentos
+            $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
+            // Executar Evento
+            $emPostings->setForm($event);
+        });
+
+        // Evento: Configurar Filtro de Dados para Formulário de Lançamento
+        $eventManager->attach('*', 'Balance\Model\Model::setForm', function ($event) use ($serviceLocator) {
+            // Capturar Gerenciador de Eventos para Lançamentos
+            $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
+            // Executar Evento
+            $emPostings->setInputFilter($event);
+        });
+
+        // Evento: Renderizar Elemento Tags no Formulário de Edição de Lançamentos
+        $eventManager
+            ->attach('*', 'Balance\Mvc\Controller\EditAction::afterViewModel', function ($event) use ($serviceLocator) {
+                // Capturar Gerenciador de Eventos para Lançamentos
+                $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
+                // Executar Evento
+                $emPostings->setViewModel($event);
+            });
     }
 }
