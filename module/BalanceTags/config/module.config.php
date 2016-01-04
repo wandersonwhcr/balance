@@ -110,6 +110,12 @@ return [
                     'sequence'    => 'tags_id_seq',
                 ],
             ],
+            'BalanceTags\Db\TableGateway\TagsPostings' => [
+                'factory' => 'Balance\Db\TableGateway\AbstractTableGatewayFactory',
+                'params'  => [
+                    'table' => 'tags_postings',
+                ],
+            ],
         ],
     ],
 

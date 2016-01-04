@@ -99,5 +99,14 @@ DESCRIPTION;
                 // Executar Evento
                 $emPostings->setViewModel($event);
             });
+
+        // Evento: Salvar Relacionamento de Etiquetas nos Lançamentos
+        $eventManager
+            ->attach('*', 'Balance\Model\Persistence\Db\Postings::afterSave', function ($event) use ($serviceLocator) {
+                // Capturar Gerenciador de Eventos para Lançamentos
+                $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
+                // Executar Evento
+                $emPostings->onAfterSave($event);
+            });
     }
 }

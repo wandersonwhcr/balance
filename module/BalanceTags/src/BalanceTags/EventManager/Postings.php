@@ -4,6 +4,8 @@ namespace BalanceTags\EventManager;
 
 use Balance\Form\Postings as PostingsForm;
 use Balance\Form\Search\Postings as PostingsFormSearch;
+use Balance\Stdlib\Synchronizer;
+use Zend\Db\Sql\Select;
 use Zend\EventManager\Event;
 use Zend\Filter;
 use Zend\InputFilter\Input;
@@ -139,6 +141,67 @@ class Postings implements ServiceLocatorAwareInterface
                 ->setTemplate('balance-tags/postings/edit-before-entries');
             // Adicionar Subcamada
             $viewModel->addChild($subViewModel, 'beforeEntries');
+        }
+    }
+
+    /**
+     * Salvar Etiquetas
+     *
+     * @param Event $event Evento Utilizado
+     */
+    public function onAfterSave(Event $event)
+    {
+        // Inicialização
+        $db             = $this->getServiceLocator()->get('db');
+        $tbTagsPostings = $this->getServiceLocator()->get('BalanceTags\Db\TableGateway\TagsPostings');
+
+        // Capturar Dados
+        $data = $event->getTarget();
+
+        // Capturar Etiquetas Novas
+        $newer = [];
+        foreach ($data['tags'] as $tagId) {
+            $newer[] = ['tag_id' => $tagId];
+        }
+
+        // Consultar Etiquetas Antigas
+        $select = (new Select())
+            ->from(['tp' => 'tags_postings'])
+            ->columns(['tag_id'])
+            ->where(function ($where) use ($data) {
+                $where->equalTo('tp.posting_id', $data['id']);
+            });
+        // Consulta
+        $rowset = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        // Processamento
+        $older = [];
+        foreach ($rowset as $row) {
+            $older[] = $row;
+        }
+        // Sincronização
+        $result = (new Synchronizer())
+            ->setColumns(['tag_id'])
+            ->synchronize($older, $newer);
+
+        // Remover
+        foreach ($result[Synchronizer::DELETE] as $element) {
+            $tbTagsPostings->delete(function ($delete) use ($data, $element) {
+                $delete->where(function ($where) use ($data, $element) {
+                    $where
+                        ->equalTo('tag_id', $element['tag_id'])
+                        ->equalTo('posting_id', $data['id']);
+                });
+            });
+        }
+
+        // Atualizar (Nunca)
+
+        // Inserir
+        foreach ($result[Synchronizer::INSERT] as $element) {
+            $tbTagsPostings->insert([
+                'tag_id'     => $element['tag_id'],
+                'posting_id' => $data['id'],
+            ]);
         }
     }
 }
