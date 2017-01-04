@@ -130,6 +130,13 @@ class Model implements EventManagerAwareInterface
      */
     public function fetch(Parameters $params)
     {
+        // Inicialização
+        $page = 1;
+        // Página Informada?
+        if ($params['page']) {
+            // Captura
+            $page = (int) $params['page'];
+        }
         // Formulário de Pesquisa
         $form = $this->getFormSearch();
         // Preencher Formulário
@@ -142,6 +149,8 @@ class Model implements EventManagerAwareInterface
         foreach ($form->getInputFilter()->getValidInput() as $identifier => $input) {
             $params[$identifier] = $input->getValue();
         }
+        // Parâmetros Adicionais
+        $params['page'] = $page;
         // Consulta de Elementos
         $result = $this->getPersistence()->fetch($params);
         // Sucesso?
