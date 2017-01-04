@@ -1,0 +1,30 @@
+<?php
+    // Dependências
+    use Balance\View\Table\Table;
+
+    // Título
+    $this->headTitle()
+        ->append('Etiquetas')
+        ->append('Listar');
+
+    // Cabeçalho
+    echo $this->partial('layout/page-header', [
+        'title'    => 'Etiquetas',
+        'subtitle' => 'Listar',
+    ]);
+
+    // Tabela
+    $table = (new Table())
+        ->setForm($form)
+        ->setTitle('Listagem')
+        ->setColumn('name', ['label' => 'Nome', 'class' => 'col-md-10'])
+        ->setElements($this->elements);
+    // Ação: Adicionar
+    $table->setAction('add', ['route' => 'tags/add']);
+    // Ação: Elemento - Editar
+    $table->setElementAction('edit', ['route' => 'tags/edit']);
+    // Ação: Elemento - Remover
+    $table->setElementAction('remove', ['route' => 'tags/remove']);
+
+    // Renderização
+    echo $this->partial('layout/table', ['table' => $table]);

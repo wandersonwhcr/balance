@@ -18,12 +18,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Balance\\": "module/Balance/src/Balance/"
+            "Balance\\": "module/Balance/src/Balance/",
+            "BalanceTags\\": "module/BalanceTags/src/BalanceTags/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BalanceTest\\": "module/Balance/test/BalanceTest/"
+            "BalanceTest\\": "module/Balance/test/BalanceTest/",
+            "BalanceTagsTest\\": "module/Balance/test/BalanceTagsTest/"
         }
     },
     "require": {
