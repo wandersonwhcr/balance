@@ -26,12 +26,6 @@
             "BalanceTest\\": "module/Balance/test/BalanceTest/"
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.zendframework.com"
-        }
-    ],
     "require": {
         "php": ">=5.6",
         "ext-pgsql": "*",
