@@ -147,9 +147,7 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
             foreach ($this->data['entries'] as $entry) {
                 if (is_array($entry) && isset($entry['type']) && isset($entry['value'])) {
                     // Capturar Valor Monetário
-                    $value = $formatter->parseCurrency($entry['value'], $currency);
-                    // Limpeza PHPMD
-                    unset($currency);
+                    $value = $formatter->parse($entry['value']);
                     // Adicionar Entrada
                     switch ($entry['type']) {
                         case Checker::CREDIT:
