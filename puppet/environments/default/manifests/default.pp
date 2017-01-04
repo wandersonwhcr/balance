@@ -1,11 +1,18 @@
+exec { 'apt-get : update secure':
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    command => 'apt-get update',
+}
+
 package { "apt-get : https":
-    name => "apt-transport-https",
+    name      => "apt-transport-https",
+    subscribe => [
+        Exec["apt-get : update secure"],
+    ],
 }
 
 exec { 'apt-get : update':
-    path        => ['/usr/bin', '/usr/sbin', '/bin'],
-    command     => 'apt-get update',
-    refreshonly => true,
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    command => 'apt-get update',
 }
 
 # nginx
@@ -246,9 +253,7 @@ exec { "composer":
 exec { "composer : update":
     path        => ["/usr/bin", "/usr/sbin", "/bin"],
     command     => "composer self-update",
-    environment => [
-        ["COMPOSER_HOME=/root/.composer"],
-    ],
+    environment => "COMPOSER_HOME=/root/.composer",
     require     => [
         Exec["composer"],
         Package["php : cli"],
@@ -314,23 +319,23 @@ package { "git":
 
 # phppgadmin
 
-package { "phppgadmin":
-    name      => "phppgadmin",
-    subscribe => [
-        Exec["apt-get : update"],
-    ],
-}
+# package { "phppgadmin":
+#     name      => "phppgadmin",
+#     subscribe => [
+#         Exec["apt-get : update"],
+#     ],
+# }
 
-file { "phppgadmin : virtualhost":
-    path    => "/etc/nginx/conf.d/20-phppgadmin.conf",
-    source  => "puppet:///modules/archives/phppgadmin_virtualhost",
-    require => [
-        Package["nginx"],
-    ],
-    notify => [
-        Service["nginx"],
-    ],
-}
+# file { "phppgadmin : virtualhost":
+#     path    => "/etc/nginx/conf.d/20-phppgadmin.conf",
+#     source  => "puppet:///modules/archives/phppgadmin_virtualhost",
+#     require => [
+#         Package["nginx"],
+#     ],
+#     notify => [
+#         Service["nginx"],
+#     ],
+# }
 
 # balance
 
@@ -340,9 +345,7 @@ exec { "balance : composer":
     user        => "vagrant",
     timeout     => 0,
     cwd         => "/vagrant",
-    environment => [
-        ["COMPOSER_HOME=/home/vagrant/.composer"],
-    ],
+    environment => "COMPOSER_HOME=/home/vagrant/.composer",
     require => [
         Package["php : postgresql"],
         Package["php : intl"],
@@ -387,10 +390,8 @@ exec { "balance : bower":
     user        => "vagrant",
     timeout     => 0,
     cwd         => "/vagrant",
-    environment => [
-        ["HOME=."],
-    ],
-    require      => [
+    environment => "HOME=.",
+    require     => [
         Exec["bower"],
     ],
 }
