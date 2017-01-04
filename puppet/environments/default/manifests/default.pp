@@ -319,23 +319,23 @@ package { "git":
 
 # phppgadmin
 
-# package { "phppgadmin":
-#     name      => "phppgadmin",
-#     subscribe => [
-#         Exec["apt-get : update"],
-#     ],
-# }
+exec { "phppgadmin":
+    path    => ["/usr/bin", "/usr/sbin", "/bin"],
+    creates => "/usr/share/phppgadmin",
+    command => "mkdir /usr/share/phppgadmin && wget http://downloads.sourceforge.net/phppgadmin/phpPgAdmin-5.1.tar.gz?download -O - | tar xzf - --strip 1 --directory /usr/share/phppgadmin",
+}
 
-# file { "phppgadmin : virtualhost":
-#     path    => "/etc/nginx/conf.d/20-phppgadmin.conf",
-#     source  => "puppet:///modules/archives/phppgadmin_virtualhost",
-#     require => [
-#         Package["nginx"],
-#     ],
-#     notify => [
-#         Service["nginx"],
-#     ],
-# }
+file { "phppgadmin : virtualhost":
+    path    => "/etc/nginx/conf.d/20-phppgadmin.conf",
+    source  => "puppet:///modules/archives/phppgadmin_virtualhost",
+    require => [
+        Package["nginx"],
+        Exec["phppgadmin"],
+    ],
+    notify => [
+        Service["nginx"],
+    ],
+}
 
 # balance
 
