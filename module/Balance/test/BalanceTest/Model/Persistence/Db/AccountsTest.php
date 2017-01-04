@@ -650,4 +650,29 @@ class AccountsTest extends TestCase
         // Verificações
         $this->assertEquals($elementA['name'], $element['name']);
     }
+
+    public function testTriggerFiltersWithParams()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+        $container   = new Parameters();
+
+        // Evento: Após Filtragem
+        $persistence->getEventManager()
+            ->attach('Balance\Model\Persistence\Db\Accounts::afterFilters', function ($event) use ($container) {
+                // Inicialização
+                $params = $event->getParams();
+                // Configurado?
+                if (! empty($params['foo'])) {
+                    // Captura
+                    $container['foo'] = $params['foo'];
+                }
+            });
+
+        // Efetuar Consulta
+        $persistence->fetch(new Parameters(['foo' => 'bar']));
+
+        // Verificação
+        $this->assertEquals('bar', $container['foo']);
+    }
 }
