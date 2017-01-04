@@ -539,4 +539,29 @@ class PostingsTest extends TestCase
         // Verificações
         $this->assertEquals(100, $counter['total']);
     }
+
+    public function testTriggerFiltersWithParams()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+        $container   = new Parameters();
+
+        // Evento: Após Filtragem
+        $persistence->getEventManager()
+            ->attach('Balance\Model\Persistence\Db\Postings::afterFilters', function ($event) use ($container) {
+                // Inicialização
+                $params = $event->getParams();
+                // Configurado?
+                if (! empty($params['foo'])) {
+                    // Captura
+                    $container['foo'] = $params['foo'];
+                }
+            });
+
+        // Efetuar Consulta
+        $persistence->fetch(new Parameters(['foo' => 'bar']));
+
+        // Verificação
+        $this->assertEquals('bar', $container['foo']);
+    }
 }
