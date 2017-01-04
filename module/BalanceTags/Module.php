@@ -109,13 +109,22 @@ DESCRIPTION;
                 $emPostings->onAfterSave($event);
             });
 
-        // Evento: Após Filtros
+        // Evento: Após Filtros de Lançamento
         $eventManager
             ->attach('*', 'Balance\Model\Persistence\Db\Postings::afterFilters', function ($event) use ($serviceLocator) {
                 // Capturar Gerenciador de Eventos para Lançamentos
                 $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
                 // Executar Evento
                 $emPostings->onAfterFilters($event);
+            });
+
+        // Evento: Após Carregar Lançamento
+        $eventManager
+            ->attach('*', 'Balance\Model\Persistence\Db\Postings::afterFind', function ($event) use ($serviceLocator) {
+                // Capturar Gerenciador de Eventos para Lançamentos
+                $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
+                // Executar Evento
+                $emPostings->onAfterFind($event);
             });
     }
 }

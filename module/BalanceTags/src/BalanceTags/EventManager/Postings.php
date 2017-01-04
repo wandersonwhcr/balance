@@ -160,8 +160,11 @@ class Postings implements ServiceLocatorAwareInterface
 
         // Capturar Etiquetas Novas
         $newer = [];
-        foreach ($data['tags'] as $tagId) {
-            $newer[] = ['tag_id' => $tagId];
+        // Etiquetas?
+        if ($data['tags']) {
+            foreach ($data['tags'] as $tagId) {
+                $newer[] = ['tag_id' => $tagId];
+            }
         }
 
         // Consultar Etiquetas Antigas
@@ -232,5 +235,32 @@ class Postings implements ServiceLocatorAwareInterface
                 $where->in('p.id', $select);
             });
         }
+    }
+
+    /**
+     * Carregar Etiquetas do Lançamento
+     *
+     * @param Event $event Evento Utilizado
+     */
+    public function onAfterFind(Event $event)
+    {
+        // Inicialização
+        $db     = $this->getServiceLocator()->get('db');
+        $target = $event->getTarget();
+
+        // Carregar Etiquetas
+        $select = (new Select())
+            ->from(['tp' => 'tags_postings'])
+            ->columns(['tag_id'])
+            ->where(function ($where) use ($target) {
+                $where->equalTo('tp.posting_id', $target['id']);
+            });
+
+        // Consulta
+        $rowset  = $db->query($select->getSqlString($db->getPlatform()))->execute();
+        $dataset = array_column(iterator_to_array($rowset), 'tag_id');
+
+        // Configuração
+        $target['tags'] = $dataset;
     }
 }
