@@ -204,4 +204,33 @@ class Postings implements ServiceLocatorAwareInterface
             ]);
         }
     }
+
+
+    /**
+     * Filtrar Lançamentos
+     *
+     * @param Event $event Evento Utilizado
+     */
+    public function onAfterFilters(Event $event)
+    {
+        // Inicialização
+        $target = $event->getTarget();
+        $params = $event->getParams();
+
+        // Etiqueta?
+        if ($params['tag_id']) {
+            // Adicionar Filtro
+            $target->where(function ($where) use ($params) {
+                // Inicialização
+                $select = (new Select())
+                    ->from(['tp' => 'tags_postings'])
+                    ->columns(['posting_id'])
+                    ->where(function ($where) use ($params) {
+                        $where->equalTo('tp.tag_id', $params['tag_id']);
+                    });
+                // Aplicar Filtro
+                $where->in('p.id', $select);
+            });
+        }
+    }
 }
