@@ -2,6 +2,11 @@
     // Dependências
     use Balance\View\Table\Table;
 
+    // Título
+    $this->headTitle()
+        ->append('Etiquetas')
+        ->append('Listar');
+
     // Cabeçalho
     echo $this->partial('layout/page-header', [
         'title'    => 'Etiquetas',
