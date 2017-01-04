@@ -132,8 +132,12 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             'description' => $row['description'],
             'accumulate'  => $row['accumulate'] === 't' ? BooleanType::YES : BooleanType::NO,
         ];
+        // Captura
+        $result = new ArrayObject($element);
+        // Evento: Pós-Consultar Elemento
+        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::afterFind', $result);
         // Apresentação
-        return new ArrayObject($element);
+        return $result;
     }
 
     /**
