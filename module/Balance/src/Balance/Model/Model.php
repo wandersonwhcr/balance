@@ -174,8 +174,6 @@ class Model implements EventManagerAwareInterface
         }
         // Preencher Formulário
         $this->getForm()->setData($element);
-        // Evento: Pós-Carregar Elemento
-        $this->getEventManager()->trigger('Balance\Model\Model::afterLoad', $element);
         // Apresentação
         return $element;
     }

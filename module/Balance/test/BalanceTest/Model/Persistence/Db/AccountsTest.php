@@ -650,4 +650,24 @@ class AccountsTest extends TestCase
         // Verificações
         $this->assertEquals($elementA['name'], $element['name']);
     }
+
+    public function testFindWithAfterFindEvent()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+        $container   = new Parameters();
+
+        // Evento: Carregar Elemento com Dados Adicionais
+        $persistence->getEventManager()
+            ->attach('Balance\Model\Persistence\Db\Accounts::afterFind', function () use ($container) {
+                // Adicionar Parâmetros
+                $container['foo'] = 'bar';
+            });
+
+        // Consulta de Elemento
+        $persistence->find(new Parameters(['id' => $this->data[0]['id']]));
+
+        // Verificações
+        $this->assertEquals('bar', $container['foo']);
+    }
 }
