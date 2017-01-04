@@ -276,11 +276,9 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                     'posting_id' => $data['id'],
                     'account_id' => $subdata['account_id'],
                     'type'       => $subdata['type'],
-                    'value'      => $formatter->parseCurrency($subdata['value'], $currency),
+                    'value'      => $formatter->parse($subdata['value']),
                     'position'   => $subdata['position'],
                 ]);
-                // Limpeza PHPMD
-                unset($currency);
             }
             // Atualizar Entradas
             foreach ($entries[Synchronizer::UPDATE] as $subdata) {
@@ -289,15 +287,13 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                     'posting_id' => $data['id'],
                     'account_id' => $subdata['account_id'],
                     'type'       => $subdata['type'],
-                    'value'      => $formatter->parseCurrency($subdata['value'], $currency),
+                    'value'      => $formatter->parse($subdata['value']),
                     'position'   => $subdata['position'],
                 ], function ($where) use ($data, $subdata) {
                     $where
                         ->equalTo('posting_id', $data['id'])
                         ->equalTo('account_id', $subdata['account_id']);
                 });
-                // Limpeza PHPMD
-                unset($currency);
             }
             // Evento: Depois de Salvar
             $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterSave', $data);
