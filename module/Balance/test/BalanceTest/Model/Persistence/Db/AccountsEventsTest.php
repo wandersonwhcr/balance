@@ -110,4 +110,28 @@ class AccountsEventsTest extends TestCase
         // Verificações
         $this->assertEquals(100, $counter['total']);
     }
+
+    public function testTriggerFiltersWithParams()
+    {
+        // Inicialização
+        $container = new Parameters();
+
+        // Evento: Após Filtragem
+        $this->persistence->getEventManager()
+            ->attach('Balance\Model\Persistence\Db\Accounts::afterFilters', function ($event) use ($container) {
+                // Inicialização
+                $params = $event->getParams();
+                // Configurado?
+                if (! empty($params['foo'])) {
+                    // Captura
+                    $container['foo'] = $params['foo'];
+                }
+            });
+
+        // Efetuar Consulta
+        $this->persistence->fetch(new Parameters(['foo' => 'bar']));
+
+        // Verificação
+        $this->assertEquals('bar', $container['foo']);
+    }
 }
