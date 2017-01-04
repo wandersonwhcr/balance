@@ -184,8 +184,12 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 'value'      => $formatter->format($row['value']),
             ];
         }
+        // Captura
+        $result = new ArrayObject($element);
+        // Evento: Pós-Consultar Elemento
+        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterFind', $result);
         // Apresentação
-        return new ArrayObject($element);
+        return $result;
     }
 
     /**

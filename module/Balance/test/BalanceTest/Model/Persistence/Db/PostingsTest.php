@@ -539,4 +539,24 @@ class PostingsTest extends TestCase
         // Verificações
         $this->assertEquals(100, $counter['total']);
     }
+
+    public function testFindWithAfterFindEvent()
+    {
+        // Inicialização
+        $persistence = $this->getPersistence();
+        $container   = new Parameters();
+
+        // Evento: Carregar Elemento com Dados Adicionais
+        $persistence->getEventManager()
+            ->attach('Balance\Model\Persistence\Db\Postings::afterFind', function ($event) use ($container) {
+                // Adicionar Parâmetros
+                $container['foo'] = 'bar';
+            });
+
+        // Consulta de Elemento
+        $persistence->find(new Parameters(['id' => $this->primaries['postings']['xx']]));
+
+        // Verificações
+        $this->assertEquals('bar', $container['foo']);
+    }
 }
