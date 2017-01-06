@@ -75,13 +75,13 @@ class Issue179Test extends TestCase
         $elements->next();
         $element = $elements->current();
         $this->assertEquals('ModuleA', $element->getAttribute('value'));
-        $this->assertFalse($element->hasAttribute('checked'));
-        $this->assertFalse($element->hasAttribute('disabled'));
+        $this->assertTrue($element->hasAttribute('checked'));
+        $this->assertTrue($element->hasAttribute('disabled'));
 
         $elements->next();
         $element = $elements->current();
         $this->assertEquals('ModuleB', $element->getAttribute('value'));
         $this->assertTrue($element->hasAttribute('checked'));
-        $this->assertFalse($element->hasAttribute('disabled'));
+        $this->assertTrue($element->hasAttribute('disabled'));
     }
 }
