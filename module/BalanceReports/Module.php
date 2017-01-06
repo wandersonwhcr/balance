@@ -11,6 +11,11 @@ use Balance\Module\ModuleInterface;
  */
 class Module implements ModuleInterface
 {
+    public function getConfig()
+    {
+        return include __DIR__ . '/config/module.config.php';
+    }
+
     /**
      * {@inheritdoc}
      */
