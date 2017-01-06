@@ -81,7 +81,7 @@ trait EditActionTrait
             'form' => $model->getForm(),
         ]);
         // Evento: Após Inicializaçã
-        $this->getEventManager()->trigger('Balance\Mvc\Controller\EditAction::afterViewModel', $viewModel);
+        $this->getEventManager()->trigger('afterViewModel', $viewModel);
         // Apresentação
         return $viewModel;
     }

@@ -57,7 +57,7 @@ class Model implements EventManagerAwareInterface
     public function setForm(Form $form)
     {
         // Evento: Configurar Formulário
-        $this->getEventManager()->trigger('Balance\Model\Model::setForm', $form);
+        $this->getEventManager()->trigger('setForm', $form);
         // Configuração
         $this->form = $form;
         // Encadeamento
@@ -83,7 +83,7 @@ class Model implements EventManagerAwareInterface
     public function setFormSearch(Form $formSearch)
     {
         // Evento: Configurar Formulário de Pesquisa
-        $this->getEventManager()->trigger('Balance\Model\Model::setFormSearch', $formSearch);
+        $this->getEventManager()->trigger('setFormSearch', $formSearch);
         // Configuração
         $this->formSearch = $formSearch;
         // Encadeamento

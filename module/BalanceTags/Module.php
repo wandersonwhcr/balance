@@ -60,7 +60,7 @@ DESCRIPTION;
         $eventManager   = $serviceLocator->get('EventManager')->getSharedManager();
 
         // Evento: Configurar Formulário de Pesquisa de Lançamentos
-        $eventManager->attach('*', 'Balance\Model\Model::setFormSearch', function ($event) use ($serviceLocator) {
+        $eventManager->attach('Balance\Model\Model', 'setFormSearch', function ($event) use ($serviceLocator) {
             // Capturar Gerenciador de Eventos para Lançamentos
             $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
             // Executar Evento
@@ -68,7 +68,7 @@ DESCRIPTION;
         });
 
         // Evento: Configurar Filtro de Dados para Formulário de Pesquisa de Lançamento
-        $eventManager->attach('*', 'Balance\Model\Model::setFormSearch', function ($event) use ($serviceLocator) {
+        $eventManager->attach('Balance\Model\Model', 'setFormSearch', function ($event) use ($serviceLocator) {
             // Capturar Gerenciador de Eventos para Lançamentos
             $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
             // Executar Evento
@@ -76,7 +76,7 @@ DESCRIPTION;
         });
 
         // Evento: Configurar Formulário de Lançamentos
-        $eventManager->attach('*', 'Balance\Model\Model::setForm', function ($event) use ($serviceLocator) {
+        $eventManager->attach('Balance\Model\Model', 'setForm', function ($event) use ($serviceLocator) {
             // Capturar Gerenciador de Eventos para Lançamentos
             $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
             // Executar Evento
@@ -84,7 +84,7 @@ DESCRIPTION;
         });
 
         // Evento: Configurar Filtro de Dados para Formulário de Lançamento
-        $eventManager->attach('*', 'Balance\Model\Model::setForm', function ($event) use ($serviceLocator) {
+        $eventManager->attach('Balance\Model\Model', 'setForm', function ($event) use ($serviceLocator) {
             // Capturar Gerenciador de Eventos para Lançamentos
             $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
             // Executar Evento
@@ -93,7 +93,7 @@ DESCRIPTION;
 
         // Evento: Renderizar Elemento Tags no Formulário de Edição de Lançamentos
         $eventManager
-            ->attach('*', 'Balance\Mvc\Controller\EditAction::afterViewModel', function ($event) use ($serviceLocator) {
+            ->attach('Balance\Mvc\Controller\Postings', 'afterViewModel', function ($event) use ($serviceLocator) {
                 // Capturar Gerenciador de Eventos para Lançamentos
                 $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
                 // Executar Evento
@@ -102,7 +102,7 @@ DESCRIPTION;
 
         // Evento: Salvar Relacionamento de Etiquetas nos Lançamentos
         $eventManager
-            ->attach('*', 'Balance\Model\Persistence\Db\Postings::afterSave', function ($event) use ($serviceLocator) {
+            ->attach('Balance\Model\Persistence\Db\Postings', 'afterSave', function ($event) use ($serviceLocator) {
                 // Capturar Gerenciador de Eventos para Lançamentos
                 $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
                 // Executar Evento
@@ -111,7 +111,7 @@ DESCRIPTION;
 
         // Evento: Após Filtros de Lançamento
         $eventManager
-            ->attach('*', 'Balance\Model\Persistence\Db\Postings::afterFilters', function ($event) use ($serviceLocator) {
+            ->attach('Balance\Model\Persistence\Db\Postings', 'afterFilters', function ($event) use ($serviceLocator) {
                 // Capturar Gerenciador de Eventos para Lançamentos
                 $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
                 // Executar Evento
@@ -120,7 +120,7 @@ DESCRIPTION;
 
         // Evento: Após Carregar Lançamento
         $eventManager
-            ->attach('*', 'Balance\Model\Persistence\Db\Postings::afterFind', function ($event) use ($serviceLocator) {
+            ->attach('Balance\Model\Persistence\Db\Postings', 'afterFind', function ($event) use ($serviceLocator) {
                 // Capturar Gerenciador de Eventos para Lançamentos
                 $emPostings = $serviceLocator->get('BalanceTags\EventManager\Postings');
                 // Executar Evento

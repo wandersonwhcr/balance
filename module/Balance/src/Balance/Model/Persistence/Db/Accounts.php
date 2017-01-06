@@ -83,7 +83,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             });
         }
         // Evento: Depois dos Filtros
-        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::afterFilters', $select, $params);
+        $this->getEventManager()->trigger('afterFilters', $select, $params);
         // Ordenação
         $select->order(['a.position']);
         // Consulta
@@ -135,7 +135,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
         // Captura
         $result = new ArrayObject($element);
         // Evento: Pós-Consultar Elemento
-        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::afterFind', $result);
+        $this->getEventManager()->trigger('afterFind', $result);
         // Apresentação
         return $result;
     }
@@ -154,7 +154,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
             // Inicializar Transação
             $connection->beginTransaction();
             // Evento: Antes de Salvar
-            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::beforeSave', $data);
+            $this->getEventManager()->trigger('beforeSave', $data);
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
@@ -186,7 +186,7 @@ class Accounts implements PersistenceInterface, ServiceLocatorAwareInterface, Va
                 $data['id'] = (int) $tbAccounts->getLastInsertValue();
             }
             // Evento: Depois de Salvar
-            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Accounts::afterSave', $data);
+            $this->getEventManager()->trigger('afterSave', $data);
             // Finalização
             $connection->commit();
         } catch (Exception $e) {

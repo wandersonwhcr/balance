@@ -114,7 +114,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             });
         }
         // Evento: Antes de Consultar
-        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterFilters', $select, $params);
+        $this->getEventManager()->trigger('afterFilters', $select, $params);
         // Paginação
         $result = new Paginator\Paginator(new Paginator\Adapter\DbSelect($select, $db));
         // Página?
@@ -187,7 +187,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
         // Captura
         $result = new ArrayObject($element);
         // Evento: Pós-Consultar Elemento
-        $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterFind', $result);
+        $this->getEventManager()->trigger('afterFind', $result);
         // Apresentação
         return $result;
     }
@@ -211,7 +211,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
             // Transação
             $connection->beginTransaction();
             // Evento: Antes de Salvar
-            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::beforeSave', $data);
+            $this->getEventManager()->trigger('beforeSave', $data);
             // Chave Primária?
             if ($data['id']) {
                 // Atualizar Elemento
@@ -300,7 +300,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 });
             }
             // Evento: Depois de Salvar
-            $this->getEventManager()->trigger('Balance\Model\Persistence\Db\Postings::afterSave', $data);
+            $this->getEventManager()->trigger('afterSave', $data);
             // Finalização
             $connection->commit();
         } catch (Exception $e) {
