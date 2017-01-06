@@ -14,13 +14,6 @@
 ?>
 
 <form id="form-modules" action="<?php echo $this->url() ?>" method="POST">
-    <div class="balance-toolbar">
-        <div class="btn-group" role="group" aria-label="Ferramentas">
-            <button type="submit" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-warning btn-reset">Cancelar</button>
-        </div><!-- btn-group -->
-    </div><!-- balance-toolbar -->
-
     <div class="row">
         <!-- Módulo Estático -->
         <div class="col-md-3">
@@ -46,7 +39,7 @@
                         <?php echo $this->escapeHtml($element['name']) ?>
                         <div class="pull-right">
                             <div class="checkbox">
-                                <input name="modules[]" type="checkbox" value="<?php echo $this->escapeHtml($element['identifier']) ?>" <?php echo $element['enabled'] ? 'checked' : '' ?>>
+                                <input name="modules[]" type="checkbox" value="<?php echo $this->escapeHtml($element['identifier']) ?>" checked disabled>
                             </div>
                         </div>
                     </div><!-- panel-heading -->
