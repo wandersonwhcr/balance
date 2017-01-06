@@ -176,6 +176,9 @@ class Modules implements ServiceLocatorAwareInterface
         // Sincronizar Módulos
         $this->synchronize();
 
+        // Todos os Módulos Habilitados
+        return true;
+
         // Camada de Persistência
         $db = $this->getServiceLocator()->get('db');
         // Seletor
@@ -195,8 +198,9 @@ class Modules implements ServiceLocatorAwareInterface
     /**
      * Habilitar Módulos
      *
-     * @param  Parameters $data Dados para Salvamento
-     * @return Modules    Próprio Objeto para Encadeamento
+     * @deprecated
+     * @param      Parameters $data Dados para Salvamento
+     * @return     Modules    Próprio Objeto para Encadeamento
      */
     public function save(Parameters $data)
     {
@@ -214,7 +218,7 @@ class Modules implements ServiceLocatorAwareInterface
             $connection->beginTransaction();
             // Desabilitar Todos
             $tbModules->update([
-                'enabled' => 0,
+                'enabled' => 1,
             ]);
             // Processamento
             foreach ($data['modules'] as $identifier) {
