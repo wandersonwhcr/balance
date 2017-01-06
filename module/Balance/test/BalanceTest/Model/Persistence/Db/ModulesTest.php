@@ -123,7 +123,7 @@ class ModulesTest extends TestCase
         $this->assertEquals('ModuleB', $module['identifier']);
         $this->assertEquals('Testing Module B', $module['name']);
         $this->assertEquals('Description of Module B', $module['description']);
-        $this->assertFalse($module['enabled']);
+        $this->assertTrue($module['enabled']);
 
         $result->next();
         $module = $result->current();
@@ -137,10 +137,14 @@ class ModulesTest extends TestCase
     {
         $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::YES]));
 
-        $this->assertCount(2, $result);
+        $this->assertCount(3, $result);
 
         $module = $result->current();
         $this->assertEquals('ModuleA', $module['identifier']);
+
+        $result->next();
+        $module = $result->current();
+        $this->assertEquals('ModuleB', $module['identifier']);
 
         $result->next();
         $module = $result->current();
@@ -151,16 +155,13 @@ class ModulesTest extends TestCase
     {
         $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::NO]));
 
-        $this->assertCount(1, $result);
-
-        $module = $result->current();
-        $this->assertEquals('ModuleB', $module['identifier']);
+        $this->assertCount(0, $result);
     }
 
     public function testIsEnabled()
     {
         $this->assertTrue($this->component->isEnabled($this->moduleA));
-        $this->assertFalse($this->component->isEnabled($this->moduleB));
+        $this->assertTrue($this->component->isEnabled($this->moduleB));
         $this->assertTrue($this->component->isEnabled($this->moduleC));
     }
 
@@ -196,10 +197,10 @@ class ModulesTest extends TestCase
         $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::YES]));
 
         // Verificações
-        $this->assertCount(1, $result);
-        $this->assertFalse($this->component->isEnabled($this->moduleA));
+        $this->assertCount(3, $result);
+        $this->assertTrue($this->component->isEnabled($this->moduleA));
         $this->assertTrue($this->component->isEnabled($this->moduleB));
-        $this->assertFalse($this->component->isEnabled($this->moduleC));
+        $this->assertTrue($this->component->isEnabled($this->moduleC));
     }
 
     public function testSaveAndDisableAllModules()
@@ -213,10 +214,10 @@ class ModulesTest extends TestCase
         $result = $this->component->fetch(new Parameters(['enabled' => BooleanType::YES]));
 
         // Verificações
-        $this->assertCount(0, $result);
-        $this->assertFalse($this->component->isEnabled($this->moduleA));
-        $this->assertFalse($this->component->isEnabled($this->moduleB));
-        $this->assertFalse($this->component->isEnabled($this->moduleC));
+        $this->assertCount(3, $result);
+        $this->assertTrue($this->component->isEnabled($this->moduleA));
+        $this->assertTrue($this->component->isEnabled($this->moduleB));
+        $this->assertTrue($this->component->isEnabled($this->moduleC));
     }
 
     public function testSynchronize()
@@ -270,9 +271,9 @@ class ModulesTest extends TestCase
         $module = $result->current();
         $this->assertEquals('ModuleD', $module['identifier']);
 
-        $this->assertFalse($this->component->isEnabled($this->moduleB));
+        $this->assertTrue($this->component->isEnabled($this->moduleB));
         $this->assertTrue($this->component->isEnabled($this->moduleC));
-        $this->assertFalse($this->component->isEnabled($moduleD));
+        $this->assertTrue($this->component->isEnabled($moduleD));
     }
 
     public function testSaveWithErrors()
