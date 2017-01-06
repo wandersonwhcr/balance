@@ -19,7 +19,7 @@ exec { 'apt-get : update':
 
 file { "nginx : list":
     path    => "/etc/apt/sources.list.d/nginx.list",
-    content => "deb http://nginx.org/packages/debian/ wheezy nginx",
+    content => "deb http://nginx.org/packages/debian/ jessie nginx",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -101,7 +101,7 @@ file { "nginx : virtualhost":
 
 file { "postgresql : list":
     path    => "/etc/apt/sources.list.d/postgresql.list",
-    content => "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main",
+    content => "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main",
 }
 
 exec { "postgresql : key":
@@ -125,7 +125,7 @@ package { "postgresql":
 
 file { "php : list":
     path    => "/etc/apt/sources.list.d/php.list",
-    content => "deb http://packages.dotdeb.org wheezy-php56 all",
+    content => "deb http://packages.dotdeb.org jessie-php56 all",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -272,7 +272,7 @@ exec { "apigen":
 
 file { "nodejs : list":
     path    => "/etc/apt/sources.list.d/nodejs.list",
-    content => "deb https://deb.nodesource.com/node wheezy main",
+    content => "deb https://deb.nodesource.com/node jessie main",
     require => [
         Package["apt-get : https"],
     ],
