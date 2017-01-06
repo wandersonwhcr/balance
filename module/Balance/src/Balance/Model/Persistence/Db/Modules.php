@@ -8,7 +8,6 @@ use Balance\Model\ModelException;
 use Balance\Module\ModuleInterface;
 use Balance\Stdlib\Synchronizer;
 use Exception;
-use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -175,24 +174,11 @@ class Modules implements ServiceLocatorAwareInterface
     {
         // Sincronizar Módulos
         $this->synchronize();
+        // Limpeza PHPMD
+        unset($module);
 
         // Todos os Módulos Habilitados
         return true;
-
-        // Camada de Persistência
-        $db = $this->getServiceLocator()->get('db');
-        // Seletor
-        $select = (new Select())
-            ->from(['m' => 'modules'])
-            ->columns(['count' => new Expression('COUNT(1)')])
-            ->where(function ($where) use ($module) {
-                $where
-                    ->equalTo('identifier', $module->getIdentifier())
-                    ->equalTo('enabled', 1);
-            });
-
-        // Consulta
-        return (bool) $db->query($select->getSqlString($db->getPlatform()))->execute()->current()['count'];
     }
 
     /**
