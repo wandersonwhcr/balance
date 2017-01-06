@@ -659,7 +659,7 @@ class AccountsTest extends TestCase
 
         // Evento: Carregar Elemento com Dados Adicionais
         $persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Accounts::afterFind', function () use ($container) {
+            ->attach('afterFind', function () use ($container) {
                 // Adicionar Parâmetros
                 $container['foo'] = 'bar';
             });

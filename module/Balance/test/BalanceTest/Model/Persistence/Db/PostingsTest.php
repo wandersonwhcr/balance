@@ -498,13 +498,13 @@ class PostingsTest extends TestCase
         ]);
 
         // Evento: Antes de Salvar
-        $eventManager->attach('Balance\Model\Persistence\Db\Postings::beforeSave', function ($event) {
+        $eventManager->attach('beforeSave', function ($event) {
             // Atualizar Contador
             $event->getTarget()['counter'] += 10;
         });
 
         // Evento: Depois de Salvar
-        $eventManager->attach('Balance\Model\Persistence\Db\Postings::afterSave', function ($event) {
+        $eventManager->attach('afterSave', function ($event) {
             // Atualizar Contador
             $event->getTarget()['counter'] *= 10;
         });
@@ -527,7 +527,7 @@ class PostingsTest extends TestCase
 
         // Evento: Antes de Efetuar a Consulta
         $persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Postings::afterFilters', function () use ($counter) {
+            ->attach('afterFilters', function () use ($counter) {
                 // Atualizar Contator
                 $counter['total'] *= 10;
             });
@@ -548,7 +548,7 @@ class PostingsTest extends TestCase
 
         // Evento: Carregar Elemento com Dados Adicionais
         $persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Postings::afterFind', function () use ($container) {
+            ->attach('afterFind', function () use ($container) {
                 // Adicionar Parâmetros
                 $container['foo'] = 'bar';
             });
@@ -568,7 +568,7 @@ class PostingsTest extends TestCase
 
         // Evento: Após Filtragem
         $persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Postings::afterFilters', function ($event) use ($container) {
+            ->attach('afterFilters', function ($event) use ($container) {
                 // Inicialização
                 $params = $event->getParams();
                 // Configurado?

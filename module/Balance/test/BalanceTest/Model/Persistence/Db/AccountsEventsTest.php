@@ -70,13 +70,13 @@ class AccountsEventsTest extends TestCase
         ]);
 
         // Evento: Antes de Salvar
-        $eventManager->attach('Balance\Model\Persistence\Db\Accounts::beforeSave', function ($event) {
+        $eventManager->attach('beforeSave', function ($event) {
             // Atualizar Contador
             $event->getTarget()['counter'] += 10;
         });
 
         // Evento: Depois de Salvar
-        $eventManager->attach('Balance\Model\Persistence\Db\Accounts::afterSave', function ($event) {
+        $eventManager->attach('afterSave', function ($event) {
             // Atualizar Contador
             $event->getTarget()['counter'] *= 10;
         });
@@ -98,7 +98,7 @@ class AccountsEventsTest extends TestCase
 
         // Evento: Antes de Efetuar a Consulta
         $this->persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Accounts::afterFilters', function () use ($counter) {
+            ->attach('afterFilters', function () use ($counter) {
                 // Atualizar Contator
                 $counter['total'] *= 10;
             });
@@ -118,7 +118,7 @@ class AccountsEventsTest extends TestCase
 
         // Evento: Após Filtragem
         $this->persistence->getEventManager()
-            ->attach('Balance\Model\Persistence\Db\Accounts::afterFilters', function ($event) use ($container) {
+            ->attach('afterFilters', function ($event) use ($container) {
                 // Inicialização
                 $params = $event->getParams();
                 // Configurado?
