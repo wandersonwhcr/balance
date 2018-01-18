@@ -5,6 +5,7 @@ namespace BalanceTest\Bug;
 use ArrayIterator;
 use Balance\Model\Balance;
 use BalanceTest\Mvc\Application;
+use DateTime;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\Parameters;
@@ -44,6 +45,9 @@ class Issue214Test extends TestCase
 
         // Localizador de Serviços
         $model->setServiceLocator($this->buildServiceLocator());
+
+        // Configurar Data e Hora
+        $model->setDateTime(new DateTime('2012-12-31T23:59:59'));
 
         // Consulta
         $model->fetch($params);
