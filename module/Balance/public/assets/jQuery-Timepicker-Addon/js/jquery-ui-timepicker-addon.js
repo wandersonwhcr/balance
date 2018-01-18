@@ -4,7 +4,7 @@ $(function () {
     (function () {
         // Capturar Elementos
         $('input.form-control-datetimepicker').datetimepicker({
-            dateFormat : 'dd/mm/yy',
+            dateFormat : 'dd/mm/y',
             timeFormat : 'HH:mm:ss'
         });
     })();
