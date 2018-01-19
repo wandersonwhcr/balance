@@ -2,6 +2,8 @@
 
 namespace Balance\Model;
 
+use DateInterval;
+use DateTime;
 use IntlDateFormatter;
 use Traversable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -20,6 +22,12 @@ class Balance implements ServiceLocatorAwareInterface
      * @type Balance\Form\Search\Balance
      */
     protected $formSearch;
+
+    /**
+     * Data e Hora
+     * @type DateTime
+     */
+    protected $dateTime;
 
     /**
      * Apresentação de Formulário de Pesquisa
@@ -46,6 +54,38 @@ class Balance implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Configura a Data e Hora
+     *
+     * @param  DateTime $dateTime Elemento para Configuração
+     * @return self     Próprio Objeto para Encadeamento
+     */
+    public function setDateTime(DateTime $dateTime)
+    {
+        $this->dateTime = $dateTime;
+        return $this;
+    }
+
+    /**
+     * Apresenta a Data e Hora
+     *
+     * @return DateTime Elemento Configurado
+     */
+    public function getDateTime()
+    {
+        // Configurado?
+        if (! $this->dateTime) {
+            // Inicialização
+            $dateTime = new DateTime('first day of next month');
+            // Meia Noite - 1 Segundo
+            $dateTime->setTime(0, 0, 0)->sub(new DateInterval('PT1S'));
+            // Inicialização
+            $this->setDateTime($dateTime);
+        }
+        // Apresentação
+        return $this->dateTime;
+    }
+
+    /**
      * Consultar Elementos
      *
      * @param  Parameters  $params Parâmetros de Execução
@@ -58,9 +98,9 @@ class Balance implements ServiceLocatorAwareInterface
         // Data Informada?
         if (! isset($params['datetime'])) {
             // Formatador de Data e Hora
-            $formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
             // Colocar a Data Atual
-            $params['datetime'] = $formatter->format(strtotime('first day of next month midnight -1 second'));
+            $params['datetime'] = $formatter->format($this->getDateTime()->getTimestamp());
         }
         // Preencher Formulário
         $form->setData($params);

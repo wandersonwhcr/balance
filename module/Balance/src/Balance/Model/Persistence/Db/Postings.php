@@ -32,7 +32,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
      */
     protected function buildDateFormatter()
     {
-        return new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        return new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
     }
 
     /**

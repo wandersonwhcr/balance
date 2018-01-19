@@ -19,7 +19,7 @@ class Balance extends InputFilter
             ->setRequired(false);
         $input->getValidatorChain()
             ->attach(new I18n\Validator\DateTime([
-                'dateType' => IntlDateFormatter::MEDIUM,
+                'dateType' => IntlDateFormatter::SHORT,
                 'timeType' => IntlDateFormatter::MEDIUM,
             ]));
         $this->add($input);

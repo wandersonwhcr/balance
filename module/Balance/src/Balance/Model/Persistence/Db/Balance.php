@@ -38,7 +38,7 @@ class Balance implements ServiceLocatorAwareInterface
         // Enviado?
         if ($params['datetime']) {
             // Formatador
-            $formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
             // Captura
             $datetime = date('c', $formatter->parse($params['datetime']));
         }
