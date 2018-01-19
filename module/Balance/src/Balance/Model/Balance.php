@@ -2,6 +2,7 @@
 
 namespace Balance\Model;
 
+use DateInterval;
 use DateTime;
 use IntlDateFormatter;
 use Traversable;
@@ -74,7 +75,11 @@ class Balance implements ServiceLocatorAwareInterface
         // Configurado?
         if (! $this->dateTime) {
             // Inicialização
-            $this->setDateTime(new DateTime('first day of next month midnight -1 second'));
+            $dateTime = new DateTime('first day of next month');
+            // Meia Noite - 1 Segundo
+            $dateTime->setTime(0, 0, 0)->sub(new DateInterval('PT1S'));
+            // Inicialização
+            $this->setDateTime($dateTime);
         }
         // Apresentação
         return $this->dateTime;
