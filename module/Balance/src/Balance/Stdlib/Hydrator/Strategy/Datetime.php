@@ -30,7 +30,7 @@ class Datetime implements StrategyInterface, ServiceLocatorAwareInterface
         // Formatador Inicializado?
         if (! $this->formatter) {
             // Inicialização
-            $this->formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+            $this->formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
         }
         // Apresentação
         return $this->formatter;

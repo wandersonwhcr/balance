@@ -35,7 +35,7 @@ class PostingsTest extends TestCase
         $tbEntries  = Application::getApplication()->getServiceManager()->get('Balance\Db\TableGateway\Entries');
 
         // Formatador de Datas
-        $formatter = new IntlDateFormatter(null, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+        $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
 
         // Configuração
         $serviceLocator
