@@ -62,19 +62,19 @@ class Balance implements ServiceLocatorAwareInterface
             ->columns(['id', 'value' => $eValue])
             ->join(['e' => 'entries'], 'a.id = e.account_id', [])
             ->join(['p' => 'postings'], 'p.id = e.posting_id', []);
+        // Filtro?
+        if ($datetime) {
+            // Aplicar Filtro de Data Limite
+            $balanceSelect->where(function ($where) use ($datetime) {
+                $where->lessThanOrEqualTo('p.datetime', $datetime);
+            });
+        }
         // Captura
         $subselect = clone($balanceSelect);
         // Filtro de Não Acumulados
         $subselect->where(function ($where) {
             $where->equalTo('a.accumulate', 0);
         });
-        // Filtro?
-        if ($datetime) {
-            // Aplicar Filtro de Data Limite
-            $subselect->where(function ($where) use ($datetime) {
-                $where->lessThanOrEqualTo('p.datetime', $datetime);
-            });
-        }
         // Seletor
         $select = (new Select())
             ->from(['b' => $subselect])
