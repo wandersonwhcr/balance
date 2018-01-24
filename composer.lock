@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "745aa90288f99cfed85a2ab5ffe1cd74",
+    "content-hash": "0d08f8d1d0cf0a51dd74075b99c313e8",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -586,12 +586,12 @@
             "version": "v0.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/robmorgan/phinx.git",
+                "url": "https://github.com/cakephp/phinx.git",
                 "reference": "df8933786806848fbf330f88d69998f29c29d8c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robmorgan/phinx/zipball/df8933786806848fbf330f88d69998f29c29d8c4",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/df8933786806848fbf330f88d69998f29c29d8c4",
                 "reference": "df8933786806848fbf330f88d69998f29c29d8c4",
                 "shasum": ""
             },
@@ -5057,8 +5057,9 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6",
-        "ext-pgsql": "*",
-        "ext-intl": "*"
+        "ext-bcmath": "*",
+        "ext-intl": "*",
+        "ext-pgsql": "*"
     },
     "platform-dev": {
         "ext-xdebug": "*"
