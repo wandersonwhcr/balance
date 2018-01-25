@@ -56,7 +56,7 @@
         "sebastian/phpcpd": "2.0.*",
         "jakub-onderka/php-parallel-lint": "0.9.*",
         "squizlabs/php_codesniffer": "2.5.*",
-        "fabpot/php-cs-fixer": "1.*",
+        "fabpot/php-cs-fixer": "1.11.*",
         "phpmd/phpmd": "2.3.*",
         "neilime/zf2-twb-bundle": "2.6.*"
     },
