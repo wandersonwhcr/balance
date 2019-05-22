@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-    config.vm.box = 'puppetlabs/debian-8.2-32-puppet'
+    config.vm.box = 'debian/contrib-stretch64'
 
     config.vm.network 'forwarded_port', guest: 80,   host: 8000, auto_correct: true
     config.vm.network 'forwarded_port', guest: 9000, host: 9000, auto_correct: true
