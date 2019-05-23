@@ -10,6 +10,13 @@ package { "apt-get : https":
     ],
 }
 
+package { "debian : dirmngr":
+    name      => "dirmngr",
+    subscribe => [
+        Exec["apt-get : update secure"],
+    ],
+}
+
 exec { 'apt-get : update':
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     command => 'apt-get update',
@@ -19,7 +26,7 @@ exec { 'apt-get : update':
 
 file { "nginx : list":
     path    => "/etc/apt/sources.list.d/nginx.list",
-    content => "deb http://nginx.org/packages/debian/ jessie nginx",
+    content => "deb http://nginx.org/packages/debian/ stretch nginx",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -28,7 +35,7 @@ file { "nginx : list":
 exec { "nginx : key":
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     unless  => "apt-key list | grep nginx",
-    command => "curl http://nginx.org/keys/nginx_signing.key | apt-key add -",
+    command => "wget -O- http://nginx.org/keys/nginx_signing.key | apt-key add -",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -101,13 +108,13 @@ file { "nginx : virtualhost":
 
 file { "postgresql : list":
     path    => "/etc/apt/sources.list.d/postgresql.list",
-    content => "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main",
+    content => "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main",
 }
 
 exec { "postgresql : key":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     unless  => "apt-key list | grep PostgreSQL",
-    command => "curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -",
+    command => "wget -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -",
 }
 
 package { "postgresql":
@@ -125,7 +132,7 @@ package { "postgresql":
 
 file { "php : list":
     path    => "/etc/apt/sources.list.d/php.list",
-    content => "deb http://packages.dotdeb.org jessie-php56 all",
+    content => "deb https://packages.sury.org/php/ stretch main",
     notify  => [
         Exec["apt-get : update"],
     ],
@@ -133,15 +140,15 @@ file { "php : list":
 
 exec { "php : key":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
-    unless  => "apt-key list | grep dotdeb",
-    command => "curl http://www.dotdeb.org/dotdeb.gpg | apt-key add -",
+    unless  => "apt-key list | grep B188E2B695BD4743",
+    command => "apt-key adv --keyserver keyserver.ubuntu.com --recv-key B188E2B695BD4743",
     notify  => [
         Exec["apt-get : update"],
     ],
 }
 
 package { "php : cli":
-    name    => "php5-cli",
+    name    => "php5.6-cli",
     require => [
         File["php : list"],
         Exec["php : key"],
@@ -152,7 +159,7 @@ package { "php : cli":
 }
 
 package { "php : fpm":
-    name    => "php5-fpm",
+    name    => "php5.6-fpm",
     require => [
         File["php : list"],
         Exec["php : key"],
@@ -163,7 +170,7 @@ package { "php : fpm":
 }
 
 file { "php : timezone":
-    path    => "/etc/php5/mods-available/timezone.ini",
+    path    => "/etc/php/5.6/mods-available/timezone.ini",
     content => "date.timezone = \"America/Sao_Paulo\"",
     require => [
         Package["php : cli"],
@@ -172,7 +179,7 @@ file { "php : timezone":
 }
 
 service { "php":
-    name    => "php5-fpm",
+    name    => "php5.6-fpm",
     ensure  => "running",
     require => [
         Package["php : fpm"],
@@ -181,8 +188,8 @@ service { "php":
 
 file { "php : cli : timezone":
     ensure  => link,
-    path    => "/etc/php5/cli/conf.d/99-timezone.ini",
-    target  => "/etc/php5/mods-available/timezone.ini",
+    path    => "/etc/php/5.6/cli/conf.d/99-timezone.ini",
+    target  => "/etc/php/5.6/mods-available/timezone.ini",
     require => [
         File["php : timezone"],
     ],
@@ -190,8 +197,8 @@ file { "php : cli : timezone":
 
 file { "php : fpm : timezone":
     ensure  => link,
-    path    => "/etc/php5/fpm/conf.d/99-timezone.ini",
-    target  => "/etc/php5/mods-available/timezone.ini",
+    path    => "/etc/php/5.6/fpm/conf.d/99-timezone.ini",
+    target  => "/etc/php/5.6/mods-available/timezone.ini",
     require => [
         File["php : timezone"],
     ],
@@ -201,7 +208,7 @@ file { "php : fpm : timezone":
 }
 
 package { "php : postgresql":
-    name    => "php5-pgsql",
+    name    => "php5.6-pgsql",
     require => [
         Package["php : cli"],
         Package["php : fpm"],
@@ -215,7 +222,35 @@ package { "php : postgresql":
 }
 
 package { "php : intl":
-    name    => "php5-intl",
+    name    => "php5.6-intl",
+    require => [
+        Package["php : cli"],
+        Package["php : fpm"],
+    ],
+    notify  => [
+        Service["php"],
+    ],
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
+package { "php : bcmath":
+    name    => "php5.6-bcmath",
+    require => [
+        Package["php : cli"],
+        Package["php : fpm"],
+    ],
+    notify  => [
+        Service["php"],
+    ],
+    subscribe => [
+        Exec["apt-get : update"],
+    ],
+}
+
+package { "php : xml":
+    name    => "php5.6-xml",
     require => [
         Package["php : cli"],
         Package["php : fpm"],
@@ -229,7 +264,7 @@ package { "php : intl":
 }
 
 package { "php : xdebug":
-    name    => "php5-xdebug",
+    name    => "php-xdebug",
     require => [
         Package["php : cli"],
         Package["php : fpm"],
@@ -247,7 +282,7 @@ package { "php : xdebug":
 exec { "composer":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     creates => "/usr/bin/composer",
-    command => "curl https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer"
+    command => "wget https://getcomposer.org/composer.phar -O /usr/bin/composer && chmod +x /usr/bin/composer"
 }
 
 exec { "composer : update":
@@ -265,14 +300,14 @@ exec { "composer : update":
 exec { "apigen":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
     creates => "/usr/bin/apigen",
-    command => "curl http://www.apigen.org/apigen.phar -o /usr/bin/apigen && chmod +x /usr/bin/apigen"
+    command => "wget http://www.apigen.org/apigen.phar -O /usr/bin/apigen && chmod +x /usr/bin/apigen"
 }
 
 # nodejs
 
 file { "nodejs : list":
     path    => "/etc/apt/sources.list.d/nodejs.list",
-    content => "deb https://deb.nodesource.com/node jessie main",
+    content => "deb https://deb.nodesource.com/node_5.x jessie main",
     require => [
         Package["apt-get : https"],
     ],
@@ -283,8 +318,8 @@ file { "nodejs : list":
 
 exec { "nodejs : key":
     path    => ["/usr/bin", "/usr/sbin", "/bin"],
-    unless  => "apt-key list | grep nodesource",
-    command => "curl https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -",
+    unless  => "apt-key list | grep 1655A0AB68576280",
+    command => "apt-key adv --keyserver keyserver.ubuntu.com --recv-key 1655A0AB68576280",
     notify  => [
         Exec["apt-get : update"],
     ]
@@ -349,6 +384,8 @@ exec { "balance : composer":
     require => [
         Package["php : postgresql"],
         Package["php : intl"],
+        Package["php : bcmath"],
+        Package["php : xml"],
         Package["php : xdebug"],
         Exec["composer : update"],
     ],
