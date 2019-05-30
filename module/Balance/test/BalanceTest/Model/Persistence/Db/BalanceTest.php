@@ -207,7 +207,7 @@ class BalanceTest extends TestCase
         $this->assertArrayHasKey('value', $element);
         $this->assertEquals(500, $element['value']);
         $this->assertArrayHasKey('currency', $element);
-        $this->assertEquals('R$500,00', $element['currency']);
+        $this->assertEquals('R$ 500,00', $element['currency']);
 
         $element = next($result['ACTIVE']);
         $this->assertInternalType('array', $element);
@@ -216,7 +216,7 @@ class BalanceTest extends TestCase
         $this->assertArrayHasKey('value', $element);
         $this->assertEquals(300, $element['value']);
         $this->assertArrayHasKey('currency', $element);
-        $this->assertEquals('R$300,00', $element['currency']);
+        $this->assertEquals('R$ 300,00', $element['currency']);
 
         $this->assertInstanceOf('Traversable', $result['PASSIVE']);
         $this->assertEmpty($result['PASSIVE']);
@@ -227,6 +227,6 @@ class BalanceTest extends TestCase
         $this->assertArrayHasKey('value', $result['ACCUMULATE']);
         $this->assertEquals(800, $result['ACCUMULATE']['value']);
         $this->assertArrayHasKey('currency', $result['ACCUMULATE']);
-        $this->assertEquals('R$800,00', $result['ACCUMULATE']['currency']);
+        $this->assertEquals('R$ 800,00', $result['ACCUMULATE']['currency']);
     }
 }
