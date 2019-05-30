@@ -270,9 +270,7 @@ class Postings implements ServiceLocatorAwareInterface, PersistenceInterface
                 });
             }
             // Formatador de Números
-            $formatter = new NumberFormatter(null, NumberFormatter::CURRENCY);
-            // Configuração de Símbolo
-            $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+            $formatter = new NumberFormatter(null, NumberFormatter::DECIMAL);
             // Salvar Entradas
             foreach ($entries[Synchronizer::INSERT] as $subdata) {
                 // Salvar Entradas
