@@ -139,9 +139,7 @@ class Postings extends InputFilter implements ServiceLocatorAwareInterface
     {
         // Inicialização
         $checker   = new Checker();
-        $formatter = new NumberFormatter(null, NumberFormatter::CURRENCY);
-        // Configuração de Símbolo
-        $formatter->setSymbol(NumberFormatter::CURRENCY_SYMBOL, '');
+        $formatter = new NumberFormatter(null, NumberFormatter::DECIMAL);
         // Tipos e Valores
         if (isset($this->data['entries']) && is_array($this->data['entries'])) {
             foreach ($this->data['entries'] as $entry) {

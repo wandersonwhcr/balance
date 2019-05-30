@@ -37,7 +37,7 @@ class DatetimeTest extends TestCase
         // Dados para Expansão
         $element = $hydrator->extract($element);
         // Testes
-        $this->assertEquals('31/10/99 23:59:59', $element['datetime']);
+        $this->assertEquals('31/10/1999 23:59:59', $element['datetime']);
     }
 
     public function testHydrate()
