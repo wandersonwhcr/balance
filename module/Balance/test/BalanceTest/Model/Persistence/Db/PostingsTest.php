@@ -355,12 +355,12 @@ class PostingsTest extends TestCase
                 [
                     'account_id' => $this->primaries['accounts']['aa'],
                     'type'       => EntryType::CREDIT,
-                    'value'      => 'R$10,10',
+                    'value'      => '10,10',
                 ],
                 [
                     'account_id' => $this->primaries['accounts']['bb'],
                     'type'       => EntryType::DEBIT,
-                    'value'      => 'R$10,10',
+                    'value'      => '10,10',
                 ],
             ],
         ]);
@@ -395,12 +395,12 @@ class PostingsTest extends TestCase
                 [
                     'account_id' => $this->primaries['accounts']['aa'],
                     'type'       => EntryType::CREDIT,
-                    'value'      => 'R$10,10',
+                    'value'      => '10,10',
                 ],
                 [
                     'account_id' => $this->primaries['accounts']['bb'],
                     'type'       => EntryType::DEBIT,
-                    'value'      => 'R$10,10',
+                    'value'      => '10,10',
                 ],
             ],
         ]);
@@ -487,12 +487,12 @@ class PostingsTest extends TestCase
                 [
                     'account_id' => $this->primaries['accounts']['aa'],
                     'type'       => EntryType::CREDIT,
-                    'value'      => 'R$10,10',
+                    'value'      => '10,10',
                 ],
                 [
                     'account_id' => $this->primaries['accounts']['bb'],
                     'type'       => EntryType::DEBIT,
-                    'value'      => 'R$10,10',
+                    'value'      => '10,10',
                 ],
             ],
         ]);
