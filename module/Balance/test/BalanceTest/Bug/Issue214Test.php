@@ -53,6 +53,6 @@ class Issue214Test extends TestCase
         $model->fetch($params);
 
         // Verificação
-        $this->assertEquals('31/12/12 23:59:59', $params['datetime']);
+        $this->assertEquals('31/12/2012 23:59:59', $params['datetime']);
     }
 }
