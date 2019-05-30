@@ -1,12 +1,39 @@
+dist: xenial
 language: php
-php:
-    - 5.6
-    - 7.0
 
-addons:
-    postgresql: 9.4
+matrix:
+    include:
+        - php: 5.6
+          addons:
+              postgresql: 9.4
+              apt:
+                  sources:
+                      - sourceline: 'ppa:ondrej/php'
+                  packages:
+                      - php5.6-cli
+                      - php5.6-bcmath
+                      - php5.6-intl
+                      - php5.6-pgsql
+                      - php5.6-xml
+                      - php-xdebug
+        - php: 7.0
+          addons:
+              postgresql: 9.4
+              apt:
+                  sources:
+                      - sourceline: 'ppa:ondrej/php'
+                  packages:
+                      - php7.0-cli
+                      - php7.0-bcmath
+                      - php7.0-intl
+                      - php7.0-pgsql
+                      - php7.0-xml
+                      - php-xdebug
 
 before_install:
+    - export PATH=$(echo $PATH | tr ":" "\n" | grep -v phpenv | tr "\n" ":")
+    - sudo update-alternatives --set php /usr/bin/php$TRAVIS_PHP_VERSION
+    - sudo ln -s /home/travis/.phpenv/shims/composer /usr/bin/composer
     - psql -c "CREATE ROLE balance LOGIN PASSWORD 'balance'" -U postgres
     - psql -c "CREATE DATABASE balance WITH OwNER balance ENCODING = 'UTF8' TEMPLATE = template0" -U postgres
     - npm install -g bower
