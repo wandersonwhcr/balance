@@ -16,5 +16,14 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker=true"
 
+  nginx:
+    image: "nginx:1.21-alpine"
+    networks:
+      - "traefik"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.default.rule=Host(`localhost`)"
+      - "traefik.port=80"
+
 networks:
   traefik:
