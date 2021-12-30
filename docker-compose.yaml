@@ -28,11 +28,15 @@ services:
       - "./docker-compose/nginx/templates:/etc/nginx/templates:ro"
 
   php-fpm:
-    image: "php:5.6-fpm-alpine"
+    build:
+      context: "./docker-compose/php-fpm"
+      args:
+        PHP_VERSION: "5.6"
     networks:
       - "traefik"
     volumes:
       - ".:/var/www/html"
+    user: "${UID:-1000}:${GID:-1000}"
 
 networks:
   traefik:
