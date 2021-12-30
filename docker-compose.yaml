@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+
+  traefik:
+    image: "traefik:2.4"
+    networks:
+      - "traefik"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--log.level=DEBUG"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker=true"
+
+networks:
+  traefik:
