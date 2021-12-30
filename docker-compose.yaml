@@ -37,6 +37,16 @@ services:
     volumes:
       - ".:/var/www/html"
     user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      HOME: "/var/www/html"
+
+  postgres:
+    image: "postgres:14.1-alpine"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+    networks:
+      - traefik
 
 networks:
   traefik:
