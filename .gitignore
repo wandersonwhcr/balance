@@ -3,6 +3,7 @@
 /.cache
 /.composer
 /.config
+/.pdepend
 /.vagrant
 /build
 /config/autoload/*.local.php
