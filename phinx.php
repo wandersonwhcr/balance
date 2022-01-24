@@ -4,7 +4,7 @@ $config = include './config/application.config.php';
 // Configurações Adicionais
 foreach ($config['module_listener_options']['config_glob_paths'] as $pattern) {
     // Captura de Arquivos
-    foreach (glob($pattern, GLOB_BRACE) as $filename) {
+    foreach (Zend\Stdlib\Glob::glob($pattern, Zend\Stdlib\Glob::GLOB_BRACE) as $filename) {
         // Carregamento
         $config = call_user_func(['Zend\Stdlib\ArrayUtils', 'merge'], $config, include $filename);
     }
