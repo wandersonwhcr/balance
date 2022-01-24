@@ -1,4 +1,5 @@
 *.swp
+/.ash_history
 /.cache
 /.composer
 /.config

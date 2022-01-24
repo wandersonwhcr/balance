@@ -17,7 +17,7 @@ HEALTHCHECK --interval=5s \
 
 RUN apk add --no-cache $PHPIZE_DEPS \
     && apk add --no-cache icu-dev postgresql-dev \
-    && docker-php-ext-install bcmath intl pgsql \
+    && docker-php-ext-install bcmath intl pdo_pgsql pgsql \
     && pecl install 'xdebug-2.5.5' \
     && docker-php-ext-enable xdebug \
     && apk add --no-cache git npm \
