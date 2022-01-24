@@ -43,8 +43,9 @@ services:
   postgres:
     image: "postgres:14.1-alpine"
     environment:
-      POSTGRES_USER: "root"
-      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "balance"
+      POSTGRES_USER: "balance"
+      POSTGRES_PASSWORD: "balance"
     networks:
       - traefik
 
