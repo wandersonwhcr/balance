@@ -3,7 +3,11 @@ server {
 
     index index.php;
     root /var/www/html/public;
-    try_files $uri $uri/ /index.php;
+    try_files $uri $uri/ /index.php$is_args$args;
+
+    location /module {
+        rewrite ^/module/([a-zA-Z0-9]+)/(.*)$ /../module/$1/public/$2 break;
+    }
 
     location ~* \.php$ {
         fastcgi_pass php-fpm:9000;
