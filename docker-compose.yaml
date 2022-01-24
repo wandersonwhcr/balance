@@ -14,12 +14,14 @@ services:
       - "--entrypoints.web.address=:80"
       - "--log.level=DEBUG"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=balance-traefik"
       - "--providers.docker=true"
 
   nginx:
     image: "nginx:1.21-alpine"
     networks:
       - "traefik"
+      - "php-fpm"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.default.rule=Host(`localhost`)"
@@ -34,7 +36,8 @@ services:
       args:
         PHP_VERSION: "5.6"
     networks:
-      - "traefik"
+      - "php-fpm"
+      - "postgres"
     volumes:
       - ".:/var/www/html"
     user: "${UID:-1000}:${GID:-1000}"
@@ -48,12 +51,17 @@ services:
       POSTGRES_USER: "balance"
       POSTGRES_PASSWORD: "balance"
     networks:
-      - "traefik"
+      - "postgres"
     volumes:
       - "postgres-data:/var/lib/postgresql/data"
 
 networks:
   traefik:
+    name: "balance-traefik"
+  php-fpm:
+    name: "balance-php-fpm"
+  postgres:
+    name: "balance-postgres"
 
 volumes:
   postgres-data:
