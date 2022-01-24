@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+
+  traefik:
+    image: "traefik:2.4"
+    networks:
+      - "traefik"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--log.level=DEBUG"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=balance-traefik"
+      - "--providers.docker=true"
+
+  nginx:
+    image: "nginx:1.21-alpine"
+    networks:
+      - "traefik"
+      - "php-fpm"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.default.rule=Host(`localhost`)"
+      - "traefik.port=80"
+    volumes:
+      - "./docker-compose/nginx/templates:/etc/nginx/templates:ro"
+      - ".:/var/www/html"
+
+  php-fpm:
+    build:
+      context: "./docker-compose/php-fpm"
+      args:
+        PHP_VERSION: "5.6"
+    networks:
+      - "php-fpm"
+      - "postgres"
+    volumes:
+      - ".:/var/www/html"
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      HOME: "/var/www/html"
+
+  postgres:
+    image: "postgres:14.1-alpine"
+    environment:
+      POSTGRES_DB: "balance"
+      POSTGRES_USER: "balance"
+      POSTGRES_PASSWORD: "balance"
+    networks:
+      - "postgres"
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+
+networks:
+  traefik:
+    name: "balance-traefik"
+  php-fpm:
+    name: "balance-php-fpm"
+  postgres:
+    name: "balance-postgres"
+
+volumes:
+  postgres-data:

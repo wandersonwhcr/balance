@@ -14,16 +14,16 @@ O funcionamento básico pode ser encontrado na [Wiki](//github.com/wandersonwhcr
 
 Você pode contribuir com este projeto! Acesse o arquivo [`CONTRIBUTING.md`](//github.com/wandersonwhcr/balance/blob/master/CONTRIBUTING.md) e saiba mais. Para auxiliar no desenvolvimento, disponibilizamos a [API do Balance](//wandersonwhcr.github.io/balance/api/latest).
 
-## Instalação Rápida: Vagrant
+## Instalação Rápida: Docker Compose
 
-Este projeto possui uma instalação rápida através do Vagrant, bastando copiar o arquivo de configuração `Vagrantfile` da distribuição e solicitar a criação máquina virtual.
+Este projeto possui uma instalação rápida através do Docker Compose.
 
 ```bash
-cp Vagrantfile.dist Vagrantfile
-vagrant up
+docker-compose up
+docker-compose exec php-fpm make install
 ```
 
-O projeto estará acessível através de um navegador no endereço `http://localhost:8000`.
+O projeto estará acessível através de um navegador no endereço `http://localhost`.
 
 ## Instalação Completa
 

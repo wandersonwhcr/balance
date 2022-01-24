@@ -1,0 +1,20 @@
+server {
+    listen 80;
+
+    index index.php;
+    root /var/www/html/public;
+    try_files $uri $uri/ /index.php$is_args$args;
+
+    location /module {
+        rewrite ^/module/([a-zA-Z0-9]+)/(.*)$ /../module/$1/public/$2 break;
+    }
+
+    location ~* \.php$ {
+        fastcgi_pass php-fpm:9000;
+
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
+    }
+}

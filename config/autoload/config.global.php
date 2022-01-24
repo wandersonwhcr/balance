@@ -10,7 +10,7 @@ return [
         'database' => 'balance',
         'username' => 'balance',
         'password' => 'balance',
-        'hostname' => 'localhost',
+        'hostname' => 'postgres',
         'port'     => '5432',
         'charset'  => 'UTF8',
     ],
