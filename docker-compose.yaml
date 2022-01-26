@@ -53,7 +53,7 @@ services:
     networks:
       - "postgres"
     volumes:
-      - "postgres-data:/var/lib/postgresql/data"
+      - "./docker-compose/postgres/data:/var/lib/postgresql/data"
 
 networks:
   traefik:
@@ -62,6 +62,3 @@ networks:
     name: "balance-php-fpm"
   postgres:
     name: "balance-postgres"
-
-volumes:
-  postgres-data:
